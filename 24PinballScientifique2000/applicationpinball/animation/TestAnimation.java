@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.JButton;
+
 import javax.swing.JLabel;
 
 public class TestAnimation extends JFrame {
@@ -27,7 +28,7 @@ public class TestAnimation extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public TestAnimation() throws IOException {
+	public TestAnimation() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(40, 40, 800, 1000);
 	
@@ -57,10 +58,13 @@ public class TestAnimation extends JFrame {
 		chckbxCoord.setBounds(41, 851, 97, 23);
 		getContentPane().add(chckbxCoord);
 		
+		
+		
 		JButton btnGO = new JButton("GO");
 		btnGO.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				zonePinball.demarrer();
+				zonePinball.requestFocusInWindow();
 				
 			}
 		});
@@ -97,8 +101,9 @@ public class TestAnimation extends JFrame {
 		JLabel lblNewLabel = new JLabel(zonePinball.getBille().getVitesse().toString());
 		lblNewLabel.setBounds(652, 100, 122, 51);
 		getContentPane().add(lblNewLabel);
-		
+
 	}
+
 
 	public static void main(String[] args) {			
 			EventQueue.invokeLater(new Runnable() {
@@ -117,3 +122,4 @@ public class TestAnimation extends JFrame {
 
 	}
 }
+

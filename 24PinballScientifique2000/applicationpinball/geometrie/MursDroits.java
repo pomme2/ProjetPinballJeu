@@ -1,5 +1,5 @@
-package geometrie;
-
+package geometrie;					
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 /**
  * @author Thomas Bourgault
@@ -57,11 +57,12 @@ public class MursDroits implements Dessinable  {
 		 */
 		public void setPixelsParMetre(double pixelsParMetre) {
 			this.pixelParMetre = pixelsParMetre;									
-			/**
+			
+		}
+		/**
 			 * Méthode qui retourne la première coordonnée en x d'un MursDroits
 			 * @return la première coordonnée en x
 			 */
-		}
 		public double getCoordX1() {
 			return coordX1;
 		}
@@ -113,7 +114,20 @@ public class MursDroits implements Dessinable  {
 		 */
 		public void setCoordY2(double coordY2) {
 			this.coordY2 = coordY2;
-		}							
+		}
+		public void flipperRotationGauche(Graphics2D g2d) {
+			double k=-Math.PI/12;	
+			AffineTransform mat= new AffineTransform();
+			mat.rotate(k/5, coordX1, coordY1);	
+			g2d.draw(mat.createTransformedShape(MurDroit));	
+		}
+		public void flipperRotationDroite(Graphics2D g2d) {
+			double k=Math.PI/12;
+			AffineTransform mat= new AffineTransform();
+			mat.rotate(k, coordX1, coordY1);
+			g2d.draw(mat.createTransformedShape(MurDroit));	
+			
+		}
 
 		}	
 		

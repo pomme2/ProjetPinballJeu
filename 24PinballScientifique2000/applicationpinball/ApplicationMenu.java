@@ -26,9 +26,11 @@ public static void main(String[] args) {
 			try {
 				ApplicationMenu frame = new ApplicationMenu();
 				frame.setVisible(true);
+
 				
 				frame.requestFocus();
-				
+
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

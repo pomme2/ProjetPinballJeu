@@ -102,7 +102,11 @@ public class ZoneSimulationPhysique extends JPanel implements Runnable{
 		g2d.drawString("Testing pour collisions ",10,  getHeight()-10);
 		
 		
+
 		unFlipper.dessiner(g2d);
+
+		//unFlipper.dessiner(g2d);
+
 		
 	}//fin paintComponent
 

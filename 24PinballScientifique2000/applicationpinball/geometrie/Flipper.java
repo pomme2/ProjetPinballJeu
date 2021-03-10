@@ -12,6 +12,7 @@ import dessinable.Dessinable;
  * @author Carlos Ed
  *
  */
+
 public class Flipper implements Dessinable {
 	private double coordX,coordY,longueur;
 	private 	QuadCurve2D.Double flipper;
@@ -61,3 +62,9 @@ public class Flipper implements Dessinable {
 	
 
 }
+
+
+
+	
+
+
