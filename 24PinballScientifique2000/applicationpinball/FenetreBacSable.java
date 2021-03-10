@@ -266,12 +266,14 @@ public class FenetreBacSable extends JFrame{
 		
 		JButton btnDemarrer = new JButton("D\u00E9marrer");
 		btnDemarrer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//if ((int)spinnerEtirement.getValue() != 0) {
-					
+			public void actionPerformed(ActionEvent e) {				
+			//	if ((int)spinnerEtirement.getValue() != 0) {					
 				zonePinball.demarrer();
+				
 			//}
-			}
+			}			
+			
+
 		});
 		btnDemarrer.setBounds(226, 694, 218, 60);
 		contentPane.add(btnDemarrer);

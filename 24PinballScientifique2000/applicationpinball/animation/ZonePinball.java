@@ -167,11 +167,19 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					System.out.println("touche a active");
+					repaint();
+					
+					
+					uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-3));
 					gaucheActive=true;					
 				}else {
 					if(e.getKeyCode()==KeyEvent.VK_D ) {
 						System.out.println("touche d active");
+						
+						
+						uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
 						droitActive=true;
+						repaint();
 					}
 				}
 			}
@@ -179,9 +187,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					gaucheActive=false;
+					repaint();
 				}else {
 					if(e.getKeyCode() == KeyEvent.VK_D) {
 						droitActive=false;
+						repaint();
 					}
 				}
 			}
@@ -289,11 +299,14 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille.dessiner(g2d);
 		g2d.setColor(Color.white);		
 		if(gaucheActive) {
-			
-				FlipperGauche.setCoordX2(coordX2FlipperGauche+k);
-				FlipperGauche.setCoordY2(coordY2FlipperGauche+k);
+			coordX2FlipperGauche=coordX2FlipperGauche-(k/1000);
+			coordY2FlipperGauche=coordY2FlipperGauche-(k/1000);
+				FlipperGauche.setCoordX2(coordX2FlipperGauche);
 				
-			
+				System.out.println("loooooooooooooooooooooooooooooooooooooolCordX2: "+coordX2FlipperGauche+"looooooooooooooooooooooooooool(k): "+k);
+				FlipperGauche.setCoordY2(coordY2FlipperGauche);
+				System.out.println("loooooooooooooooooooooooooooooooooooooolCordY2: "+coordY2FlipperGauche+"looooooooooooooooooooooooooool(k): "+k);
+			repaint();
 		}
 		if(droitActive) {
 			while(compteurDroit<5) {
@@ -468,14 +481,13 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	public void run() {
 
 		while (enCoursDAnimation) {	
-			if(gaucheActive) {
-				for(int i=0;i<6;i++) {
-				k=k+0.1;
-				if(k>0.5) {
+			if(gaucheActive) {				
+				k++;
+				if(k>=5) {
 					gaucheActive=false;
 				}
 				
-				}				
+							
 			}
 			if(droitActive) {
 				compteurDroit++;
