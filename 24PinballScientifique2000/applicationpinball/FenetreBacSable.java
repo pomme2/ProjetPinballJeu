@@ -56,8 +56,8 @@ public class FenetreBacSable extends JFrame{
 		contentPane.add(zonePinball);
 		
 		//Initialisation des valeurs de spinners initiales.
-		//int etirementInitial = (int)(zonePinball.getETIREMENT_NAT()*100.0);
-		//int kRessortInitial = (int)zonePinball.getK_RESSORT();
+		int etirementInitial = (int)(zonePinball.getETIREMENT_NAT()*100.0);
+		int kRessortInitial = (int)zonePinball.getK_RESSORT();
 		
 		JLabel lblDonneesBalle = new JLabel("Donn\u00E9es de la balle");
 		lblDonneesBalle.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -195,7 +195,7 @@ public class FenetreBacSable extends JFrame{
 		sliderRessort.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				spinnerRessort.setValue(sliderRessort.getValue());
-				//zonePinball.setkRessort((int)sliderRessort.getValue());
+				zonePinball.setkRessort((int)sliderRessort.getValue());
 			}
 		});
 		sliderRessort.setPaintTicks(true);
@@ -260,7 +260,8 @@ public class FenetreBacSable extends JFrame{
 		JSpinner spinnerEtirement = new JSpinner();
 		spinnerEtirement.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-			//	zonePinball.setEtirement((int)spinnerEtirement.getValue()/100.0);
+				zonePinball.setEtirement((int)spinnerEtirement.getValue()/100.0);
+				
 			}
 		});
 		

@@ -217,6 +217,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
 
+		ressort = new Ressort(positionInitialRessort,0.088,0.192);
+		ressort.setkRessort(K_RESSORT);
+		ressort.setVitesse(VITESSE_INIT_RESSORT);
 
 		addMouseListener(new MouseAdapter() {
 			@Override
@@ -302,7 +305,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		listeObstacle();
 
 
-		ressort = new Ressort(positionInitialRessort,0.088,0.192);
+		//ressort = new Ressort(positionInitialRessort,0.088,0.192);
 		ressort.setPixelsParMetre(pixelParMetre);
 		ressort.dessiner(g2d);
 
@@ -525,6 +528,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 			//System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
 			calculerUneIterationPhysique(deltaT);
+			if(ressort.isArrete()) {
+				arreter();
+			}
 			testerCollisionsEtAjusterPositions();//pas utile pour le moment
 			repaint();
 			try {
@@ -546,6 +552,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		tempsTotalEcoule += deltaT;
 		uneBille.avancerUnPas( deltaT );
 		getBille();
+		
+		ressort.avancerUnPas(deltaT);
 
 		System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
 		System.out.println("Nouvelle vitesse: " + uneBille.getVitesse().toString(2));
@@ -801,6 +809,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille.setVitesse(vitInitBalle);
 		uneBille.setAccel(accelInitBalle);
 		tempsTotalEcoule = 0;
+		
+		ressort.setPosition(positionInitialRessort);
+		ressort.setAccel(ACCEL_INIT_RESSORT);
+		ressort.setVitesse(VITESSE_INIT_RESSORT);
+		
 		repaint();
 	}
 
@@ -815,8 +828,38 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		repaint();
 
 	}
-
-
+	
+	//Audrey Viger
+	/**
+	 * Modifie la constante du ressort
+	 * 
+	 * @param kRessort la constante du ressort, exprime en N/m
+	 */
+	public void setkRessort(double kRessort) {
+		ressort.setkRessort(kRessort);
+		repaint();
+	}// fin methode
+	
+	//Audrey Viger
+	/**
+	 * Modifie la position du bloc en ajoutant l'etirement choisi à la poisition naturelle du ressort
+	 * 
+	 * @param etirement distance entre le bloc et la position naturelle du ressort
+	 */
+	public void setEtirement(double etirement) {
+		ressort.setPosition(new Vecteur2D(positionInitialRessort.getX() , positionInitialRessort.getY()+ etirement));
+		repaint();
+	}// fin methode
+	
+	//Audrey Viger
+	/**
+	 * Transmettre la constante initiale du ressort à l'application
+	 * @return la constante initiale du ressort qui est 500 N/m
+	 */
+	public double getK_RESSORT() {
+		return K_RESSORT;
+	}// fin methode
+	
 	//Carlos Eduardo
 	/**
 	 * Modifie la somme des forces agissant sur les objets de la scene
@@ -824,11 +867,22 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * @param forceX La force totale exercee en X
 	 * @param forceY La force totale exercee en Y
 	 */
+	
 	public void setForces(double forceX, double forceY) { 
 		//dans cette application, les forces ne sont pas calculées : elles
 		//sont plutôt directement données par l'utilisateur! (peu probable dans une vraie application!)
 		uneBille.setForceExterieureAppliquee( new Vecteur2D(0,0));
 	}
+	
+	//Audrey Viger
+	/**
+	 * Transmettre l'étirement initial du ressort à l'application
+	 * @return l'étirement initial du ressort qui est 0 cm
+	 */
+
+	public double getETIREMENT_NAT() {
+		return ETIREMENT_NAT;
+	}// fin methode
 
 	//Carlos Eduardo
 	/**

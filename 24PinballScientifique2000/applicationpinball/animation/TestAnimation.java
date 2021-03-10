@@ -5,7 +5,10 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import geometrie.Murs;
 
@@ -101,6 +104,19 @@ public class TestAnimation extends JFrame {
 		JLabel lblNewLabel = new JLabel(zonePinball.getBille().getVitesse().toString());
 		lblNewLabel.setBounds(652, 100, 122, 51);
 		getContentPane().add(lblNewLabel);
+		
+	;
+
+		
+		JSpinner spinnerEtirement = new JSpinner();	
+		spinnerEtirement.setBounds(144, 848, 64, 32);
+		getContentPane().add(spinnerEtirement);
+		spinnerEtirement.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				zonePinball.setEtirement((int)spinnerEtirement.getValue()/100.0);
+				
+			}
+		});
 
 	}
 
