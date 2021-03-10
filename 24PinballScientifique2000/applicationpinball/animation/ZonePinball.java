@@ -151,7 +151,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double coordX1FlipperGauche=0.364,coordY1FlipperGauche=1.302,coordX2FlipperGauche=0.53, coordY2FlipperGauche=1.404;
 	private double coordX1FlipperDroit=0.784,coordY1FlipperDroit=1.302,coordX2FlipperDroit=0.636,coordY2FlipperDroit=1.404;
 
-	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false;
+	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false,gaucheDescente=false;
 	private int compteurGauche=0,compteurDroit=0;
 	java.net.URL urlPinballTerrain=getClass().getClassLoader().getResource("pinballTerrain.png");
 	double k;
@@ -187,6 +187,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					gaucheActive=false;
+					gaucheDescente=true;
+					
 					repaint();
 				}else {
 					if(e.getKeyCode() == KeyEvent.VK_D) {
@@ -298,15 +300,16 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille.setPixelsParMetre(pixelParMetre);
 		uneBille.dessiner(g2d);
 		g2d.setColor(Color.white);		
-		if(gaucheActive) {
-			coordX2FlipperGauche=coordX2FlipperGauche-(k/1000);
-			coordY2FlipperGauche=coordY2FlipperGauche-(k/1000);
-				FlipperGauche.setCoordX2(coordX2FlipperGauche);
-				
-				System.out.println("loooooooooooooooooooooooooooooooooooooolCordX2: "+coordX2FlipperGauche+"looooooooooooooooooooooooooool(k): "+k);
+		if(gaucheActive ) {			
+			coordY2FlipperGauche=coordY2FlipperGauche-(k/10000);							
 				FlipperGauche.setCoordY2(coordY2FlipperGauche);
 				System.out.println("loooooooooooooooooooooooooooooooooooooolCordY2: "+coordY2FlipperGauche+"looooooooooooooooooooooooooool(k): "+k);
 			repaint();
+		}else {
+			if(gaucheDescente) {
+				coordY2FlipperGauche=coordY2FlipperGauche+(k/10000);
+				FlipperGauche.setCoordY2(coordY2FlipperGauche);
+			}
 		}
 		if(droitActive) {
 			while(compteurDroit<5) {
@@ -483,7 +486,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		while (enCoursDAnimation) {	
 			if(gaucheActive) {				
 				k++;
-				if(k>=5) {
+				if (coordY2FlipperGauche-(k/10000)<1.2 ||coordY2FlipperGauche+(k/10000)>1.405) {
+					k=0;
 					gaucheActive=false;
 				}
 				
