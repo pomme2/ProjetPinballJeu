@@ -167,10 +167,16 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					System.out.println("touche a active");
+					
+					
+					uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-3));
 					gaucheActive=true;					
 				}else {
 					if(e.getKeyCode()==KeyEvent.VK_D ) {
 						System.out.println("touche d active");
+						
+						
+						uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
 						droitActive=true;
 					}
 				}
