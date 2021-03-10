@@ -38,7 +38,7 @@ public class FenetreBacSable extends JFrame{
 	 * @param fenMenu
 	 * @param fenOption 
 	 */
-	public FenetreBacSable(ApplicationMenu fenMenu, FenetreOption fenOption) throws IOException {
+	public FenetreBacSable(ApplicationMenu fenMenu, FenetreOption fenOption) {
 		
 		this.fenMenu = fenMenu;
 		this.fenOption = fenOption;

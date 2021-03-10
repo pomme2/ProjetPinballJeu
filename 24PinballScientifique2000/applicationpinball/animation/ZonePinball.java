@@ -143,9 +143,16 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private MursDroits tunnelRessortDroite, tunnelRessortGauche;
 	private double coordX1TunnelGauche=1.006,coordY1TunnelGauche=1.534,coordX2TunnelGauche=1.01,coordY2TunnelGauche=0.784,coordX1TunnelDroit=1.096 ,coordY1TunnelDroit=0.716,coordX2TunnelDroit= 1.096,coordY2TunnelDroit=1.532;
 
-	//Ressort
+	//Ressort Audrey
 	private Ressort ressort;
 	private final Vecteur2D positionInitialRessort = new Vecteur2D(1.009,1.272);
+	private final Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(-0.0000001, 0); 
+	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
+	
+	private final int TEMPS_DU_SLEEP = 25;
+	private final double K_RESSORT = 500;
+	private final double ETIREMENT_NAT = 0;
+	
 	//Flippers
 	private MursDroits FlipperGauche,FlipperDroit;
 	private double coordX1FlipperGauche=0.364,coordY1FlipperGauche=1.302,coordX2FlipperGauche=0.53, coordY2FlipperGauche=1.404;
