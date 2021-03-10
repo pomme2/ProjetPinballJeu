@@ -48,32 +48,32 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private static final long serialVersionUID = 1L;
 
 	//variable bille Carlos
-		private double deltaT = 0.005;
+	private double deltaT = 0.005;
 
 
-		private double diametreBallePourCetteScene = 0.05;  //em mètres
-		private double massePourCetteScene = 0.1; //en kg
+	private double diametreBallePourCetteScene = 0.05;  //em mètres
+	private double massePourCetteScene = 0.1; //en kg
 
-		private Vecteur2D posInitBalle = new Vecteur2D(1.025,1.216);  //position intiale pour la balle
-		private Vecteur2D vitInitBalle = new Vecteur2D(0, 0);  //vitesse intiale pour la balle
-		private Vecteur2D accelInitBalle = new Vecteur2D(0, 0);  //acceleration intiale pour la balle
-
-
-		//position intiales pour la bille
-		private Bille uneBille;
-		private boolean enCoursDAnimation= false;
-		private double tempsTotalEcoule = 0;
-		private int tempsDuSleep = 10;
+	private Vecteur2D posInitBalle = new Vecteur2D(1.025,1.216);  //position intiale pour la balle
+	private Vecteur2D vitInitBalle = new Vecteur2D(0, 0);  //vitesse intiale pour la balle
+	private Vecteur2D accelInitBalle = new Vecteur2D(0, 0);  //acceleration intiale pour la balle
 
 
-		//tableau pour obstacles
-		ArrayList<Murs> obstaclesCercle = new ArrayList<Murs>();
+	//position intiales pour la bille
+	private Bille uneBille;
+	private boolean enCoursDAnimation= false;
+	private double tempsTotalEcoule = 0;
+	private int tempsDuSleep = 10;
 
-		//tab pour mursHorizontales (sol)
-		ArrayList<MursDroits> solHorizontal = new ArrayList<MursDroits>();
+
+	//tableau pour obstacles
+	ArrayList<Murs> obstaclesCercle = new ArrayList<Murs>();
+
+	//tab pour mursHorizontales (sol)
+	ArrayList<MursDroits> solHorizontal = new ArrayList<MursDroits>();
 
 
-	
+
 	/*private void deplacerPointSelonTouche(KeyEvent e) {
 		int code = e.getKeyCode();
 		switch (code) {
@@ -90,7 +90,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		}// fin switch
 	}
-	*/
+	 */
 	//Carlos Eduardo
 
 
@@ -151,10 +151,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double coordX1FlipperGauche=0.364,coordY1FlipperGauche=1.302,coordX2FlipperGauche=0.53, coordY2FlipperGauche=1.404;
 	private double coordX1FlipperDroit=0.784,coordY1FlipperDroit=1.302,coordX2FlipperDroit=0.636,coordY2FlipperDroit=1.404;
 
-	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false,gaucheDescente=false;
-	private int compteurGauche=0,compteurDroit=0;
+	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false,gaucheDescente=false,droitDescente=false;	
 	java.net.URL urlPinballTerrain=getClass().getClassLoader().getResource("pinballTerrain.png");
-	double k;
+	double compteurGauche,compteurDroit;
 
 	//Thomas Bourgault
 	/**
@@ -168,17 +167,20 @@ public class ZonePinball  extends JPanel implements Runnable  {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					System.out.println("touche a active");
 					repaint();
-					
-					
+
+
 					uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-3));
-					gaucheActive=true;					
+					gaucheActive=true;
+					gaucheDescente=false;
+
 				}else {
 					if(e.getKeyCode()==KeyEvent.VK_D ) {
 						System.out.println("touche d active");
-						
-						
-						uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
 						droitActive=true;
+						droitDescente=false;
+
+						uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
+
 						repaint();
 					}
 				}
@@ -188,11 +190,12 @@ public class ZonePinball  extends JPanel implements Runnable  {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					gaucheActive=false;
 					gaucheDescente=true;
-					
+
 					repaint();
 				}else {
 					if(e.getKeyCode() == KeyEvent.VK_D) {
 						droitActive=false;
+						droitDescente=true;
 						repaint();
 					}
 				}
@@ -301,21 +304,27 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille.dessiner(g2d);
 		g2d.setColor(Color.white);		
 		if(gaucheActive ) {			
-			coordY2FlipperGauche=coordY2FlipperGauche-(k/10000);							
-				FlipperGauche.setCoordY2(coordY2FlipperGauche);
-				System.out.println("loooooooooooooooooooooooooooooooooooooolCordY2: "+coordY2FlipperGauche+"looooooooooooooooooooooooooool(k): "+k);
+			coordY2FlipperGauche=coordY2FlipperGauche-(compteurGauche/10000);							
+			FlipperGauche.setCoordY2(coordY2FlipperGauche);			
 			repaint();
 		}else {
 			if(gaucheDescente) {
-				coordY2FlipperGauche=coordY2FlipperGauche+(k/10000);
+				coordY2FlipperGauche=coordY2FlipperGauche+(compteurGauche/10000);
 				FlipperGauche.setCoordY2(coordY2FlipperGauche);
+				repaint();
 			}
 		}
 		if(droitActive) {
-			while(compteurDroit<5) {
-				FlipperDroit.flipperRotationDroite(g2d);
+			coordY2FlipperDroit=coordY2FlipperDroit-(compteurDroit/10000);
+			FlipperDroit.setCoordY2(coordY2FlipperDroit);
+			repaint();
+			}else {
+				if(droitDescente) {
+					coordY2FlipperDroit=coordY2FlipperDroit+(compteurDroit/10000);
+					FlipperDroit.setCoordY2(coordY2FlipperDroit);
+					repaint();
+				}
 			}
-		}
 		FlipperDroit.dessiner(g2d);
 		FlipperGauche.dessiner(g2d);
 		if(contour) {
@@ -483,22 +492,30 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 */
 	public void run() {
 
-		while (enCoursDAnimation) {	
-			if(gaucheActive) {				
-				k++;
-				if (coordY2FlipperGauche-(k/10000)<1.2 ||coordY2FlipperGauche+(k/10000)>1.405) {
-					k=0;
-					gaucheActive=false;
-				}
-				
-							
-			}
+		while (enCoursDAnimation) {
 			if(droitActive) {
 				compteurDroit++;
-				if(compteurDroit==5) {
-					compteurDroit=10;
+			}
+			if(gaucheActive) {
+				compteurGauche++;
+			}
+			if (coordY2FlipperGauche-(compteurGauche/100000000)<1.2 ) {				
+				gaucheActive=false;
+				gaucheDescente=true;
+				
+				if(coordY2FlipperDroit-(compteurDroit/100000000)<1.2 ) {
+					droitActive=false;
+				droitDescente=true;
 				}
 			}
+			
+			if(coordY2FlipperGauche+(compteurGauche/100000000)>1.405) {				
+				gaucheDescente=false;							
+			}
+			if(coordY2FlipperDroit+(compteurDroit/100000000)>1.405) {
+				droitDescente=false;
+			}
+
 			//System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
 			calculerUneIterationPhysique(deltaT);
 			testerCollisionsEtAjusterPositions();//pas utile pour le moment
@@ -533,20 +550,20 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	}
 
 	//Carlos Eduardo
-		/**
-		 * Cette methode pourrait servir à tester si des objets de la scene
-		 * sont en collision. Si oui : on calculerait par exemple les rebonds et
-		 * en déduirait des nouvelles accelerations, vitesses, positions
-		 * Pour cet exemple, on laissera cette methode vide.
-		 */
+	/**
+	 * Cette methode pourrait servir à tester si des objets de la scene
+	 * sont en collision. Si oui : on calculerait par exemple les rebonds et
+	 * en déduirait des nouvelles accelerations, vitesses, positions
+	 * Pour cet exemple, on laissera cette methode vide.
+	 */
 
-		private void testerCollisionsEtAjusterPositions() {
+	private void testerCollisionsEtAjusterPositions() {
 
-			boolean col = false;
+		boolean col = false;
 
 
-			 //colission avec la courbe superieure
-			/*if(arcCercleDroit.getCourbe().intersects(uneBille.getPosition().getX()+uneBille.getDiametre()*2, uneBille.getPosition().getY()+uneBille.getDiametre()*2, uneBille.getDiametre()/2, uneBille.getDiametre()/2)) {
+		//colission avec la courbe superieure
+		/*if(arcCercleDroit.getCourbe().intersects(uneBille.getPosition().getX()+uneBille.getDiametre()*2, uneBille.getPosition().getY()+uneBille.getDiametre()*2, uneBille.getDiametre()/2, uneBille.getDiametre()/2)) {
 
 
 
@@ -556,208 +573,208 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 
 			}
-	*/
+		 */
 
 
-			//colision avec mur vertical
-			
-			if(uneBille.getPosition().getX() < ligneDroitHautGau.getCoordX1() ) {
+		//colision avec mur vertical
 
-				Vecteur2D vitesseNegatif = new Vecteur2D (uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY());
-				uneBille.setVitesse(vitesseNegatif);
-				System.out.println("Collision mur");
-			}
+		if(uneBille.getPosition().getX() < ligneDroitHautGau.getCoordX1() ) {
+
+			Vecteur2D vitesseNegatif = new Vecteur2D (uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY());
+			uneBille.setVitesse(vitesseNegatif);
+			System.out.println("Collision mur");
+		}
 
 
-			//colision avec les obstacles en cerlce
-			
+		//colision avec les obstacles en cerlce
 
-			for(int i=0; i< obstaclesCercle.size();i++) {
 
-				Murs cercle = obstaclesCercle.get(i);
+		for(int i=0; i< obstaclesCercle.size();i++) {
 
-				//pythagore de la distance entre les centres de la bille et l"obstacle si inferieure a la somme des deux rayons donc collision 
-				if(Math.hypot((uneBille.getPosition().getX()+uneBille.getDiametre()/2)-(cercle.getPositionMursX()), (uneBille.getPosition().getY()+uneBille.getDiametre()/2)-(cercle.getPositionMursY())) < (uneBille.getDiametre()/2 + cercle.getDiametre()/2)) {
+			Murs cercle = obstaclesCercle.get(i);
 
-					col = false;
+			//pythagore de la distance entre les centres de la bille et l"obstacle si inferieure a la somme des deux rayons donc collision 
+			if(Math.hypot((uneBille.getPosition().getX()+uneBille.getDiametre()/2)-(cercle.getPositionMursX()), (uneBille.getPosition().getY()+uneBille.getDiametre()/2)-(cercle.getPositionMursY())) < (uneBille.getDiametre()/2 + cercle.getDiametre()/2)) {
 
-					System.out.println("pos x de bile : "+uneBille.getPosition().getX());
+				col = false;
 
-					System.out.println("centre du cerlce : "+ cercle.getPositionMursX() );
+				System.out.println("pos x de bile : "+uneBille.getPosition().getX());
 
-					if(uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX()){
+				System.out.println("centre du cerlce : "+ cercle.getPositionMursX() );
 
-						if(uneBille.getPosition().getX() > cercle.getPositionMursX() && col  ){
+				if(uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX()){
 
-							double vitX =uneBille.getVitesse().getX() +0.4; 
+					if(uneBille.getPosition().getX() > cercle.getPositionMursX() && col  ){
 
-							Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
+						double vitX =uneBille.getVitesse().getX() +0.4; 
 
-							uneBille.setVitesse(VitYnegatif);
+						Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
 
-						}
-						
+						uneBille.setVitesse(VitYnegatif);
+
 					}
-
-						if(uneBille.getVitesse().getX() + uneBille.getPosition().getX() < cercle.getPositionMursX()){
-
-							if(uneBille.getPosition().getX() > cercle.getPositionMursX() && col  ){
-
-								double vitX =uneBille.getVitesse().getX() -0.4; 
-
-								Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
-
-								uneBille.setVitesse(VitYnegatif);
-							}
-						}
-
-						boolean colY = false;
-						boolean colX = false;
-
-						if(uneBille.getPosition().getX() < cercle.getPositionMursX()) {
-
-							System.out.println("ON YOUR LEFT");
-
-							double vitX =uneBille.getVitesse().getX() +0.4; 
-
-							Vecteur2D VitYnegatif = new Vecteur2D(vitX*-1,uneBille.getVitesse().getY()*-1);
-
-							uneBille.setVitesse(VitYnegatif);
-							colX = true;
-
-
-						}if(uneBille.getPosition().getX() > cercle.getPositionMursX()){
-							colY = true;
-						}
-
-						if(uneBille.getVitesse().getY() + uneBille.getPosition().getY() > cercle.getPositionMursY() && colY ){
-
-							double vitX =uneBille.getVitesse().getX() +0.4; 
-
-							Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
-
-							uneBille.setVitesse(VitYnegatif);
-
-							
-
-						}	
-
-						if(uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX() && colX ){
-
-
-							double vitX =uneBille.getVitesse().getX() -0.4; 
-
-							Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
-
-							uneBille.setVitesse(VitYnegatif);
-
-							
-						}
-						}
-				
-			
-					}	
-				
-			
-
-			
-			//collision entre la bille et les surfaces en pentes.
-
-			for (int i= 0; i < pentes.size();i++) {
-
-
-				MursDroits pente = pentes.get(i);
-
-
-
-				Line2D.Double line = new Line2D.Double(pente.getCoordX1(),pente.getCoordY1(),pente.getCoordX2(),pente.getCoordY2());
-
-				if(line.ptSegDist(uneBille.getPosition().getX()+uneBille.getDiametre()/2,uneBille.getPosition().getY()+uneBille.getDiametre()/2) < uneBille.getDiametre()/2) {
-
-
-					Vecteur2D x = new Vecteur2D(pente.getCoordX1(),pente.getCoordY1());
-
-					Vecteur2D y = new Vecteur2D(pente.getCoordX2(),pente.getCoordY2());
-
-					Vecteur2D temp = x.soustrait(y);
-
-					double dx = temp.getX();
-					double dy = temp.getY();
-
-					Vecteur2D fini = new Vecteur2D(dy*-3,dx);
-
-					uneBille.setVitesse(fini);
-
 
 				}
 
-			}
+				if(uneBille.getVitesse().getX() + uneBille.getPosition().getX() < cercle.getPositionMursX()){
+
+					if(uneBille.getPosition().getX() > cercle.getPositionMursX() && col  ){
+
+						double vitX =uneBille.getVitesse().getX() -0.4; 
+
+						Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
+
+						uneBille.setVitesse(VitYnegatif);
+					}
+				}
+
+				boolean colY = false;
+				boolean colX = false;
+
+				if(uneBille.getPosition().getX() < cercle.getPositionMursX()) {
+
+					System.out.println("ON YOUR LEFT");
+
+					double vitX =uneBille.getVitesse().getX() +0.4; 
+
+					Vecteur2D VitYnegatif = new Vecteur2D(vitX*-1,uneBille.getVitesse().getY()*-1);
+
+					uneBille.setVitesse(VitYnegatif);
+					colX = true;
 
 
-			//collision avec les surfaces planes (sol)
-			for(int i =0; i < solHorizontal.size();i++) {
+				}if(uneBille.getPosition().getX() > cercle.getPositionMursX()){
+					colY = true;
+				}
 
-				MursDroits sol = solHorizontal.get(i);
+				if(uneBille.getVitesse().getY() + uneBille.getPosition().getY() > cercle.getPositionMursY() && colY ){
 
-				if(uneBille.getPosition().getY() +uneBille.getDiametre() > sol.getCoordY1() && uneBille.getPosition().getX() > sol.getCoordX1() && uneBille.getPosition().getX() < sol.getCoordX2())  {
-
-
-
-
-					double vitX =uneBille.getVitesse().getX(); 
+					double vitX =uneBille.getVitesse().getX() +0.4; 
 
 					Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
 
 					uneBille.setVitesse(VitYnegatif);
 
-				}
-				
-				
 
 
-			}
+				}	
 
-			for(int i=0;i < murs.size();i++) {
-				
-				MursDroits mur = murs.get(i);
-				
-				if(uneBille.getPosition().getX()+ uneBille.getDiametre() > mur.getCoordX1() && uneBille.getPosition().getY() > mur.getCoordY1() && uneBille.getPosition().getY() < mur.getCoordY2()) {
-					
-					Vecteur2D VitYnegatif = new Vecteur2D(uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY());
+				if(uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX() && colX ){
+
+
+					double vitX =uneBille.getVitesse().getX() -0.4; 
+
+					Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
 
 					uneBille.setVitesse(VitYnegatif);
+
+
 				}
 			}
-			
-			if(uneBille.getPosition().getY() > hauteurDuComposantMetre) {
-				
-				arreter();
-				retablirPosition();
-			}
 
-		
-			
-			System.out.println("vitesse en y "+uneBille.getVitesse().getY());
-			System.out.println("position en y "+uneBille.getPosition().getY());
+
+		}	
+
+
+
+
+		//collision entre la bille et les surfaces en pentes.
+
+		for (int i= 0; i < pentes.size();i++) {
+
+
+			MursDroits pente = pentes.get(i);
+
+
+
+			Line2D.Double line = new Line2D.Double(pente.getCoordX1(),pente.getCoordY1(),pente.getCoordX2(),pente.getCoordY2());
+
+			if(line.ptSegDist(uneBille.getPosition().getX()+uneBille.getDiametre()/2,uneBille.getPosition().getY()+uneBille.getDiametre()/2) < uneBille.getDiametre()/2) {
+
+
+				Vecteur2D x = new Vecteur2D(pente.getCoordX1(),pente.getCoordY1());
+
+				Vecteur2D y = new Vecteur2D(pente.getCoordX2(),pente.getCoordY2());
+
+				Vecteur2D temp = x.soustrait(y);
+
+				double dx = temp.getX();
+				double dy = temp.getY();
+
+				Vecteur2D fini = new Vecteur2D(dy*-3,dx);
+
+				uneBille.setVitesse(fini);
+
+
+			}
 
 		}
 
 
+		//collision avec les surfaces planes (sol)
+		for(int i =0; i < solHorizontal.size();i++) {
 
-		//Carlos Eduardo
-		/**
-		 * Demarre le thread s'il n'est pas deja demarre
-		 */
-		public void demarrer() {
-			uneBille.setForceExterieureAppliquee( new Vecteur2D(0,0.8));
-			uneBille.setVitesse(new Vecteur2D(0.22,-3.8));
-			if (!enCoursDAnimation) { 
-				Thread proc = new Thread(this);
-				proc.start();
-				enCoursDAnimation = true;
+			MursDroits sol = solHorizontal.get(i);
+
+			if(uneBille.getPosition().getY() +uneBille.getDiametre() > sol.getCoordY1() && uneBille.getPosition().getX() > sol.getCoordX1() && uneBille.getPosition().getX() < sol.getCoordX2())  {
+
+
+
+
+				double vitX =uneBille.getVitesse().getX(); 
+
+				Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
+
+				uneBille.setVitesse(VitYnegatif);
+
 			}
 
+
+
+
 		}
+
+		for(int i=0;i < murs.size();i++) {
+
+			MursDroits mur = murs.get(i);
+
+			if(uneBille.getPosition().getX()+ uneBille.getDiametre() > mur.getCoordX1() && uneBille.getPosition().getY() > mur.getCoordY1() && uneBille.getPosition().getY() < mur.getCoordY2()) {
+
+				Vecteur2D VitYnegatif = new Vecteur2D(uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY());
+
+				uneBille.setVitesse(VitYnegatif);
+			}
+		}
+
+		if(uneBille.getPosition().getY() > hauteurDuComposantMetre) {
+
+			arreter();
+			retablirPosition();
+		}
+
+
+
+		System.out.println("vitesse en y "+uneBille.getVitesse().getY());
+		System.out.println("position en y "+uneBille.getPosition().getY());
+
+	}
+
+
+
+	//Carlos Eduardo
+	/**
+	 * Demarre le thread s'il n'est pas deja demarre
+	 */
+	public void demarrer() {
+		uneBille.setForceExterieureAppliquee( new Vecteur2D(0,0.8));
+		uneBille.setVitesse(new Vecteur2D(0.22,-3.8));
+		if (!enCoursDAnimation) { 
+			Thread proc = new Thread(this);
+			proc.start();
+			enCoursDAnimation = true;
+		}
+
+	}
 	//Carlos Eduardo	
 
 	/**
@@ -768,17 +785,17 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	}
 
 	//Carlos Eduardo
-		/**
-		 * Reinitialise la position et la vitesse de la balle
-		 */
-		public void retablirPosition() {
-			arreter();
-			uneBille.setPosition(posInitBalle);
-			uneBille.setVitesse(vitInitBalle);
-			uneBille.setAccel(accelInitBalle);
-			tempsTotalEcoule = 0;
-			repaint();
-		}
+	/**
+	 * Reinitialise la position et la vitesse de la balle
+	 */
+	public void retablirPosition() {
+		arreter();
+		uneBille.setPosition(posInitBalle);
+		uneBille.setVitesse(vitInitBalle);
+		uneBille.setAccel(accelInitBalle);
+		tempsTotalEcoule = 0;
+		repaint();
+	}
 
 
 	//Carlos Eduardo
@@ -888,11 +905,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		murs.add(tunnelRessortDroite);
 		murs.add(tunnelRessortGauche);
 	}
-	
+
 
 	public Bille getBille() {
-	
-	return uneBille;
+
+		return uneBille;
 	}
 
 
