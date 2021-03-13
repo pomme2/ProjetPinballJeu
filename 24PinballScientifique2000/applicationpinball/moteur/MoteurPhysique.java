@@ -10,6 +10,7 @@ import geometrie.Vecteur2D;
  * @author Carlos Ed
  * @author Caroline Houle
  * @author Audrey Viger
+ * @author Thomas Bourgault
  */
 
 public class MoteurPhysique {
@@ -105,5 +106,16 @@ public class MoteurPhysique {
 			return new Vecteur2D(mu * calculForceNormale(masse).getY(), 0);
 		}
 	}
+		//Thomas Bourgault
+		/**
+		 * 
+		 * @return
+		 */
+		public static Vecteur2D vitesseRotationFlipper(Vecteur2D position,Vecteur2D vitesse) {
+			double angle=0;
+			//double dx=
+			return null;
+			
+		}
 
 }

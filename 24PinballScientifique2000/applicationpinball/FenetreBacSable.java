@@ -270,6 +270,7 @@ public class FenetreBacSable extends JFrame{
 			public void actionPerformed(ActionEvent e) {				
 			//	if ((int)spinnerEtirement.getValue() != 0) {					
 				zonePinball.demarrer();
+				zonePinball.requestFocusInWindow();
 				
 			//}
 			}			
