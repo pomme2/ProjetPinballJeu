@@ -21,6 +21,7 @@ import animation.ZoneSimulationPhysique;
 import geometrie.Bille;
 import animation.TestAnimation;
 import animation.ZonePinball;
+import javax.swing.SpinnerNumberModel;
 
 public class FenetreBacSable extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -49,7 +50,6 @@ public class FenetreBacSable extends JFrame{
 		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
 		
 		ZonePinball zonePinball = new ZonePinball();
 		zonePinball.setBounds(87, 26, 497, 636);
@@ -165,6 +165,7 @@ public class FenetreBacSable extends JFrame{
 		sliderAimant.setValue(0);
 		
 		JSpinner spinnerAimant = new JSpinner();
+		spinnerAimant.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spinnerAimant.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				valeurAimant = (int) spinnerAimant.getValue();
@@ -189,6 +190,7 @@ public class FenetreBacSable extends JFrame{
 		contentPane.add(sliderAimant);
 		
 		JSpinner spinnerRessort = new JSpinner();
+		spinnerRessort.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		
 		JSlider sliderRessort = new JSlider();
 		sliderRessort.setValue(0);
@@ -248,9 +250,10 @@ public class FenetreBacSable extends JFrame{
 		JLabel lblValeurAccel = new JLabel("       m/s\u00B2");
 		lblValeurAccel.setBounds(827, 81, 85, 14);
 		contentPane.add(lblValeurAccel);
-		
-		JLabel lblValeurVitesse = new JLabel("      m/s");
-		lblValeurVitesse.setBounds(798, 118, 48, 14);
+		//double vitesse = Math.sqrt(zonePinball.getVitesseBalle().getX()+zonePinball.getVitesseBalle().getY());
+	
+		JLabel lblValeurVitesse = new JLabel( " m/s");
+		lblValeurVitesse.setBounds(798, 118, 149, 14);
 		contentPane.add(lblValeurVitesse);
 		
 		JLabel lblValeurCharge = new JLabel("      C");
@@ -279,7 +282,15 @@ public class FenetreBacSable extends JFrame{
 		btnDemarrer.setBounds(226, 694, 218, 60);
 		contentPane.add(btnDemarrer);
 		
-		
+		JSlider sliderEtirement = new JSlider();
+		sliderEtirement.setMinimum(-10);
+		sliderEtirement.setMaximum(0);
+		sliderEtirement.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
+				System.out.println(sliderEtirement.getValue()/100.0);
+			}
+		});
 		
 		JButton btnRecommencer = new JButton("Recommencer la partie");
 		btnRecommencer.addActionListener(new ActionListener() {
@@ -293,11 +304,27 @@ public class FenetreBacSable extends JFrame{
 				sliderAimant.setValue(0);
 				zonePinball.retablirPosition();
 				spinnerEtirement.setValue(0);
+				sliderEtirement.setValue(0);
 			}
 		});
 		btnRecommencer.setBounds(734, 614, 170, 69);
 		contentPane.add(btnRecommencer);
-		spinnerEtirement.setBounds(960, 517, 30, 20);
+		spinnerEtirement.setBounds(554, 714, 30, 20);
 		contentPane.add(spinnerEtirement);
+		
+		JLabel lblEtirement = new JLabel("Etirement:");
+		lblEtirement.setBounds(468, 717, 98, 14);
+		contentPane.add(lblEtirement);
+		
+		
+		sliderEtirement.setValue(100);
+		sliderEtirement.setOrientation(SwingConstants.VERTICAL);
+		sliderEtirement.setMajorTickSpacing(1);
+		sliderEtirement.setMinorTickSpacing(5);
+		sliderEtirement.setPaintTicks(true);
+		sliderEtirement.setBounds(583, 552, 48, 113);
+		contentPane.add(sliderEtirement);
+		
+		
 	}
 }

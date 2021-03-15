@@ -146,12 +146,14 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	//Ressort Audrey
 	private Ressort ressort;
 	private final Vecteur2D positionInitialRessort = new Vecteur2D(1.009,1.272);
-	private final Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(-0.0000001, 0); 
+	private final Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(0,-0.0000001 ); 
 	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
 	
 	private final int TEMPS_DU_SLEEP = 25;
 	private final double K_RESSORT = 500;
 	private final double ETIREMENT_NAT = 0;
+	private final double COEFF_FROT = 0.64;
+	private final double MASSE_POUR_CETTE_SCENE = 0.7; // en kg
 	
 	//Flippers
 	private MursDroits FlipperGauche,FlipperDroit;
@@ -161,7 +163,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false,gaucheDescente=false,droitDescente=false;	
 	java.net.URL urlPinballTerrain=getClass().getClassLoader().getResource("pinballTerrain.png");
 	double compteurGauche,compteurDroit;
-
+	
+	
 	//Thomas Bourgault
 	/**
 	 * Constructeur qui gère les différents types d'évènements de la souris, permet l'initialisation de l'image ainsi que de la bille
@@ -219,7 +222,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		ressort = new Ressort(positionInitialRessort,0.088,0.192);
 		ressort.setkRessort(K_RESSORT);
+		ressort.setMu(COEFF_FROT);
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
+		ressort.setMasseEnKg(MASSE_POUR_CETTE_SCENE);
 
 		addMouseListener(new MouseAdapter() {
 			@Override
@@ -808,12 +813,12 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille.setPosition(posInitBalle);
 		uneBille.setVitesse(vitInitBalle);
 		uneBille.setAccel(accelInitBalle);
-		tempsTotalEcoule = 0;
+		
 		
 		ressort.setPosition(positionInitialRessort);
 		ressort.setAccel(ACCEL_INIT_RESSORT);
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
-		
+		tempsTotalEcoule = 0;
 		repaint();
 	}
 
@@ -832,7 +837,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	//Audrey Viger
 	/**
 	 * Modifie la constante du ressort
-	 * 
 	 * @param kRessort la constante du ressort, exprime en N/m
 	 */
 	public void setkRessort(double kRessort) {
@@ -842,8 +846,20 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	
 	//Audrey Viger
 	/**
-	 * Modifie la position du bloc en ajoutant l'etirement choisi à la poisition naturelle du ressort
+	 * Modifie le coefficient de friction cinétique du bloc
 	 * 
+	 * @param coeffFrot le coefficient de friction cinétique du bloc
+	 */
+	
+	public void setCoeffFrot(double coeffFrot) {
+		ressort.setMu(coeffFrot);
+		repaint();
+	}// fin methode
+
+	
+	//Audrey Viger
+	/**
+	 * Modifie la position du bloc en ajoutant l'etirement choisi à la poisition naturelle du ressort
 	 * @param etirement distance entre le bloc et la position naturelle du ressort
 	 */
 	public void setEtirement(double etirement) {
@@ -893,6 +909,15 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		return uneBille.getMasseEnKg();
 	}
+	
+	/**
+	 * Transmettre la masse initiale du bloc à l'application
+	 * @return la masse initiale du bloc qui est 700 en grammes
+	 */
+	
+	public double getMASSE_POUR_CETTE_SCENE() {
+		return MASSE_POUR_CETTE_SCENE;
+	}// fin methode
 
 	//Carlos Eduardo
 	/**
@@ -941,6 +966,16 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
 	}
+	/**
+	 * Modifie la masse du bloc
+	 * 
+	 * @param massePourCetteScene la masse du bloc, exprime en kg
+	 */
+
+	public void setMassePourCetteScene(double massePourCetteScene) {
+		ressort.setMasseEnKg(massePourCetteScene);
+		repaint();
+	}// fin methode
 	//Carlos Eduardo
 	/**
 	 * Méthode qui rajoute aux différentes listes d'obstacles les murs qui leur sont associes

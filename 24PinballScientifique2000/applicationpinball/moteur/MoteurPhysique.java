@@ -99,10 +99,10 @@ public class MoteurPhysique {
 		
 		
 		public static Vecteur2D calculForceFriction(double mu, double masse, Vecteur2D vitesse) {
-		if (vitesse.getX() > 0 ) {
-			return new Vecteur2D(-mu * calculForceNormale(masse).getY(), 0);
+		if (vitesse.getY() > 0 ) {
+			return new Vecteur2D(0,-mu * calculForceNormale(masse).getX());
 		} else { 
-			return new Vecteur2D(mu * calculForceNormale(masse).getY(), 0);
+			return new Vecteur2D(0,mu * calculForceNormale(masse).getX() );
 		}
 	}
 

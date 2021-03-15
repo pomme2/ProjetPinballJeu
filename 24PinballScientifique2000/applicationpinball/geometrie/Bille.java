@@ -197,5 +197,6 @@ public class Bille extends Rectangle implements Dessinable {
 	public Ellipse2D.Double getBille() {
 		return bille;
 	}
+	
 
 }

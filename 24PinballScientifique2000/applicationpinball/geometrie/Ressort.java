@@ -28,14 +28,14 @@ public class Ressort implements Dessinable {
 	private Vecteur2D position, positionRepos;
 	private Vecteur2D vitesse = new Vecteur2D(0,0);
 	private Vecteur2D accel = new Vecteur2D(0,0);
-	private Vecteur2D fr=new Vecteur2D(0,0), fg= new Vecteur2D(0,0), fn = new Vecteur2D(0,0);
+	private Vecteur2D ff=new Vecteur2D(0,0),fr=new Vecteur2D(0,0), fg= new Vecteur2D(0,0), fn = new Vecteur2D(0,0);
 	private Vecteur2D vitesseInitiale;
 	
 	
 	private double pixelsParMetre = 1;
 	private boolean arrete = false;
 	
-	private double kRessort;
+	private double kRessort,mu;
 	
 	
 	private final double NB_ZIGZAG = 13.0;
@@ -126,6 +126,7 @@ public class Ressort implements Dessinable {
 		Vecteur2D etirement, sommeForces, positionAvantIteration;
 		positionAvantIteration = new Vecteur2D(position);
 		etirement = Vecteur2D.soustrait(position, positionRepos);
+		ff = MoteurPhysique.calculForceFriction(mu, massePourCetteScene, vitesse);
 		fr = MoteurPhysique.calculForceRappel(kRessort, etirement);
 		fn = MoteurPhysique.calculForceNormale(massePourCetteScene);
 		fg = MoteurPhysique.calculForceGrav(massePourCetteScene);
@@ -157,10 +158,24 @@ public class Ressort implements Dessinable {
 			position = new Vecteur2D(positionRepos);
 			arrete = true;
 			calculerForceRessort();
+			calculerForceFriction();
 			
 		} else {
 			arrete = false;
 		}
+	}
+	/**
+	 * Méthode privée qui recalcule les forces suite à un changement de masse
+	 */
+	
+	private void calculerForcesMasse() {
+		if (vitesse.getX() == 0 || vitesse.getX() == -0.0000001) {
+			ff = new Vecteur2D(0,0);
+		} else {
+			ff = MoteurPhysique.calculForceFriction(mu, massePourCetteScene, vitesse);
+		}
+		fn = MoteurPhysique.calculForceNormale(massePourCetteScene);
+		fg = MoteurPhysique.calculForceGrav(massePourCetteScene);
 	}
 	/**
 	 * Méthode privée qui recalcule la force du ressort suite à un changement
@@ -188,6 +203,7 @@ public class Ressort implements Dessinable {
 		this.position = new Vecteur2D(pos);
 		creerLaGeometrie();
 		calculerForceRessort();
+		calculerForceFriction();
 	}
 	/**
 	 * Retourne la position courante
@@ -230,6 +246,16 @@ public class Ressort implements Dessinable {
 	public Vecteur2D getAccel() {
 		return (accel);
 	}
+	
+	/**
+	 * Modifie la masse 
+	 * @param masseEnKg La masse exprimee en kg
+	 */
+	//Audrey Viger
+	public void setMasseEnKg(double masseEnKg) {
+		this.massePourCetteScene = masseEnKg;
+		calculerForcesMasse();
+	}
 	/**
 	 * Retourne la force de rappel
 	 * @return La force de rappel
@@ -237,6 +263,10 @@ public class Ressort implements Dessinable {
 	public Vecteur2D getFr() {
 		return fr;
 	}
+	//Audrey Viger
+		public Vecteur2D getFf() {
+			return ff;
+		}
 	/**
 	 * Retourne la force gravitationnelle
 	 * @return La force gravitationnelle
@@ -244,6 +274,7 @@ public class Ressort implements Dessinable {
 	public Vecteur2D getFg() {
 		return fg;
 	}
+
 	/**
 	 * Retourne la force normale
 	 * @return La force normale
@@ -259,19 +290,35 @@ public class Ressort implements Dessinable {
 	//Audrey Viger
 	public void setkRessort(double kRessort) {
 		this.kRessort = kRessort;
+		calculerForceRessort();
 		}
+
 	/**
 	 * Vérifie si arrete est à true ou à false.
 	 * S'il est à true, on retourne true.
 	 * S'il est à false, on retourne false.
 	 * @return le boolean de arrete.
 	 */
-	//Jacob Laliberté
+	
 	public boolean isArrete() {
 		if (arrete == true)
 			return true;
 		return false;
 	}
+	public void setMu(double COEFF_FROT) {
+		this.mu = mu;
+		calculerForceFriction();
+		
+	}
+	private void calculerForceFriction() {
+		if (vitesse.getX() == 0 || vitesse.equals(vitesseInitiale)) {
+			ff = new Vecteur2D(0,0);
+		} else {
+			ff = MoteurPhysique.calculForceFriction(mu, massePourCetteScene, vitesse);
+		}
+		
+	}
+	
 
 }
 
