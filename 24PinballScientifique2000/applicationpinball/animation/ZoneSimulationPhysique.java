@@ -60,7 +60,7 @@ public class ZoneSimulationPhysique extends JPanel implements Runnable{
 		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
 		
-		unFlipper = new Flipper();
+		//unFlipper = new Flipper();
 	
 	}//fin du constructeur
 	
