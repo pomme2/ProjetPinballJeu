@@ -22,6 +22,8 @@ import geometrie.Bille;
 import animation.TestAnimation;
 import animation.ZonePinball;
 import javax.swing.SpinnerNumberModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FenetreBacSable extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -273,6 +275,20 @@ public class FenetreBacSable extends JFrame{
 
 
 		JSlider sliderEtirement = new JSlider();
+		sliderEtirement.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				System.out.println("Slider active");
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				System.out.println("Slider desactive");
+				zonePinball.demarrer();
+				zonePinball.requestFocusInWindow();
+				
+			}
+		});
 		sliderEtirement.setMinimum(-10);
 		sliderEtirement.setMaximum(0);
 		sliderEtirement.addChangeListener(new ChangeListener() {
