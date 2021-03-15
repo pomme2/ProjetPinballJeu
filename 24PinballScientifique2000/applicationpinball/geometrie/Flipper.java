@@ -18,6 +18,9 @@ import dessinable.Dessinable;
 
 public class Flipper implements Dessinable {
 	private double coordX1,coordY1,diametreCercle,longueurManche,diametreManche;
+
+
+
 	private boolean gauche=true;
 	private Ellipse2D.Double boutCercle;
 	private  Ellipse2D.Double manche;
@@ -25,9 +28,9 @@ public class Flipper implements Dessinable {
 	private Vecteur2D position;  //sera specifiee dans le constructeur
 	private Vecteur2D vitesse = new Vecteur2D(0,0); //par defaut
 	private Vecteur2D accel = new Vecteur2D(0,0); //par defaut
-	
 
-	
+
+
 	public  Flipper (Vecteur2D position, double longueurManche, double diametreManche,boolean gauche) {
 		this.position=new Vecteur2D(position);
 		this.longueurManche=longueurManche;
@@ -38,7 +41,7 @@ public class Flipper implements Dessinable {
 
 	private void creerLaGeometrie() {
 		if(gauche==true) {
-		manche=new Ellipse2D.Double(position.x,position.y-diametreManche/2,longueurManche,diametreManche);	
+			manche=new Ellipse2D.Double(position.x,position.y-diametreManche/2,longueurManche,diametreManche);	
 		}else {
 			manche= new Ellipse2D.Double(position.x-longueurManche,position.y-diametreManche/2,longueurManche,diametreManche);
 		}
@@ -49,8 +52,8 @@ public class Flipper implements Dessinable {
 		AffineTransform mat= new AffineTransform();
 		mat.scale(pixelsParMetre,pixelsParMetre);
 		g2d.fill(mat.createTransformedShape(manche));
-		
-			
+
+
 	}
 
 	/**
@@ -59,10 +62,10 @@ public class Flipper implements Dessinable {
 	 */
 	public void setPixelsParMetre(double pixelsParMetre) {
 		this.pixelsParMetre = pixelsParMetre;
-								
+
 	}
 	public void avancerUnPas() {
-		
+
 	}
 	/**
 	 * Modifie la vitesse courante de la balle
@@ -79,11 +82,31 @@ public class Flipper implements Dessinable {
 	public Vecteur2D getVitesse() {
 		return (vitesse);
 	}
-
+	/**
+	 * Méthode qui permet de changer la variable diametreManche
+	 * @param diametreManche est la hauter du flipper
+	 */
+	public void setDiametreManche(double diametreManche) {
+		this.diametreManche = diametreManche;
+	}	
+	/**
+	 * Méthode qui permet de retourner la hauteur du flipper
+	 * @return diametreManche qui est la hauteur du flipper
+	 */
+	public double getDiametreManche() {
+		return diametreManche;
+	}
+	/**
+	 * Méthode qui permet de retourner le rayon du flipper
+	 * @return diametreManche/2 qui est le rayon du flipper
+	 */
+	public double getRayonManche() {
+		return diametreManche/2;
+	}
 }
 
 
 
-	
+
 
 
