@@ -151,7 +151,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 	private final int TEMPS_DU_SLEEP = 25;
 	private final double K_RESSORT = 500;
-	private final double ETIREMENT_NAT = 0;
+	private final double ETIREMENT_NAT = 0.1;
 
 	private final double COEFF_FROT = 0.64;
 	private final double MASSE_POUR_CETTE_SCENE = 0.7; // en kg
@@ -269,8 +269,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		try {
 			imageTerrainPinballMauvaiseDim = ImageIO.read(urlPinballTerrain);
 			imageTerrainPinball1=imageTerrainPinballMauvaiseDim.getScaledInstance(dimensionImageX,dimensionImageY,Image.SCALE_SMOOTH);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+		} catch (IOException e1) {			
 			e1.printStackTrace();
 		}
 
