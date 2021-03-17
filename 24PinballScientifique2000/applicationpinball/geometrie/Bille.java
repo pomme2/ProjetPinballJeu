@@ -1,6 +1,7 @@
 package geometrie;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D.Double;
@@ -29,6 +30,8 @@ public class Bille extends Rectangle implements Dessinable {
 	private Vecteur2D vitesse = new Vecteur2D(0,0); //par defaut
 	private Vecteur2D accel = new Vecteur2D(0,0); //par defaut
 	private double pixelsParMetre =1;
+	
+	private Image imageBille;
 	
 	
 	//constructeur de la bille

@@ -184,6 +184,7 @@ public class FenetreBacSable extends JFrame{
 		});
 		
 		
+	
 		sliderAimant.setMajorTickSpacing(25);
 		sliderAimant.setPaintTicks(true);
 		sliderAimant.setBounds(734, 386, 200, 33);
@@ -268,20 +269,7 @@ public class FenetreBacSable extends JFrame{
 			}
 		});
 		
-		JButton btnDemarrer = new JButton("D\u00E9marrer");
-		btnDemarrer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-			if ((int)spinnerEtirement.getValue() != 0) {					
-				zonePinball.demarrer();
-				zonePinball.requestFocusInWindow();
-				
-			}
-			}			
-			
-
-		});
-		btnDemarrer.setBounds(226, 694, 218, 60);
-		contentPane.add(btnDemarrer);
+		
 		
 		JSlider sliderEtirement = new JSlider();
 		sliderEtirement.setMinimum(-10);
@@ -292,6 +280,20 @@ public class FenetreBacSable extends JFrame{
 				System.out.println(sliderEtirement.getValue()/100.0);
 			}
 		});
+		JButton btnDemarrer = new JButton("D\u00E9marrer");
+		btnDemarrer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+			if ((int)sliderEtirement.getValue() != 0) {					
+				zonePinball.demarrer();
+				zonePinball.requestFocusInWindow();
+				
+			}
+			}			
+			
+
+		});
+		btnDemarrer.setBounds(226, 694, 218, 60);
+		contentPane.add(btnDemarrer);
 		
 		JButton btnRecommencer = new JButton("Recommencer la partie");
 		btnRecommencer.addActionListener(new ActionListener() {
