@@ -47,14 +47,14 @@ public class FenetreBacSable extends JFrame{
 		this.fenOption = fenOption;
 		setTitle("Bac à sable");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 40, 1100, 800);
+		setBounds(200, 40, 1100, 1200);
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		ZonePinball zonePinball = new ZonePinball();
-		zonePinball.setBounds(87, 26, 497, 636);
+		zonePinball.setBounds(10, 26, 600, 768);
 		contentPane.add(zonePinball);
 
 		//Initialisation des valeurs de spinners initiales.
@@ -328,7 +328,7 @@ public class FenetreBacSable extends JFrame{
 		sliderEtirement.setMajorTickSpacing(1);
 		sliderEtirement.setMinorTickSpacing(5);
 		sliderEtirement.setPaintTicks(true);
-		sliderEtirement.setBounds(583, 552, 48, 113);
+		sliderEtirement.setBounds(622, 552, 48, 113);
 		contentPane.add(sliderEtirement);
 
 		JButton btnDemarrer = new JButton("D\u00E9marrer");
