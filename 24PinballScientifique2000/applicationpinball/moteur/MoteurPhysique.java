@@ -17,7 +17,7 @@ public class MoteurPhysique {
 
 	private static final double ACCEL_GRAV = 9.8066;
 	private static final double EPSILON = 1e-10; //tolerance utilisee dans les comparaisons reelles avec zero
-	
+
 	/**
 	 * Calcule et retourne l'acceleration en utilisant F=ma
 	 * @param sommeDesForces Somme des forces appliquees
@@ -33,7 +33,7 @@ public class MoteurPhysique {
 	}
 
 	/**
-	  * Calcule et retourne la nouvelle vitesse, deltaT secondes plus tard, en utilisant l'algorithme
+	 * Calcule et retourne la nouvelle vitesse, deltaT secondes plus tard, en utilisant l'algorithme
 	 * d'Euler semi-implicite.
 	 * @param deltaT L'intervalle de temps (petit!) en secondes
 	 * @param vitesse La vitesse initiale au debut de l'intervalle de temps, en m/s
@@ -44,9 +44,9 @@ public class MoteurPhysique {
 		Vecteur2D deltaVitesse = Vecteur2D.multiplie(accel, deltaT);
 		Vecteur2D resultVit = vitesse.additionne( deltaVitesse );
 		return new Vecteur2D(resultVit.getX(), resultVit.getY());
-		
+
 	}
-	
+
 	/**
 	 * Calcule et retourne la nouvelle position, deltaT secondes plus tard, en utilisant l'algorithme
 	 * d'Euler semi-implicite.
@@ -60,7 +60,7 @@ public class MoteurPhysique {
 		Vecteur2D deltaPosition = Vecteur2D.multiplie(vitesse, deltaT);
 		Vecteur2D resultPos = position.additionne(deltaPosition); 
 		return new Vecteur2D(resultPos.getX(), resultPos.getY());
-		
+
 	}
 	/**
 	 * Calcule et retourne la force de rappel du ressort
@@ -87,9 +87,9 @@ public class MoteurPhysique {
 	public static Vecteur2D calculForceNormale(double masse) {
 		return new Vecteur2D(0, ACCEL_GRAV * masse);
 	}
-		
 
-	
+
+
 	/**
 	 * Calcule et retourne la force de friction
 	 * @param mu Le coefficient friction cinetique
@@ -97,25 +97,30 @@ public class MoteurPhysique {
 	 * @param vitesse La vitesse de l'objet (pour pouvoir opposer la force de friction à celle-ci)
 	 * @return Le vecteur de force de friction
 	 */
-		
-		
-		public static Vecteur2D calculForceFriction(double mu, double masse, Vecteur2D vitesse) {
+
+
+	public static Vecteur2D calculForceFriction(double mu, double masse, Vecteur2D vitesse) {
 		if (vitesse.getY() > 0 ) {
 			return new Vecteur2D(0,-mu * calculForceNormale(masse).getX());
 		} else { 
 			return new Vecteur2D(0,mu * calculForceNormale(masse).getX() );
 		}
 	}
-		//Thomas Bourgault
-		/**
-		 * 
-		 * @return
-		 */
-		public static Vecteur2D vitesseRotationFlipper(Vecteur2D position,Vecteur2D vitesse) {
-			double angle=0;
-			//double dx=
-			return null;
-			
-		}
+	//Thomas Bourgault
+	/**
+	 * 
+	 * @return
+	 */
+	public static Vecteur2D vitesseRotationFlipper(Vecteur2D position, double angle,double deltaT) {
+		Vecteur2D vitesse= new Vecteur2D();
+
+		return null;
+
+	}	
+	public static Vecteur2D testFlipper (Vecteur2D position,double angle,double longueurManche) {
+		Vecteur2D nouvPosition= new Vecteur2D();
+		position=position.rotation(position,angle,longueurManche);
+		return position;
+	}
 
 }

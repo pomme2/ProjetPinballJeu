@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -64,6 +65,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private boolean enCoursDAnimation= false;
 	private double tempsTotalEcoule = 0;
 	private int tempsDuSleep = 10;
+
 
 
 	//tableau pour obstacles
@@ -155,23 +157,30 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 	private final double COEFF_FROT = 0.64;
 	private final double MASSE_POUR_CETTE_SCENE = 0.7; // en kg
-	
+
 
 	//Flippers
 
-	private Flipper FlipGauche,FlipDroit;
+	private Flipper flipGauche,flipDroit;
 	private double coordX1FlipperGauche=0.465,coordY1FlipperGauche=1.386,longueurMancheGauche=0.09,diametreMancheGauche=0.015;
 	private Vecteur2D positionFlipperGauche=new Vecteur2D(coordX1FlipperGauche,coordY1FlipperGauche);
+	private Vecteur2D positionFlipperGaucheInitial=new Vecteur2D(coordX1FlipperGauche,coordY1FlipperGauche);
 	private double coordX1FlipperDroit=0.690,coordY1FlipperDroit=1.386;
 	private Vecteur2D positionFlipperDroit=new Vecteur2D(coordX1FlipperDroit,coordY1FlipperDroit);
+	private Vecteur2D positionFlipperDroitInitial=new Vecteur2D(coordX1FlipperDroit,coordY1FlipperDroit);
+	private Vecteur2D vitesseInitialeFlipper=new Vecteur2D(0,0);
 	private boolean gauche=true;
+
+	double angle=Math.PI/100;
+
+
 
 
 	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false,gaucheDescente=false,droitDescente=false;	
 	java.net.URL urlPinballTerrain=getClass().getClassLoader().getResource("pinballTerrain.png");
 	double compteurGauche,compteurDroit;
-	
-	
+
+
 	//Thomas Bourgault
 	/**
 	 * Constructeur qui gère les différents types d'évènements de la souris, permet l'initialisation de l'image ainsi que de la bille
@@ -186,7 +195,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 					repaint();
 
 
-					uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-3));
+					//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-3));
 					gaucheActive=true;
 					gaucheDescente=false;
 
@@ -196,7 +205,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 						droitActive=true;
 						droitDescente=false;
 
-						uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
+						//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
 
 						repaint();
 					}
@@ -289,10 +298,32 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		AffineTransform mat= new AffineTransform();			
 		double factReso=largeurDuComposantMetre/ imageTerrainPinball1.getWidth(null);
 		mat.scale (factReso*pixelParMetre,factReso*pixelParMetre);						
-		g2d.drawImage(imageTerrainPinball1,mat,null);																
-
-		//System.out.println("px: "+pixelParMetre);
-
+		g2d.drawImage(imageTerrainPinball1,mat,null);
+		g2d.setColor(Color.white);
+		////////////////////////////////////////////////////////////////////////GAUCHE
+		AffineTransform oldGauche = g2d.getTransform();
+		AffineTransform trans = new AffineTransform();
+		if(gaucheActive ) {		
+			g2d.rotate(Math.toRadians(-30),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
+		}
+		if(gaucheDescente) {
+			trans.rotate(Math.toRadians(0),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
+		}
+		g2d.transform(trans);
+		flipGauche.dessiner(g2d);
+		
+		g2d.setTransform(oldGauche);
+		////////////////////////////////////////////////////////////////////////////////DROIT
+		AffineTransform oldDroit = g2d.getTransform();
+		if(droitActive) {
+			g2d.rotate(Math.toRadians(30),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
+		}
+		if(droitDescente) {
+			g2d.rotate(Math.toRadians(0),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
+		}
+		flipDroit.dessiner(g2d);
+		g2d.setTransform(oldDroit);
+		////////////////////////////////////////////////////////////////////////////////
 		if(premiereFois) {
 			//Construction 4 cercles
 
@@ -328,24 +359,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		g2d.setColor(Color.red);
 		uneBille.setPixelsParMetre(pixelParMetre);
 		uneBille.dessiner(g2d);
-		g2d.setColor(Color.white);		
-		if(gaucheActive ) {			
 
-		}else {
-			if(gaucheDescente) {
 
-			}
-		}
-		if(droitActive) {
 
-		}else {
-			if(droitDescente) {
-
-			}
-		}
-
-		FlipGauche.dessiner(g2d);
-		FlipDroit.dessiner(g2d);
 
 		if(contour) {
 			g2d.setColor(Color.green);		
@@ -381,7 +397,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			tunnelRessortGauche.dessiner(g2d);
 
 
-		}			
+		}
+		//test
+
 	}
 	//Thomas Bourgault
 	/**
@@ -500,10 +518,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Méthode qui initialise les deux flippers de type MursDroits
 	 */
 	public void flippers() {
-		FlipGauche=new Flipper(positionFlipperGauche,longueurMancheGauche,diametreMancheGauche,gauche);
-		FlipGauche.setPixelsParMetre(pixelParMetre);
-		FlipDroit=new Flipper(positionFlipperDroit,longueurMancheGauche,diametreMancheGauche,!gauche);
-		FlipDroit.setPixelsParMetre(pixelParMetre);
+		flipGauche=new Flipper(positionFlipperGauche,longueurMancheGauche,diametreMancheGauche,gauche);
+		flipGauche.setPixelsParMetre(pixelParMetre);
+		flipDroit=new Flipper(positionFlipperDroit,longueurMancheGauche,diametreMancheGauche,!gauche);
+		flipDroit.setPixelsParMetre(pixelParMetre);
 	}
 	//Carlos Eduardo
 
@@ -513,8 +531,18 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	public void run() {
 
 		while (enCoursDAnimation) {
-			/**	if(droitActive) {
-				compteurDroit++;
+
+			if(droitActive) {
+				angle=Math.PI/6;
+
+			}
+			if(gaucheActive) {
+				angle=Math.PI/6;
+
+				System.out.println(")))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))");
+				System.out.println("angle: "+angle);
+			}
+			/**	
 			}
 			if(gaucheActive) {
 				compteurGauche++;
@@ -562,7 +590,16 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		tempsTotalEcoule += deltaT;
 		uneBille.avancerUnPas( deltaT );
 		getBille();
-
+		if(gaucheActive) {
+			flipGauche.avancerUnPas(deltaT);
+			System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
+			System.out.println("Px gauche: "+positionFlipperGauche.getX()+" Py gauche: "+positionFlipperGauche.getY());
+		}
+		if(droitActive) {
+			flipDroit.avancerUnPas(deltaT);
+			System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
+			System.out.println("Px droit: "+positionFlipperDroit.getX()+" Py droit: "+positionFlipperDroit.getY());
+		}
 		ressort.avancerUnPas(deltaT);
 
 		System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
@@ -827,6 +864,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
 
 		tempsTotalEcoule = 0;
+		flipDroit.setPosition(positionFlipperDroitInitial);
+		flipDroit.setVitesse(vitesseInitialeFlipper);
+		flipGauche.setPosition(positionFlipperGaucheInitial);
+		flipGauche.setVitesse(vitesseInitialeFlipper);
+		tempsTotalEcoule = 0;
 
 
 
@@ -861,13 +903,13 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * 
 	 * @param coeffFrot le coefficient de friction cinétique du bloc
 	 */
-	
+
 	public void setCoeffFrot(double coeffFrot) {
 		ressort.setMu(coeffFrot);
 		repaint();
 	}// fin methode
 
-	
+
 	//Audrey Viger
 	/**
 	 * Modifie la position du bloc en ajoutant l'etirement choisi à la poisition naturelle du ressort
@@ -920,12 +962,12 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		return uneBille.getMasseEnKg();
 	}
-	
+
 	/**
 	 * Transmettre la masse initiale du bloc à l'application
 	 * @return la masse initiale du bloc qui est 700 en grammes
 	 */
-	
+
 	public double getMASSE_POUR_CETTE_SCENE() {
 		return MASSE_POUR_CETTE_SCENE;
 	}// fin methode
