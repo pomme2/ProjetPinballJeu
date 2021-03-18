@@ -8,6 +8,7 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 
 import dessinable.Dessinable;
+import moteur.MoteurPhysique;
 
 /**
  * 
@@ -27,7 +28,8 @@ public class Flipper implements Dessinable {
 	private double pixelsParMetre =1;
 	private Vecteur2D position;  //sera specifiee dans le constructeur
 	private Vecteur2D vitesse = new Vecteur2D(0,0); //par defaut
-	private Vecteur2D accel = new Vecteur2D(0,0); //par defaut
+	private double angle;
+	private int rad;
 
 
 
@@ -51,9 +53,14 @@ public class Flipper implements Dessinable {
 	public void dessiner(Graphics2D g2d) {
 		AffineTransform mat= new AffineTransform();
 		mat.scale(pixelsParMetre,pixelsParMetre);
+		
 		g2d.fill(mat.createTransformedShape(manche));
 
 
+	}
+	public void rotateGauche(Graphics2D g2d,double angle) {
+		this.angle=angle;
+		g2d.rotate(-angle,position.x,position.y);
 	}
 
 	/**
@@ -64,9 +71,12 @@ public class Flipper implements Dessinable {
 		this.pixelsParMetre = pixelsParMetre;
 
 	}
-	public void avancerUnPas() {
 
+	public void avancerUnPas(double deltaT) {
+		position=MoteurPhysique.testFlipper(position,angle, longueurManche);
+		creerLaGeometrie();
 	}
+
 	/**
 	 * Modifie la vitesse courante de la balle
 	 * @param vitesse Vecteur incluant les vitesses en x et y 
@@ -81,6 +91,20 @@ public class Flipper implements Dessinable {
 	 */
 	public Vecteur2D getVitesse() {
 		return (vitesse);
+	}
+	/**
+	 * Modifie la position d'un flipper
+	 * @param position du flipper
+	 */
+	public void setPosition(Vecteur2D position) {
+		this.position=new Vecteur2D (position);
+	}
+	/**
+	 * Permet de retourne la position d'un flipper
+	 * @return la position d'un flipper
+	 */
+	public Vecteur2D getPosition() {
+		return(position);
 	}
 	/**
 	 * Méthode qui permet de changer la variable diametreManche
