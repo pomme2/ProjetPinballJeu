@@ -5,11 +5,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.TexturePaint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.awt.geom.Path2D.Double;
 import java.io.IOException;
 import java.util.Arrays;
@@ -150,12 +152,12 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
 
 	private final int TEMPS_DU_SLEEP = 25;
-	private final double K_RESSORT = 500;
-	private final double ETIREMENT_NAT = 0;
+	private final double K_RESSORT = 50;
+	private final double ETIREMENT_NAT = 0.1;
 
 	private final double COEFF_FROT = 0.64;
 	private final double MASSE_POUR_CETTE_SCENE = 0.7; // en kg
-	
+
 
 	//Flippers
 
@@ -170,8 +172,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false,gaucheDescente=false,droitDescente=false;	
 	java.net.URL urlPinballTerrain=getClass().getClassLoader().getResource("pinballTerrain.png");
 	double compteurGauche,compteurDroit;
-	
-	
+
+
+
+
 	//Thomas Bourgault
 	/**
 	 * Constructeur qui gère les différents types d'évènements de la souris, permet l'initialisation de l'image ainsi que de la bille
@@ -259,6 +263,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			public void mouseMoved(MouseEvent e) {
 				if(ImageSelectionne && coord) {
 					System.out.println("X: "+e.getX()/(dimensionImageX/largeurDuComposantMetre)+" Y: "+e.getY()/(dimensionImageY/hauteurDuComposantMetre));
+
 				}
 			}
 		});
@@ -268,9 +273,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		Image imageTerrainPinballMauvaiseDim;
 		try {
 			imageTerrainPinballMauvaiseDim = ImageIO.read(urlPinballTerrain);
-			imageTerrainPinball1=imageTerrainPinballMauvaiseDim.getScaledInstance(dimensionImageX,dimensionImageY,Image.SCALE_SMOOTH);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			imageTerrainPinball1= imageTerrainPinballMauvaiseDim.getScaledInstance(dimensionImageX,dimensionImageY,Image.SCALE_SMOOTH);
+		} catch (IOException e1) {			
 			e1.printStackTrace();
 		}
 
@@ -326,7 +330,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		ressort.setPixelsParMetre(pixelParMetre);
 		ressort.dessiner(g2d);
 
-		g2d.setColor(Color.red);
+
+		//g2d.setColor(Color.red);
 		uneBille.setPixelsParMetre(pixelParMetre);
 		uneBille.dessiner(g2d);
 		g2d.setColor(Color.white);		
@@ -382,8 +387,12 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			tunnelRessortGauche.dessiner(g2d);
 
 
-		}			
+		}	
+
+
 	}
+
+
 	//Thomas Bourgault
 	/**
 	 * Méthode qui permet d'activer ou de desactiver la visibilite des différents murs
@@ -862,13 +871,13 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * 
 	 * @param coeffFrot le coefficient de friction cinétique du bloc
 	 */
-	
+
 	public void setCoeffFrot(double coeffFrot) {
 		ressort.setMu(coeffFrot);
 		repaint();
 	}// fin methode
 
-	
+
 	//Audrey Viger
 	/**
 	 * Modifie la position du bloc en ajoutant l'etirement choisi à la poisition naturelle du ressort
@@ -921,12 +930,12 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		return uneBille.getMasseEnKg();
 	}
-	
+
 	/**
 	 * Transmettre la masse initiale du bloc à l'application
 	 * @return la masse initiale du bloc qui est 700 en grammes
 	 */
-	
+
 	public double getMASSE_POUR_CETTE_SCENE() {
 		return MASSE_POUR_CETTE_SCENE;
 	}// fin methode
@@ -1019,8 +1028,15 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		return uneBille;
 	}
-
-
+	public Vecteur2D getPositionBille() {
+		return (uneBille.getPosition());
+	}
+	public Vecteur2D getPositionIniBille() {
+		return (posInitBalle);
+	}
+	public void setMasseBalle(int masseEnKg) {
+		this.massePourCetteScene = masseEnKg;
+	}
 
 
 

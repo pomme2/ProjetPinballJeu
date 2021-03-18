@@ -118,7 +118,7 @@ public class Ressort implements Dessinable {
 		g2dPrive.draw(mat.createTransformedShape(zigzag));
 		g2dPrive.setColor(Color.white);
 		g2dPrive.fill(mat.createTransformedShape(base));
-		
+		System.out.println("rrrrrrrrrrrrr"+kRessort);
 		
 		
 	}

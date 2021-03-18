@@ -12,6 +12,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
@@ -44,7 +46,7 @@ public class FenetreJouer extends JFrame{
 		this.fenOption = fenOption;
 		setTitle("Bac à sable");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 40, 1100, 800);
+		setBounds(200, 40, 1100, 928);
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setContentPane(contentPane);
@@ -52,7 +54,7 @@ public class FenetreJouer extends JFrame{
 		
 		
 		ZonePinball zonePinball = new ZonePinball();
-		zonePinball.setBounds(87, 26, 497, 636);
+		zonePinball.setBounds(71, 26, 600,768);
 		contentPane.add(zonePinball);
 		
 		//Initialisation des valeurs de spinners initiales.
@@ -180,11 +182,41 @@ public class FenetreJouer extends JFrame{
 			
 
 		});
-		btnDemarrer.setBounds(226, 694, 218, 60);
+		btnDemarrer.setBounds(248, 808, 218, 60);
 		contentPane.add(btnDemarrer);
 		
+		JSlider sliderEtirement = new JSlider();
+		sliderEtirement.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				System.out.println("Slider active");
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				System.out.println("Slider desactive");
+				zonePinball.demarrer();
+				zonePinball.requestFocusInWindow();
+				
+			}
+		});
+		sliderEtirement.setMinimum(-10);
+		sliderEtirement.setMaximum(0);
+		sliderEtirement.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
+				System.out.println(sliderEtirement.getValue()/100.0);
+			}
+		});
 		
-		
+		sliderEtirement.setValue(100);
+		sliderEtirement.setOrientation(SwingConstants.VERTICAL);
+		sliderEtirement.setMajorTickSpacing(1);
+		sliderEtirement.setMinorTickSpacing(5);
+		sliderEtirement.setPaintTicks(true);
+		sliderEtirement.setBounds(670, 652, 48, 113);
+		contentPane.add(sliderEtirement);
+
 		JButton btnRecommencer = new JButton("Recommencer la partie");
 		btnRecommencer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
