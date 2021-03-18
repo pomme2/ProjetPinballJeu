@@ -169,9 +169,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private Vecteur2D positionFlipperDroit=new Vecteur2D(coordX1FlipperDroit,coordY1FlipperDroit);
 	private Vecteur2D positionFlipperDroitInitial=new Vecteur2D(coordX1FlipperDroit,coordY1FlipperDroit);
 	private Vecteur2D vitesseInitialeFlipper=new Vecteur2D(0,0);
+	private MursDroits murFlipperGauche,murFlipperDroit;
+	private double coordX1MurFlipperGauche=0.465,coordY1MurFlipperGauche=1.3785,coordX2MurFlipperGauche=0.555,coordY2MurFlipperGauche=1.3785;
+	private double coordX1MurFlipperDroit=0.6,coordY1MurFlipperDroit=1.3785,coordX2MurFlipperDroit=0.690,coordY2MurFlipperDroit=1.3785;
 	private boolean gauche=true;
 
-	double angle=Math.PI/100;
 
 
 
@@ -303,7 +305,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		////////////////////////////////////////////////////////////////////////GAUCHE
 		AffineTransform oldGauche = g2d.getTransform();
 		AffineTransform trans = new AffineTransform();
-		if(gaucheActive ) {		
+		if(gaucheActive ) {							
 			g2d.rotate(Math.toRadians(-30),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
 		}
 		if(gaucheDescente) {
@@ -311,6 +313,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 		g2d.transform(trans);
 		flipGauche.dessiner(g2d);
+		if(contour) {			
+			murFlipperGauche.dessiner(g2d);
+		}
 		
 		g2d.setTransform(oldGauche);
 		////////////////////////////////////////////////////////////////////////////////DROIT
@@ -322,6 +327,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			g2d.rotate(Math.toRadians(0),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
 		}
 		flipDroit.dessiner(g2d);
+		if(contour) {
+			murFlipperDroit.dessiner(g2d);
+		}
 		g2d.setTransform(oldDroit);
 		////////////////////////////////////////////////////////////////////////////////
 		if(premiereFois) {
@@ -395,6 +403,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			//tunnelle
 			tunnelRessortDroite.dessiner(g2d);
 			tunnelRessortGauche.dessiner(g2d);
+			//MurFlipper
+			
 
 
 		}
@@ -522,6 +532,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		flipGauche.setPixelsParMetre(pixelParMetre);
 		flipDroit=new Flipper(positionFlipperDroit,longueurMancheGauche,diametreMancheGauche,!gauche);
 		flipDroit.setPixelsParMetre(pixelParMetre);
+		murFlipperGauche=new MursDroits(coordX2MurFlipperGauche,coordY2MurFlipperGauche,coordX1MurFlipperGauche,coordY1MurFlipperGauche);
+		murFlipperGauche.setPixelsParMetre(pixelParMetre);
+		murFlipperDroit=new MursDroits(coordX1MurFlipperDroit,coordY1MurFlipperDroit,coordX2MurFlipperDroit,coordY2MurFlipperDroit);
+		murFlipperDroit.setPixelsParMetre(pixelParMetre);
 	}
 	//Carlos Eduardo
 
@@ -532,16 +546,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		while (enCoursDAnimation) {
 
-			if(droitActive) {
-				angle=Math.PI/6;
-
-			}
-			if(gaucheActive) {
-				angle=Math.PI/6;
-
-				System.out.println(")))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))");
-				System.out.println("angle: "+angle);
-			}
 			/**	
 			}
 			if(gaucheActive) {
