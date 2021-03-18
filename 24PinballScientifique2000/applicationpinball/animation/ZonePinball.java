@@ -196,7 +196,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 					System.out.println("touche a active");
 					repaint();
 
-
+					flipGauche.setVitesse(new Vecteur2D(2,2));
 					//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-3));
 					gaucheActive=true;
 					gaucheDescente=false;
@@ -206,6 +206,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 						System.out.println("touche d active");
 						droitActive=true;
 						droitDescente=false;
+						flipDroit.setVitesse(new Vecteur2D(2,2));
 
 						//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
 
@@ -218,12 +219,14 @@ public class ZonePinball  extends JPanel implements Runnable  {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					gaucheActive=false;
 					gaucheDescente=true;
+					flipGauche.setVitesse(new Vecteur2D(0,0));
 
 					repaint();
 				}else {
 					if(e.getKeyCode() == KeyEvent.VK_D) {
 						droitActive=false;
 						droitDescente=true;
+						flipDroit.setVitesse(new Vecteur2D(0,0));
 						repaint();
 					}
 				}
@@ -316,7 +319,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		if(contour) {			
 			murFlipperGauche.dessiner(g2d);
 		}
-		
+
 		g2d.setTransform(oldGauche);
 		////////////////////////////////////////////////////////////////////////////////DROIT
 		AffineTransform oldDroit = g2d.getTransform();
@@ -404,7 +407,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			tunnelRessortDroite.dessiner(g2d);
 			tunnelRessortGauche.dessiner(g2d);
 			//MurFlipper
-			
+
 
 
 		}
