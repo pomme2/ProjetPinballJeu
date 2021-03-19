@@ -19,6 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.ButtonGroup;
 import animation.ZoneSimulationPhysique;
 import geometrie.Bille;
+import geometrie.Vecteur2D;
 import animation.TestAnimation;
 import animation.ZonePinball;
 import javax.swing.SpinnerNumberModel;
@@ -285,6 +286,7 @@ public class FenetreBacSable extends JFrame{
 			public void mousePressed(MouseEvent e) {
 				
 				System.out.println("Slider active");
+			
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -300,6 +302,11 @@ public class FenetreBacSable extends JFrame{
 		sliderEtirement.setMaximum(0);
 		sliderEtirement.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
+				
+				
+				// carlos testing
+				//zonePinball.getBille().setPosition(new Vecteur2D (1.056, 1- (int) sliderEtirement.getValue()/100));
+				
 				zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
 				
 			}
