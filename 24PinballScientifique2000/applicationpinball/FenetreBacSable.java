@@ -35,6 +35,7 @@ public class FenetreBacSable extends JFrame{
 	private int valeurAimant;
 	private int valeurRessort;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private boolean enCoursdAnimation=false;
 
 
 	/**
@@ -48,15 +49,17 @@ public class FenetreBacSable extends JFrame{
 		this.fenOption = fenOption;
 		setTitle("Bac à sable");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 40, 1100, 1200);
+		setBounds(200, 40, 1100, 928);
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		ZonePinball zonePinball = new ZonePinball();
-		zonePinball.setBounds(10, 26, 600, 768);
+		zonePinball.setBounds(71, 26, 600,768);
 		contentPane.add(zonePinball);
+		
+	
 
 		//Initialisation des valeurs de spinners initiales.
 		int etirementInitial = (int)(zonePinball.getETIREMENT_NAT()*100.0);
@@ -154,7 +157,7 @@ public class FenetreBacSable extends JFrame{
 		JSpinner spinnerMasse = new JSpinner();
 		spinnerMasse.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-
+				zonePinball.setMasseBalle((int) spinnerMasse.getValue());
 			}
 		});
 		spinnerMasse.setBounds(788, 195, 44, 20);
@@ -186,16 +189,17 @@ public class FenetreBacSable extends JFrame{
 			}
 		});
 
-
 		sliderAimant.setMajorTickSpacing(25);
 		sliderAimant.setPaintTicks(true);
 		sliderAimant.setBounds(734, 386, 200, 33);
 		contentPane.add(sliderAimant);
 
 		JSpinner spinnerRessort = new JSpinner();
-		spinnerRessort.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spinnerRessort.setModel(new SpinnerNumberModel(50, 50, 800, 1));
 
 		JSlider sliderRessort = new JSlider();
+		sliderRessort.setMaximum(800);
+		sliderRessort.setMinimum(50);
 		sliderRessort.setValue(0);
 		sliderRessort.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -289,8 +293,10 @@ public class FenetreBacSable extends JFrame{
 				zonePinball.demarrer();
 				zonePinball.requestFocusInWindow();
 				
+				
 			}
 		});
+		
 		sliderEtirement.setMinimum(-10);
 		sliderEtirement.setMaximum(0);
 		sliderEtirement.addChangeListener(new ChangeListener() {
@@ -301,9 +307,23 @@ public class FenetreBacSable extends JFrame{
 				//zonePinball.getBille().setPosition(new Vecteur2D (1.056, 1- (int) sliderEtirement.getValue()/100));
 				
 				zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
-				System.out.println(sliderEtirement.getValue()/100.0);
+				
 			}
 		});
+	sliderEtirement.setValue(0);
+		sliderEtirement.setOrientation(SwingConstants.VERTICAL);
+		sliderEtirement.setMajorTickSpacing(1);
+		sliderEtirement.setMinorTickSpacing(5);
+		sliderEtirement.setPaintTicks(true);
+		sliderEtirement.setBounds(670, 652, 48, 113);
+		contentPane.add(sliderEtirement);
+		
+		
+		
+	
+
+	
+		
 
 		JButton btnRecommencer = new JButton("Recommencer la partie");
 		btnRecommencer.addActionListener(new ActionListener() {
@@ -322,27 +342,22 @@ public class FenetreBacSable extends JFrame{
 		});
 		btnRecommencer.setBounds(734, 614, 170, 69);
 		contentPane.add(btnRecommencer);
-		spinnerEtirement.setBounds(554, 714, 30, 20);
+		spinnerEtirement.setBounds(601, 848, 30, 20);
 		contentPane.add(spinnerEtirement);
 
 		JLabel lblEtirement = new JLabel("Etirement:");
-		lblEtirement.setBounds(468, 717, 98, 14);
+		lblEtirement.setBounds(515, 851, 98, 14);
 		contentPane.add(lblEtirement);
 
 
-		sliderEtirement.setValue(100);
-		sliderEtirement.setOrientation(SwingConstants.VERTICAL);
-		sliderEtirement.setMajorTickSpacing(1);
-		sliderEtirement.setMinorTickSpacing(5);
-		sliderEtirement.setPaintTicks(true);
-		sliderEtirement.setBounds(622, 552, 48, 113);
-		contentPane.add(sliderEtirement);
+
 
 		JButton btnDemarrer = new JButton("D\u00E9marrer");
 		btnDemarrer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
 				if ((int)sliderEtirement.getValue() != 0) {					
 					zonePinball.demarrer();
+					enCoursdAnimation=true;
 					zonePinball.requestFocusInWindow();
 
 				}
@@ -350,7 +365,7 @@ public class FenetreBacSable extends JFrame{
 
 
 		});
-		btnDemarrer.setBounds(226, 694, 218, 60);
+		btnDemarrer.setBounds(248, 808, 218, 60);
 		contentPane.add(btnDemarrer);
 	}
 }

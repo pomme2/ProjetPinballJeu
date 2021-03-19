@@ -5,12 +5,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+
+import java.awt.TexturePaint;
+
 import java.awt.Shape;
+
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.awt.geom.Path2D.Double;
 import java.io.IOException;
 import java.util.Arrays;
@@ -152,7 +157,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
 
 	private final int TEMPS_DU_SLEEP = 25;
-	private final double K_RESSORT = 500;
+	private final double K_RESSORT = 50;
 	private final double ETIREMENT_NAT = 0.1;
 
 	private final double COEFF_FROT = 0.64;
@@ -169,9 +174,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private Vecteur2D positionFlipperDroit=new Vecteur2D(coordX1FlipperDroit,coordY1FlipperDroit);
 	private Vecteur2D positionFlipperDroitInitial=new Vecteur2D(coordX1FlipperDroit,coordY1FlipperDroit);
 	private Vecteur2D vitesseInitialeFlipper=new Vecteur2D(0,0);
+	private MursDroits murFlipperGauche,murFlipperDroit;
+	private double coordX1MurFlipperGauche=0.465,coordY1MurFlipperGauche=1.3785,coordX2MurFlipperGauche=0.555,coordY2MurFlipperGauche=1.3785;
+	private double coordX1MurFlipperDroit=0.6,coordY1MurFlipperDroit=1.3785,coordX2MurFlipperDroit=0.690,coordY2MurFlipperDroit=1.3785;
 	private boolean gauche=true;
 
-	double angle=Math.PI/100;
 
 
 
@@ -179,6 +186,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false,gaucheDescente=false,droitDescente=false;	
 	java.net.URL urlPinballTerrain=getClass().getClassLoader().getResource("pinballTerrain.png");
 	double compteurGauche,compteurDroit;
+
 
 
 	//Thomas Bourgault
@@ -194,7 +202,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 					System.out.println("touche a active");
 					repaint();
 
-
+					flipGauche.setVitesse(new Vecteur2D(2,2));
 					//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-3));
 					gaucheActive=true;
 					gaucheDescente=false;
@@ -204,6 +212,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 						System.out.println("touche d active");
 						droitActive=true;
 						droitDescente=false;
+						flipDroit.setVitesse(new Vecteur2D(2,2));
 
 						//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
 
@@ -216,12 +225,14 @@ public class ZonePinball  extends JPanel implements Runnable  {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					gaucheActive=false;
 					gaucheDescente=true;
+					flipGauche.setVitesse(new Vecteur2D(0,0));
 
 					repaint();
 				}else {
 					if(e.getKeyCode() == KeyEvent.VK_D) {
 						droitActive=false;
 						droitDescente=true;
+						flipDroit.setVitesse(new Vecteur2D(0,0));
 						repaint();
 					}
 				}
@@ -268,6 +279,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			public void mouseMoved(MouseEvent e) {
 				if(ImageSelectionne && coord) {
 					System.out.println("X: "+e.getX()/(dimensionImageX/largeurDuComposantMetre)+" Y: "+e.getY()/(dimensionImageY/hauteurDuComposantMetre));
+
 				}
 			}
 		});
@@ -277,7 +289,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		Image imageTerrainPinballMauvaiseDim;
 		try {
 			imageTerrainPinballMauvaiseDim = ImageIO.read(urlPinballTerrain);
-			imageTerrainPinball1=imageTerrainPinballMauvaiseDim.getScaledInstance(dimensionImageX,dimensionImageY,Image.SCALE_SMOOTH);
+			imageTerrainPinball1= imageTerrainPinballMauvaiseDim.getScaledInstance(dimensionImageX,dimensionImageY,Image.SCALE_SMOOTH);
 		} catch (IOException e1) {			
 			e1.printStackTrace();
 		}
@@ -303,7 +315,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		////////////////////////////////////////////////////////////////////////GAUCHE
 		AffineTransform oldGauche = g2d.getTransform();
 		AffineTransform trans = new AffineTransform();
-		if(gaucheActive ) {		
+		if(gaucheActive ) {							
 			g2d.rotate(Math.toRadians(-30),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
 		}
 		if(gaucheDescente) {
@@ -311,7 +323,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 		g2d.transform(trans);
 		flipGauche.dessiner(g2d);
-		
+		if(contour) {			
+			murFlipperGauche.dessiner(g2d);
+		}
+
 		g2d.setTransform(oldGauche);
 		////////////////////////////////////////////////////////////////////////////////DROIT
 		AffineTransform oldDroit = g2d.getTransform();
@@ -322,6 +337,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			g2d.rotate(Math.toRadians(0),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
 		}
 		flipDroit.dessiner(g2d);
+		if(contour) {
+			murFlipperDroit.dessiner(g2d);
+		}
 		g2d.setTransform(oldDroit);
 		////////////////////////////////////////////////////////////////////////////////
 		if(premiereFois) {
@@ -356,7 +374,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		ressort.setPixelsParMetre(pixelParMetre);
 		ressort.dessiner(g2d);
 
-		g2d.setColor(Color.red);
+
+		//g2d.setColor(Color.red);
 		uneBille.setPixelsParMetre(pixelParMetre);
 		uneBille.dessiner(g2d);
 
@@ -395,12 +414,21 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			//tunnelle
 			tunnelRessortDroite.dessiner(g2d);
 			tunnelRessortGauche.dessiner(g2d);
+			//MurFlipper
 
 
-		}
-		//test
+
+		}	
+
+
 
 	}
+	//test
+
+
+
+
+
 	//Thomas Bourgault
 	/**
 	 * Méthode qui permet d'activer ou de desactiver la visibilite des différents murs
@@ -522,6 +550,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		flipGauche.setPixelsParMetre(pixelParMetre);
 		flipDroit=new Flipper(positionFlipperDroit,longueurMancheGauche,diametreMancheGauche,!gauche);
 		flipDroit.setPixelsParMetre(pixelParMetre);
+		murFlipperGauche=new MursDroits(coordX2MurFlipperGauche,coordY2MurFlipperGauche,coordX1MurFlipperGauche,coordY1MurFlipperGauche);
+		murFlipperGauche.setPixelsParMetre(pixelParMetre);
+		murFlipperDroit=new MursDroits(coordX1MurFlipperDroit,coordY1MurFlipperDroit,coordX2MurFlipperDroit,coordY2MurFlipperDroit);
+		murFlipperDroit.setPixelsParMetre(pixelParMetre);
 	}
 	//Carlos Eduardo
 
@@ -532,16 +564,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		while (enCoursDAnimation) {
 
-			if(droitActive) {
-				angle=Math.PI/6;
-
-			}
-			if(gaucheActive) {
-				angle=Math.PI/6;
-
-				System.out.println(")))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))");
-				System.out.println("angle: "+angle);
-			}
 			/**	
 			}
 			if(gaucheActive) {
@@ -1060,8 +1082,15 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		return uneBille;
 	}
-
-
+	public Vecteur2D getPositionBille() {
+		return (uneBille.getPosition());
+	}
+	public Vecteur2D getPositionIniBille() {
+		return (posInitBalle);
+	}
+	public void setMasseBalle(int masseEnKg) {
+		this.massePourCetteScene = masseEnKg;
+	}
 
 
 

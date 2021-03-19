@@ -1,9 +1,20 @@
 package geometrie;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.TexturePaint;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D.Double;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.print.DocFlavor.URL;
 
 import dessinable.Dessinable;
 import moteur.MoteurPhysique;
@@ -30,6 +41,8 @@ public class Bille extends Rectangle implements Dessinable {
 	private Vecteur2D accel = new Vecteur2D(0,0); //par defaut
 	private double pixelsParMetre =1;
 	
+	private BufferedImage imageBille;
+	
 	
 	//constructeur de la bille
 	public Bille(Vecteur2D position, double diametre) {
@@ -50,6 +63,14 @@ public class Bille extends Rectangle implements Dessinable {
 		Graphics2D g2dPrive = (Graphics2D) g2d.create();
 		g2dPrive.scale(pixelsParMetre, pixelsParMetre);
 		g2dPrive.fill(bille);
+
+		//image(g2dPrive);
+		try {
+			lireImage(g2dPrive);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -197,6 +218,40 @@ public class Bille extends Rectangle implements Dessinable {
 	public Ellipse2D.Double getBille() {
 		return bille;
 	}
+/*	public void image(Graphics2D g2d) {
+		java.net.URL urlBille = getClass().getClassLoader().getResource("imageB.png");
+		try {
+			 imageBille = ImageIO.read(urlBille);
+		}catch(Exception e) {
+			System.out.println("erreur de lecture du fichier");
+		}
+		
+
+
+	}*/
+	public void lireImage(Graphics2D g2d) throws IOException {
+		BufferedImage img = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
 	
+		//resize(img,(int)diametre,(int)diametre);
+		//BufferedImage nouvImg = new BufferedImage((int)diametre,(int)diametre,BufferedImage.TYPE_INT_RGB);
+		//Graphics g = nouvImg.createGraphics();
+		//g.drawImage(img, 0, 0, (int)diametre,(int) diametre, null);
+	//	g.dispose();
+		Rectangle2D rect = new Rectangle2D.Double(0,0,img.getWidth(),img.getHeight());
+		TexturePaint texturePaintBille = new TexturePaint(img,rect);
+		g2d.setPaint(texturePaintBille);
+		Ellipse2D ellipseBille = new Ellipse2D.Double(position.getX(),position.getY(),diametre,diametre);
+		g2d.fill(ellipseBille);
+	}
+	public static BufferedImage resize(BufferedImage img, int nouvLarg,int nouvHaut) {
+		Image tmp = img.getScaledInstance(nouvLarg, nouvHaut,Image.SCALE_SMOOTH);
+		BufferedImage dimg = new BufferedImage(nouvLarg,nouvHaut, BufferedImage.TYPE_INT_ARGB);
+		
+		Graphics2D g2d = dimg.createGraphics();
+		g2d.drawImage(tmp,0,0,null);
+		g2d.dispose();
+		
+		return dimg;
+	}
 
 }

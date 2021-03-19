@@ -17,6 +17,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -34,7 +35,7 @@ import javax.swing.JPanel;
 public class Dessin extends JPanel  {
 
 	// Image in which we're going to draw
-	private Image image;
+	private Image imageBille;
 	// Graphics2D object ==> used to draw on
 	private Graphics2D g2;
 	// Mouse coordinates
@@ -47,13 +48,25 @@ public class Dessin extends JPanel  {
 	private Rectangle2D.Double rectangle;
 	
 	private Area aireCercle,aireRect;
+	
+	String nomDossier = "imageBille";
+	private String nomImage = "imageBille";
 
 	public Dessin() {
-		cercle = new Ellipse2D.Double(585/2-200,621/2-200,400,400);
+		//cercle = new Ellipse2D.Double(585/2-200,621/2-200,400,400);
+		cercle = new Ellipse2D.Double(200,100,100,100);
 		rectangle = new Rectangle2D.Double(0, 0, 585, 621);
 		
 		
-
+		addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+			//	if(ImageSelectionne) {
+					System.out.println("X: "+e.getX()+" cliqué "+" Y: "+e.getY()+" cliqué");
+				//}
+			}
+		});
 		setDoubleBuffered(false);
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -87,28 +100,27 @@ public class Dessin extends JPanel  {
 
 
 protected void paintComponent(Graphics g) {
-	if (image == null) {
-		// image to draw null ==> we create
-		image = createImage(getSize().width, getSize().height);
-		g2 = (Graphics2D) image.getGraphics();
-		// enable antialiasing
+	super.paintComponent(g);
+	Graphics2D g2d = (Graphics2D)g;
+	
+	g2d.setColor(Color.black);
+	g2d.draw(cercle);
+	if (imageBille == null) {
+		
+		imageBille = createImage(getSize().width, getSize().height);
+		g2 = (Graphics2D) imageBille.getGraphics();
+		
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		// clear draw area
+		
 		clear();
 	}
-	/*g2.fill(rectangle);
-	g2.fill(cercle);
-	
-	Area aireCercle = new Area(cercle);
-	Area aireRect = new Area(rectangle);  
-	
-	aireRect.subtract(aireCercle);*/
-	g.drawImage(image, 0, 0, null);
+
+	g.drawImage(imageBille, 0, 0, null);
 	
 	
 }
 
-// now we create exposed methods
+
 public void clear() {
 	g2.setPaint(Color.white);
 	g2.fillRect(0, 0, getSize().width, getSize().height);
@@ -125,14 +137,19 @@ public void setDiametre(int diametre) {
 	repaint();
 }
 public void saveImage(String name,String type) {
-	BufferedImage image = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
-	Graphics2D g2 = image.createGraphics();
+	//BufferedImage imageBille = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
+	BufferedImage imageBille = new BufferedImage(10,10, BufferedImage.TYPE_INT_RGB);
+	Graphics2D g2 = imageBille.createGraphics();
 	paint(g2);
 	try{
-		ImageIO.write(image, type, new File(name+"."+type));
+		ImageIO.write(imageBille, type, new File(System.getProperty("user.home"),name+"."+type));
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
 }
 
+public void save() throws IOException {
+	File fichier = new File ("imageB.png");
+	ImageIO.write((RenderedImage) imageBille, "png",fichier );
+}
 }
