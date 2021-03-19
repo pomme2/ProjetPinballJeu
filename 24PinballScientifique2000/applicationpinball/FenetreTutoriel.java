@@ -11,9 +11,9 @@ import java.awt.event.ActionEvent;
 
 public class FenetreTutoriel extends JFrame{	
 	private static final long serialVersionUID = 1L;
-	private ApplicationMenu fenMenu;
+	private App24PinballScientifique2000 fenMenu;
 	
-	public FenetreTutoriel(ApplicationMenu fenMenu) {
+	public FenetreTutoriel(App24PinballScientifique2000 fenMenu) {
 		this.fenMenu = fenMenu;
 		getContentPane().setLayout(null);
 		
