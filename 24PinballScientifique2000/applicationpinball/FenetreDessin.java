@@ -69,7 +69,12 @@ public class FenetreDessin extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				fenMenu.setVisible(true);
 				setVisible(false);
-				dessin.saveImage("ImageB","png");
+				try {
+					dessin.saveImage("ImageB","png");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				
 

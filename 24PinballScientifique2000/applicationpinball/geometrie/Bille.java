@@ -235,9 +235,11 @@ public class Bille extends Rectangle implements Dessinable {
 		//resize(img,(int)diametre,(int)diametre);
 		//BufferedImage nouvImg = new BufferedImage((int)diametre,(int)diametre,BufferedImage.TYPE_INT_RGB);
 		//Graphics g = nouvImg.createGraphics();
-		//g.drawImage(img, 0, 0, (int)diametre,(int) diametre, null);
-	//	g.dispose();
+		//g.drawImage(img, (int)position.getX(),(int)position.getY(), (int)diametre,(int) diametre, null);
+		//g.dispose();
+		//img.getScaledInstance(1,1,BufferedImage.TYPE_INT_RGB);
 		Rectangle2D rect = new Rectangle2D.Double(0,0,img.getWidth(),img.getHeight());
+		
 		TexturePaint texturePaintBille = new TexturePaint(img,rect);
 		g2d.setPaint(texturePaintBille);
 		Ellipse2D ellipseBille = new Ellipse2D.Double(position.getX(),position.getY(),diametre,diametre);

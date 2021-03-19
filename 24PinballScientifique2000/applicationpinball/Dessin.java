@@ -136,20 +136,37 @@ public void setDiametre(int diametre) {
 	this.diametre = diametre;
 	repaint();
 }
-public void saveImage(String name,String type) {
-	//BufferedImage imageBille = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
-	BufferedImage imageBille = new BufferedImage(10,10, BufferedImage.TYPE_INT_RGB);
+public void saveImage(String name,String type) throws IOException {
+	BufferedImage imageBille = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
+	//BufferedImage imageBille = new BufferedImage(100,100, BufferedImage.TYPE_INT_RGB);
+	
 	Graphics2D g2 = imageBille.createGraphics();
+	
+	//imageBille.getScaledInstance(10,10,BufferedImage.TYPE_INT_RGB);
 	paint(g2);
+//resize(System.getProperty("user.home"),System.getProperty("user.home"),(int)0.105,(int)0.105);
+
 	try{
 		ImageIO.write(imageBille, type, new File(System.getProperty("user.home"),name+"."+type));
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
+	
+}
+public static void resize(String inputImagePath,String outputImagePath, int largeur,int hauteur) throws IOException {
+	File inputFile = new File(inputImagePath);
+    BufferedImage inputImage = ImageIO.read(inputFile);
+    
+    BufferedImage outputImage = new BufferedImage(largeur,
+            hauteur, inputImage.getType());
+    
+    Graphics2D g2d = outputImage.createGraphics();
+    g2d.drawImage(inputImage, 0, 0, largeur,hauteur, null);
+    g2d.dispose();
+    
+    String formatName = outputImagePath.substring(outputImagePath
+            .lastIndexOf(".") + 1);
+    ImageIO.write(outputImage, formatName, new File(outputImagePath));
 }
 
-public void save() throws IOException {
-	File fichier = new File ("imageB.png");
-	ImageIO.write((RenderedImage) imageBille, "png",fichier );
-}
 }
