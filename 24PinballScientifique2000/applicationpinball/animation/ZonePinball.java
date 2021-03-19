@@ -5,7 +5,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+
 import java.awt.TexturePaint;
+
+import java.awt.Shape;
+
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -66,6 +70,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private boolean enCoursDAnimation= false;
 	private double tempsTotalEcoule = 0;
 	private int tempsDuSleep = 10;
+
 
 
 	//tableau pour obstacles
@@ -161,18 +166,26 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 	//Flippers
 
-	private Flipper FlipGauche,FlipDroit;
+	private Flipper flipGauche,flipDroit;
 	private double coordX1FlipperGauche=0.465,coordY1FlipperGauche=1.386,longueurMancheGauche=0.09,diametreMancheGauche=0.015;
 	private Vecteur2D positionFlipperGauche=new Vecteur2D(coordX1FlipperGauche,coordY1FlipperGauche);
+	private Vecteur2D positionFlipperGaucheInitial=new Vecteur2D(coordX1FlipperGauche,coordY1FlipperGauche);
 	private double coordX1FlipperDroit=0.690,coordY1FlipperDroit=1.386;
 	private Vecteur2D positionFlipperDroit=new Vecteur2D(coordX1FlipperDroit,coordY1FlipperDroit);
+	private Vecteur2D positionFlipperDroitInitial=new Vecteur2D(coordX1FlipperDroit,coordY1FlipperDroit);
+	private Vecteur2D vitesseInitialeFlipper=new Vecteur2D(0,0);
+	private MursDroits murFlipperGauche,murFlipperDroit;
+	private double coordX1MurFlipperGauche=0.465,coordY1MurFlipperGauche=1.3785,coordX2MurFlipperGauche=0.555,coordY2MurFlipperGauche=1.3785;
+	private double coordX1MurFlipperDroit=0.6,coordY1MurFlipperDroit=1.3785,coordX2MurFlipperDroit=0.690,coordY2MurFlipperDroit=1.3785;
 	private boolean gauche=true;
+
+
+
 
 
 	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false,gaucheDescente=false,droitDescente=false;	
 	java.net.URL urlPinballTerrain=getClass().getClassLoader().getResource("pinballTerrain.png");
 	double compteurGauche,compteurDroit;
-
 
 
 
@@ -189,8 +202,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 					System.out.println("touche a active");
 					repaint();
 
-
-					uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-3));
+					flipGauche.setVitesse(new Vecteur2D(2,2));
+					//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-3));
 					gaucheActive=true;
 					gaucheDescente=false;
 
@@ -199,8 +212,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 						System.out.println("touche d active");
 						droitActive=true;
 						droitDescente=false;
+						flipDroit.setVitesse(new Vecteur2D(2,2));
 
-						uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
+						//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
 
 						repaint();
 					}
@@ -211,12 +225,14 @@ public class ZonePinball  extends JPanel implements Runnable  {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					gaucheActive=false;
 					gaucheDescente=true;
+					flipGauche.setVitesse(new Vecteur2D(0,0));
 
 					repaint();
 				}else {
 					if(e.getKeyCode() == KeyEvent.VK_D) {
 						droitActive=false;
 						droitDescente=true;
+						flipDroit.setVitesse(new Vecteur2D(0,0));
 						repaint();
 					}
 				}
@@ -294,10 +310,38 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		AffineTransform mat= new AffineTransform();			
 		double factReso=largeurDuComposantMetre/ imageTerrainPinball1.getWidth(null);
 		mat.scale (factReso*pixelParMetre,factReso*pixelParMetre);						
-		g2d.drawImage(imageTerrainPinball1,mat,null);																
+		g2d.drawImage(imageTerrainPinball1,mat,null);
+		g2d.setColor(Color.white);
+		////////////////////////////////////////////////////////////////////////GAUCHE
+		AffineTransform oldGauche = g2d.getTransform();
+		AffineTransform trans = new AffineTransform();
+		if(gaucheActive ) {							
+			g2d.rotate(Math.toRadians(-30),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
+		}
+		if(gaucheDescente) {
+			trans.rotate(Math.toRadians(0),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
+		}
+		g2d.transform(trans);
+		flipGauche.dessiner(g2d);
+		if(contour) {			
+			murFlipperGauche.dessiner(g2d);
+		}
 
-		//System.out.println("px: "+pixelParMetre);
-
+		g2d.setTransform(oldGauche);
+		////////////////////////////////////////////////////////////////////////////////DROIT
+		AffineTransform oldDroit = g2d.getTransform();
+		if(droitActive) {
+			g2d.rotate(Math.toRadians(30),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
+		}
+		if(droitDescente) {
+			g2d.rotate(Math.toRadians(0),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
+		}
+		flipDroit.dessiner(g2d);
+		if(contour) {
+			murFlipperDroit.dessiner(g2d);
+		}
+		g2d.setTransform(oldDroit);
+		////////////////////////////////////////////////////////////////////////////////
 		if(premiereFois) {
 			//Construction 4 cercles
 
@@ -334,24 +378,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		//g2d.setColor(Color.red);
 		uneBille.setPixelsParMetre(pixelParMetre);
 		uneBille.dessiner(g2d);
-		g2d.setColor(Color.white);		
-		if(gaucheActive ) {			
 
-		}else {
-			if(gaucheDescente) {
 
-			}
-		}
-		if(droitActive) {
 
-		}else {
-			if(droitDescente) {
-
-			}
-		}
-
-		FlipGauche.dessiner(g2d);
-		FlipDroit.dessiner(g2d);
 
 		if(contour) {
 			g2d.setColor(Color.green);		
@@ -385,12 +414,19 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			//tunnelle
 			tunnelRessortDroite.dessiner(g2d);
 			tunnelRessortGauche.dessiner(g2d);
+			//MurFlipper
+
 
 
 		}	
 
 
+
 	}
+	//test
+
+
+
 
 
 	//Thomas Bourgault
@@ -510,10 +546,14 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Méthode qui initialise les deux flippers de type MursDroits
 	 */
 	public void flippers() {
-		FlipGauche=new Flipper(positionFlipperGauche,longueurMancheGauche,diametreMancheGauche,gauche);
-		FlipGauche.setPixelsParMetre(pixelParMetre);
-		FlipDroit=new Flipper(positionFlipperDroit,longueurMancheGauche,diametreMancheGauche,!gauche);
-		FlipDroit.setPixelsParMetre(pixelParMetre);
+		flipGauche=new Flipper(positionFlipperGauche,longueurMancheGauche,diametreMancheGauche,gauche);
+		flipGauche.setPixelsParMetre(pixelParMetre);
+		flipDroit=new Flipper(positionFlipperDroit,longueurMancheGauche,diametreMancheGauche,!gauche);
+		flipDroit.setPixelsParMetre(pixelParMetre);
+		murFlipperGauche=new MursDroits(coordX2MurFlipperGauche,coordY2MurFlipperGauche,coordX1MurFlipperGauche,coordY1MurFlipperGauche);
+		murFlipperGauche.setPixelsParMetre(pixelParMetre);
+		murFlipperDroit=new MursDroits(coordX1MurFlipperDroit,coordY1MurFlipperDroit,coordX2MurFlipperDroit,coordY2MurFlipperDroit);
+		murFlipperDroit.setPixelsParMetre(pixelParMetre);
 	}
 	//Carlos Eduardo
 
@@ -523,8 +563,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	public void run() {
 
 		while (enCoursDAnimation) {
-			/**	if(droitActive) {
-				compteurDroit++;
+
+			/**	
 			}
 			if(gaucheActive) {
 				compteurGauche++;
@@ -572,7 +612,16 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		tempsTotalEcoule += deltaT;
 		uneBille.avancerUnPas( deltaT );
 		getBille();
-
+		if(gaucheActive) {
+			flipGauche.avancerUnPas(deltaT);
+			System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
+			System.out.println("Px gauche: "+positionFlipperGauche.getX()+" Py gauche: "+positionFlipperGauche.getY());
+		}
+		if(droitActive) {
+			flipDroit.avancerUnPas(deltaT);
+			System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
+			System.out.println("Px droit: "+positionFlipperDroit.getX()+" Py droit: "+positionFlipperDroit.getY());
+		}
 		ressort.avancerUnPas(deltaT);
 
 		System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
@@ -836,6 +885,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		ressort.setAccel(ACCEL_INIT_RESSORT);
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
 
+		tempsTotalEcoule = 0;
+		flipDroit.setPosition(positionFlipperDroitInitial);
+		flipDroit.setVitesse(vitesseInitialeFlipper);
+		flipGauche.setPosition(positionFlipperGaucheInitial);
+		flipGauche.setVitesse(vitesseInitialeFlipper);
 		tempsTotalEcoule = 0;
 
 
