@@ -240,7 +240,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		});
 
-
+		
+		
 
 		initialiseBille();
 
@@ -592,8 +593,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 				arreter();
 			}
 			testerCollisionsEtAjusterPositions();//pas utile pour le moment
-		//	System.out.println(ressort.getPosition());
-			System.out.println("Etirement"+getEtirement());
+		
 			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
@@ -949,9 +949,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		
 		return etirement;
 	}
-	public double getPositionRessort() {
-		return ressort.getPosition().getY();
-	}
+
 
 	//Audrey Viger
 	/**
