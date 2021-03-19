@@ -141,6 +141,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double coordX1CourbeGau=0.09,coordY1CourbeGau=0.71,controleXGau=0.16,controleYGau=0.16,coordX3CourbeGau=0.584,coordY3CourbeGau=0.1;
 	private double coordX1CourbeDroit=0.584,coordY1CourbeDroit=0.1,controleX=1.01,controleY=0.12,coordX3CourbeDroit=1.094,coordY3CourbeDroit=0.708;
 	private double controleXPetit=1,controleYPetit=0.6, coordX1CourbePetit=0.9,coordY1CourbePetit=0.398;
+	Path2D.Float arcCercleGaucheSegmente;
 	//Mur gauche et droit tunnel ressort
 	private MursDroits tunnelRessortDroite, tunnelRessortGauche;
 	private double coordX1TunnelGauche=1.006,coordY1TunnelGauche=1.534,coordX2TunnelGauche=1.01,coordY2TunnelGauche=0.784,coordX1TunnelDroit=1.096 ,coordY1TunnelDroit=0.716,coordX2TunnelDroit= 1.096,coordY2TunnelDroit=1.532;
@@ -370,6 +371,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 
 		listeObstacle();
+		BasicStroke bstroke = new BasicStroke(1.0f);
+		arcCercleGaucheSegmente=(Path2D.Float) bstroke.createStrokedShape(arcCerclegau);
+		arcCercleGaucheSegmente.getPathIterator(mat);
 
 
 		//ressort = new Ressort(positionInitialRessort,0.088,0.192);
