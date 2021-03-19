@@ -175,7 +175,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private Vecteur2D positionFlipperDroitInitial=new Vecteur2D(coordX1FlipperDroit,coordY1FlipperDroit);
 	private Vecteur2D vitesseInitialeFlipper=new Vecteur2D(0,0);
 	private MursDroits murFlipperGauche,murFlipperDroit;
-	private double coordX1MurFlipperGauche=0.465,coordY1MurFlipperGauche=1.3785,coordX2MurFlipperGauche=0.555,coordY2MurFlipperGauche=1.3785;
+	private double coordX2MurFlipperGauche=0.465,coordY2MurFlipperGauche=1.3785,coordX1MurFlipperGauche=0.555,coordY1MurFlipperGauche=1.3785;
 	private double coordX1MurFlipperDroit=0.6,coordY1MurFlipperDroit=1.3785,coordX2MurFlipperDroit=0.690,coordY2MurFlipperDroit=1.3785;
 	private boolean gauche=true;
 
@@ -323,7 +323,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 		g2d.transform(trans);
 		flipGauche.dessiner(g2d);
-		if(contour) {			
+		if(contour) {
 			murFlipperGauche.dessiner(g2d);
 		}
 
@@ -342,6 +342,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 		g2d.setTransform(oldDroit);
 		////////////////////////////////////////////////////////////////////////////////
+
 		if(premiereFois) {
 			//Construction 4 cercles
 
@@ -364,7 +365,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 			premiereFois=false;
 		}
-
+		changPositionFlipper();
 
 
 		listeObstacle();
@@ -414,7 +415,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			//tunnelle
 			tunnelRessortDroite.dessiner(g2d);
 			tunnelRessortGauche.dessiner(g2d);
-			//MurFlipper
+			
 
 
 
@@ -550,7 +551,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		flipGauche.setPixelsParMetre(pixelParMetre);
 		flipDroit=new Flipper(positionFlipperDroit,longueurMancheGauche,diametreMancheGauche,!gauche);
 		flipDroit.setPixelsParMetre(pixelParMetre);
-		murFlipperGauche=new MursDroits(coordX2MurFlipperGauche,coordY2MurFlipperGauche,coordX1MurFlipperGauche,coordY1MurFlipperGauche);
+		murFlipperGauche=new MursDroits(coordX1MurFlipperGauche,coordY1MurFlipperGauche,coordX2MurFlipperGauche,coordY2MurFlipperGauche);
 		murFlipperGauche.setPixelsParMetre(pixelParMetre);
 		murFlipperDroit=new MursDroits(coordX1MurFlipperDroit,coordY1MurFlipperDroit,coordX2MurFlipperDroit,coordY2MurFlipperDroit);
 		murFlipperDroit.setPixelsParMetre(pixelParMetre);
@@ -1091,7 +1092,31 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	public void setMasseBalle(int masseEnKg) {
 		this.massePourCetteScene = masseEnKg;
 	}
-
+	public void changPositionFlipper() {
+		if(gaucheActive) {
+			murFlipperGauche.setCoordX1(0.536);
+			murFlipperGauche.setCoordY1(1.332);
+			System.out.println("coorddonne gauche change");
+			repaint();
+		}
+		if(gaucheDescente) {
+			murFlipperGauche.setCoordX1(coordX1MurFlipperGauche);
+			murFlipperGauche.setCoordY1(coordY1MurFlipperGauche);
+			repaint();
+		}
+		if(droitActive) {
+			murFlipperDroit.setCoordX1(0.614);
+			murFlipperDroit.setCoordY1(1.334);
+			System.out.println("coorddonne droit change");
+			repaint();
+		}
+		if(droitDescente) {
+			murFlipperDroit.setCoordX1(coordX1MurFlipperDroit);
+			murFlipperDroit.setCoordY1(coordY1MurFlipperDroit);
+			repaint();
+		}
+		
+	}
 
 
 }
