@@ -53,6 +53,20 @@ import java.awt.event.KeyEvent;
 public class ZonePinball  extends JPanel implements Runnable  {
 	private static final long serialVersionUID = 1L;
 
+	//Ressort Audrey
+	private Ressort ressort;
+	private final Vecteur2D positionInitialRessort = new Vecteur2D(1.009,1.272);
+	private final Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(0,-0.0000001 ); 
+	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
+
+	private final int TEMPS_DU_SLEEP = 25;
+	private final double K_RESSORT = 50;
+	private final double ETIREMENT_NAT = 0.1;
+
+	private final double COEFF_FROT = 0.64;
+	private final double MASSE_POUR_CETTE_SCENE = 0.7; // en kg
+
+	
 	//variable bille Carlos
 	private double deltaT = 0.005;
 
@@ -60,7 +74,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double diametreBallePourCetteScene = 0.03;  //em mètres
 	private double massePourCetteScene = 0.1; //en kg
 
-	private Vecteur2D posInitBalle = new Vecteur2D(1.025,1.216);  //position intiale pour la balle
+	private Vecteur2D posInitBalle = new Vecteur2D(0.642,1);  //position intiale pour la balle
 	private Vecteur2D vitInitBalle = new Vecteur2D(0, 0);  //vitesse intiale pour la balle
 	private Vecteur2D accelInitBalle = new Vecteur2D(0, 0);  //acceleration intiale pour la balle
 
@@ -79,25 +93,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	//tab pour mursHorizontales (sol)
 	ArrayList<MursDroits> solHorizontal = new ArrayList<MursDroits>();
 
-
-
-	/*private void deplacerPointSelonTouche(KeyEvent e) {
-		int code = e.getKeyCode();
-		switch (code) {
-		case KeyEvent.VK_LEFT:
-			uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),uneBille.getVitesse().getY()*-1));;
-			System.out.println("LEFT");
-			break;
-
-		case KeyEvent.VK_RIGHT:
-			uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),uneBille.getVitesse().getY()*-1));;
-			System.out.println("RIGHT");
-
-			break;
-
-		}// fin switch
-	}
-	 */
 	//Carlos Eduardo
 
 
@@ -150,18 +145,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private MursDroits tunnelRessortDroite, tunnelRessortGauche;
 	private double coordX1TunnelGauche=1.006,coordY1TunnelGauche=1.534,coordX2TunnelGauche=1.01,coordY2TunnelGauche=0.784,coordX1TunnelDroit=1.096 ,coordY1TunnelDroit=0.716,coordX2TunnelDroit= 1.096,coordY2TunnelDroit=1.532;
 
-	//Ressort Audrey
-	private Ressort ressort;
-	private final Vecteur2D positionInitialRessort = new Vecteur2D(1.009,1.272);
-	private final Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(0,-0.0000001 ); 
-	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
 
-	private final int TEMPS_DU_SLEEP = 25;
-	private final double K_RESSORT = 50;
-	private final double ETIREMENT_NAT = 0.1;
-
-	private final double COEFF_FROT = 0.64;
-	private final double MASSE_POUR_CETTE_SCENE = 0.7; // en kg
 
 
 	//Flippers
@@ -199,7 +183,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
-					System.out.println("touche a active");
+					//System.out.println("touche a active");
 					repaint();
 
 					flipGauche.setVitesse(new Vecteur2D(2,2));
@@ -209,7 +193,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 				}else {
 					if(e.getKeyCode()==KeyEvent.VK_D ) {
-						System.out.println("touche d active");
+						//System.out.println("touche d active");
 						droitActive=true;
 						droitDescente=false;
 						flipDroit.setVitesse(new Vecteur2D(2,2));
@@ -332,9 +316,16 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		AffineTransform oldDroit = g2d.getTransform();
 		if(droitActive) {
 			g2d.rotate(Math.toRadians(30),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
+			
+			System.out.println("Y1 " +murFlipperDroit.getCoordY1());
+			
+			
+
 		}
 		if(droitDescente) {
 			g2d.rotate(Math.toRadians(0),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
+			
+			System.out.println("Y2   "+murFlipperDroit.getCoordY2());
 		}
 		flipDroit.dessiner(g2d);
 		if(contour) {
@@ -614,21 +605,21 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		getBille();
 		if(gaucheActive) {
 			flipGauche.avancerUnPas(deltaT);
-			System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
-			System.out.println("Px gauche: "+positionFlipperGauche.getX()+" Py gauche: "+positionFlipperGauche.getY());
+			//System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
+			//System.out.println("Px gauche: "+positionFlipperGauche.getX()+" Py gauche: "+positionFlipperGauche.getY());
 		}
 		if(droitActive) {
 			flipDroit.avancerUnPas(deltaT);
-			System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
-			System.out.println("Px droit: "+positionFlipperDroit.getX()+" Py droit: "+positionFlipperDroit.getY());
+			//System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
+			//System.out.println("Px droit: "+positionFlipperDroit.getX()+" Py droit: "+positionFlipperDroit.getY());
 		}
 		ressort.avancerUnPas(deltaT);
 
-		System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
-		System.out.println("Nouvelle vitesse: " + uneBille.getVitesse().toString(2));
-		System.out.println("Nouvelle position: " + uneBille.getPosition().toString(2));
+		//System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
+		//System.out.println("Nouvelle vitesse: " + uneBille.getVitesse().toString(2));
+		//System.out.println("Nouvelle position: " + uneBille.getPosition().toString(2));
 
-		System.out.println("\nTemps total simulé écoulé: "  + String.format("%.3f",tempsTotalEcoule) + "sec (en temps simulé!)");
+		//System.out.println("\nTemps total simulé écoulé: "  + String.format("%.3f",tempsTotalEcoule) + "sec (en temps simulé!)");
 
 
 	}
@@ -666,7 +657,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 			Vecteur2D vitesseNegatif = new Vecteur2D (uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY());
 			uneBille.setVitesse(vitesseNegatif);
-			System.out.println("Collision mur");
+			
 		}
 
 
@@ -837,10 +828,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 
 
-
-		System.out.println("vitesse en y "+uneBille.getVitesse().getY());
-		System.out.println("position en y "+uneBille.getPosition().getY());
-
 	}
 
 
@@ -851,7 +838,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 */
 	public void demarrer() {
 		uneBille.setForceExterieureAppliquee( new Vecteur2D(0,0.8));
-		uneBille.setVitesse(new Vecteur2D(0.22,-3.8));
+		//uneBille.setVitesse(new Vecteur2D(0.22,-3.8));
 		if (!enCoursDAnimation) { 
 			Thread proc = new Thread(this);
 			proc.start();
@@ -1072,6 +1059,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		pentes.add(lignePencheTrapezeGau);
 		pentes.add(ligTriDroitGau);
 		pentes.add(ligTriGaucheDroit);
+		pentes.add(murFlipperDroit);
+		pentes.add(murFlipperGauche);
 
 		murs.add(tunnelRessortDroite);
 		murs.add(tunnelRessortGauche);

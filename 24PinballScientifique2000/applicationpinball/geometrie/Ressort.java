@@ -43,7 +43,7 @@ public class Ressort implements Dessinable {
 	private final double LARGEUR_BASE = 0.097;
 	private final double POSITION_BASE = 1.006;
 	
-	private MursDroits ligneRessort;
+	//private MursDroits ligneRessort = (coordX1Ligne,coordYLigne,coordX2Ligne,coordYLigne);
 	private double coordX1Ligne = 1.008, coordYLigne = 1.27, coordX2Ligne = 1.094;
 	/**
 	 * Créer un bloc et un ressort et choisir sa position, choisir sa largeur
@@ -77,7 +77,7 @@ public class Ressort implements Dessinable {
 		bloc = new Rectangle.Double(position.getX(),position.getY(),largeur,hauteurBloc);
 		base = new Rectangle.Double(POSITION_BASE,1.466,LARGEUR_BASE,HAUTEUR_BASE);
 		zigzag = new Path2D.Double();
-		ligneRessort = new MursDroits(position.getX(),position.getY(),position.getX()+largeur,position.getY());
+		//ligneRessort = new MursDroits(position.getX(),position.getY(),position.getX()+largeur,position.getY());
 		
 		
 		
@@ -316,6 +316,14 @@ public class Ressort implements Dessinable {
 		} else {
 			ff = MoteurPhysique.calculForceFriction(mu, massePourCetteScene, vitesse);
 		}
+		
+	}
+	
+	public MursDroits getMurs() {
+		
+		
+		return null;
+		
 		
 	}
 	
