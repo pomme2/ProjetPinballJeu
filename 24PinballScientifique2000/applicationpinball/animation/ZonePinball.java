@@ -225,11 +225,14 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		});
 
-
-
 		
 		
-	
+
+		initialiseBille();
+
+		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
+		uneBille.setMasseEnKg(massePourCetteScene);
+
 
 		ressort = new Ressort(positionInitialRessort,0.088,0.192);
 		ressort.setkRessort(K_RESSORT);
@@ -592,6 +595,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 				arreter();
 			}
 			testerCollisionsEtAjusterPositions();//pas utile pour le moment
+		
 			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
@@ -940,6 +944,13 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		ressort.setPosition(new Vecteur2D(positionInitialRessort.getX() , positionInitialRessort.getY()+ etirement));
 		repaint();
 	}// fin methode
+	
+	public double getEtirement() {
+		double etirement = ressort.getPosition().getY()-positionInitialRessort.getY();
+		
+		return etirement;
+	}
+
 
 	//Audrey Viger
 	/**

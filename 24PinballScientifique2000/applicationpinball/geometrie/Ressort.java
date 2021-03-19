@@ -119,7 +119,7 @@ public class Ressort implements Dessinable {
 		g2dPrive.draw(mat.createTransformedShape(zigzag));
 		g2dPrive.setColor(Color.white);
 		g2dPrive.fill(mat.createTransformedShape(base));
-		//System.out.println("rrrrrrrrrrrrr"+kRessort);
+
 		
 		
 	}
@@ -319,7 +319,8 @@ public class Ressort implements Dessinable {
 		}
 		
 	}
-	
+	 
+	//Carlos
 	public double getMursY() {
 		
 		
@@ -328,13 +329,7 @@ public class Ressort implements Dessinable {
 		
 	}
 	
-	public double getEtirement() {
-		
-		
-		 Vecteur2D etirement = Vecteur2D.soustrait(position, positionRepos);
-		 
-		return etirement.getY();
-	}
+
 	
 	
 	
