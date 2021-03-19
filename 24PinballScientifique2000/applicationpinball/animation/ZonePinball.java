@@ -74,7 +74,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double diametreBallePourCetteScene = 0.03;  //em mètres
 	private double massePourCetteScene = 0.1; //en kg
 
-	private Vecteur2D posInitBalle = new Vecteur2D(0.642,1);  //position intiale pour la balle
+	private Vecteur2D posInitBalle ;  //position intiale pour la balle
 	private Vecteur2D vitInitBalle = new Vecteur2D(0, 0);  //vitesse intiale pour la balle
 	private Vecteur2D accelInitBalle = new Vecteur2D(0, 0);  //acceleration intiale pour la balle
 
@@ -226,10 +226,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 
 
-		initialiseBille();
-
-		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
-		uneBille.setMasseEnKg(massePourCetteScene);
+		
+		
+	
 
 		ressort = new Ressort(positionInitialRessort,0.088,0.192);
 		ressort.setkRessort(K_RESSORT);
@@ -241,6 +240,17 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
 		flippers();
+		
+	
+		posInitBalle = new Vecteur2D(1.058, ressort.getMursY()-diametreBallePourCetteScene);
+		
+		initialiseBille();
+
+		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
+		uneBille.setMasseEnKg(massePourCetteScene);
+		
+	
+		
 
 		addMouseListener(new MouseAdapter() {
 			@Override
@@ -366,6 +376,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		ressort.setPixelsParMetre(pixelParMetre);
 		ressort.dessiner(g2d);
 
+		
+	
+		
+		
 
 		//g2d.setColor(Color.red);
 		uneBille.setPixelsParMetre(pixelParMetre);
@@ -637,20 +651,19 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		boolean col = false;
 
-
+/*
 		//colission avec la courbe superieure
-		/*if(arcCercleDroit.getCourbe().intersects(uneBille.getPosition().getX()+uneBille.getDiametre()*2, uneBille.getPosition().getY()+uneBille.getDiametre()*2, uneBille.getDiametre()/2, uneBille.getDiametre()/2)) {
+		if(arcCercleDroit.getCourbe().intersects(uneBille.getPosition().getX()+uneBille.getDiametre(), uneBille.getPosition().getY()+uneBille.getDiametre(), uneBille.getDiametre()/2, uneBille.getDiametre()/2)) {
 
-
-
+			
 
 				Vecteur2D vitesseNegatif = new Vecteur2D (uneBille.getVitesse().getX(),uneBille.getVitesse().getY()*-1);
 				uneBille.setVitesse(vitesseNegatif);
 
 
 			}
-		 */
-
+		 
+*/
 
 		//colision avec mur vertical
 
@@ -761,7 +774,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 			MursDroits pente = pentes.get(i);
 
-
+			
 
 			Line2D.Double line = new Line2D.Double(pente.getCoordX1(),pente.getCoordY1(),pente.getCoordX2(),pente.getCoordY2());
 
@@ -779,6 +792,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 				Vecteur2D fini = new Vecteur2D(dy*-3,dx);
 
+				
+				
 				uneBille.setVitesse(fini);
 
 
@@ -827,6 +842,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			arreter();
 			retablirPosition();
 		}
+		
+	
 
 
 	}
@@ -838,7 +855,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Demarre le thread s'il n'est pas deja demarre
 	 */
 	public void demarrer() {
-		uneBille.setForceExterieureAppliquee( new Vecteur2D(0,0.8));
+		uneBille.setForceExterieureAppliquee( new Vecteur2D(0,0.48));
 		//uneBille.setVitesse(new Vecteur2D(0.22,-3.8));
 		if (!enCoursDAnimation) { 
 			Thread proc = new Thread(this);

@@ -43,7 +43,7 @@ public class Ressort implements Dessinable {
 	private final double LARGEUR_BASE = 0.097;
 	private final double POSITION_BASE = 1.006;
 	
-	//private MursDroits ligneRessort = (coordX1Ligne,coordYLigne,coordX2Ligne,coordYLigne);
+	private MursDroits ligneRessort ;
 	private double coordX1Ligne = 1.008, coordYLigne = 1.27, coordX2Ligne = 1.094;
 	/**
 	 * Créer un bloc et un ressort et choisir sa position, choisir sa largeur
@@ -65,6 +65,7 @@ public class Ressort implements Dessinable {
 	 */
 	private void creerLaGeometrie() {
 		
+		ligneRessort = new MursDroits(coordX1Ligne,coordYLigne,coordX2Ligne,coordYLigne);
 		hauteurBloc = 0.024;
 		
 		positionY = position.getY();
@@ -77,7 +78,7 @@ public class Ressort implements Dessinable {
 		bloc = new Rectangle.Double(position.getX(),position.getY(),largeur,hauteurBloc);
 		base = new Rectangle.Double(POSITION_BASE,1.466,LARGEUR_BASE,HAUTEUR_BASE);
 		zigzag = new Path2D.Double();
-		//ligneRessort = new MursDroits(position.getX(),position.getY(),position.getX()+largeur,position.getY());
+		ligneRessort = new MursDroits(position.getX(),position.getY(),position.getX()+largeur,position.getY());
 		
 		
 		
@@ -118,7 +119,7 @@ public class Ressort implements Dessinable {
 		g2dPrive.draw(mat.createTransformedShape(zigzag));
 		g2dPrive.setColor(Color.white);
 		g2dPrive.fill(mat.createTransformedShape(base));
-		System.out.println("rrrrrrrrrrrrr"+kRessort);
+		//System.out.println("rrrrrrrrrrrrr"+kRessort);
 		
 		
 	}
@@ -319,13 +320,23 @@ public class Ressort implements Dessinable {
 		
 	}
 	
-	public MursDroits getMurs() {
+	public double getMursY() {
 		
 		
-		return null;
+		return position.getY();
 		
 		
 	}
+	
+	public double getEtirement() {
+		
+		
+		 Vecteur2D etirement = Vecteur2D.soustrait(position, positionRepos);
+		 
+		return etirement.getY();
+	}
+	
+	
 	
 
 }
