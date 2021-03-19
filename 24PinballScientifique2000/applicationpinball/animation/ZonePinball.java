@@ -380,9 +380,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille.setPixelsParMetre(pixelParMetre);
 		uneBille.dessiner(g2d);
 
-
-
-
 		if(contour) {
 			g2d.setColor(Color.green);		
 			//Les 4 cercles
@@ -415,16 +412,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			//tunnelle
 			tunnelRessortDroite.dessiner(g2d);
 			tunnelRessortGauche.dessiner(g2d);
-			
-
-
-
 		}	
-
-
-
 	}
-	//test
+	
 
 
 
