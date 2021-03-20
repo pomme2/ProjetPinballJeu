@@ -366,14 +366,15 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			//Construction tunnel du ressort
 			tunnel();
 			//Construction flippers
-
+			courbeSegmente();
+			System.out.println("test pour courbe Segmentee");
 			premiereFois=false;
 		}
 		changPositionFlipper();
 
 
 		listeObstacle();
-		BasicStroke bstroke = new BasicStroke(1.0f);
+		
 		//arcCercleGaucheSegmente=(Path2D.Float) bstroke.createStrokedShape(arcCerclegau);
 		//arcCercleGaucheSegmente.getPathIterator(mat);
 
@@ -1127,6 +1128,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 		
 	}
-
+public void courbeSegmente() {
+	double x;
+	double fx;
+	
+}
 
 }
