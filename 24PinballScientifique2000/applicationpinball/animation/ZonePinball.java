@@ -228,10 +228,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		
 		
 
-		initialiseBille();
+		
 
-		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
-		uneBille.setMasseEnKg(massePourCetteScene);
+	
 
 
 		ressort = new Ressort(positionInitialRessort,0.088,0.192);
@@ -248,7 +247,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	
 		posInitBalle = new Vecteur2D(1.058, ressort.getMursY()-diametreBallePourCetteScene);
 		
-		initialiseBille();
+		
 
 		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
@@ -375,8 +374,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		listeObstacle();
 		BasicStroke bstroke = new BasicStroke(1.0f);
-		arcCercleGaucheSegmente=(Path2D.Float) bstroke.createStrokedShape(arcCerclegau);
-		arcCercleGaucheSegmente.getPathIterator(mat);
+		//arcCercleGaucheSegmente=(Path2D.Float) bstroke.createStrokedShape(arcCerclegau);
+		//arcCercleGaucheSegmente.getPathIterator(mat);
 
 
 		//ressort = new Ressort(positionInitialRessort,0.088,0.192);
