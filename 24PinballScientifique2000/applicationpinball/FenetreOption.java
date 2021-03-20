@@ -13,10 +13,10 @@ import java.awt.event.ActionEvent;
 
 public class FenetreOption extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private ApplicationMenu fenMenu;
+	private App24PinballScientifique2000 fenMenu;
 
 	
-	public FenetreOption(ApplicationMenu fenMenu) {
+	public FenetreOption(App24PinballScientifique2000 fenMenu) {
 		this.fenMenu = fenMenu;
 		setTitle("Options");	
 		getContentPane().setLayout(null);

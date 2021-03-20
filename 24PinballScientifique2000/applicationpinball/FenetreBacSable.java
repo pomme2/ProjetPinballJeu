@@ -25,11 +25,12 @@ import animation.ZonePinball;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JCheckBox;
 
 public class FenetreBacSable extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private ApplicationMenu fenMenu;
+	private App24PinballScientifique2000 fenMenu;
 	private FenetreOption fenOption;
 	private int valeurInclinaison;
 	private int valeurAimant;
@@ -43,7 +44,7 @@ public class FenetreBacSable extends JFrame{
 	 * @param fenMenu
 	 * @param fenOption 
 	 */
-	public FenetreBacSable(ApplicationMenu fenMenu, FenetreOption fenOption) {
+	public FenetreBacSable(App24PinballScientifique2000 fenMenu, FenetreOption fenOption) {
 
 		this.fenMenu = fenMenu;
 		this.fenOption = fenOption;
@@ -367,5 +368,15 @@ public class FenetreBacSable extends JFrame{
 		});
 		btnDemarrer.setBounds(248, 808, 218, 60);
 		contentPane.add(btnDemarrer);
+		
+		JCheckBox chckbxContour = new JCheckBox("Contour");
+		chckbxContour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				zonePinball.setContour(chckbxContour.isSelected());
+			}
+		});
+		
+		chckbxContour.setBounds(107, 827, 99, 23);
+		contentPane.add(chckbxContour);
 	}
 }
