@@ -74,7 +74,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double diametreBallePourCetteScene = 0.03;  //em mètres
 	private double massePourCetteScene = 0.1; //en kg
 
-	private Vecteur2D posInitBalle = new Vecteur2D(1.046,1.242);  //position intiale pour la balle
+	private Vecteur2D posInitBalle;  //position intiale pour la balle
 	private Vecteur2D vitInitBalle = new Vecteur2D(0, 0);  //vitesse intiale pour la balle
 	private Vecteur2D accelInitBalle = new Vecteur2D(0, 0);  //acceleration intiale pour la balle
 
@@ -142,6 +142,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double coordX1CourbeGau=0.09,coordY1CourbeGau=0.71,controleXGau=0.16,controleYGau=0.16,coordX3CourbeGau=0.584,coordY3CourbeGau=0.1;
 	private double coordX1CourbeDroit=0.584,coordY1CourbeDroit=0.1,controleX=1.01,controleY=0.12,coordX3CourbeDroit=1.094,coordY3CourbeDroit=0.708;
 	private double controleXPetit=1,controleYPetit=0.6, coordX1CourbePetit=0.9,coordY1CourbePetit=0.398;
+	Path2D.Float arcCercleGaucheSegmente;
 	//Mur gauche et droit tunnel ressort
 	private MursDroits tunnelRessortDroite, tunnelRessortGauche;
 	private double coordX1TunnelGauche=1.006,coordY1TunnelGauche=1.534,coordX2TunnelGauche=1.01,coordY2TunnelGauche=0.784,coordX1TunnelDroit=1.096 ,coordY1TunnelDroit=0.716,coordX2TunnelDroit= 1.096,coordY2TunnelDroit=1.532;
@@ -228,8 +229,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		
 		
 
-	
-
 		ressort = new Ressort(positionInitialRessort,0.088,0.192);
 		ressort.setkRessort(K_RESSORT);
 
@@ -242,7 +241,15 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		flippers();
 		
 	
+
 	
+
+
+		posInitBalle = new Vecteur2D(ressort.getMurs().getCoordX1()+diametreBallePourCetteScene, ressort.getMursY()-diametreBallePourCetteScene + getEtirement());
+		
+		
+		
+		
 
 
 		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
@@ -375,6 +382,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 
 		listeObstacle();
+		BasicStroke bstroke = new BasicStroke(1.0f);
+		//arcCercleGaucheSegmente=(Path2D.Float) bstroke.createStrokedShape(arcCerclegau);
+		//arcCercleGaucheSegmente.getPathIterator(mat);
 
 
 		//ressort = new Ressort(positionInitialRessort,0.088,0.192);
@@ -389,9 +399,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		//g2d.setColor(Color.red);
 		uneBille.setPixelsParMetre(pixelParMetre);
 		uneBille.dessiner(g2d);
-
-
-
 
 		if(contour) {
 			g2d.setColor(Color.green);		
@@ -425,16 +432,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			//tunnelle
 			tunnelRessortDroite.dessiner(g2d);
 			tunnelRessortGauche.dessiner(g2d);
-			
-
-
-
 		}	
-
-
-
 	}
-	//test
+	
 
 
 
@@ -854,7 +854,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		
 	
 
-		System.out.println("etirement : "+getEtirement());
 
 	}
 
@@ -954,6 +953,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 */
 	public void setEtirement(double etirement) {
 		ressort.setPosition(new Vecteur2D(positionInitialRessort.getX() , positionInitialRessort.getY()+ etirement));
+		
+		uneBille.setPosition(new Vecteur2D(positionInitialRessort.getX() + uneBille.getDiametre() , positionInitialRessort.getY()+ etirement - uneBille.getDiametre()));
 		repaint();
 	}// fin methode
 	
