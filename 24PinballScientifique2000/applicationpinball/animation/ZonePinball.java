@@ -105,6 +105,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	//tab pour les murs
 	ArrayList<MursDroits> murs = new ArrayList<MursDroits>();
 
+	
+	
 
 
 	private boolean premiereFois=true;
@@ -242,7 +244,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		flippers();
 		
 	
-		posInitBalle = new Vecteur2D(1.058, ressort.getMursY()-diametreBallePourCetteScene);
+		posInitBalle = new Vecteur2D(1.058, ressort.getMurs().getCoordY1()-diametreBallePourCetteScene);
 		
 		initialiseBille();
 
@@ -651,6 +653,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		boolean col = false;
 
+		
 /*
 		//colission avec la courbe superieure
 		if(arcCercleDroit.getCourbe().intersects(uneBille.getPosition().getX()+uneBille.getDiametre(), uneBille.getPosition().getY()+uneBille.getDiametre(), uneBille.getDiametre()/2, uneBille.getDiametre()/2)) {
@@ -700,6 +703,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 						Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
 
 						uneBille.setVitesse(VitYnegatif);
+						
+					
 
 					}
 
