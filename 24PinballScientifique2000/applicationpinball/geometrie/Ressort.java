@@ -3,6 +3,7 @@ import moteur.MoteurPhysique;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
@@ -119,6 +120,12 @@ public class Ressort implements Dessinable {
 		g2dPrive.draw(mat.createTransformedShape(zigzag));
 		g2dPrive.setColor(Color.white);
 		g2dPrive.fill(mat.createTransformedShape(base));
+
+		g2dPrive.setColor(Color.green);
+	
+		//System.out.println("rrrrrrrrrrrrr"+kRessort);
+
+
 
 		
 		
@@ -331,6 +338,11 @@ public class Ressort implements Dessinable {
 	
 
 	
+	public MursDroits getMurs() {
+		
+		
+		return ligneRessort;
+	}
 	
 	
 

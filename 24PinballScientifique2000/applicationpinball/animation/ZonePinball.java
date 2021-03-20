@@ -55,9 +55,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 	//Ressort Audrey
 	private Ressort ressort;
-	private final Vecteur2D positionInitialRessort = new Vecteur2D(1.009,1.272);
-	private final Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(0,-0.0000001 ); 
-	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
+	private  Vecteur2D positionInitialRessort = new Vecteur2D(1.009,1.272);
+	private  Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(0,-0.0000001 ); 
+	private  Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
 
 	private final int TEMPS_DU_SLEEP = 25;
 	private final double K_RESSORT = 50;
@@ -70,11 +70,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	//variable bille Carlos
 	private double deltaT = 0.005;
 
-
+	
 	private double diametreBallePourCetteScene = 0.03;  //em mètres
 	private double massePourCetteScene = 0.1; //en kg
 
-	private Vecteur2D posInitBalle ;  //position intiale pour la balle
+	private Vecteur2D posInitBalle;  //position intiale pour la balle
 	private Vecteur2D vitInitBalle = new Vecteur2D(0, 0);  //vitesse intiale pour la balle
 	private Vecteur2D accelInitBalle = new Vecteur2D(0, 0);  //acceleration intiale pour la balle
 
@@ -105,7 +105,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	//tab pour les murs
 	ArrayList<MursDroits> murs = new ArrayList<MursDroits>();
 
-
+	
+	//MursDroits ligneRessort = ressort.getMurs();
 
 	private boolean premiereFois=true;
 	private boolean premiereFoisImage=true;
@@ -228,11 +229,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		
 		
 
-		
-
-	
-
-
 		ressort = new Ressort(positionInitialRessort,0.088,0.192);
 		ressort.setkRessort(K_RESSORT);
 
@@ -245,13 +241,26 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		flippers();
 		
 	
-		posInitBalle = new Vecteur2D(1.058, ressort.getMursY()-diametreBallePourCetteScene);
+
+	
+
+
+		posInitBalle = new Vecteur2D(ressort.getMurs().getCoordX1()+diametreBallePourCetteScene, ressort.getMursY()-diametreBallePourCetteScene + getEtirement());
+		
+		
 		
 		
 
+
 		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
+
 		
+		
+		//posInitBalle = new Vecteur2D(1.058, ressort.getMurs().getCoordY1()-diametreBallePourCetteScene);
+	
+
+		initialiseBille();
 	
 		
 
@@ -649,6 +658,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		boolean col = false;
 
+		
 /*
 		//colission avec la courbe superieure
 		if(arcCercleDroit.getCourbe().intersects(uneBille.getPosition().getX()+uneBille.getDiametre(), uneBille.getPosition().getY()+uneBille.getDiametre(), uneBille.getDiametre()/2, uneBille.getDiametre()/2)) {
@@ -698,6 +708,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 						Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
 
 						uneBille.setVitesse(VitYnegatif);
+						
+					
 
 					}
 
@@ -942,6 +954,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 */
 	public void setEtirement(double etirement) {
 		ressort.setPosition(new Vecteur2D(positionInitialRessort.getX() , positionInitialRessort.getY()+ etirement));
+		
+		uneBille.setPosition(new Vecteur2D(positionInitialRessort.getX() + uneBille.getDiametre() , positionInitialRessort.getY()+ etirement - uneBille.getDiametre()));
 		repaint();
 	}// fin methode
 	
@@ -1089,7 +1103,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		murs.add(tunnelRessortGauche);
 	}
 
-
+//retourne la uneBille obj Bille
 	public Bille getBille() {
 
 		return uneBille;
