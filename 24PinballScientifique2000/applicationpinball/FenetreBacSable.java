@@ -30,7 +30,7 @@ import javax.swing.JCheckBox;
 public class FenetreBacSable extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private App24PinballScientifique2000 fenMenu;
+	private App24PinballScientifique2001 fenMenu;
 	private FenetreOption fenOption;
 	private int valeurInclinaison;
 	private int valeurAimant;
@@ -44,7 +44,7 @@ public class FenetreBacSable extends JFrame{
 	 * @param fenMenu
 	 * @param fenOption 
 	 */
-	public FenetreBacSable(App24PinballScientifique2000 fenMenu, FenetreOption fenOption) {
+	public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption) {
 
 		this.fenMenu = fenMenu;
 		this.fenOption = fenOption;
