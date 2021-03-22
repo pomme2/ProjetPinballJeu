@@ -106,6 +106,31 @@ public class MoteurPhysique {
 			return new Vecteur2D(0,mu * calculForceNormale(masse).getX() );
 		}
 	}
+	
+	/**
+	 *  Calcul et retourne l'energie cinetique de la balle a partir de l'energie potentiel du ressort
+	 * @param k La constante de rappel du ressort
+	 * @param etirement l'etirement de la pos initial et final du ressort
+	 * @param masse masse de la bille en kg
+	 * @return Le vecteur de l'energie cinetique
+	 */
+	public static Vecteur2D caculVitesseBilleRessort(double k, double etirement,double masse){
+		
+		double energiePotentiel =  (k*Math.pow(etirement, 2))/2;
+
+		
+		
+		//System.out.println( "ENERGIE POTENIELLLLL "+energiePotentiel);
+		
+		double energieCinetique;
+		
+		energieCinetique = Math.pow(2*energiePotentiel/masse, 0.5);
+		
+		
+		
+		return new Vecteur2D (0,energieCinetique*-1);
+	}
+	
 	//Thomas Bourgault
 	/**
 	 * 
@@ -122,5 +147,9 @@ public class MoteurPhysique {
 		position=position.rotation(position,angle,longueurManche);
 		return position;
 	}
+	
+	
+	
+	
 
 }
