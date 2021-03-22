@@ -278,6 +278,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			public void mousePressed(MouseEvent e) {
 				if(ImageSelectionne) {
 					System.out.println("X: "+e.getX()/(dimensionImageX/largeurDuComposantMetre)+" cliqué "+" Y: "+e.getY()/(dimensionImageY/hauteurDuComposantMetre)+" cliqué");
+					
+					uneBille.setPosition(new Vecteur2D(e.getX(),e.getY()));
 				}
 			}
 		});
@@ -851,6 +853,15 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			retablirPosition();
 		}
 		
+		 boolean first= true;
+		if(uneBille.getPosition().getY() < 0.304 && first) {
+			uneBille.setForceExterieureAppliquee( new Vecteur2D(0,2));
+			 
+			
+			
+		}
+		
+	
 	
 	//	System.out.println("RESSORT TEST: "+ressort.getPosition().getY());
 			
@@ -863,7 +874,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Demarre le thread s'il n'est pas deja demarre
 	 */
 	public void demarrer() {
-		uneBille.setForceExterieureAppliquee( new Vecteur2D(0,0.48));
+		uneBille.setForceExterieureAppliquee( new Vecteur2D(-1,0.48));
 		uneBille.setVitesse(MoteurPhysique.caculVitesseBilleRessort(getK_RESSORT(), getEtirement(), uneBille.getMasseEnKg()));
 		
 		
