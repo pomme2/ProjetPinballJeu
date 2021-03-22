@@ -340,8 +340,8 @@ public class Ressort implements Dessinable {
 	
 	public MursDroits getMurs() {
 		
-		
-		return ligneRessort;
+		   MursDroits ligneRessortTest=new MursDroits(position.getX(),position.getY(),position.getX()+largeur,position.getY());
+	        return ligneRessortTest;
 	}
 	
 	

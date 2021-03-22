@@ -32,6 +32,7 @@ import geometrie.MursCourbes;
 import geometrie.MursDroits;
 import geometrie.Ressort;
 import geometrie.Vecteur2D;
+import moteur.MoteurPhysique;
 
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseEvent;
@@ -55,12 +56,12 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 	//Ressort Audrey
 	private Ressort ressort;
-	private  Vecteur2D positionInitialRessort = new Vecteur2D(1.009,1.272);
-	private  Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(0,-0.0000001 ); 
-	private  Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
+	private final Vecteur2D positionInitialRessort = new Vecteur2D(1.009,1.272);
+	private final Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(0,-0.0000001 ); 
+	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
 
 	private final int TEMPS_DU_SLEEP = 25;
-	private final double K_RESSORT = 50;
+	private  double K_RESSORT = 50;
 	private final double ETIREMENT_NAT = 0.1;
 
 	private final double COEFF_FROT = 0.64;
@@ -106,7 +107,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	ArrayList<MursDroits> murs = new ArrayList<MursDroits>();
 
 	
-	//MursDroits ligneRessort = ressort.getMurs();
+	private MursDroits ligneRessort;
 
 	private boolean premiereFois=true;
 	private boolean premiereFoisImage=true;
@@ -392,9 +393,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		ressort.dessiner(g2d);
 
 		
-	
-		
-		
+		//ligneRessort = new MursDroits(ressort.getPosition().getX(),ressort.getPosition().getY(),ressort.getPosition().getX()+1,ressort.getPosition().getY());
 
 		//g2d.setColor(Color.red);
 		uneBille.setPixelsParMetre(pixelParMetre);
@@ -853,8 +852,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 		
 	
-
-
+	//	System.out.println("RESSORT TEST: "+ressort.getPosition().getY());
+			
 	}
 
 
@@ -865,7 +864,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 */
 	public void demarrer() {
 		uneBille.setForceExterieureAppliquee( new Vecteur2D(0,0.48));
-		//uneBille.setVitesse(new Vecteur2D(0.22,-3.8));
+		uneBille.setVitesse(MoteurPhysique.caculVitesseBilleRessort(getK_RESSORT(), getEtirement(), uneBille.getMasseEnKg()));
+		
+		
 		if (!enCoursDAnimation) { 
 			Thread proc = new Thread(this);
 			proc.start();
@@ -906,7 +907,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		flipGauche.setVitesse(vitesseInitialeFlipper);
 		tempsTotalEcoule = 0;
 
-
+		
 
 		repaint();
 	}
@@ -929,6 +930,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * @param kRessort la constante du ressort, exprime en N/m
 	 */
 	public void setkRessort(double kRessort) {
+		
+		K_RESSORT = kRessort;
+		
 		ressort.setkRessort(kRessort);
 		repaint();
 	}// fin methode
@@ -954,7 +958,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	public void setEtirement(double etirement) {
 		ressort.setPosition(new Vecteur2D(positionInitialRessort.getX() , positionInitialRessort.getY()+ etirement));
 		
-		uneBille.setPosition(new Vecteur2D(positionInitialRessort.getX() + uneBille.getDiametre() , positionInitialRessort.getY()+ etirement - uneBille.getDiametre()));
+		uneBille.setPosition(new Vecteur2D(positionInitialRessort.getX() + uneBille.getDiametre() , positionInitialRessort.getY()+ etirement - uneBille.getDiametre()-0.01));
 		repaint();
 	}// fin methode
 	
@@ -1086,6 +1090,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		solHorizontal.add(ligneDroitTrapezeGau);
 		solHorizontal.add(ligneDroitTrapezeDroite);
+		//solHorizontal.add(ligneRessort);
 
 
 		droitSous.add(ligTriGaucheBas);
