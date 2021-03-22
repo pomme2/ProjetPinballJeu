@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 
-public class App24PinballScientifique2000 extends JFrame{
+public class App24PinballScientifique2001 extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private FenetreOption fenOption;
 	private FenetreDessin fenDessin;
@@ -24,7 +24,7 @@ public static void main(String[] args) {
 	EventQueue.invokeLater(new Runnable() {
 		public void run() {
 			try {
-				App24PinballScientifique2000 frame = new App24PinballScientifique2000();
+				App24PinballScientifique2001 frame = new App24PinballScientifique2001();
 				frame.setVisible(true);
 
 				
@@ -47,7 +47,7 @@ public void initianilisationFenSecondaire() throws IOException {
 }
 
 
-public App24PinballScientifique2000() throws IOException {
+public App24PinballScientifique2001() throws IOException {
 
 	setTitle("Menu");
 	initianilisationFenSecondaire();
