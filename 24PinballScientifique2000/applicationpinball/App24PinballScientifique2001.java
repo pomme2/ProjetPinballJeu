@@ -10,7 +10,12 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
-
+/**
+ * 
+ * 
+ * @author Audrey Viger
+ *
+ */
 public class App24PinballScientifique2001 extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private FenetreOption fenOption;

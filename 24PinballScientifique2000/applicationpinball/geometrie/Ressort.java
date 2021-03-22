@@ -15,6 +15,7 @@ import geometrie.Vecteur2D;
  * Classe qui permet de dessiner le ressort et sa base
  * Un bloc ressort mémorise sa masse, sa largeur, sa hauteur, sa position, sa vitesse, son accélération,
  * la somme des forces qui s'applique sur elle sous forme vectorielle
+ * @Audrey Viger
  */
 public class Ressort implements Dessinable {
 	private double massePourCetteScene = 1;
