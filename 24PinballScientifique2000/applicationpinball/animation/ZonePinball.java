@@ -375,7 +375,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			//Construction tunnel du ressort
 			tunnel();
 			//Construction flippers
-			courbeSegmente();
+			courbeSegmenteGauche();
 			System.out.println("test pour courbe Segmentee");
 			premiereFois=false;
 		}
@@ -1142,10 +1142,18 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 		
 	}
-public void courbeSegmente() {
-	double x;
-	double fx;
+public double courbeSegmenteGaucheEquation(double x) {
 	
+	//return (coordY1CourbeGau-2*controleYGau+coordY3CourbeGau)*Math.pow(x, 2)+2*(controleYGau-coordY1CourbeGau)*x+coordY1CourbeGau;
+	return coordY1CourbeGau*Math.pow(x, 2)+controleYGau*2*x*(1-x)+coordY3CourbeGau*Math.pow((1-x),2);
+	
+}
+public void courbeSegmenteGauche() {
+	double x,y;
+	x=coordX1CourbeGau;
+	y=courbeSegmenteGaucheEquation(x);
+	System.out.println("/////////////////////////////////////////////////////////////////////////////");
+	System.out.println("y de la courbe gauche : "+y);
 }
 
 }
