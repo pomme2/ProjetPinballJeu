@@ -1,11 +1,13 @@
 package geometrie;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D.Double;
 import java.awt.geom.Rectangle2D;
@@ -64,13 +66,7 @@ public class Bille extends Rectangle implements Dessinable {
 		g2dPrive.scale(pixelsParMetre, pixelsParMetre);
 		g2dPrive.fill(bille);
 
-		//image(g2dPrive);
-		try {
-			lireImage(g2dPrive);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		lireImage(g2dPrive);
 		
 	}
 	
@@ -229,8 +225,14 @@ public class Bille extends Rectangle implements Dessinable {
 
 
 	}*/
-	public void lireImage(Graphics2D g2d) throws IOException {
-		BufferedImage img = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
+	public void lireImage(Graphics2D g2d) {
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
 		//resize(img,(int)diametre,(int)diametre);
 		//BufferedImage nouvImg = new BufferedImage((int)diametre,(int)diametre,BufferedImage.TYPE_INT_RGB);
@@ -244,6 +246,7 @@ public class Bille extends Rectangle implements Dessinable {
 		g2d.setPaint(texturePaintBille);
 		Ellipse2D ellipseBille = new Ellipse2D.Double(position.getX(),position.getY(),diametre,diametre);
 		g2d.fill(ellipseBille);
+
 	}
 	public static BufferedImage resize(BufferedImage img, int nouvLarg,int nouvHaut) {
 		Image tmp = img.getScaledInstance(nouvLarg, nouvHaut,Image.SCALE_SMOOTH);

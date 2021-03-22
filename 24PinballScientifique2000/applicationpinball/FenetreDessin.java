@@ -29,7 +29,7 @@ import javax.swing.JFileChooser;
 
 public class FenetreDessin extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private App24PinballScientifique2000 fenMenu;
+	private App24PinballScientifique2001 fenMenu;
 	private Dessin dessin;
 	private JPanel contentPane;
 	private String couleur;
@@ -38,7 +38,7 @@ public class FenetreDessin extends JFrame{
 	private final JFileChooser saveFileChooser;
 	protected JLabel label; 
 
-	public FenetreDessin(App24PinballScientifique2000 fenMenu) {
+	public FenetreDessin(App24PinballScientifique2001 fenMenu) {
 		final JFrame frame = new JFrame("JColorChooser Demo");
 		this.fenMenu = fenMenu;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
