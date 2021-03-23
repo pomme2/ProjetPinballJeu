@@ -12,9 +12,11 @@ import dessinable.Dessinable;
 import moteur.MoteurPhysique;
 import geometrie.Vecteur2D;
 /**
+ * @author Audrey Viger
  * Classe qui permet de dessiner le ressort et sa base
  * Un bloc ressort mémorise sa masse, sa largeur, sa hauteur, sa position, sa vitesse, son accélération,
  * la somme des forces qui s'applique sur elle sous forme vectorielle
+ * @Audrey Viger
  */
 public class Ressort implements Dessinable {
 	private double massePourCetteScene = 1;
@@ -342,6 +344,7 @@ public class Ressort implements Dessinable {
 		
 		   MursDroits ligneRessortTest=new MursDroits(position.getX(),position.getY(),position.getX()+largeur,position.getY());
 	        return ligneRessortTest;
+
 	}
 	
 	

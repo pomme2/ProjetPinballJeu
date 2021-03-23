@@ -26,6 +26,13 @@ import javax.swing.SpinnerNumberModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JCheckBox;
+import geometrie.Ressort;
+/**
+ * 
+ * 
+ * @author Audrey Viger
+ *
+ */
 
 public class FenetreBacSable extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -37,6 +44,7 @@ public class FenetreBacSable extends JFrame{
 	private int valeurRessort;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private boolean enCoursdAnimation=false;
+	private Ressort ressort;
 
 
 	/**
@@ -60,7 +68,7 @@ public class FenetreBacSable extends JFrame{
 		zonePinball.setBounds(71, 26, 600,768);
 		contentPane.add(zonePinball);
 		
-	
+		
 
 		//Initialisation des valeurs de spinners initiales.
 		int etirementInitial = (int)(zonePinball.getETIREMENT_NAT()*100.0);
@@ -339,6 +347,7 @@ public class FenetreBacSable extends JFrame{
 				zonePinball.retablirPosition();
 				spinnerEtirement.setValue(1);
 				sliderEtirement.setValue(0);
+			
 			}
 		});
 		btnRecommencer.setBounds(734, 614, 170, 69);
@@ -351,7 +360,7 @@ public class FenetreBacSable extends JFrame{
 		contentPane.add(lblEtirement);
 
 
-
+		
 
 		JButton btnDemarrer = new JButton("D\u00E9marrer");
 		btnDemarrer.addActionListener(new ActionListener() {
@@ -378,5 +387,8 @@ public class FenetreBacSable extends JFrame{
 		
 		chckbxContour.setBounds(107, 827, 99, 23);
 		contentPane.add(chckbxContour);
+		
+		
 	}
+	
 }

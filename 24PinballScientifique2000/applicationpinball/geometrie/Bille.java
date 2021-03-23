@@ -42,19 +42,19 @@ public class Bille extends Rectangle implements Dessinable {
 	private Vecteur2D vitesse = new Vecteur2D(0,0); //par defaut
 	private Vecteur2D accel = new Vecteur2D(0,0); //par defaut
 	private double pixelsParMetre =1;
-	
-	private BufferedImage imageBille;
-	
-	
+
+	private BufferedImage img;
+
+
 	//constructeur de la bille
 	public Bille(Vecteur2D position, double diametre) {
 		this.position = new Vecteur2D(position);
 		this.diametre = diametre;
 		creerLaGeometrie();
 	}
-	
-	
-	
+
+
+
 	private void creerLaGeometrie() {
 		bille = new Ellipse2D.Double(position.x,position.y,diametre,diametre);
 	}
@@ -64,12 +64,12 @@ public class Bille extends Rectangle implements Dessinable {
 	public void dessiner(Graphics2D g2d) {
 		Graphics2D g2dPrive = (Graphics2D) g2d.create();
 		g2dPrive.scale(pixelsParMetre, pixelsParMetre);
-		g2dPrive.fill(bille);
+		//g2dPrive.fill(bille);
 
 		lireImage(g2dPrive);
-		
+
 	}
-	
+
 	public void avancerUnPas(double deltaT) {
 		try {
 			//ici la somme des forces est tout simplement la force carrément appliqueée dans l'interface
@@ -82,8 +82,8 @@ public class Bille extends Rectangle implements Dessinable {
 		position = MoteurPhysique.calculPosition(deltaT, position, vitesse);
 		creerLaGeometrie(); //la position a changé! on recree notre cercle
 	}
-	
-	
+
+
 	/**
 	 * Modifie le facteur permettant de passer des metres aux pixels lors du dessin
 	 * Ainsi on peut exprimer tout en m,  m/s  et m/s2
@@ -92,9 +92,9 @@ public class Bille extends Rectangle implements Dessinable {
 	public void setPixelsParMetre(double pixelsParMetre) {
 		this.pixelsParMetre = pixelsParMetre;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Retourne  la somme des forces appliquees
 	 * @return La somme des forces appliquees
@@ -102,8 +102,8 @@ public class Bille extends Rectangle implements Dessinable {
 	public Vecteur2D getForceExterieureAppliquee() {
 		return forceExterieureAppliquee;
 	}
-	
-	
+
+
 
 	/**
 	 * Modifie d'un coup la somme des forces appliquees en x et en y
@@ -115,9 +115,9 @@ public class Bille extends Rectangle implements Dessinable {
 	public void setForceExterieureAppliquee(Vecteur2D forceExterieureAppliquee) {
 		this.forceExterieureAppliquee = forceExterieureAppliquee;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Modifie la position de la balle
 	 * Note: ici on decide de simplement refaire la forme sous-jacente!
@@ -128,9 +128,9 @@ public class Bille extends Rectangle implements Dessinable {
 		this.position = new Vecteur2D(pos);
 		creerLaGeometrie();
 	}	
-	
-	
-	
+
+
+
 	/**
 	 * Retourne la position courante
 	 * @return la position courante
@@ -138,8 +138,8 @@ public class Bille extends Rectangle implements Dessinable {
 	public Vecteur2D getPosition() {
 		return (position);
 	}
-	
-	
+
+
 	/**
 	 * Modifie la vitesse courante de la balle
 	 * @param vitesse Vecteur incluant les vitesses en x et y 
@@ -148,7 +148,7 @@ public class Bille extends Rectangle implements Dessinable {
 		//on fait une copie du vecteur passé en paramètre 
 		this.vitesse = new Vecteur2D(vitesse);
 	}
-	
+
 	/**
 	 * Retourne la vitesse courante
 	 * @return la vitesse courante
@@ -156,17 +156,17 @@ public class Bille extends Rectangle implements Dessinable {
 	public Vecteur2D getVitesse() {
 		return (vitesse);
 	}
-	
+
 	/**
 	 * Associe une acceleration, ou modifie l'acceleration courante de la balle
 	 * @param accel Vecteur incluant les accelerations en x et y 
 	 */
-	
+
 	public void setAccel(Vecteur2D accel) {
 		//on fait une copie du vecteur  passé en paramètre 
 		this.accel = new Vecteur2D(accel);
 	}
-	
+
 	/**
 	 * Retourne l'acceleration courante
 	 * @return acceleration courante
@@ -174,7 +174,7 @@ public class Bille extends Rectangle implements Dessinable {
 	public Vecteur2D getAccel() {
 		return (accel);
 	}
-	
+
 	/**
 	 * Retourne le diametre de la balle
 	 * @return Le diamètre
@@ -210,37 +210,29 @@ public class Bille extends Rectangle implements Dessinable {
 	}
 
 
-	
+
 	public Ellipse2D.Double getBille() {
 		return bille;
 	}
-/*	public void image(Graphics2D g2d) {
-		java.net.URL urlBille = getClass().getClassLoader().getResource("imageB.png");
-		try {
-			 imageBille = ImageIO.read(urlBille);
-		}catch(Exception e) {
-			System.out.println("erreur de lecture du fichier");
-		}
-		
 
-
-	}*/
 	public void lireImage(Graphics2D g2d) {
-		BufferedImage img = null;
+
+
+		//BufferedImage nImg = redimensionner(img,(int)diametre,(int)diametre);
+		//Rectangle2D rect = new Rectangle2D.Double(0,0,nImg.getWidth(),nImg.getHeight());
+		//TexturePaint texturePaintBille = new TexturePaint(nImg,rect);
+		//BufferedImage imgB = scale(img,10,10);
+
+		File pngOriginal = new File(System.getProperty("user.home")+"\\ImageB.png");
+		File pngResized = new File(System.getProperty("user.home")+"\\ImageB.png");
+		//redimImage(pngOriginal,pngResized,20,20,"png");
 		try {
 			img = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
-	
-		//resize(img,(int)diametre,(int)diametre);
-		//BufferedImage nouvImg = new BufferedImage((int)diametre,(int)diametre,BufferedImage.TYPE_INT_RGB);
-		//Graphics g = nouvImg.createGraphics();
-		//g.drawImage(img, (int)position.getX(),(int)position.getY(), (int)diametre,(int) diametre, null);
-		//g.dispose();
-		//img.getScaledInstance(1,1,BufferedImage.TYPE_INT_RGB);
-		Rectangle2D rect = new Rectangle2D.Double(0,0,img.getWidth(),img.getHeight());
+		Rectangle2D rect = new Rectangle2D.Double(0,0,diametre,diametre);
 		
 		TexturePaint texturePaintBille = new TexturePaint(img,rect);
 		g2d.setPaint(texturePaintBille);
@@ -248,15 +240,22 @@ public class Bille extends Rectangle implements Dessinable {
 		g2d.fill(ellipseBille);
 
 	}
-	public static BufferedImage resize(BufferedImage img, int nouvLarg,int nouvHaut) {
-		Image tmp = img.getScaledInstance(nouvLarg, nouvHaut,Image.SCALE_SMOOTH);
-		BufferedImage dimg = new BufferedImage(nouvLarg,nouvHaut, BufferedImage.TYPE_INT_ARGB);
-		
-		Graphics2D g2d = dimg.createGraphics();
-		g2d.drawImage(tmp,0,0,null);
-		g2d.dispose();
-		
-		return dimg;
-	}
+	
 
+
+	private static void redimImage(File originalIm, File redimensionneIm, int larg, int haut, String format) {
+		try {
+			BufferedImage original = ImageIO.read(originalIm);
+			BufferedImage redimenssione = new BufferedImage(larg,haut,original.getType());
+			Graphics2D g2 = redimenssione.createGraphics();
+			g2.drawImage(original, 0, 0, larg, haut, null);
+			g2.dispose();
+			ImageIO.write(redimenssione, format, redimensionneIm);
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+
+		}
+
+	}
 }
