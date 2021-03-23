@@ -1101,6 +1101,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		solHorizontal.add(ligneDroitTrapezeGau);
 		solHorizontal.add(ligneDroitTrapezeDroite);
+		
 		//solHorizontal.add(ligneRessort);
 
 
@@ -1116,6 +1117,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		murs.add(tunnelRessortDroite);
 		murs.add(tunnelRessortGauche);
+		//murs.add(ligneDroitBasGau);
+		//murs.add(ligneDroitBasDroite);
 	}
 
 //retourne la uneBille obj Bille
