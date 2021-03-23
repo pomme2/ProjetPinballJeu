@@ -26,7 +26,12 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
-
+/**
+ * 
+ * 
+ * @author Audrey Viger
+ *
+ */
 public class FenetreDessin extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private App24PinballScientifique2001 fenMenu;
@@ -69,15 +74,7 @@ public class FenetreDessin extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				fenMenu.setVisible(true);
 				setVisible(false);
-				try {
-					dessin.saveImage("ImageB","png");
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				
-
+				dessin.saveImage("ImageB","png");
 			}
 		});
 		

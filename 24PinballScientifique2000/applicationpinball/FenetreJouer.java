@@ -38,7 +38,8 @@ public class FenetreJouer extends JFrame{
 	/**
 	 * Constructeur : création et initialisation de l'inteface
 	 * @param fenMenu
-	 * @param fenOption 
+	 * @param fenOption
+	 * @Audrey Viger 
 	 */
 	public FenetreJouer(App24PinballScientifique2001 fenMenu, FenetreOption fenOption) {
 		
