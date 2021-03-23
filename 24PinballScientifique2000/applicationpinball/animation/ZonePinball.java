@@ -17,6 +17,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.geom.Path2D.Double;
+import java.awt.geom.PathIterator;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -143,7 +144,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double coordX1CourbeGau=0.09,coordY1CourbeGau=0.71,controleXGau=0.16,controleYGau=0.16,coordX3CourbeGau=0.584,coordY3CourbeGau=0.1;
 	private double coordX1CourbeDroit=0.584,coordY1CourbeDroit=0.1,controleX=1.01,controleY=0.12,coordX3CourbeDroit=1.094,coordY3CourbeDroit=0.708;
 	private double controleXPetit=1,controleYPetit=0.6, coordX1CourbePetit=0.9,coordY1CourbePetit=0.398;
-	Path2D.Float arcCercleGaucheSegmente;
+	Path2D.Double segmentTest;
 	//Mur gauche et droit tunnel ressort
 	private MursDroits tunnelRessortDroite, tunnelRessortGauche;
 	private double coordX1TunnelGauche=1.006,coordY1TunnelGauche=1.534,coordX2TunnelGauche=1.01,coordY2TunnelGauche=0.784,coordX1TunnelDroit=1.096 ,coordY1TunnelDroit=0.716,coordX2TunnelDroit= 1.096,coordY2TunnelDroit=1.532;
@@ -378,7 +379,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			//Construction tunnel du ressort
 			tunnel();
 			//Construction flippers
-			courbeSegmenteGauche();
+			
+			//Divise courbe gauche en petits segments
+			
+			
 			System.out.println("test pour courbe Segmentee");
 			premiereFois=false;
 		}
@@ -1158,18 +1162,13 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 		
 	}
-public double courbeSegmenteGaucheEquation(double x) {
+	//Thomas Bourgault
+public void infoSegmentCourbe(Shape courbe) {
+	 double[] coordonnees = new double[2];
+	 AffineTransform identite = new AffineTransform();
+	 PathIterator path = courbe.getPathIterator(identite, 1.5 );
+	  segmentTest= new Path2D.Double();
 	
-	//return (coordY1CourbeGau-2*controleYGau+coordY3CourbeGau)*Math.pow(x, 2)+2*(controleYGau-coordY1CourbeGau)*x+coordY1CourbeGau;
-	return coordY1CourbeGau*Math.pow(x, 2)+controleYGau*2*x*(1-x)+coordY3CourbeGau*Math.pow((1-x),2);
-	
-}
-public void courbeSegmenteGauche() {
-	double x,y;
-	x=coordX1CourbeGau;
-	y=courbeSegmenteGaucheEquation(x);
-	System.out.println("/////////////////////////////////////////////////////////////////////////////");
-	System.out.println("y de la courbe gauche : "+y);
 }
 
 }
