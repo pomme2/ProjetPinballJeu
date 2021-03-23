@@ -1,13 +1,16 @@
 package geometrie;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import dessinable.Dessinable;
 /**
@@ -16,10 +19,14 @@ import dessinable.Dessinable;
  * @author Audrey Viger
  *
  */
-public class MursCourbes implements Dessinable, Shape{
+public class MursCourbes implements Dessinable{
 	private double pixelParMetre = 1;
 	private QuadCurve2D murCourbe;
 	private double coordX1,coordY1, ctrlX, ctrlY, coordX2, coordY2;
+	private Path2D.Double  segmentTest;
+	private MursDroits ligneTest; 
+	ArrayList<Double> coordXligneSegment = new ArrayList<Double>();
+	ArrayList<Double> coordYligneSegment = new ArrayList<Double>();
 	//Audrey Viger
 	/**
 	 * Permet d'instancier un objet de type MursCourbes
@@ -31,13 +38,14 @@ public class MursCourbes implements Dessinable, Shape{
 	 * @param coordY2 est la deuxième coordonnée en y de la courbe. Elle est en double.
 	 */
 
-	public MursCourbes (double coordX1, double coordY1, double ctrlX, double ctrlY, double coordX2, double coordY2 ) {
+	public MursCourbes (double coordX1, double coordY1, double ctrlX, double ctrlY, double coordX2, double coordY2, Path2D.Double segmentTest ) {
 		this.coordX1=coordX1;
 		this.coordY1=coordY1;
 		this.ctrlX=ctrlX;
 		this.ctrlY=ctrlY;
 		this.coordX2=coordX2;
 		this.coordY2=coordY2;
+		this.segmentTest=segmentTest;
 		creerLaGeometrie();	
 	}
 	//Audrey Viger
@@ -45,8 +53,11 @@ public class MursCourbes implements Dessinable, Shape{
 	 * Méthode privée qui permet de créer la géométrie de la courbe avec toutes ses paramètres.
 	 */
 	private void creerLaGeometrie() {
+		segmentTest=new Path2D.Double();
 		murCourbe = new QuadCurve2D.Double(coordX1,coordY1,ctrlX,ctrlY,coordX2,coordY2);
+		infoSegmentCourbe(murCourbe);
 		
+
 	}
 	//Audrey Viger
 	/**
@@ -56,7 +67,13 @@ public class MursCourbes implements Dessinable, Shape{
 	public void dessiner(Graphics2D g2d) {
 		AffineTransform mat= new AffineTransform();
 		mat.scale(pixelParMetre,pixelParMetre);
-		g2d.draw(mat.createTransformedShape(murCourbe));	
+		g2d.setColor(Color.green);
+		g2d.draw(mat.createTransformedShape(murCourbe));
+
+		//Enlever commentaire pour voir dessin courbe segmentee
+		//g2d.setColor(Color.red);
+		//g2d.draw(mat.createTransformedShape(segmentTest));
+
 	}
 	//Thomas Bourgault
 	/**
@@ -75,34 +92,34 @@ public class MursCourbes implements Dessinable, Shape{
 		return coordX1;
 	}
 	//Thomas Bourgault
-		/**
-		 * Méthode qui change la première coordonnée en x d'un MursCourbes
-		 * @param la première coordonnée en x
-		 */
+	/**
+	 * Méthode qui change la première coordonnée en x d'un MursCourbes
+	 * @param la première coordonnée en x
+	 */
 	public void setCoordX1(double coordX1) {
 		this.coordX1 = coordX1;
 	}
 	//Thomas Bourgault
-		/**
-		 * Méthode qui retourne la première coordonnée en y d'un MursCourbes
-		 * @return la première coordonnée en y
-		 */
+	/**
+	 * Méthode qui retourne la première coordonnée en y d'un MursCourbes
+	 * @return la première coordonnée en y
+	 */
 	public double getCoordY1() {
 		return coordY1;
 	}
 	//Thomas Bourgault
-			/**
-			 * Méthode qui change la première coordonnée en y d'un MursCourbes
-			 * @param la première coordonnée en y
-			 */
+	/**
+	 * Méthode qui change la première coordonnée en y d'un MursCourbes
+	 * @param la première coordonnée en y
+	 */
 	public void setCoordY1(double coordY1) {
 		this.coordY1 = coordY1;
 	}
 	//Thomas Bourgault
-			/**
-			 * Méthode qui retourne la deuxieme coordonnée en x d'un MursCourbes
-			 * @return la deuxieme coordonnée en x
-			 */
+	/**
+	 * Méthode qui retourne la deuxieme coordonnée en x d'un MursCourbes
+	 * @return la deuxieme coordonnée en x
+	 */
 	public double getCoordX2() {
 		return coordX2;
 	}
@@ -115,76 +132,82 @@ public class MursCourbes implements Dessinable, Shape{
 		this.coordX2 = coordX2;
 	}
 
-//Thomas Bourgault
-		/**
-		 * Méthode qui retourne la deuxieme coordonnée en y d'un MursCourbes
-		 * @return la deuxieme coordonnée en y
-		 */
+	//Thomas Bourgault
+	/**
+	 * Méthode qui retourne la deuxieme coordonnée en y d'un MursCourbes
+	 * @return la deuxieme coordonnée en y
+	 */
 	public double getCoordY2() {
 		return coordY2;
 	}
 	//Thomas Bourgault
-		/**
-		 * Méthode qui change la deuxieme coordonnée en y d'un MursCourbes
-		 * @param la deuxieme coordonnée en y
-		 */
+	/**
+	 * Méthode qui change la deuxieme coordonnée en y d'un MursCourbes
+	 * @param la deuxieme coordonnée en y
+	 */
 	public void setCoordY2(double coordY2) {
 		this.coordY2 = coordY2;
 	}
-	
+
 	public QuadCurve2D getCourbe() {
 		return murCourbe;
 	}
-	@Override
-	public Rectangle getBounds() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Rectangle2D getBounds2D() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public boolean contains(double x, double y) {
+
+	//Thomas Bourgault
+	public  void infoSegmentCourbe(Shape courbe) {
+
+		double[] coordonnees = new double[2];
+		AffineTransform identite = new AffineTransform();
+		identite.scale(pixelParMetre,pixelParMetre);
+		PathIterator path = courbe.getPathIterator(identite,0.01 );
+		segmentTest= new Path2D.Double();
+		while (path.isDone() == false) {
+			int type = path.currentSegment(coordonnees);
+			switch (type) {
+			case PathIterator.SEG_MOVETO:
+				System.out.println("Move to " + coordonnees[0] + ", " + coordonnees[1]);
+				segmentTest.moveTo(coordonnees[0] , coordonnees[1]);				
+				coordXligneSegment.add(coordonnees[0]);
+				coordYligneSegment.add(coordonnees[1]);
+				break;
+			case PathIterator.SEG_LINETO:
+				System.out.println("Line to " + coordonnees[0] + ", " + coordonnees[1]);
+				segmentTest.lineTo(coordonnees[0] , coordonnees[1]); 
+				coordXligneSegment.add(coordonnees[0]);
+				coordYligneSegment.add(coordonnees[1]);
+				break;
+			case PathIterator.SEG_CLOSE:
+				System.out.println("Close");
+				segmentTest.closePath();
+				break;
+			}
+			path.next(); 
+
+		}
+		for(int i=0;i<coordXligneSegment.size();i++){
+			System.out.println("list des coord en x : "+coordXligneSegment.get(i));		   
+		} 
+		System.out.println("taille list coord en x: "+coordXligneSegment.size());
+
+		for(int i=0;i<coordYligneSegment.size();i++){
+			System.out.println("list des coord en y : "+coordYligneSegment.get(i));		   
+		} 
+		System.out.println("taille list coord en y: "+coordYligneSegment.size());
 		
-		return false;
 	}
-	@Override
-	public boolean contains(Point2D p) {
-		// TODO Auto-generated method stub
-		return false;
+	public ArrayList<Double> listeCoordX(){
+		return coordXligneSegment;
 	}
-	@Override
-	public boolean intersects(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
-		return false;
+	public ArrayList<Double> listeCoordX(ArrayList<Double> nouvelleListe){
+		int i=0;
+		while( i<coordXligneSegment.size()) {
+			nouvelleListe.add(coordXligneSegment.get(i));
+			i++;
+		}
+
+		return  nouvelleListe;
 	}
-	@Override
-	public boolean intersects(Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean contains(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean contains(Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public PathIterator getPathIterator(AffineTransform at) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 }
 
 
