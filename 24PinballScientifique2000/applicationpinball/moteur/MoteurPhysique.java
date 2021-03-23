@@ -1,5 +1,6 @@
 package moteur;
 
+import geometrie.Bille;
 import geometrie.Vecteur2D;
 
 /**
@@ -146,6 +147,18 @@ public class MoteurPhysique {
 		
 		
 		return vitesseBille;
+	}
+	
+	public static Vecteur2D calculRebondBilleCerlce (Bille billeVitesse) {
+		
+		
+		
+		
+		billeVitesse.getVitesse();
+		
+		
+		
+		return null;
 	}
 	
 	
