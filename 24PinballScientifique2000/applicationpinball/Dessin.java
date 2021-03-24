@@ -13,6 +13,7 @@ import java.awt.Robot;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
@@ -34,13 +35,17 @@ import javax.swing.JPanel;
  */
 public class Dessin extends JPanel  {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Image in which we're going to draw
 	private Image imageBille;
 	// Graphics2D object ==> used to draw on
 	private Graphics2D g2;
 	// Mouse coordinates
 	private int currentX, currentY, oldX, oldY;
-	private int diametre;
+	private int diametre,largeurCercle = 10;
 
 	private Color couleur;
 
@@ -53,11 +58,12 @@ public class Dessin extends JPanel  {
 	private String nomImage = "imageBille";
 
 	public Dessin() {
-		//cercle = new Ellipse2D.Double(585/2-200,621/2-200,400,400);
-		cercle = new Ellipse2D.Double(200,100,100,100);
+		
+		cercle = new Ellipse2D.Double(585/2-285,621/2-285,570,570);
+		//cercle = new Ellipse2D.Double(250,300,100,100);
 		rectangle = new Rectangle2D.Double(0, 0, 585, 621);
 		
-		
+
 		addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -81,6 +87,8 @@ public class Dessin extends JPanel  {
 				// coord x,y when drag mouse
 				currentX = e.getX();
 				currentY = e.getY();
+				
+
 
 				if (g2 != null) {
 					// draw line if g2 context not null
@@ -91,6 +99,12 @@ public class Dessin extends JPanel  {
 					// store current coords x,y as olds x,y
 					oldX = currentX;
 					oldY = currentY;
+					AffineTransform mat= g2.getTransform();
+					g2.setStroke(new BasicStroke(largeurCercle));
+					
+					g2.draw(cercle);
+					g2.setTransform(mat);
+
 				}
 			}
 		});
@@ -103,15 +117,16 @@ protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	Graphics2D g2d = (Graphics2D)g;
 	
-	g2d.setColor(Color.black);
-	g2d.draw(cercle);
+	
+	
+
 	if (imageBille == null) {
 		
 		imageBille = createImage(getSize().width, getSize().height);
 		g2 = (Graphics2D) imageBille.getGraphics();
 		
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		
+			
 		clear();
 	}
 
@@ -136,7 +151,7 @@ public void setDiametre(int diametre) {
 	this.diametre = diametre;
 	repaint();
 }
-public void saveImage(String name,String type)  {
+public void sauvegarderImage(String name,String type)  {
 	BufferedImage imageBille = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
 
 	Graphics2D g2 = imageBille.createGraphics();

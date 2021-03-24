@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
@@ -12,11 +13,15 @@ import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+
 import animation.ZoneSimulationPhysique;
 import geometrie.Bille;
 import geometrie.Vecteur2D;
@@ -25,8 +30,17 @@ import animation.ZonePinball;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JCheckBox;
 import geometrie.Ressort;
+
+import dessinable.OutilsImage;
+
+
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 /**
  * 
  * 
@@ -40,11 +54,15 @@ public class FenetreBacSable extends JFrame{
 	private App24PinballScientifique2001 fenMenu;
 	private FenetreOption fenOption;
 	private int valeurInclinaison;
-	private int valeurAimant;
+	private int valeurAimant,valeurMasse=1;
 	private int valeurRessort;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private boolean enCoursdAnimation=false;
 	private Ressort ressort;
+
+	private  Inclinaison imageInclinaison;
+	private double hauteurDuComposantMetre=1.536;
+
 
 
 	/**
@@ -60,6 +78,7 @@ public class FenetreBacSable extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 40, 1100, 928);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -67,13 +86,14 @@ public class FenetreBacSable extends JFrame{
 		ZonePinball zonePinball = new ZonePinball();
 		zonePinball.setBounds(71, 26, 600,768);
 		contentPane.add(zonePinball);
-		
-		
+
 
 		//Initialisation des valeurs de spinners initiales.
 		int etirementInitial = (int)(zonePinball.getETIREMENT_NAT()*100.0);
 		int kRessortInitial = (int)zonePinball.getK_RESSORT();
-
+		
+	
+		
 		JLabel lblDonneesBalle = new JLabel("Donn\u00E9es de la balle");
 		lblDonneesBalle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDonneesBalle.setBounds(817, 26, 192, 37);
@@ -132,7 +152,7 @@ public class FenetreBacSable extends JFrame{
 
 		JRadioButton rdbtnChargeNeg = new JRadioButton("-e");
 		buttonGroup.add(rdbtnChargeNeg);
-		rdbtnChargeNeg.setBounds(948, 153, 109, 23);
+		rdbtnChargeNeg.setBounds(948, 153, 42, 23);
 		contentPane.add(rdbtnChargeNeg);
 
 
@@ -158,15 +178,18 @@ public class FenetreBacSable extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				fenMenu.setVisible(true);
 				setVisible(false);
+				
 			}
 		});
 		btnSauvegarde.setBounds(734, 694, 344, 60);
 		contentPane.add(btnSauvegarde);
 
 		JSpinner spinnerMasse = new JSpinner();
+		spinnerMasse.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spinnerMasse.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				zonePinball.setMasseBalle((int) spinnerMasse.getValue());
+				valeurMasse = (int) spinnerMasse.getValue();
+				zonePinball.setMasseBalle(valeurMasse);
 			}
 		});
 		spinnerMasse.setBounds(788, 195, 44, 20);
@@ -224,17 +247,26 @@ public class FenetreBacSable extends JFrame{
 		JSlider sliderInclinaison = new JSlider();
 		sliderInclinaison.setValue(0);
 		sliderInclinaison.setMaximum(75);
-
+		
+		
+Inclinaison imageInclinaison = new Inclinaison();
+		imageInclinaison.setBounds(1000,283,78,60);
+		contentPane.add(imageInclinaison);
+		
 		JSpinner spinnerInclinaison = new JSpinner();
 		spinnerInclinaison.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				valeurInclinaison = (int) spinnerInclinaison.getValue();
-				System.out.println(valeurInclinaison);
+				//System.out.println(valeurInclinaison);
 				sliderInclinaison.setValue(valeurInclinaison);
+				imageInclinaison.setInclinaison(valeurInclinaison);
 			}
 		});
 		spinnerInclinaison.setBounds(948, 299, 42, 22);
 		contentPane.add(spinnerInclinaison);
+		valeurInclinaison = (int) spinnerInclinaison.getValue();
+		
+		
 
 
 		spinnerRessort.addChangeListener(new ChangeListener() {
@@ -289,55 +321,84 @@ public class FenetreBacSable extends JFrame{
 
 
 		JSlider sliderEtirement = new JSlider();
+
+		sliderEtirement.setEnabled(false);
+
+		sliderEtirement.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				if(zonePinball.isVisible()==true && zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
+					zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
+					System.out.println("Je suis entrer dans le component shown");
+					sliderEtirement.setValue(0);
+				}
+			}
+		});
+
 		sliderEtirement.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
+
 				System.out.println("Slider active");
-			
+
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				System.out.println("Slider desactive");
 				zonePinball.demarrer();
 				zonePinball.requestFocusInWindow();
+
+				if(zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
+					sliderEtirement.setValue(0);
+				}
 				
 				
+
 			}
 		});
-		
+
 		sliderEtirement.setMinimum(-10);
 		sliderEtirement.setMaximum(0);
 		sliderEtirement.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
+
 				
-				
+				/*if(zonePinball.retablirPosition()==true) {
+			sliderEtirement.setValue(0);
+		}*/
+
+
+
+
 				// carlos testing
 				//zonePinball.getBille().setPosition(new Vecteur2D (1.056, 1- (int) sliderEtirement.getValue()/100));
-				
+
 				zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
-				
+
+
+
+
 			}
 		});
-	sliderEtirement.setValue(0);
+		sliderEtirement.setValue(0);
 		sliderEtirement.setOrientation(SwingConstants.VERTICAL);
 		sliderEtirement.setMajorTickSpacing(1);
 		sliderEtirement.setMinorTickSpacing(5);
 		sliderEtirement.setPaintTicks(true);
 		sliderEtirement.setBounds(670, 652, 48, 113);
 		contentPane.add(sliderEtirement);
-		
-		
-		
-	
 
-	
-		
+
+
+
+
+
+
 
 		JButton btnRecommencer = new JButton("Recommencer la partie");
 		btnRecommencer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				spinnerMasse.setValue(0.5);
+				spinnerMasse.setValue(1);
 				spinnerAimant.setValue(0);
 				spinnerRessort.setValue(0);
 				spinnerInclinaison.setValue(0);
@@ -347,6 +408,8 @@ public class FenetreBacSable extends JFrame{
 				zonePinball.retablirPosition();
 				spinnerEtirement.setValue(1);
 				sliderEtirement.setValue(0);
+
+				sliderEtirement.setEnabled(false);
 			
 			}
 		});
@@ -360,35 +423,59 @@ public class FenetreBacSable extends JFrame{
 		contentPane.add(lblEtirement);
 
 
-		
+
 
 		JButton btnDemarrer = new JButton("D\u00E9marrer");
 		btnDemarrer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
+			public void actionPerformed(ActionEvent e) {
+				sliderEtirement.setEnabled(true);
+				 //if(zonePinball.getPositionBille().getX()==zonePinball.getPositionIniBille().getX()) {
+				//	 sliderEtirement.setValue(0);
+				// }
+			
 				if ((int)sliderEtirement.getValue() != 0) {					
 					zonePinball.demarrer();
 					enCoursdAnimation=true;
 					zonePinball.requestFocusInWindow();
+				
 
 				}
 			}			
 
 
 		});
+	
 		btnDemarrer.setBounds(248, 808, 218, 60);
 		contentPane.add(btnDemarrer);
-		
+
 		JCheckBox chckbxContour = new JCheckBox("Contour");
 		chckbxContour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				zonePinball.setContour(chckbxContour.isSelected());
 			}
 		});
-		
+
 		chckbxContour.setBounds(107, 827, 99, 23);
 		contentPane.add(chckbxContour);
+
 		
+		BufferedImage imageBille = null;
+		try {
+			imageBille = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
+		} catch (IOException e1) {
+			
+			e1.printStackTrace();
+		}
 		
+		JLabel lblImage = new JLabel(new ImageIcon(imageBille));
+		lblImage.setBounds(798, 750, 192, 143);
+		contentPane.add(lblImage);
+		
+		if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
+			sliderEtirement.setValue(0);
+			System.out.println("je suis passe dans le ifffffff");
+		}
+
 	}
-	
+
 }
