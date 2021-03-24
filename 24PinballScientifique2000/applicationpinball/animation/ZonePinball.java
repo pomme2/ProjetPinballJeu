@@ -899,7 +899,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	/**
 	 * Reinitialise la position et la vitesse de la balle
 	 */
-	public void retablirPosition() {
+	public boolean retablirPosition() {
 		arreter();
 		uneBille.setPosition(posInitBalle);
 		uneBille.setVitesse(vitInitBalle);
@@ -918,10 +918,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		flipGauche.setPosition(positionFlipperGaucheInitial);
 		flipGauche.setVitesse(vitesseInitialeFlipper);
 		tempsTotalEcoule = 0;
-
+		repaint();
+		 return true;
 		
 
-		repaint();
+		
 	}
 
 

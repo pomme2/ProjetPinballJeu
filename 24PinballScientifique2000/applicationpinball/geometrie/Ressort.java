@@ -22,7 +22,7 @@ public class Ressort implements Dessinable {
 	private double massePourCetteScene = 1;
 	private double largeur = 1;
 	private double hauteur = 1;
-	private double hauteurBloc, hauteurIni;
+	private double hauteurBloc = 0.024, hauteurIni = 0.19;;
 	private double distanceZigzag;
 	private double positionZigzagX, positionZigzagY, positionX, positionY;
 	private Rectangle2D.Double bloc,base;
@@ -39,12 +39,12 @@ public class Ressort implements Dessinable {
 	private boolean arrete = false;
 	
 	private double kRessort,mu;
-	
+
 	
 	private final double NB_ZIGZAG = 13.0;
 	private final double HAUTEUR_BASE=0.2;
 	private final double LARGEUR_BASE = 0.097;
-	private final double POSITION_BASE = 1.006;
+	private final double POSITION_BASEX = 1.006, POSITION_BASEY=1.466;
 	
 	private MursDroits ligneRessort ;
 	private double coordX1Ligne = 1.008, coordYLigne = 1.27, coordX2Ligne = 1.094;
@@ -69,17 +69,17 @@ public class Ressort implements Dessinable {
 	private void creerLaGeometrie() {
 		
 		ligneRessort = new MursDroits(coordX1Ligne,coordYLigne,coordX2Ligne,coordYLigne);
-		hauteurBloc = 0.024;
+		
 		
 		positionY = position.getY();
 		positionX = position.getX();
 		
-		hauteurIni = 0.19;
+		
 		hauteur = hauteurIni -( position.getY()-positionRepos.getY());
 					
 		
 		bloc = new Rectangle.Double(position.getX(),position.getY(),largeur,hauteurBloc);
-		base = new Rectangle.Double(POSITION_BASE,1.466,LARGEUR_BASE,HAUTEUR_BASE);
+		base = new Rectangle.Double(POSITION_BASEX,POSITION_BASEY,LARGEUR_BASE,HAUTEUR_BASE);
 		zigzag = new Path2D.Double();
 		ligneRessort = new MursDroits(position.getX(),position.getY(),position.getX()+largeur,position.getY());
 		

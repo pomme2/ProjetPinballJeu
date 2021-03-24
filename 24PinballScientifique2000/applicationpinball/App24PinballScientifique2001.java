@@ -1,9 +1,12 @@
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -92,6 +95,13 @@ public App24PinballScientifique2001() throws IOException {
 		public void actionPerformed(ActionEvent e) {
 			fenBac.setVisible(true);
 			setVisible(false);
+			BufferedImage imageBille = null;
+			try {
+				imageBille = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
+			} catch (IOException e1) {
+				
+				e1.printStackTrace();
+			}
 		}
 	});
 	btnBac.setFont(new Font("Tahoma", Font.PLAIN, 18));
