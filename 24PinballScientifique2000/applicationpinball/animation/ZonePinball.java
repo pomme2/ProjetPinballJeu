@@ -64,7 +64,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private final Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(0,-0.0000001 ); 
 	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
 
-	private final int TEMPS_DU_SLEEP = 25;
+	private final int TEMPS_DU_SLEEP = 20;
 	private  double K_RESSORT = 50;
 	private final double ETIREMENT_NAT = 0.1;
 
@@ -73,7 +73,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 
 	//variable bille Carlos
-	private double deltaT = 0.005;
+	private double deltaT = 0.003;
 
 
 	private double diametreBallePourCetteScene = 0.03;  //em mètres
@@ -102,6 +102,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private ArrayList<MursDroits> pentes = new ArrayList<MursDroits>();
 
 	private ArrayList<MursDroits> droitSous = new ArrayList<MursDroits>();
+	
+	private ArrayList<MursDroits> coteTriangle = new ArrayList<MursDroits>();
 
 
 	//tab pour les murs
@@ -497,7 +499,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	public void triangleGauche() {
 		ligTriGaucheGau=new MursDroits(coordX1TriGauche,coordY1TriGauche,coordX3TriGauche,coordY3TriGauche);
 		ligTriGaucheGau.setPixelsParMetre(pixelParMetre);
-		ligTriGaucheBas=new MursDroits(coordX2TriGauche,coordY2TriGauche,coordX3TriGauche,coordY3TriGauche);
+		ligTriGaucheBas=new MursDroits(coordX3TriGauche,coordY3TriGauche,coordX2TriGauche,coordY2TriGauche);
 		ligTriGaucheBas.setPixelsParMetre(pixelParMetre);
 		ligTriGaucheDroit=new MursDroits(coordX1TriGauche,coordY1TriGauche,coordX2TriGauche,coordY2TriGauche);
 		ligTriGaucheDroit.setPixelsParMetre(pixelParMetre);
@@ -511,7 +513,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		ligTriDroitGau.setPixelsParMetre(pixelParMetre);
 		ligTriDroitBas=new MursDroits(coordX2TriDroite,coordY2TriDroite,coordX3TriDroite,coordY3TriDroite);
 		ligTriDroitBas.setPixelsParMetre(pixelParMetre);
-		ligTriDroitDroit=new MursDroits(coordX2TriDroite,coordY2TriDroite,coordX1TriDroite,coordY1TriDroite);
+		ligTriDroitDroit=new MursDroits(coordX1TriDroite,coordY1TriDroite,coordX2TriDroite,coordY2TriDroite);
 		ligTriDroitDroit.setPixelsParMetre(pixelParMetre);
 	}
 	//Thomas Bourgault
@@ -902,13 +904,80 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 
 		boolean first= true;
+		
 		if(uneBille.getPosition().getY() < 0.304 && first) {
 			uneBille.setForceExterieureAppliquee( new Vecteur2D(0,2));
 
 
 
 		}
+		
+		for(int i=0; i< droitSous.size();i++) {
+			
+			MursDroits sous = droitSous.get(i);
+			
+			boolean under = false;
+			
+			if(uneBille.getPosition().getY() + uneBille.getDiametre() > sous.getCoordY1()) {
+				
+				under = true;
+				
+			}
+				
+			
+		if(uneBille.getPosition().getX()  > sous.getCoordX1() && uneBille.getPosition().getX() < sous.getCoordX2() && uneBille.getPosition().getY() < sous.getCoordY1() &&under  ) {
+			
+		
+			uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),uneBille.getVitesse().getY()*-1));
+			
+		}
+		
+			
+		}
+		
+		
+	for(int i=0; i< coteTriangle.size();i++) {
+		
+		MursDroits cote = coteTriangle.get(i);
+		
+		
+		boolean right,left;
+		
+		right = false; 
+		left = false;
+		
+		if(uneBille.getPosition().getX() > cote.getCoordX1()) {
+			
+			right =true;
+		}
+		
+	if(uneBille.getPosition().getX() < 0.192) {
+			
+			left =true;
+		}
+	
+	
+	
+	if(uneBille.getPosition().getY() > cote.getCoordY1() && uneBille.getPosition().getY() < cote.getCoordY2() && uneBille.getPosition().getX() + uneBille.getDiametre() < cote.getCoordX1() &&  left) {
+		
+		
+		uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY()));
+		
+		
+		System.out.println("COTEEEEEEEEEEEE");
+		
+		
+	}
+		
+	}
+			
+			
+			
 
+		
+		
+		
+	
 
 
 		//	System.out.println("RESSORT TEST: "+ressort.getPosition().getY());
@@ -1170,6 +1239,13 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		murs.add(tunnelRessortDroite);
 		murs.add(tunnelRessortGauche);
+		
+		
+		
+		coteTriangle.add(ligTriGaucheGau);
+		//coteTriangle.add(ligTriDroitDroit);
+		
+		
 		//murs.add(ligneDroitBasGau);
 		//murs.add(ligneDroitBasDroite);
 	}
