@@ -25,8 +25,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
-
+import application.App24PinballScientifique2001;
+import application.FenetreBacSable;
+import application.FenetreOption;
 import dessinable.OutilsImage;
 import geometrie.Bille;
 import geometrie.Flipper;
@@ -56,6 +57,9 @@ import java.awt.event.KeyEvent;
 
 public class ZonePinball  extends JPanel implements Runnable  {
 	private static final long serialVersionUID = 1L;
+	//objet de type Scene
+	Scene scene;
+
 
 	//Ressort Audrey
 	private Ressort ressort;
@@ -101,7 +105,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private ArrayList<MursDroits> pentes = new ArrayList<MursDroits>();
 
 	private ArrayList<MursDroits> droitSous = new ArrayList<MursDroits>();
-
+	private ArrayList<MursDroits> courbe=new ArrayList<MursDroits>();
 
 	//tab pour les murs
 
@@ -120,6 +124,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private ArrayList<MursDroits> flipperGauche= new ArrayList<MursDroits>();
 
 	private ArrayList<MursDroits> flipperDroit= new ArrayList<MursDroits>();
+
 
 
 	private MursDroits ligneRessort;
@@ -188,7 +193,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false,gaucheDescente=false,droitDescente=false;	
 	java.net.URL urlPinballTerrain=getClass().getClassLoader().getResource("pinballTerrain.png");
 	double compteurGauche,compteurDroit;
-	private boolean billeEnDehors=false;
+
 
 
 
@@ -197,7 +202,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Constructeur qui gère les différents types d'évènements de la souris, permet l'initialisation de l'image ainsi que de la bille
 	 * @throws IOException si le programme n'arrive pas à lire l'URL de l'image
 	 */
-	public ZonePinball() {
+	public ZonePinball(Scene scene) {
+		this.scene=scene;
+		this.scene=new Scene();
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -246,29 +253,20 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 
 
+
+
+
+
 		ressort = new Ressort(positionInitialRessort,0.088,0.192);
 		ressort.setkRessort(K_RESSORT);
-
 		ressort.setMu(COEFF_FROT);
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
 		ressort.setMasseEnKg(MASSE_POUR_CETTE_SCENE);
-
-
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
+
 		flippers();
 
-
-
-
-
-
 		posInitBalle = new Vecteur2D(ressort.getMurs().getCoordX1()+diametreBallePourCetteScene, ressort.getMursY()-diametreBallePourCetteScene + getEtirement());
-
-
-
-
-
-
 		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
 
@@ -395,8 +393,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 			//Construction tunnel du ressort
 			tunnel();
-			//Construction flippers	
-			//arcCercleGauCoordX.add(8);
+			//Segment petite courbe
+			listeCourbe();
+			SegmentCourbe();
+			
 			premiereFois=false;
 		}
 		changPositionFlipper();
@@ -589,38 +589,14 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 */
 	public void run() {
 
-		while (enCoursDAnimation) {
-
-			/**	
-			}
-			if(gaucheActive) {
-				compteurGauche++;
-			}
-			if (coordY2FlipperGauche-(compteurGauche/100000000)<1.2 ) {				
-				gaucheActive=false;
-				gaucheDescente=true;
-
-				if(coordY2FlipperDroit-(compteurDroit/100000000)<1.2 ) {
-					droitActive=false;
-				droitDescente=true;
-				}
-			}
-
-			if(coordY2FlipperGauche+(compteurGauche/100000000)>1.405) {				
-				gaucheDescente=false;							
-			}
-			if(coordY2FlipperDroit+(compteurDroit/100000000)>1.405) {
-				droitDescente=false;
-			}
-			 */
+		while (enCoursDAnimation) {						
 			//System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
 			calculerUneIterationPhysique(deltaT);
 			if(ressort.isArrete()) {
 				arreter();
 			}
 			testerCollisionsEtAjusterPositions();//pas utile pour le moment
-
-			repaint();
+			repaint();			
 			try {
 				Thread.sleep(tempsDuSleep);
 			} catch (InterruptedException e) {
@@ -640,16 +616,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		tempsTotalEcoule += deltaT;
 		uneBille.avancerUnPas( deltaT );
 		getBille();
-		if(gaucheActive) {
-			flipGauche.avancerUnPas(deltaT);
-			//System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
-			//System.out.println("Px gauche: "+positionFlipperGauche.getX()+" Py gauche: "+positionFlipperGauche.getY());
-		}
-		if(droitActive) {
-			flipDroit.avancerUnPas(deltaT);
-			//System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
-			//System.out.println("Px droit: "+positionFlipperDroit.getX()+" Py droit: "+positionFlipperDroit.getY());
-		}
 		ressort.avancerUnPas(deltaT);
 
 		//System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
@@ -895,12 +861,9 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			}
 		}
 
-		if(uneBille.getPosition().getY() > hauteurDuComposantMetre) {
-			billeEnDehors=true;
+		if(uneBille.getPosition().getY() > hauteurDuComposantMetre) {			
 			arreter();
 			retablirPosition();
-		}else {
-			billeEnDehors=false;
 		}
 
 		boolean first= true;
@@ -968,14 +931,16 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		flipGauche.setVitesse(vitesseInitialeFlipper);
 		tempsTotalEcoule = 0;
 
+
+
 		repaint();
-		
-		
-
-		billeEnDehors=false;
 
 
-		
+
+
+
+
+
 	}
 
 
@@ -1028,6 +993,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		repaint();
 	}// fin methode
 
+	//Audrey Viger
+	/**
+	 * méthode qui permet de retourner l'étirement du ressort
+	 * @return l'étirement du ressort
+	 */
 	public double getEtirement() {
 		double etirement = ressort.getPosition().getY()-positionInitialRessort.getY();
 
@@ -1177,6 +1147,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		murs.add(tunnelRessortDroite);
 		murs.add(tunnelRessortGauche);
+		System.out.println("Je passe dans liste Obstacle");
 		//murs.add(ligneDroitBasGau);
 		//murs.add(ligneDroitBasDroite);
 	}
@@ -1223,9 +1194,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 
 	}
-	public boolean getBilleEnDehors() {
-		return billeEnDehors;
-	}
+
 	public void listeCourbe() {
 		//coordonne en x et en y des segments de la courbe gauche
 		double gaucheX1=0.09,gaucheX2=0.11303125,gaucheX3=0.147125,gaucheX4=0.19228125000000001,gaucheX5=0.2485,gaucheX6=0.31578125,gaucheX7=0.394125,gaucheX8=0.48353124999999997,gaucheX9=0.584;
@@ -1242,7 +1211,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		arcCercleGauCoordX.add(gaucheX7);
 		arcCercleGauCoordX.add(gaucheX8);
 		arcCercleGauCoordX.add(gaucheX9);
-		
+
 		//gauche y
 		arcCercleGauCoordY.add(gaucheY1);
 		arcCercleGauCoordY.add(gaucheY2);
@@ -1266,19 +1235,19 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		arcCercleDroitCoordX.add(droitX7);
 		arcCercleDroitCoordX.add(droitX8);
 		arcCercleDroitCoordX.add(droitX9);
-		
+
 		//droit y
-		 arcCercleDroitCoordY.add(droitY1);
-		 arcCercleDroitCoordY.add(droitY2);
-		 arcCercleDroitCoordY.add(droitY3);
-		 arcCercleDroitCoordY.add(droitY4);
-		 arcCercleDroitCoordY.add(droitY5);
-		 arcCercleDroitCoordY.add(droitY6);
-		 arcCercleDroitCoordY.add(droitY7);
-		 arcCercleDroitCoordY.add(droitY8);
-		 arcCercleDroitCoordY.add(droitY9);
-		 
-		 //coordonne en x et en y des segments de la courbe petit
+		arcCercleDroitCoordY.add(droitY1);
+		arcCercleDroitCoordY.add(droitY2);
+		arcCercleDroitCoordY.add(droitY3);
+		arcCercleDroitCoordY.add(droitY4);
+		arcCercleDroitCoordY.add(droitY5);
+		arcCercleDroitCoordY.add(droitY6);
+		arcCercleDroitCoordY.add(droitY7);
+		arcCercleDroitCoordY.add(droitY8);
+		arcCercleDroitCoordY.add(droitY9);
+
+		//coordonne en x et en y des segments de la courbe petit
 		double petitX1=0.9,petitX2=0.9774999999999999,petitX3=0.9993749999999999,petitX4=1.01;
 		double petitY1= 0.398, petitY2=0.5954999999999999, petitY3=0.6908749999999999, petitY4= 0.784;
 		//petit x
@@ -1292,7 +1261,31 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		arcCerclePetitCoordY.add(petitY3);
 		arcCerclePetitCoordY.add(petitY4);
 	}
-
-
-
+	public void SegmentCourbe() {
+MursDroits mur;
+for(int i=0;i<3;i++) {
+	mur=new MursDroits(arcCerclePetitCoordX.get(i),arcCerclePetitCoordY.get(i),arcCerclePetitCoordX.get(i+1),arcCerclePetitCoordY.get(i+1));
+	mur.setPixelsParMetre(pixelParMetre);
+	courbe.add(mur);	
+	
 }
+for(int j=0;j<7;j++) {
+	mur=new MursDroits(arcCercleDroitCoordX.get(j),arcCercleDroitCoordY.get(j),arcCercleDroitCoordX.get(j+1),arcCercleDroitCoordY.get(j+1));
+	mur.setPixelsParMetre(pixelParMetre);
+	courbe.add(mur);
+}
+for(int j=0;j<7;j++) {
+	mur=new MursDroits(arcCercleGauCoordX.get(j+1),arcCercleGauCoordY.get(j+1),arcCercleGauCoordX.get(j),arcCercleGauCoordY.get(j));
+	mur.setPixelsParMetre(pixelParMetre);
+	courbe.add(mur);
+}
+for(int k=0;k<courbe.size();k++) {
+	System.out.print("donne de la liste des courbes : "+courbe.get(k));	
+}
+	}
+	
+	}
+
+
+
+

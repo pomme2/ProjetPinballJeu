@@ -30,6 +30,7 @@ public class TestAnimation extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Scene scene;
 
 	public TestAnimation() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,7 +40,7 @@ public class TestAnimation extends JFrame {
 		
 		getContentPane().setLayout(null);
 		
-		ZonePinball zonePinball = new ZonePinball();
+		ZonePinball zonePinball = new ZonePinball(scene);
 		zonePinball.setBounds(30,30, 600, 768);
 		getContentPane().add(zonePinball);
 		

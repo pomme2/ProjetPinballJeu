@@ -1,9 +1,11 @@
+package application;
 import javax.swing.JFrame;
 import javax.swing.JCheckBox;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+
 import java.awt.SystemColor;
 import javax.swing.JLabel;
 import javax.swing.JButton;
