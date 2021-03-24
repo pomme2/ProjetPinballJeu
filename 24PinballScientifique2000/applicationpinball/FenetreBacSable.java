@@ -34,7 +34,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JCheckBox;
 import geometrie.Ressort;
+
 import dessinable.OutilsImage;
+
+
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * 
@@ -54,9 +59,10 @@ public class FenetreBacSable extends JFrame{
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private boolean enCoursdAnimation=false;
 	private Ressort ressort;
-	
 
 	private  Inclinaison imageInclinaison;
+	private double hauteurDuComposantMetre=1.536;
+
 
 
 	/**
@@ -80,9 +86,7 @@ public class FenetreBacSable extends JFrame{
 		ZonePinball zonePinball = new ZonePinball();
 		zonePinball.setBounds(71, 26, 600,768);
 		contentPane.add(zonePinball);
-		
-	
-		
+
 
 		//Initialisation des valeurs de spinners initiales.
 		int etirementInitial = (int)(zonePinball.getETIREMENT_NAT()*100.0);
@@ -317,56 +321,79 @@ Inclinaison imageInclinaison = new Inclinaison();
 
 
 		JSlider sliderEtirement = new JSlider();
+
 		sliderEtirement.setEnabled(false);
+
+		sliderEtirement.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				if(zonePinball.isVisible()==true && zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
+					zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
+					System.out.println("Je suis entrer dans le component shown");
+					sliderEtirement.setValue(0);
+				}
+			}
+		});
+
 		sliderEtirement.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
+
 				System.out.println("Slider active");
-			
+
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				System.out.println("Slider desactive");
 				zonePinball.demarrer();
 				zonePinball.requestFocusInWindow();
-				if(zonePinball.getPositionBille()!=zonePinball.getPositionIniBille()) {
-					
+
+				if(zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
+					sliderEtirement.setValue(0);
 				}
-				sliderEtirement.setValue(0);
 				
+				
+
 			}
 		});
-		
+
 		sliderEtirement.setMinimum(-10);
 		sliderEtirement.setMaximum(0);
 		sliderEtirement.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
+
 				
 				/*if(zonePinball.retablirPosition()==true) {
 			sliderEtirement.setValue(0);
 		}*/
+
+
+
+
 				// carlos testing
 				//zonePinball.getBille().setPosition(new Vecteur2D (1.056, 1- (int) sliderEtirement.getValue()/100));
-				
+
 				zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
-				
+
+
+
+
 			}
 		});
-	sliderEtirement.setValue(0);
+		sliderEtirement.setValue(0);
 		sliderEtirement.setOrientation(SwingConstants.VERTICAL);
 		sliderEtirement.setMajorTickSpacing(1);
 		sliderEtirement.setMinorTickSpacing(5);
 		sliderEtirement.setPaintTicks(true);
 		sliderEtirement.setBounds(670, 652, 48, 113);
 		contentPane.add(sliderEtirement);
-		
-		
-		
-	
 
-	
-		
+
+
+
+
+
+
 
 		JButton btnRecommencer = new JButton("Recommencer la partie");
 		btnRecommencer.addActionListener(new ActionListener() {
@@ -381,6 +408,7 @@ Inclinaison imageInclinaison = new Inclinaison();
 				zonePinball.retablirPosition();
 				spinnerEtirement.setValue(1);
 				sliderEtirement.setValue(0);
+
 				sliderEtirement.setEnabled(false);
 			
 			}
@@ -395,7 +423,7 @@ Inclinaison imageInclinaison = new Inclinaison();
 		contentPane.add(lblEtirement);
 
 
-		
+
 
 		JButton btnDemarrer = new JButton("D\u00E9marrer");
 		btnDemarrer.addActionListener(new ActionListener() {
@@ -416,21 +444,20 @@ Inclinaison imageInclinaison = new Inclinaison();
 
 
 		});
-		if(zonePinball.retablirPosition()==true) {
-			sliderEtirement.setValue(0);
-		}
+	
 		btnDemarrer.setBounds(248, 808, 218, 60);
 		contentPane.add(btnDemarrer);
-		
+
 		JCheckBox chckbxContour = new JCheckBox("Contour");
 		chckbxContour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				zonePinball.setContour(chckbxContour.isSelected());
 			}
 		});
-		
+
 		chckbxContour.setBounds(107, 827, 99, 23);
 		contentPane.add(chckbxContour);
+
 		
 		BufferedImage imageBille = null;
 		try {
@@ -444,7 +471,11 @@ Inclinaison imageInclinaison = new Inclinaison();
 		lblImage.setBounds(798, 750, 192, 143);
 		contentPane.add(lblImage);
 		
-		
+		if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
+			sliderEtirement.setValue(0);
+			System.out.println("je suis passe dans le ifffffff");
+		}
+
 	}
-	
+
 }

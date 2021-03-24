@@ -131,6 +131,25 @@ public class MoteurPhysique {
 		return new Vecteur2D (0,energieCinetique*-1);
 	}
 	
+	
+	/**
+	 * 
+	 * @param vitesseFlipper vitesse du flipper
+	 * @param vitesseBille	vitesse de la bille
+	 * @return la nouvelle vitesse de la bille frapper par le flipper
+	 */
+	public static Vecteur2D calculVitesseBilleFlipper(double vitesseFlipper,Vecteur2D vitesseBille) {
+		
+		vitesseBille.multiplie(vitesseFlipper);
+		
+		
+		
+		
+		return vitesseBille;
+	}
+	
+	
+	
 	//Thomas Bourgault
 	/**
 	 * 
