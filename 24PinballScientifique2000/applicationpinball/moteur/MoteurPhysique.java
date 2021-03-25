@@ -152,13 +152,18 @@ public class MoteurPhysique {
 	public static Vecteur2D calculRebondBilleCerlce (Bille billeVitesse) {
 		
 		
-		
-		
 		billeVitesse.getVitesse();
 		
-		
-		
 		return null;
+	}
+	
+	public static double calculForceCentripete(double masse, Vecteur2D vitesse, double rayon) {
+		
+		double temp =masse*Math.pow(vitesse.module(), 2);
+		
+		double fc = temp/rayon;
+		
+		return fc;
 	}
 	
 	

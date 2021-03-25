@@ -128,6 +128,10 @@ public class MursDroits implements Dessinable  {
 			g2d.draw(mat.createTransformedShape(MurDroit));	
 			
 		}
+		public Line2D getLine() {
+			// TODO Auto-generated method stub
+			return MurDroit;
+		}
 
 		}	
 		

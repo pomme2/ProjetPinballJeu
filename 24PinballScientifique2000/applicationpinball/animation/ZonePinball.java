@@ -74,6 +74,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private final double COEFF_FROT = 0.64;
 	private final double MASSE_POUR_CETTE_SCENE = 0.7; // en kg
 
+	
+	private final double RAYON_COURBE = 0.505; //en m
 
 	//variable bille Carlos
 	private double deltaT = 0.003;
@@ -852,7 +854,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 
 
-
 		}
 
 		for(int i=0;i < murs.size();i++) {
@@ -872,15 +873,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			retablirPosition();
 		}
 
-		boolean first= true;
-		
-		if(uneBille.getPosition().getY() < 0.304 && first) {
-			uneBille.setForceExterieureAppliquee( new Vecteur2D(0,2));
-
-
-
-		}
-		
 		for(int i=0; i< droitSous.size();i++) {
 			
 			MursDroits sous = droitSous.get(i);
@@ -926,30 +918,17 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 	
 	
-	
 	if(uneBille.getPosition().getY() > cote.getCoordY1() && uneBille.getPosition().getY() < cote.getCoordY2() && uneBille.getPosition().getX() + uneBille.getDiametre() < cote.getCoordX1() &&  left) {
 		
 		
 		uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY()));
 		
 		
-		System.out.println("COTEEEEEEEEEEEE");
-		
 		
 	}
 		
 	}
-			
-			
-			
 
-		
-		
-		
-	
-
-
-		//	System.out.println("RESSORT TEST: "+ressort.getPosition().getY());
 
 	}
 
@@ -960,9 +939,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Demarre le thread s'il n'est pas deja demarre
 	 */
 	public void demarrer() {
-		uneBille.setForceExterieureAppliquee( new Vecteur2D(-1,0.48));
+		uneBille.setForceExterieureAppliquee( new Vecteur2D(0,0.48));
 		uneBille.setVitesse(MoteurPhysique.caculVitesseBilleRessort(getK_RESSORT(), getEtirement(), uneBille.getMasseEnKg()));
-
 
 		if (!enCoursDAnimation) { 
 			Thread proc = new Thread(this);
@@ -991,8 +969,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille.setAccel(accelInitBalle);
 
 		tempsTotalEcoule = 0;
-
-
 		ressort.setPosition(positionInitialRessort);
 		ressort.setAccel(ACCEL_INIT_RESSORT);
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
@@ -1005,13 +981,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		tempsTotalEcoule = 0;
 
 
-
 		repaint();
-
-
-
-
-
 
 
 	}
@@ -1062,7 +1032,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	public void setEtirement(double etirement) {
 		ressort.setPosition(new Vecteur2D(positionInitialRessort.getX() , positionInitialRessort.getY()+ etirement));
 
-		uneBille.setPosition(new Vecteur2D(positionInitialRessort.getX() + uneBille.getDiametre() , positionInitialRessort.getY()+ etirement - uneBille.getDiametre()-0.01));
+		uneBille.setPosition(new Vecteur2D(positionInitialRessort.getX() + uneBille.getDiametre() , positionInitialRessort.getY()+ etirement - uneBille.getDiametre()-0.001));
 		repaint();
 	}// fin methode
 
