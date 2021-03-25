@@ -1,3 +1,4 @@
+package application;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -25,6 +26,7 @@ import javax.swing.ImageIcon;
 import animation.ZoneSimulationPhysique;
 import geometrie.Bille;
 import geometrie.Vecteur2D;
+import animation.Scene;
 import animation.TestAnimation;
 import animation.ZonePinball;
 import javax.swing.SpinnerNumberModel;
@@ -62,6 +64,7 @@ public class FenetreBacSable extends JFrame{
 
 	private  Inclinaison imageInclinaison;
 	private double hauteurDuComposantMetre=1.536;
+	private Scene scene;
 
 
 
@@ -83,7 +86,7 @@ public class FenetreBacSable extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		ZonePinball zonePinball = new ZonePinball();
+		ZonePinball zonePinball = new ZonePinball(scene);
 		zonePinball.setBounds(71, 26, 600,768);
 		contentPane.add(zonePinball);
 
@@ -476,6 +479,9 @@ Inclinaison imageInclinaison = new Inclinaison();
 			System.out.println("je suis passe dans le ifffffff");
 		}
 
+	}
+	private void setJslider(int nbr) {
+		
 	}
 
 }
