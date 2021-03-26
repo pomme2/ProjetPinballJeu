@@ -76,6 +76,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 	
 	private final double RAYON_COURBE = 0.505; //en m
+	
+	private Vecteur2D posCentre = new Vecteur2D(0.598,0.712);
 
 	//variable bille Carlos
 	private double deltaT = 0.003;
@@ -929,6 +931,36 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		
 	}
 
+	
+	
+	if(uneBille.getPosition().getY() < 0.732 && uneBille.getPosition().getX() > 0.898 ) {
+		
+		double fc = moteur.MoteurPhysique.calculForceCentripete(massePourCetteScene, uneBille.getVitesse(), RAYON_COURBE);
+		
+		Vecteur2D fcFinal;
+		
+		fcFinal = moteur.MoteurPhysique.calculAngleVectorForceCentripete(posCentre, uneBille.getPosition());
+		
+
+	Vecteur2D fcTemp;
+	
+	fcTemp = (fcFinal.multiplie(fc*-1));
+	
+	 double fcGraviter = fcTemp.getY()*-4.8;
+	 
+	 
+	 Vecteur2D FCFINAL = new Vecteur2D (fcTemp.getX(),fcGraviter);
+	 
+	 
+	uneBille.setForceExterieureAppliquee(FCFINAL);
+	
+	
+	}
+	
+	
+	
+	
+	
 
 	}
 
