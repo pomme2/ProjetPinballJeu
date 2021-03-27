@@ -166,6 +166,41 @@ public class MoteurPhysique {
 		return fc;
 	}
 	
+	public static Vecteur2D calculAngleVectorForceCentripete(Vecteur2D centre,Vecteur2D positionCourbe ) {
+		
+		
+		double deltaY =	positionCourbe.getY()-centre.getY();
+		
+		
+		double deltaX =	positionCourbe.getX()-centre.getX();
+		
+		deltaY = Math.abs(deltaY);
+		
+		deltaX= Math.abs(deltaX);
+		
+		
+		
+		 double hypo = Math.pow(deltaY*deltaY + deltaX*deltaX , 0.5);
+		 
+		
+		
+		double temp = deltaY/hypo;
+		
+		double tempo = Math.asin(temp);
+		
+		double angle = Math.toDegrees(tempo);
+			
+		
+		
+		
+		return new Vecteur2D(deltaX,deltaY);
+		
+		
+		
+	}
+	
+	
+	
 	
 	
 	//Thomas Bourgault
