@@ -58,10 +58,6 @@ public class Flipper implements Dessinable {
 
 
 	}
-	public void rotateGauche(Graphics2D g2d,double angle) {
-		this.angle=angle;
-		g2d.rotate(-angle,position.x,position.y);
-	}
 
 	/**
 	 * Méthode qui permet de changer la variable pixelsParMetre
@@ -72,9 +68,18 @@ public class Flipper implements Dessinable {
 
 	}
 
-	public void avancerUnPas(double deltaT) {
-		position=MoteurPhysique.testFlipper(position,angle, longueurManche);
+	public void avancerUnPas(double angleMax, double deltaT, double frequenceAngulaire) {
+		angle=MoteurPhysique.calculAngle(angleMax, deltaT, frequenceAngulaire);
+		vitesse=MoteurPhysique.vitesseFlipper( angleMax,  deltaT,  frequenceAngulaire);		
 		creerLaGeometrie();
+	}
+	/**
+	 * Méthode qui retourne l'angle du flipper
+	 * @return l'angle du flipper
+	 */
+	public double getAngle() {
+		return angle;
+		
 	}
 
 	/**

@@ -78,7 +78,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private final double RAYON_COURBE = 0.505; //en m
 
 	//variable bille Carlos
-	private double deltaT = 0.003;
+	private double deltaT = 0.005;
 
 
 	private double diametreBallePourCetteScene = 0.03;  //em mètres
@@ -193,6 +193,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double coordX2MurFlipperGauche=0.465,coordY2MurFlipperGauche=1.3785,coordX1MurFlipperGauche=0.555,coordY1MurFlipperGauche=1.3785;
 	private double coordX1MurFlipperDroit=0.6,coordY1MurFlipperDroit=1.3785,coordX2MurFlipperDroit=0.690,coordY2MurFlipperDroit=1.3785;
 	private boolean gauche=true;
+	private double angleGauche,angleDroit,angleMax=30,frequenceAngulaire=2;
+	private Vecteur2D vitesseFlipDroit,vitesseFlipGauche;
 
 
 
@@ -284,6 +286,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 
 		initialiseBille();
+	
 
 
 
@@ -348,8 +351,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		////////////////////////////////////////////////////////////////////////GAUCHE
 		AffineTransform oldGauche = g2d.getTransform();
 		AffineTransform trans = new AffineTransform();
-		if(gaucheActive ) {							
-			g2d.rotate(Math.toRadians(-30),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
+		if(gaucheActive ) {
+			angleGauche=MoteurPhysique.calculAngle(-angleMax, deltaT, frequenceAngulaire);
+			vitesseFlipGauche=MoteurPhysique.vitesseFlipper( -angleMax,  deltaT,  frequenceAngulaire);	
+			g2d.rotate(Math.toRadians(angleGauche),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
 		}
 		if(gaucheDescente) {
 			trans.rotate(Math.toRadians(0),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
@@ -364,14 +369,13 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		////////////////////////////////////////////////////////////////////////////////DROIT
 		AffineTransform oldDroit = g2d.getTransform();
 		if(droitActive) {
-			g2d.rotate(Math.toRadians(30),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
-
-			System.out.println("Y1 " +murFlipperDroit.getCoordY1());
-
-
+			angleDroit=MoteurPhysique.calculAngle(angleMax, deltaT, frequenceAngulaire);
+			vitesseFlipDroit=MoteurPhysique.vitesseFlipper( angleMax,  deltaT,  frequenceAngulaire);
+			g2d.rotate(Math.toRadians(30),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);			
 
 		}
 		if(droitDescente) {
+			
 			g2d.rotate(Math.toRadians(0),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
 
 			System.out.println("Y2   "+murFlipperDroit.getCoordY2());
@@ -458,10 +462,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		}	
 	}
-
-
-
-
 
 
 	//Thomas Bourgault
@@ -625,6 +625,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille.avancerUnPas( deltaT );
 		getBille();
 		ressort.avancerUnPas(deltaT);
+		
 
 		//System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
 		//System.out.println("Nouvelle vitesse: " + uneBille.getVitesse().toString(2));

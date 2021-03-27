@@ -184,6 +184,28 @@ public class MoteurPhysique {
 		position=position.rotation(position,angle,longueurManche);
 		return position;
 	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui calcule l'angle d'un flipper avec l'équation d'un mouvement harmonique simple
+	 * @param angleMax est l'angle maximum qu'un flipper peut atteindre
+	 * @param deltaT est le pas d'animation
+	 * @param frequenceAngulaire est la vitesse à quel point une oscillation complète peut être effectue
+	 * @return l,angle du flipper selon le deltaT (pas d'animation)
+	 */
+	public static double calculAngle(double angleMax, double deltaT, double frequenceAngulaire) {
+		double angle;
+		angle=angleMax*Math.sin(frequenceAngulaire*deltaT+Math.PI/2);		
+		return angle;		
+	}
+	//Thomas Bourgault
+	
+	public static Vecteur2D vitesseFlipper(double angleMax, double deltaT, double frequenceAngulaire) {
+		
+		double vy=angleMax*frequenceAngulaire*Math.cos(frequenceAngulaire*deltaT+Math.PI/2);
+		Vecteur2D vitesse=new Vecteur2D(0,vy);
+		return vitesse;
+		
+	}
 	
 	
 	
