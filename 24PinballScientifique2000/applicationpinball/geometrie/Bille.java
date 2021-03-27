@@ -36,6 +36,10 @@ public class Bille extends Rectangle implements Dessinable {
 
 	private double diametre = 1;
 	private double masseEnKg = 0.5;
+	private double charge = 2;
+
+
+
 	private Ellipse2D.Double bille;
 	private Vecteur2D forceExterieureAppliquee = new Vecteur2D(0,0);
 	private Vecteur2D position;  //sera specifiee dans le constructeur
@@ -208,6 +212,26 @@ public class Bille extends Rectangle implements Dessinable {
 	public void setMasseEnKg(double masseEnKg) {
 		this.masseEnKg = masseEnKg;
 	}
+	
+	
+	/**
+	 * Retourne la charge
+	 * @return la charge de la bille
+	 */
+	public double getCharge() {
+		return charge;
+	}
+
+
+	/**
+	 * 
+	 * Modifie la charge de la bille
+	 * @param charge de la bille
+	 */
+	public void setCharge(double charge) {
+		this.charge = charge;
+	}
+
 
 
 

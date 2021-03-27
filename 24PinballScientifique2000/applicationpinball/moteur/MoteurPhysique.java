@@ -17,7 +17,9 @@ import geometrie.Vecteur2D;
 public class MoteurPhysique {
 
 	private static final double ACCEL_GRAV = 9.8066;
-	private static final double EPSILON = 1e-10; //tolerance utilisee dans les comparaisons reelles avec zero
+	private static final double EPSILON = 1e-10; //tolerance utilisee dans les comparaisons reelles avec zero+
+	
+	private static final double K = 9e+10;
 
 	/**
 	 * Calcule et retourne l'acceleration en utilisant F=ma
@@ -156,7 +158,13 @@ public class MoteurPhysique {
 		
 		return null;
 	}
-	
+	/**Methode qui calcule et retourne la force Centripete avec la masse de la bille , sa vitesse et le rayon de la courbe
+	 * 
+	 * @param masse de la bille en kg
+	 * @param vitesse de la bille en ms
+	 * @param rayon de la courbe du cercle
+	 * @return force centripete de la bille
+	 */
 	public static double calculForceCentripete(double masse, Vecteur2D vitesse, double rayon) {
 		
 		double temp =masse*Math.pow(vitesse.module(), 2);
@@ -166,7 +174,15 @@ public class MoteurPhysique {
 		return fc;
 	}
 	
-	public static Vecteur2D calculAngleVectorForceCentripete(Vecteur2D centre,Vecteur2D positionCourbe ) {
+	
+	/**
+	 * Methode qui calcule et retourne l'angle de la Force Centripete dirigee vers le centre du cercle
+	 * 
+	 * @param centre positon du cercle
+	 * @param positionCourbe ; position de la bille Sur la courbe
+	 * @return un vecteur contenant les x et y de l'angle qui forme le FC
+	 */
+	public static Vecteur2D calculDelta(Vecteur2D centre,Vecteur2D positionCourbe ) {
 		
 		
 		double deltaY =	positionCourbe.getY()-centre.getY();
@@ -195,9 +211,37 @@ public class MoteurPhysique {
 		
 		return new Vecteur2D(deltaX,deltaY);
 		
+	}
+	
+	
+	public static double forceElectrique(double q1, double q2,double r) {
+		
+		
+		double temp =K*q1*q2*Math.pow(1.602e-19, 2);
+		
+		
+	
+		
+		
+		double distance = Math.pow(r, 2);
+		
+		double Fe =temp/distance;
+		
+		
+		
+		
+		
+		
+		return Fe;
+		
+		
+		
 		
 		
 	}
+	
+	
+	
 	
 	
 	

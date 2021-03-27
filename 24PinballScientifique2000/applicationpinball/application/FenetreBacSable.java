@@ -11,6 +11,7 @@ import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import java.awt.event.ActionListener;
@@ -61,12 +62,52 @@ public class FenetreBacSable extends JFrame{
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private boolean enCoursdAnimation=false;
 	private Ressort ressort;
-
 	private  Inclinaison imageInclinaison;
 	private double hauteurDuComposantMetre=1.536;
 	private Scene scene;
+	
+	//carlos affichage des resultats
+	private JLabel lblVitesseX;
+	private JLabel lblVitesseY;
+	private JLabel lblAcceleration;
+	private JLabel lblCharge;
+	
+	private Timer minuteurResultats=null;
+	
+	private ZonePinball zonePinball;
 
+	
+	
+	/**
+	 *  Creation d'un ecouteur qui sera jumelé au timer pour l'affichage des resultats
+	 */
+	private ActionListener ecouteurDuMinuteur = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			miseAjourInterface();
+	}};
 
+		/**
+		 * Méthode qui questionne le composant d'animation pour obtenir les résultats actuels
+		 * et les affiche ensuite sur l'interface
+		 * Cette méthode détecte aussi la fin de l'animation, et arrête le minuteur dans ce cas.
+		 */
+		public void miseAjourInterface() {
+			
+			//System.out.println("Interface mise à jour.....");
+			lblAcceleration.setText("Acc\u00E9l\u00E9ration: "  +String.format("%."+ 1 +"f", zonePinball.getBille().getAccel().getX()));
+			lblVitesseX.setText("Vitesse X : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getX()));
+			lblVitesseY.setText("Vitesse Y : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getY()));
+			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
+			
+			
+			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
+			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
+			if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
+				minuteurResultats.stop();
+				
+			}
+		}
 
 	/**
 	 * Constructeur : création et initialisation de l'inteface
@@ -86,7 +127,7 @@ public class FenetreBacSable extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		ZonePinball zonePinball = new ZonePinball(scene);
+		zonePinball = new ZonePinball(scene);
 		zonePinball.setBounds(71, 26, 600,768);
 		contentPane.add(zonePinball);
 
@@ -102,19 +143,19 @@ public class FenetreBacSable extends JFrame{
 		lblDonneesBalle.setBounds(817, 26, 192, 37);
 		contentPane.add(lblDonneesBalle);
 
-		JLabel lblAcceleration = new JLabel("Acc\u00E9l\u00E9ration:");
+		 lblAcceleration = new JLabel("Acc\u00E9l\u00E9ration:");
 		lblAcceleration.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblAcceleration.setBounds(734, 79, 89, 14);
+		lblAcceleration.setBounds(724, 79, 122, 14);
 		contentPane.add(lblAcceleration);
 
-		JLabel lblVitesse = new JLabel("Vitesse:");
-		lblVitesse.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblVitesse.setBounds(734, 114, 98, 19);
-		contentPane.add(lblVitesse);
+		 lblVitesseX = new JLabel("Vitesse:");
+		lblVitesseX.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblVitesseX.setBounds(724, 104, 122, 19);
+		contentPane.add(lblVitesseX);
 
-		JLabel lblCharge = new JLabel("Charge:");
+		 lblCharge = new JLabel("Charge:");
 		lblCharge.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblCharge.setBounds(734, 153, 98, 19);
+		lblCharge.setBounds(724, 153, 98, 19);
 		contentPane.add(lblCharge);
 
 		JLabel lblMasse = new JLabel("Masse:");
@@ -150,12 +191,12 @@ public class FenetreBacSable extends JFrame{
 
 		JRadioButton rdbtnChargePos = new JRadioButton("+e");
 		buttonGroup.add(rdbtnChargePos);
-		rdbtnChargePos.setBounds(897, 153, 48, 23);
+		rdbtnChargePos.setBounds(841, 153, 48, 23);
 		contentPane.add(rdbtnChargePos);
 
 		JRadioButton rdbtnChargeNeg = new JRadioButton("-e");
 		buttonGroup.add(rdbtnChargeNeg);
-		rdbtnChargeNeg.setBounds(948, 153, 42, 23);
+		rdbtnChargeNeg.setBounds(908, 153, 42, 23);
 		contentPane.add(rdbtnChargeNeg);
 
 
@@ -291,20 +332,13 @@ Inclinaison imageInclinaison = new Inclinaison();
 		sliderInclinaison.setBounds(734, 306, 200, 37);
 		contentPane.add(sliderInclinaison);
 
-
-
-
-
-
-
-
 		JLabel lblValeurAccel = new JLabel("       m/s\u00B2");
-		lblValeurAccel.setBounds(827, 81, 85, 14);
+		lblValeurAccel.setBounds(837, 81, 85, 14);
 		contentPane.add(lblValeurAccel);
 		//double vitesse = Math.sqrt(zonePinball.getVitesseBalle().getX()+zonePinball.getVitesseBalle().getY());
 
 		JLabel lblValeurVitesse = new JLabel( " m/s");
-		lblValeurVitesse.setBounds(798, 118, 149, 14);
+		lblValeurVitesse.setBounds(848, 108, 30, 14);
 		contentPane.add(lblValeurVitesse);
 
 		JLabel lblValeurCharge = new JLabel("      C");
@@ -332,7 +366,7 @@ Inclinaison imageInclinaison = new Inclinaison();
 			public void componentShown(ComponentEvent e) {
 				if(zonePinball.isVisible()==true && zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
 					zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
-					System.out.println("Je suis entrer dans le component shown");
+					//System.out.println("Je suis entrer dans le component shown");
 					sliderEtirement.setValue(0);
 				}
 			}
@@ -342,14 +376,15 @@ Inclinaison imageInclinaison = new Inclinaison();
 			@Override
 			public void mousePressed(MouseEvent e) {
 
-				System.out.println("Slider active");
 
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				System.out.println("Slider desactive");
+			
 				zonePinball.demarrer();
 				zonePinball.requestFocusInWindow();
+				minuteurResultats = new Timer(10, ecouteurDuMinuteur );
+				minuteurResultats.start();
 
 				if(zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
 					sliderEtirement.setValue(0);
@@ -365,16 +400,6 @@ Inclinaison imageInclinaison = new Inclinaison();
 		sliderEtirement.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 
-				
-				/*if(zonePinball.retablirPosition()==true) {
-			sliderEtirement.setValue(0);
-		}*/
-
-
-
-
-				// carlos testing
-				//zonePinball.getBille().setPosition(new Vecteur2D (1.056, 1- (int) sliderEtirement.getValue()/100));
 
 				zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
 
@@ -432,14 +457,13 @@ Inclinaison imageInclinaison = new Inclinaison();
 		btnDemarrer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sliderEtirement.setEnabled(true);
-				 //if(zonePinball.getPositionBille().getX()==zonePinball.getPositionIniBille().getX()) {
-				//	 sliderEtirement.setValue(0);
-				// }
 			
 				if ((int)sliderEtirement.getValue() != 0) {					
 					zonePinball.demarrer();
 					enCoursdAnimation=true;
 					zonePinball.requestFocusInWindow();
+					minuteurResultats = new Timer(10, ecouteurDuMinuteur );
+					minuteurResultats.start();
 				
 
 				}
@@ -474,14 +498,36 @@ Inclinaison imageInclinaison = new Inclinaison();
 		lblImage.setBounds(798, 750, 192, 143);
 		contentPane.add(lblImage);
 		
+		JCheckBox chckbxAimant = new JCheckBox("Aimant");
+		chckbxAimant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//zonePinball.aimantActif(chckbxAimant.isSelected());
+			}
+		});
+		chckbxAimant.setBounds(109, 859, 97, 23);
+		contentPane.add(chckbxAimant);
+		
+		lblVitesseY = new JLabel("Vitesse Y : 0.00");
+		lblVitesseY.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblVitesseY.setBounds(724, 129, 120, 19);
+		contentPane.add(lblVitesseY);
+		
+		JLabel lblValeurVitesse_1 = new JLabel(" m/s");
+		lblValeurVitesse_1.setBounds(841, 133, 30, 14);
+		contentPane.add(lblValeurVitesse_1);
+		
+		
 		if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
 			sliderEtirement.setValue(0);
-			System.out.println("je suis passe dans le ifffffff");
+			//System.out.println("je suis passe dans le ifffffff");
 		}
-
+	
+	
+		miseAjourInterface();
+	
 	}
 	private void setJslider(int nbr) {
 		
 	}
-
 }
