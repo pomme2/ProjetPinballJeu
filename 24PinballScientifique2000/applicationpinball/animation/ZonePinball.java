@@ -82,7 +82,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	private Vecteur2D posCentre = new Vecteur2D(0.598, 0.712);
 
 	//variable bille Carlos
-	private double deltaT = 0.005;
+	private double deltaT = 0.003;
 
 
 	private double diametreBallePourCetteScene = 0.03; //em mètres
@@ -611,9 +611,6 @@ public class ZonePinball extends JPanel implements Runnable {
 
                 col = false;
 
-               // System.out.println("pos x de bile : " + uneBille.getPosition().getX());
-
-                //System.out.println("centre du cerlce : " + cercle.getPositionMursX());
 
                 if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX()) {
 
@@ -725,13 +722,16 @@ public class ZonePinball extends JPanel implements Runnable {
             if (line.ptSegDist(uneBille.getPosition().getX() + uneBille.getDiametre() / 2, uneBille.getPosition().getY() + uneBille.getDiametre() / 2) < uneBille.getDiametre() / 2 && gaucheActive) {
 
                 //	uneBille.setVitesse(MoteurPhysique.calculVitesseBilleFlipper(flipGauche.getVitesse().module(), uneBille.getVitesse()));
-                uneBille.setVitesse(new Vecteur2D(-1.8, -5));
+                uneBille.setVitesse(flipGauche.getVitesse().multiplie(0.01));
+                
+                
 
             }
 
             if (uneBille.getPosition().getY() + uneBille.getDiametre() > flipper.getCoordY1() && uneBille.getPosition().getX() > flipper.getCoordX1() && uneBille.getPosition().getX() < flipper.getCoordX2()) {
 
-                uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(), uneBille.getVitesse().getY() * -1));
+                uneBille.setVitesse(flipGauche.getVitesse().multiplie(0.01));
+
             }
         }
         //collision flipper droit
@@ -746,12 +746,12 @@ public class ZonePinball extends JPanel implements Runnable {
 
                 //	uneBille.setVitesse(MoteurPhysique.calculVitesseBilleFlipper(flipGauche.getVitesse().module(), uneBille.getVitesse()));
 
-                uneBille.setVitesse(new Vecteur2D(1.5, -4));
+                uneBille.setVitesse(flipDroit.getVitesse().multiplie(0.01));
             }
 
             if (uneBille.getPosition().getY() + uneBille.getDiametre() > flipper.getCoordY1() && uneBille.getPosition().getX() > flipper.getCoordX1() && uneBille.getPosition().getX() < flipper.getCoordX2()) {
 
-                uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(), uneBille.getVitesse().getY() * -1));
+                uneBille.setVitesse(flipDroit.getVitesse().multiplie(0.01));
             }
         }
 
@@ -841,8 +841,12 @@ public class ZonePinball extends JPanel implements Runnable {
 
             uneBille.setForceExterieureAppliquee(FCFINAL);
 
-        }
+        }else
+        {
+            uneBille.setForceExterieureAppliquee(new Vecteur2D (0,4.8));
 
+        	
+        }
         //collision avec la courbe 
         for (int i = 0; i < courbe.size(); i++) {
 

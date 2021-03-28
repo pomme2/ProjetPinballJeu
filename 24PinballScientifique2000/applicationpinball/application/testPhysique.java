@@ -16,7 +16,7 @@ public class testPhysique {
 		
 		
 		
-		//System.out.println(moteur.MoteurPhysique.forceElectrique(15, 10, 0.1));
+		System.out.println(moteur.MoteurPhysique.forceElectrique(15, 10, 0.1));
 
 		
 		
