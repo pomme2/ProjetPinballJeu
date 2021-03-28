@@ -68,9 +68,10 @@ public class Flipper implements Dessinable {
 
 	}
 
-	public void avancerUnPas(double angleMax, double deltaT, double frequenceAngulaire) {
-		angle=MoteurPhysique.calculAngle(angleMax, deltaT, frequenceAngulaire);
-		vitesse=MoteurPhysique.vitesseFlipper( angleMax,  deltaT,  frequenceAngulaire);		
+	public void avancerUnPas(double angleMax, double tempsTotalEcoule, double frequenceAngulaire) {
+		angle=MoteurPhysique.calculAngle(angleMax, tempsTotalEcoule, frequenceAngulaire);
+		System.out.println("Valeur de l'angle: "+angle);
+		vitesse=MoteurPhysique.vitesseFlipper( angleMax,  tempsTotalEcoule,  frequenceAngulaire);		
 		creerLaGeometrie();
 	}
 	/**
