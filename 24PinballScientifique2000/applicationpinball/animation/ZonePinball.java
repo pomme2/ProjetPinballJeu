@@ -481,7 +481,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
         if (uneBille.getPosition().getX() < ligneDroitHautGau.getCoordX1()) {
 
-            Vecteur2D vitesseNegatif = new Vecteur2D(uneBille.getVitesse().getX() * -1.6, uneBille.getVitesse().getY());
+            Vecteur2D vitesseNegatif = new Vecteur2D(uneBille.getVitesse().getX() * -1, uneBille.getVitesse().getY());
             uneBille.setVitesse(vitesseNegatif);
 
         }
@@ -601,7 +601,7 @@ public class ZonePinball extends JPanel implements Runnable {
             }
 
         }
-
+        //collision flipper gauche
         for (int i = 0; i < flipperGauche.size(); i++) {
 
             MursDroits flipper = flipperGauche.get(i);
@@ -620,7 +620,7 @@ public class ZonePinball extends JPanel implements Runnable {
                 uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(), uneBille.getVitesse().getY() * -1));
             }
         }
-
+        //collision flipper droit
         for (int i = 0; i < flipperDroit.size(); i++) {
 
             MursDroits flipper = flipperDroit.get(i);
@@ -697,28 +697,14 @@ public class ZonePinball extends JPanel implements Runnable {
 
             MursDroits cote = coteTriangle.get(i);
 
+            Line2D.Double line = new Line2D.Double(cote.getCoordX1(), cote.getCoordY1(), cote.getCoordX2(), cote.getCoordY2());
 
-            boolean right, left;
-
-            right = false;
-            left = false;
-
-            if (uneBille.getPosition().getX() > cote.getCoordX1()) {
-
-                right = true;
+            if (line.ptSegDist(uneBille.getPosition().getX() + uneBille.getDiametre() / 2, uneBille.getPosition().getY() + uneBille.getDiametre() / 2) < uneBille.getDiametre() / 2) {
+            	
+            	//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX() * -1, uneBille.getVitesse().getY()));
+            
             }
 
-            if (uneBille.getPosition().getX() < 0.192) {
-
-                left = true;
-            }
-
-            if (uneBille.getPosition().getY() > cote.getCoordY1() && uneBille.getPosition().getY() < cote.getCoordY2() && uneBille.getPosition().getX() + uneBille.getDiametre() < cote.getCoordX1() && left) {
-
-
-                uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX() * -1, uneBille.getVitesse().getY()));
-
-            }
         }
 
 
