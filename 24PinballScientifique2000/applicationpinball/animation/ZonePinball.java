@@ -106,6 +106,13 @@ public class ZonePinball extends JPanel implements Runnable {
 
     boolean aimantActif;
 
+    
+    //variable pour pointage
+    PointageAnimation score = new PointageAnimation();
+    
+    int pointCercle = 5;
+    int triange = 10;
+    int temps=0;
 
 
     //tableau pour obstacles
@@ -490,9 +497,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
                 col = false;
 
-                System.out.println("pos x de bile : " + uneBille.getPosition().getX());
+               // System.out.println("pos x de bile : " + uneBille.getPosition().getX());
 
-                System.out.println("centre du cerlce : " + cercle.getPositionMursX());
+                //System.out.println("centre du cerlce : " + cercle.getPositionMursX());
 
                 if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX()) {
 
@@ -503,6 +510,8 @@ public class ZonePinball extends JPanel implements Runnable {
                         Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
 
                         uneBille.setVitesse(VitYnegatif);
+                        
+                        score.updateScore(pointCercle);
 
                     }
 
@@ -517,6 +526,9 @@ public class ZonePinball extends JPanel implements Runnable {
                         Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
 
                         uneBille.setVitesse(VitYnegatif);
+                        
+                        score.updateScore(pointCercle);
+
                     }
                 }
                 boolean colY = false;
@@ -528,10 +540,15 @@ public class ZonePinball extends JPanel implements Runnable {
                     Vecteur2D VitYnegatif = new Vecteur2D(vitX * -1, uneBille.getVitesse().getY() * -1);
                     uneBille.setVitesse(VitYnegatif);
                     colX = true;
+                    
+                    score.updateScore(pointCercle);
+
 
                 }
                 if (uneBille.getPosition().getX() > cercle.getPositionMursX()) {
                     colY = true;
+                    score.updateScore(pointCercle);
+
                 }
 
                 if (uneBille.getVitesse().getY() + uneBille.getPosition().getY() > cercle.getPositionMursY() && colY) {
@@ -541,6 +558,8 @@ public class ZonePinball extends JPanel implements Runnable {
                     Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
 
                     uneBille.setVitesse(VitYnegatif);
+                    score.updateScore(pointCercle);
+
                 }
 
                 if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX() && colX) {
@@ -550,6 +569,8 @@ public class ZonePinball extends JPanel implements Runnable {
                     Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
 
                     uneBille.setVitesse(VitYnegatif);
+                    score.updateScore(pointCercle);
+
                 }
             }
         }
@@ -652,6 +673,7 @@ public class ZonePinball extends JPanel implements Runnable {
         if (uneBille.getPosition().getY() > hauteurDuComposantMetre) {
             arreter();
             retablirPosition();
+            score.resetScore();
         }
 
         for (int i = 0; i < droitSous.size(); i++) {
@@ -761,6 +783,7 @@ public class ZonePinball extends JPanel implements Runnable {
         while (enCoursDAnimation) {
             //System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
             calculerUneIterationPhysique(deltaT);
+            score.timerScore();
             if (ressort.isArrete()) {
                 arreter();
             }
@@ -842,6 +865,8 @@ public class ZonePinball extends JPanel implements Runnable {
         flipGauche.setVitesse(vitesseInitialeFlipper);
         tempsTotalEcoule = 0;
 
+        score.resetScore();
+        
         repaint();
 
     }
@@ -1049,6 +1074,11 @@ public class ZonePinball extends JPanel implements Runnable {
     } // fin methode
 
 
+    public PointageAnimation getScore() {
+    	
+    	return score;
+    }
+    
     //Carlos Eduardo
     /**
      * Méthode qui rajoute aux différentes listes d'obstacles les murs qui leur sont associes

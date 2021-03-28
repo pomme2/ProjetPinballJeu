@@ -1,5 +1,6 @@
 package application;
 
+import animation.PointageAnimation;
 import geometrie.Vecteur2D;
 
 public class testPhysique {
@@ -15,10 +16,30 @@ public class testPhysique {
 		
 		
 		
-		System.out.println(moteur.MoteurPhysique.forceElectrique(15, 10, 0.1));
+		//System.out.println(moteur.MoteurPhysique.forceElectrique(15, 10, 0.1));
 
+		
+		
+		PointageAnimation points ;
+		
+		points = new PointageAnimation();
+		
+		points.updateScore(1);
+		points.updateScore(1);
 
-		 
+		points.updateScore(1);
+
+		points.updateScore(1);
+
+		points.updateScore(2);
+
+		System.out.println(points.getScore());
+		
+		points.resetScore();
+		
+
+		System.out.println(points.getScore());
+
 	
 
 	}
