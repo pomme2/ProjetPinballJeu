@@ -16,12 +16,20 @@ public class Aimant  extends Rectangle implements Dessinable{
 	private Ellipse2D.Double aimant;
 	private double pixelParMetre=1;
 	private double coordX,coordY,diametre;
+	
+	private Vecteur2D position;  //sera specifiee dans le constructeur
+	
+	private double charge = -1;
 
 	
+
+
+
 	public Aimant(double coordX,double coordY, double diametre) {
 		this.coordX=coordX;
 		this.coordY=coordY;
 		this.diametre=diametre;
+		this.setPosition(new Vecteur2D(coordX,coordY));
 		creerLaGeometrie();			
 	}
 	
@@ -80,6 +88,54 @@ public class Aimant  extends Rectangle implements Dessinable{
 	public double getDiametre() {
 		return this.diametre;
 	}
+	
+	
+	public double getCoordX() {
+		return coordX;
+	}
+
+
+
+	public void setCoordX(double coordX) {
+		this.coordX = coordX;
+	}
+
+
+
+	public double getCoordY() {
+		return coordY;
+	}
+
+
+
+	public void setCoordY(double coordY) {
+		this.coordY = coordY;
+	}
+
+
+
+	public double getCharge() {
+		return charge;
+	}
+
+
+
+	public void setCharge(double charge) {
+		this.charge = charge;
+	}
+
+
+
+	public Vecteur2D getPosition() {
+		return position;
+	}
+
+
+
+	public void setPosition(Vecteur2D position) {
+		this.position = position;
+	}
+
 	
 	
 }

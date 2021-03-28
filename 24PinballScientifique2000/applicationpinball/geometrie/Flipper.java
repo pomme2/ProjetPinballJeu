@@ -28,7 +28,7 @@ public class Flipper implements Dessinable {
 	private double pixelsParMetre =1;
 	private Vecteur2D position;  //sera specifiee dans le constructeur
 	private Vecteur2D vitesse = new Vecteur2D(0,0); //par defaut
-	private double angle;
+	private double angle=0;
 	private int rad;
 
 
@@ -68,10 +68,9 @@ public class Flipper implements Dessinable {
 
 	}
 
-	public void avancerUnPas(double angleMax, double tempsTotalEcoule, double frequenceAngulaire) {
-		angle=MoteurPhysique.calculAngle(angleMax, tempsTotalEcoule, frequenceAngulaire);
-		System.out.println("Valeur de l'angle: "+angle);
-		vitesse=MoteurPhysique.vitesseFlipper( angleMax,  tempsTotalEcoule,  frequenceAngulaire);		
+	public void avancerUnPas(double angleMax, double tempsTotalEcoule, double frequenceAngulaire,boolean premierQuartPeriode) {
+		angle=MoteurPhysique.calculAngle(angleMax, tempsTotalEcoule, frequenceAngulaire, premierQuartPeriode);
+		vitesse=MoteurPhysique.vitesseFlipper( angleMax,  tempsTotalEcoule,  frequenceAngulaire, premierQuartPeriode);		
 		creerLaGeometrie();
 	}
 	/**

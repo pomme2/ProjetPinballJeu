@@ -12,9 +12,14 @@ public class testPhysique {
 		Vecteur2D courbe = new Vecteur2D(14,22);
 		
 		
-		 Vecteur2D rep = moteur.MoteurPhysique.calculAngleVectorForceCentripete(centre, courbe);
 		
-		System.out.println(rep);
+		
+		
+		System.out.println(moteur.MoteurPhysique.forceElectrique(15, 10, 0.1));
+
+
+		 
+	
 
 	}
 
