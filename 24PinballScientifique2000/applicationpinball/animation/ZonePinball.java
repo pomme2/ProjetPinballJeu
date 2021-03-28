@@ -25,14 +25,14 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
-
+import dessinable.Dessinable;
 import dessinable.OutilsImage;
 import geometrie.Bille;
 import geometrie.Flipper;
 import geometrie.Murs;
 import geometrie.MursCourbes;
 import geometrie.MursDroits;
+import geometrie.ObstacleClique;
 import geometrie.Ressort;
 import geometrie.Vecteur2D;
 import moteur.MoteurPhysique;
@@ -86,7 +86,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	//position intiales pour la bille
 	private Bille uneBille;
 	private boolean enCoursDAnimation= false;
-	private double tempsTotalEcoule = 0;
+	private double tempsTotalEcoule = 0; 
 	private int tempsDuSleep = 10;
 
 
@@ -190,7 +190,15 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	double compteurGauche,compteurDroit;
 	private boolean billeEnDehors=false;
 
-
+	private ObstacleClique obstacle,obstacle1,obstacle2,obstacle3,obstacle4,obstacle5,obstacle6;
+	private String forme;
+	private boolean cercleSelectionne = false, formeSelectionne = false, triangleSelectionne=false,rectangleSelectionne = false;
+	private double xPrecedent, yPrecedent;
+	private double posXCarre = 0.3;
+	private double posYCarre = 0.3;
+	private double translatCarreX=0.01;
+	private double translatCarreY=0.01;
+	private Shape carreTransfo;
 
 	//Thomas Bourgault
 	/**
@@ -258,6 +266,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		flippers();
 
 
+		/////test
+		//obstacle = new ObstacleClique(translatCarreX,translatCarreY,65,45,forme);
+		//System.out.println("lllllllllllll"+forme);
+
 
 
 
@@ -280,7 +292,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		initialiseBille();
 
 
-
+		gestionSourisObs();
 
 
 		addMouseListener(new MouseAdapter() {
@@ -296,7 +308,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			public void mousePressed(MouseEvent e) {
 				if(ImageSelectionne) {
 					System.out.println("X: "+e.getX()/(dimensionImageX/largeurDuComposantMetre)+" cliqué "+" Y: "+e.getY()/(dimensionImageY/hauteurDuComposantMetre)+" cliqué");
-
+					
 					uneBille.setPosition(new Vecteur2D(e.getX(),e.getY()));
 				}
 			}
@@ -412,9 +424,17 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		//g2d.setColor(Color.red);
 		uneBille.setPixelsParMetre(pixelParMetre);
-		uneBille.dessiner(g2d);			
+		uneBille.dessiner(g2d);	
 
+		g2d.setColor(Color.yellow);
+		obstacle = new ObstacleClique(posXCarre+translatCarreX,posYCarre+translatCarreY,0.1,0.1,forme);
 
+		obstacle.setPixelsParMetre(pixelParMetre);
+		obstacle.dessiner(g2d);
+
+		
+	
+		
 		if(contour) {
 			g2d.setColor(Color.green);		
 			//Les 4 cercles
@@ -944,6 +964,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		enCoursDAnimation = false;
 	}
 
+	public boolean isAnimationEnCours() {
+		return enCoursDAnimation;
+	}
+
 	//Carlos Eduardo
 	/**
 	 * Reinitialise la position et la vitesse de la balle
@@ -969,13 +993,13 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		tempsTotalEcoule = 0;
 
 		repaint();
-		
-		
+
+
 
 		billeEnDehors=false;
 
 
-		
+
 	}
 
 
@@ -1242,7 +1266,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		arcCercleGauCoordX.add(gaucheX7);
 		arcCercleGauCoordX.add(gaucheX8);
 		arcCercleGauCoordX.add(gaucheX9);
-		
+
 		//gauche y
 		arcCercleGauCoordY.add(gaucheY1);
 		arcCercleGauCoordY.add(gaucheY2);
@@ -1266,19 +1290,19 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		arcCercleDroitCoordX.add(droitX7);
 		arcCercleDroitCoordX.add(droitX8);
 		arcCercleDroitCoordX.add(droitX9);
-		
+
 		//droit y
-		 arcCercleDroitCoordY.add(droitY1);
-		 arcCercleDroitCoordY.add(droitY2);
-		 arcCercleDroitCoordY.add(droitY3);
-		 arcCercleDroitCoordY.add(droitY4);
-		 arcCercleDroitCoordY.add(droitY5);
-		 arcCercleDroitCoordY.add(droitY6);
-		 arcCercleDroitCoordY.add(droitY7);
-		 arcCercleDroitCoordY.add(droitY8);
-		 arcCercleDroitCoordY.add(droitY9);
-		 
-		 //coordonne en x et en y des segments de la courbe petit
+		arcCercleDroitCoordY.add(droitY1);
+		arcCercleDroitCoordY.add(droitY2);
+		arcCercleDroitCoordY.add(droitY3);
+		arcCercleDroitCoordY.add(droitY4);
+		arcCercleDroitCoordY.add(droitY5);
+		arcCercleDroitCoordY.add(droitY6);
+		arcCercleDroitCoordY.add(droitY7);
+		arcCercleDroitCoordY.add(droitY8);
+		arcCercleDroitCoordY.add(droitY9);
+
+		//coordonne en x et en y des segments de la courbe petit
 		double petitX1=0.9,petitX2=0.9774999999999999,petitX3=0.9993749999999999,petitX4=1.01;
 		double petitY1= 0.398, petitY2=0.5954999999999999, petitY3=0.6908749999999999, petitY4= 0.784;
 		//petit x
@@ -1293,6 +1317,102 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		arcCerclePetitCoordY.add(petitY4);
 	}
 
+	public void setForme(String forme) {
+		this.forme=forme;
+		obstacle = new ObstacleClique(301,301,65,45,forme);
 
+
+
+
+		repaint();
+
+	}
+	private void gestionSourisObs() {
+		addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+			//if(e.getY()<=550) {
+			//	System.out.println("ffffffffffffffff"+obstacle.getPosY()+obstacle.getLarg());
+		//	if(obstacle.getPosY()+obstacle.getLarg()<=590)	{			
+			if(obstacle.getPosY()+obstacle.getHaut()<=1.26 && obstacle.getPosX()>=0.11 && (obstacle.getPosX()+obstacle.getLarg())<=1.05 && obstacle.getPosY()>=0.15)	{				
+					
+				if (formeSelectionne) {
+					//System.out.println("fffffffffffffffffff");
+						translatCarreX += e.getX()/(dimensionImageX/largeurDuComposantMetre) - xPrecedent;
+						translatCarreY += e.getY()/(dimensionImageX/largeurDuComposantMetre) - yPrecedent;
+						xPrecedent = e.getX()/(dimensionImageX/largeurDuComposantMetre) ;
+						yPrecedent = e.getY()/(dimensionImageX/largeurDuComposantMetre) ;
+						//System.out.println("sdsds "+obstacle.getPosX());
+					//	System.out.println("sdsds2 "+obstacle.getLarg());
+					//	System.out.println("sdsds3 "+(obstacle.getPosX()+obstacle.getLarg()));
+						repaint();
+					}
+			}else {
+				if (formeSelectionne) {
+					if(obstacle.getPosY()+obstacle.getHaut()>1.26) {
+						translatCarreY += -0.01;
+						
+					repaint();
+					}else if(obstacle.getPosX()+obstacle.getLarg()>1.05 && obstacle.getPosX()!=0.11) {
+						translatCarreX += -0.01;
+						repaint();
+					} else  if(obstacle.getPosX()<0.11 && obstacle.getPosX()+obstacle.getLarg()!=1.05 ){
+						translatCarreX += 0.01;
+						repaint();
+					}else {
+						translatCarreY += 0.01;
+						repaint();
+					}
+					
+				}
+			}
+			} //fin drag
+		});	
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				if(forme=="Cercle") {
+					if (obstacle.contientCercle(e.getX()/(dimensionImageX/largeurDuComposantMetre), e.getY()/(dimensionImageX/largeurDuComposantMetre))){
+						//System.out.println("cccccccccccccccccccccccccccc"+translatCarreX);
+						formeSelectionne = true;
+						//System.out.println("ddddddddddd"+obstacle.getPosX());
+						xPrecedent = e.getX()/(dimensionImageX/largeurDuComposantMetre);
+						yPrecedent = e.getY()/(dimensionImageX/largeurDuComposantMetre);
+						repaint();
+					}
+
+				}else if(forme=="Rectangle") {
+					if (obstacle.contientRectangle(e.getX()/(dimensionImageX/largeurDuComposantMetre), e.getY()/(dimensionImageX/largeurDuComposantMetre))){
+						formeSelectionne = true;
+						xPrecedent = e.getX()/(dimensionImageX/largeurDuComposantMetre);
+						yPrecedent = e.getY()/(dimensionImageX/largeurDuComposantMetre);
+						repaint();
+					}
+
+				}else if (forme=="Carré") {
+					if (obstacle.contientCarre(e.getX()/(dimensionImageX/largeurDuComposantMetre), e.getY()/(dimensionImageX/largeurDuComposantMetre))){
+						formeSelectionne = true;
+						xPrecedent = e.getX()/(dimensionImageX/largeurDuComposantMetre);
+						yPrecedent = e.getY()/(dimensionImageX/largeurDuComposantMetre);
+						repaint();
+					}
+				}else if (forme == "Triangle") {
+					if (obstacle.contientTriangle(e.getX()/(dimensionImageX/largeurDuComposantMetre), e.getY()/(dimensionImageX/largeurDuComposantMetre))){
+						formeSelectionne = true;
+						xPrecedent = e.getX()/(dimensionImageX/largeurDuComposantMetre);
+						yPrecedent = e.getY()/(dimensionImageX/largeurDuComposantMetre);
+						repaint();
+					}
+			
+				}
+			}
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				formeSelectionne = false;
+
+			} //fin released
+		});
+	}
 
 }

@@ -49,6 +49,7 @@ public class FenetreJouer extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 40, 1100, 928);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -113,7 +114,9 @@ public class FenetreJouer extends JFrame{
 		lblScore.setBounds(773, 501, 116, 37);
 		contentPane.add(lblScore);
 		
-		
+		Inclinaison imageInclinaison = new Inclinaison();
+		imageInclinaison.setBounds(1000,283,78,60);
+		contentPane.add(imageInclinaison);
 
 		Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 		
@@ -234,6 +237,10 @@ public class FenetreJouer extends JFrame{
 		JProgressBar progressBar = new JProgressBar();
 		progressBar.setBounds(734, 372, 256, 19);
 		contentPane.add(progressBar);
+		
+		SceneImage sceneImage = new SceneImage();
+		sceneImage.setBounds(974, 46, 100, 100);
+		contentPane.add(sceneImage);
 		
 		JLabel lblEtirement = new JLabel("Etirement:");
 		lblEtirement.setFont(new Font("Tahoma", Font.PLAIN, 15));

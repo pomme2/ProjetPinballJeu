@@ -7,6 +7,35 @@ import javax.swing.JProgressBar;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.Component;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JLabel;
+
+import java.awt.Font;
+
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.border.TitledBorder;
+import javax.swing.UIManager;
+
+
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.CompoundBorder;
+
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
@@ -15,15 +44,19 @@ import javax.swing.JSlider;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import animation.ZoneSimulationPhysique;
 import geometrie.Bille;
+import geometrie.ObstacleClique;
 import geometrie.Vecteur2D;
 import animation.TestAnimation;
 import animation.ZonePinball;
@@ -57,13 +90,49 @@ public class FenetreBacSable extends JFrame{
 	private int valeurAimant,valeurMasse=1;
 	private int valeurRessort;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+
 	private boolean enCoursdAnimation=false;
 	private Ressort ressort;
+	private ZonePinball zonePinball;
+	private JPanel panelResul;
+	private JSlider sliderEtirement;
+	private JButton btnDemarrer;
+	private JLabel lblAcceleration;
 
 	private  Inclinaison imageInclinaison;
 	private double hauteurDuComposantMetre=1.536;
+	BufferedImage imageBille = null;
+	private Timer minuteurResultats=null;
+	private JLabel lblPosition;
+	/**
+	 */
 
-
+	private ActionListener ecouteurDuMinuteur = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//miseAjourInterface();
+	}};
+	
+	/*public void miseAjourInterface() {
+		System.out.println("Interface mise à jour.....");
+		
+		
+		//lblPosition.setText("" +  String.format("%."+ 1 +"f",zonePinball.getBackground())  );
+		//lblAcceleration.setText(""+String.format("%."+ 1 +"f",zonePinball.getK_RESSORT()) );
+		if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
+			
+			minuteurResultats.stop();
+			btnDemarrer.setEnabled(true);
+			
+		}
+	}*/
+	/*public void etirement() {
+		if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
+			sliderEtirement.setValue(0);
+			System.out.println("je suis passe dans le ifffffff");
+		}
+	}
+*/
 
 	/**
 	 * Constructeur : création et initialisation de l'inteface
@@ -87,13 +156,10 @@ public class FenetreBacSable extends JFrame{
 		zonePinball.setBounds(71, 26, 600,768);
 		contentPane.add(zonePinball);
 
-
 		//Initialisation des valeurs de spinners initiales.
 		int etirementInitial = (int)(zonePinball.getETIREMENT_NAT()*100.0);
 		int kRessortInitial = (int)zonePinball.getK_RESSORT();
-		
-	
-		
+
 		JLabel lblDonneesBalle = new JLabel("Donn\u00E9es de la balle");
 		lblDonneesBalle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDonneesBalle.setBounds(817, 26, 192, 37);
@@ -155,11 +221,18 @@ public class FenetreBacSable extends JFrame{
 		rdbtnChargeNeg.setBounds(948, 153, 42, 23);
 		contentPane.add(rdbtnChargeNeg);
 
-
+		
 
 		Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 
 		JComboBox<Object> comboBoxObstacles = new JComboBox<Object>(choixObstacles);
+		comboBoxObstacles.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			String forme = (String) comboBoxObstacles.getSelectedItem();
+			zonePinball.setForme(forme);
+			
+			}
+		});
 		comboBoxObstacles.setBounds(734, 563, 344, 37);
 		contentPane.add(comboBoxObstacles);
 
@@ -173,12 +246,16 @@ public class FenetreBacSable extends JFrame{
 		btnOption.setBounds(908, 614, 170, 69);
 		contentPane.add(btnOption);
 
+
+
+
 		JButton btnSauvegarde = new JButton("Sauvegarder et revenir au menu");
 		btnSauvegarde.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fenMenu.setVisible(true);
 				setVisible(false);
-				
+
+
 			}
 		});
 		btnSauvegarde.setBounds(734, 694, 344, 60);
@@ -245,15 +322,19 @@ public class FenetreBacSable extends JFrame{
 		contentPane.add(sliderRessort);
 
 		JSlider sliderInclinaison = new JSlider();
-		sliderInclinaison.setValue(0);
+		sliderInclinaison.setToolTipText("");
+		sliderInclinaison.setMinimum(35);
+		sliderInclinaison.setValue(70);
 		sliderInclinaison.setMaximum(75);
+
 		
-		
-Inclinaison imageInclinaison = new Inclinaison();
+		Inclinaison imageInclinaison = new Inclinaison();
 		imageInclinaison.setBounds(1000,283,78,60);
 		contentPane.add(imageInclinaison);
-		
+		imageInclinaison.setInclinaison(70);
+
 		JSpinner spinnerInclinaison = new JSpinner();
+		spinnerInclinaison.setModel(new SpinnerNumberModel(70, 35, 75, 1));
 		spinnerInclinaison.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				valeurInclinaison = (int) spinnerInclinaison.getValue();
@@ -265,8 +346,8 @@ Inclinaison imageInclinaison = new Inclinaison();
 		spinnerInclinaison.setBounds(948, 299, 42, 22);
 		contentPane.add(spinnerInclinaison);
 		valeurInclinaison = (int) spinnerInclinaison.getValue();
-		
-		
+
+
 
 
 		spinnerRessort.addChangeListener(new ChangeListener() {
@@ -322,7 +403,7 @@ Inclinaison imageInclinaison = new Inclinaison();
 
 		JSlider sliderEtirement = new JSlider();
 
-		sliderEtirement.setEnabled(false);
+		sliderEtirement.setVisible(false);
 
 		sliderEtirement.addComponentListener(new ComponentAdapter() {
 			@Override
@@ -351,8 +432,8 @@ Inclinaison imageInclinaison = new Inclinaison();
 				if(zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
 					sliderEtirement.setValue(0);
 				}
-				
-				
+
+
 
 			}
 		});
@@ -361,22 +442,10 @@ Inclinaison imageInclinaison = new Inclinaison();
 		sliderEtirement.setMaximum(0);
 		sliderEtirement.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-
-				
-				/*if(zonePinball.retablirPosition()==true) {
-			sliderEtirement.setValue(0);
-		}*/
-
-
-
-
 				// carlos testing
 				//zonePinball.getBille().setPosition(new Vecteur2D (1.056, 1- (int) sliderEtirement.getValue()/100));
 
 				zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
-
-
-
 
 			}
 		});
@@ -390,7 +459,28 @@ Inclinaison imageInclinaison = new Inclinaison();
 
 
 
+JButton btnDemarrer = new JButton("D\u00E9marrer");
+		btnDemarrer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sliderEtirement.setVisible(true);
+				//if(zonePinball.getPositionBille().getX()==zonePinball.getPositionIniBille().getX()) {
+				//	 sliderEtirement.setValue(0);
+				// }
+				btnDemarrer.setEnabled(false);
+				minuteurResultats = new Timer(10,ecouteurDuMinuteur);
+					minuteurResultats.start();
+					
+				if ((int)sliderEtirement.getValue() != 0) {					
+					zonePinball.demarrer();
+					enCoursdAnimation=true;
+					zonePinball.requestFocusInWindow();
+					
 
+				}
+			}			
+
+
+		});
 
 
 
@@ -401,16 +491,17 @@ Inclinaison imageInclinaison = new Inclinaison();
 				spinnerMasse.setValue(1);
 				spinnerAimant.setValue(0);
 				spinnerRessort.setValue(0);
-				spinnerInclinaison.setValue(0);
+				spinnerInclinaison.setValue(70);
 				sliderRessort.setValue(0);
-				sliderInclinaison.setValue(0);
+				sliderInclinaison.setValue(70);
 				sliderAimant.setValue(0);
 				zonePinball.retablirPosition();
 				spinnerEtirement.setValue(1);
 				sliderEtirement.setValue(0);
+				btnDemarrer.setEnabled(true);
 
-				sliderEtirement.setEnabled(false);
-			
+				sliderEtirement.setVisible(false);
+
 			}
 		});
 		btnRecommencer.setBounds(734, 614, 170, 69);
@@ -425,28 +516,12 @@ Inclinaison imageInclinaison = new Inclinaison();
 
 
 
-		JButton btnDemarrer = new JButton("D\u00E9marrer");
-		btnDemarrer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				sliderEtirement.setEnabled(true);
-				 //if(zonePinball.getPositionBille().getX()==zonePinball.getPositionIniBille().getX()) {
-				//	 sliderEtirement.setValue(0);
-				// }
-			
-				if ((int)sliderEtirement.getValue() != 0) {					
-					zonePinball.demarrer();
-					enCoursdAnimation=true;
-					zonePinball.requestFocusInWindow();
-				
+		
 
-				}
-			}			
-
-
-		});
-	
 		btnDemarrer.setBounds(248, 808, 218, 60);
 		contentPane.add(btnDemarrer);
+		
+		
 
 		JCheckBox chckbxContour = new JCheckBox("Contour");
 		chckbxContour.addActionListener(new ActionListener() {
@@ -458,24 +533,36 @@ Inclinaison imageInclinaison = new Inclinaison();
 		chckbxContour.setBounds(107, 827, 99, 23);
 		contentPane.add(chckbxContour);
 
-		
-		BufferedImage imageBille = null;
 		try {
 			imageBille = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
 		} catch (IOException e1) {
-			
+
 			e1.printStackTrace();
 		}
-		
-		JLabel lblImage = new JLabel(new ImageIcon(imageBille));
-		lblImage.setBounds(798, 750, 192, 143);
+
+
+		/*JLabel lblImage = new JLabel(new ImageIcon(imageBille));
+		lblImage.setBounds(968, 51, 99, 100);
 		contentPane.add(lblImage);
+*/
+
+		SceneImage sceneImage = new SceneImage();
+		sceneImage.setBounds(974, 46, 100, 100);
+		contentPane.add(sceneImage);
 		
+				
+
 		if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
 			sliderEtirement.setValue(0);
 			System.out.println("je suis passe dans le ifffffff");
 		}
 
+		//miseAjourInterface();
+		//etirement();
+
 	}
 
+	
+
 }
+

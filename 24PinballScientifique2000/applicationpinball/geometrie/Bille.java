@@ -225,14 +225,16 @@ public class Bille extends Rectangle implements Dessinable {
 
 		File pngOriginal = new File(System.getProperty("user.home")+"\\ImageB.png");
 		File pngResized = new File(System.getProperty("user.home")+"\\ImageB.png");
-		redimImage(pngOriginal,pngResized,150,150,"png");
+		redimImage(pngOriginal,pngResized,100,100,"png");
 		try {
 			img = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
-		Rectangle2D rect = new Rectangle2D.Double(13.099,4.392,diametre,diametre);
+		Rectangle2D rect = new Rectangle2D.Double(13.098,4.391,diametre,diametre);
+		//Rectangle2D rect = new Rectangle2D.Double(14,5.5,diametre,diametre);
+		//Rectangle2D rect = new Rectangle2D.Double(14,5.5,diametre,diametre);
 		//Rectangle2D rect = new Rectangle2D.Double(img.getWidth()-(img.getWidth()/2),img.getHeight()+(img.getHeight()/2),diametre,diametre);
 		//Rectangle2D rect = new Rectangle2D.Double(position.getX()-15,position.getY()-3,diametre,diametre);
 		TexturePaint texturePaintBille = new TexturePaint(img,rect);

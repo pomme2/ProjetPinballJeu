@@ -179,7 +179,7 @@ public class Ressort implements Dessinable {
 	 */
 	
 	private void calculerForcesMasse() {
-		if (vitesse.getX() == 0 || vitesse.getX() == -0.0000001) {
+		if (vitesse.getY() == 0 || vitesse.getY() == -0.0000001) {
 			ff = new Vecteur2D(0,0);
 		} else {
 			ff = MoteurPhysique.calculForceFriction(mu, massePourCetteScene, vitesse);
@@ -311,9 +311,12 @@ public class Ressort implements Dessinable {
 	 */
 	
 	public boolean isArrete() {
-		if (arrete == true)
+		if (arrete == true) {
 			return true;
+		
+	}else {
 		return false;
+	}
 	}
 	public void setMu(double COEFF_FROT) {
 		this.mu = mu;
