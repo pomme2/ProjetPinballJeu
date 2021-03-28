@@ -71,6 +71,7 @@ public class FenetreBacSable extends JFrame{
 	private JLabel lblVitesseY;
 	private JLabel lblAcceleration;
 	private JLabel lblCharge;
+	private JLabel lblScore; 
 	
 	private Timer minuteurResultats=null;
 	
@@ -98,8 +99,9 @@ public class FenetreBacSable extends JFrame{
 			lblAcceleration.setText("Acc\u00E9l\u00E9ration: "  +String.format("%."+ 1 +"f", zonePinball.getBille().getAccel().getX()));
 			lblVitesseX.setText("Vitesse X : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getX()));
 			lblVitesseY.setText("Vitesse Y : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getY()));
-			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
 			
+			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
+			lblScore.setText("Score : "+ zonePinball.getScore().toString());
 			
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
 			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
@@ -183,10 +185,10 @@ public class FenetreBacSable extends JFrame{
 		lblConstanteRessort.setBounds(734, 430, 178, 22);
 		contentPane.add(lblConstanteRessort);
 
-		JLabel lblScore = new JLabel("Score:");
+		 lblScore = new JLabel("Score:");
 		lblScore.setForeground(Color.RED);
 		lblScore.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblScore.setBounds(773, 501, 116, 37);
+		lblScore.setBounds(732, 511, 287, 37);
 		contentPane.add(lblScore);
 
 		JRadioButton rdbtnChargePos = new JRadioButton("+e");

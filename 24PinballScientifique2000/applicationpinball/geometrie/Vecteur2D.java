@@ -13,7 +13,7 @@ package geometrie;
  * @author Simon Vézina
  * @author Caroline Houle
  */
-public class Vecteur2D {
+public class Vecteur2D {	
 	//champs de base
 	private static final double EPSILON = 1e-10; //tolerance utilisee dans les comparaisons reeles avec zero
 	protected double x;	//composante x du vecteur 2d
