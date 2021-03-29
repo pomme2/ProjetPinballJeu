@@ -135,7 +135,7 @@ public class FenetreJouer extends JFrame{
 			lblAcceleration = new JLabel("Acc\u00E9l\u00E9ration:");
 			lblAcceleration.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
-			lblAcceleration.setBounds(681, 79, 151, 14);
+			lblAcceleration.setBounds(681, 89, 151, 14);
 
 			contentPane.add(lblAcceleration);
 
@@ -246,7 +246,7 @@ public class FenetreJouer extends JFrame{
 
 
 			JLabel lblValeurAccel = new JLabel("       m/s\u00B2");
-			lblValeurAccel.setBounds(798, 81, 85, 14);
+			lblValeurAccel.setBounds(804, 91, 85, 14);
 			contentPane.add(lblValeurAccel);
 
 			JLabel lblValeurVitesse = new JLabel("      m/s");
@@ -350,8 +350,16 @@ public class FenetreJouer extends JFrame{
 			contentPane.add(lblEtirement);
 
 			JLabel lblValeurVitesse_1 = new JLabel("      m/s");
-			lblValeurVitesse_1.setBounds(798, 118, 48, 14);
+			lblValeurVitesse_1.setBounds(773, 118, 48, 14);
 			contentPane.add(lblValeurVitesse_1);
+			
+			JLabel lblUnitekRessort = new JLabel("N/m");
+			lblUnitekRessort.setBounds(921, 423, 46, 14);
+			contentPane.add(lblUnitekRessort);
+			
+			JLabel lblNewLabel = new JLabel("5 degr\u00E9");
+			lblNewLabel.setBounds(888, 286, 46, 14);
+			contentPane.add(lblNewLabel);
 			miseAjourInterface();
 		}
 }
