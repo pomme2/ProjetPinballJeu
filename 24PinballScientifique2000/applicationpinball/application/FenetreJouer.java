@@ -21,7 +21,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.ButtonGroup;
-import animation.ZoneSimulationPhysique;
 import application.SceneImage;
 import geometrie.Bille;
 import animation.Scene;

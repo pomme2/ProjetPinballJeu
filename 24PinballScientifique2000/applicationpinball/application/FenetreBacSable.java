@@ -23,8 +23,6 @@ import javax.swing.event.ChangeEvent;
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-
-import animation.ZoneSimulationPhysique;
 import geometrie.Bille;
 import geometrie.Vecteur2D;
 import animation.Scene;
