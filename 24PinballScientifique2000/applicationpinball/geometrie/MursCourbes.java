@@ -27,6 +27,7 @@ public class MursCourbes implements Dessinable{
 	private MursDroits ligneTest; 
 	ArrayList<Double> coordXligneSegment = new ArrayList<Double>();
 	ArrayList<Double> coordYligneSegment = new ArrayList<Double>();
+	private double flatness=0.01;
 	//Audrey Viger
 	/**
 	 * Permet d'instancier un objet de type MursCourbes
@@ -167,7 +168,7 @@ public class MursCourbes implements Dessinable{
 		double[] coordonnees = new double[2];
 		AffineTransform identite = new AffineTransform();
 		identite.scale(pixelParMetre,pixelParMetre);
-		PathIterator path = courbe.getPathIterator(identite,0.01 );
+		PathIterator path = courbe.getPathIterator(identite,flatness );
 		segmentTest= new Path2D.Double();
 		while (path.isDone() == false) {
 			int type = path.currentSegment(coordonnees);

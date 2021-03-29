@@ -1430,12 +1430,18 @@ public class ZonePinball extends JPanel implements Runnable {
 		//murs.add(ligneDroitBasGau);
 		//murs.add(ligneDroitBasDroite);
 	}
-
+//Thomas Bourgault
+	/**
+	 * Methode qui change les coordonnes des murs invisibles qui sont les murs des flippers
+	 */
 	public void changPositionFlipper() {
+		double x1=0.536;
+		double x2=0.614;
+		double y1=1.332;
+		double y2=1.334;
 		if(gaucheActive) {
-			murFlipperGauche.setCoordX1(0.536);
-			murFlipperGauche.setCoordY1(1.332);
-			System.out.println("coorddonne gauche change");
+			murFlipperGauche.setCoordX1(x1);
+			murFlipperGauche.setCoordY1(y1);			
 			repaint();
 		}
 		if(gaucheDescente) {
@@ -1444,9 +1450,8 @@ public class ZonePinball extends JPanel implements Runnable {
 			repaint();
 		}
 		if(droitActive) {
-			murFlipperDroit.setCoordX1(0.614);
-			murFlipperDroit.setCoordY1(1.334);
-			System.out.println("coorddonne droit change");
+			murFlipperDroit.setCoordX1(x2);
+			murFlipperDroit.setCoordY1(y2);			
 			repaint();
 		}
 		if(droitDescente) {
