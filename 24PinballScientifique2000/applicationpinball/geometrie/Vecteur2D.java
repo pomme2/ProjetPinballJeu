@@ -270,13 +270,7 @@ public class Vecteur2D {
 	 */
 	public static double prodScalaire(Vecteur2D v1, Vecteur2D v2){
 		return (v1.prodScalaire(v2));
-	}
-	public static Vecteur2D rotation(Vecteur2D position, double angle,double longueurManche) {
-		double rx = ((position.x) * Math.cos(angle)) - (position.y * Math.sin(angle));
-	    double ry = ((position.x) * Math.sin(angle)) + (position.y * Math.cos(angle));
-		return new Vecteur2D(rx,ry);
-		
-	}
+	}	
 
  
 }//fin classe Vecteur

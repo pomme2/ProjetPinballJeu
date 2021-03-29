@@ -27,6 +27,7 @@ public class MursCourbes implements Dessinable{
 	private MursDroits ligneTest; 
 	ArrayList<Double> coordXligneSegment = new ArrayList<Double>();
 	ArrayList<Double> coordYligneSegment = new ArrayList<Double>();
+	private double flatness=0.01;
 	//Audrey Viger
 	/**
 	 * Permet d'instancier un objet de type MursCourbes
@@ -148,18 +149,26 @@ public class MursCourbes implements Dessinable{
 	public void setCoordY2(double coordY2) {
 		this.coordY2 = coordY2;
 	}
-
+	//Thomas Bourgault
+/**
+ * Methode qui permet de retourne la courbe
+ * @return un objet de type courbe (murCourbe)
+ */
 	public QuadCurve2D getCourbe() {
 		return murCourbe;
 	}
 
 	//Thomas Bourgault
+	/**
+	 * Methode qui permet de deconstruire la courbe en Path2D
+	 * @param courbe est la Shape prit en compte pour le cassage de la courbe
+	 */
 	public  void infoSegmentCourbe(Shape courbe) {
 
 		double[] coordonnees = new double[2];
 		AffineTransform identite = new AffineTransform();
 		identite.scale(pixelParMetre,pixelParMetre);
-		PathIterator path = courbe.getPathIterator(identite,0.01 );
+		PathIterator path = courbe.getPathIterator(identite,flatness );
 		segmentTest= new Path2D.Double();
 		while (path.isDone() == false) {
 			int type = path.currentSegment(coordonnees);
@@ -195,9 +204,20 @@ public class MursCourbes implements Dessinable{
 	//	System.out.println("taille list coord en y: "+coordYligneSegment.size());
 		
 	}
+	//Thomas Bourgault
+	/**
+	 * Methode qui permet de retourner la liste des coordonnee en x des courbes
+	 * @return la liste des coordonne en x des courbes
+	 */
 	public ArrayList<Double> listeCoordX(){
 		return coordXligneSegment;
 	}
+	//Thomas Bourgault
+	/**
+	 * Methode qui met la liste des coordonnes en x des courbes dans une nouvelle liste
+	 * @param nouvelleListe une nouvelle liste
+	 * @return la nouvelle liste qui contient les coordonnes en x des courbes
+	 */
 	public ArrayList<Double> listeCoordX(ArrayList<Double> nouvelleListe){
 		int i=0;
 		while( i<coordXligneSegment.size()) {
