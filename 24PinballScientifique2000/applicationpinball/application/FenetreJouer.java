@@ -48,6 +48,7 @@ public class FenetreJouer extends JFrame{
 	private boolean enCoursdAnimation=false;
 	private double hauteurDuComposantMetre=1.536;
 	private double kRessort=125;
+	private JSlider sliderEtirement;
 
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
@@ -78,6 +79,7 @@ public class FenetreJouer extends JFrame{
 
 			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
 			lblScore.setText("Score : "+ zonePinball.getScore().toString());
+			remonterJSlider();
 
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
 			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
@@ -86,6 +88,17 @@ public class FenetreJouer extends JFrame{
 
 			}
 		}
+		//Audrey Viger
+				/**
+
+				 * Méthode qui remet le JSlider de l'étirement du ressort à zéro quand la bille reviens à sa position initiale
+				 * 
+				 */
+				public void remonterJSlider() {
+					if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
+						sliderEtirement.setValue(0);
+					}
+					}
 		//Audrey Viger
 		/**
 		 * Constructeur qui permet de creer les composants la FenetreJouer
@@ -121,17 +134,17 @@ public class FenetreJouer extends JFrame{
 
 			lblAcceleration = new JLabel("Acc\u00E9l\u00E9ration:");
 			lblAcceleration.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblAcceleration.setBounds(734, 79, 89, 14);
+			lblAcceleration.setBounds(681, 79, 151, 14);
 			contentPane.add(lblAcceleration);
 
 			lblVitesseX = new JLabel("VitesseX:");
 			lblVitesseX.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblVitesseX.setBounds(817, 114, 98, 19);
+			lblVitesseX.setBounds(817, 114, 117, 19);
 			contentPane.add(lblVitesseX);
 
 			lblVitesseY = new JLabel("VitesseY:");
 			lblVitesseY.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblVitesseY.setBounds(681, 114, 98, 19);
+			lblVitesseY.setBounds(681, 114, 109, 19);
 			contentPane.add(lblVitesseY);
 
 			lblCharge = new JLabel("Charge:");
@@ -177,6 +190,15 @@ public class FenetreJouer extends JFrame{
 			Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 
 			JComboBox<Object> comboBoxObstacles = new JComboBox<Object>(choixObstacles);
+			comboBoxObstacles.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String forme = (String) comboBoxObstacles.getSelectedItem();
+					zonePinball.setForme(forme);
+
+				}
+			});
+
+
 			comboBoxObstacles.setBounds(734, 563, 344, 37);
 			contentPane.add(comboBoxObstacles);
 
@@ -212,7 +234,7 @@ public class FenetreJouer extends JFrame{
 
 
 			JLabel lblValeurAccel = new JLabel("       m/s\u00B2");
-			lblValeurAccel.setBounds(827, 81, 85, 14);
+			lblValeurAccel.setBounds(798, 81, 85, 14);
 			contentPane.add(lblValeurAccel);
 
 			JLabel lblValeurVitesse = new JLabel("      m/s");
@@ -233,7 +255,7 @@ public class FenetreJouer extends JFrame{
 
 
 
-			JSlider sliderEtirement = new JSlider();
+			 sliderEtirement = new JSlider();
 			sliderEtirement.setEnabled(false);
 			sliderEtirement.addMouseListener(new MouseAdapter() {
 				@Override

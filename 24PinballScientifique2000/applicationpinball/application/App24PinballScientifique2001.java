@@ -65,7 +65,7 @@ public void initianilisationFenSecondaire()  {
  */
 public App24PinballScientifique2001() {
 
-	setTitle("Menu");
+	setTitle("Pinball Scientifique 2000");
 	initianilisationFenSecondaire();
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(200, 40, 1100, 800);
