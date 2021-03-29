@@ -236,6 +236,28 @@ public class MoteurPhysique {
 
 		return Fe;		
 	}
+	
+	/**
+	 * 
+	 * @param pos1 position du premier point du vecteur 
+	 * @param pos2 position du 2e point du vecteur
+	 * @return un vecteur perpendiculaire au vecteur
+	 */
+	public static Vecteur2D calculPerpendiculaire(Vecteur2D pos1,Vecteur2D pos2) {
+		// TODO Auto-generated method stub
+		
+		double x = pos1.getX()-pos2.getX();
+		double y = pos1.getY()-pos2.getY();
+		
+		x = Math.abs(x);
+		y =	Math.abs(y);
+		
+		Vecteur2D vecTemp =new Vecteur2D(-y,x);
+		
+		
+		return vecTemp;
+	}
+
 
 	//Thomas Bourgault
 	/**
@@ -278,7 +300,7 @@ public class MoteurPhysique {
 		}
 
 	}
-
+	
 
 
 
