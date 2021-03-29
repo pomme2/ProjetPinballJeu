@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.JLabel;
 
 /**
  * 
@@ -65,7 +66,7 @@ public void initianilisationFenSecondaire()  {
  */
 public App24PinballScientifique2001() {
 
-	setTitle("Pinball Scientifique 2000");
+	setTitle("Menu");
 	initianilisationFenSecondaire();
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(200, 40, 1100, 800);
@@ -147,6 +148,13 @@ public App24PinballScientifique2001() {
 	});
 	btnQuitter.setBounds(720, 581, 244, 102);
 	getContentPane().add(btnQuitter);
+	
+	JLabel lblTitreApplication = new JLabel("Pinball Scientifique 2000");
+	lblTitreApplication.setBackground(Color.WHITE);
+	lblTitreApplication.setFont(new Font("Tahoma", Font.PLAIN, 38));
+	lblTitreApplication.setForeground(Color.MAGENTA);
+	lblTitreApplication.setBounds(318, 11, 425, 171);
+	contentPane.add(lblTitreApplication);
 	
 	
 

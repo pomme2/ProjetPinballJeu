@@ -451,13 +451,15 @@ public class FenetreBacSable extends JFrame{
 					spinnerMasse.setValue(1);
 					spinnerAimant.setValue(0);
 					spinnerRessort.setValue(0);
-					spinnerInclinaison.setValue(0);
+					spinnerInclinaison.setValue(5);
 					sliderRessort.setValue(0);
 					sliderInclinaison.setValue(0);
 					sliderAimant.setValue(0);
 					zonePinball.retablirPosition();
 					spinnerEtirement.setValue(1);
 					sliderEtirement.setValue(0);
+					
+					
 
 					sliderEtirement.setEnabled(false);
 
