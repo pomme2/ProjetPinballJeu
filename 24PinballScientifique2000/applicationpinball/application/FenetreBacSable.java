@@ -76,7 +76,7 @@ public class FenetreBacSable extends JFrame{
 	private Timer minuteurResultats=null;
 	
 	private ZonePinball zonePinball;
-
+	private JSlider sliderEtirement;
 	
 	
 	/**
@@ -103,6 +103,7 @@ public class FenetreBacSable extends JFrame{
 			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
 			lblScore.setText("Score : "+ zonePinball.getScore().toString());
 			
+			remonterJSlider();
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
 			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
 			if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
@@ -110,7 +111,17 @@ public class FenetreBacSable extends JFrame{
 				
 			}
 		}
+		//Audrey Viger
+		/**
+		 * Méthode qui remet le JSlider de l'étirement du ressort à zéro quand la bille reviens à sa position initiale
+		 * 
+		 */
+		public void remonterJSlider() {
+			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
+				sliderEtirement.setValue(0);
 
+			}
+		}
 	/**
 	 * Constructeur : création et initialisation de l'inteface
 	 * @param fenMenu
@@ -218,6 +229,18 @@ public class FenetreBacSable extends JFrame{
 	comboBoxObstacles.setBounds(734, 563, 344, 37);
 	contentPane.add(comboBoxObstacles);
 
+
+
+    JCheckBox chckbxCoord = new JCheckBox("Coordonn\u00E9es");
+    chckbxCoord.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            zonePinball.setCoord(chckbxCoord.isSelected());
+        }
+    });
+    
+    
+    chckbxCoord.setBounds(6, 827, 97, 23);
+    getContentPane().add(chckbxCoord);
 		JButton btnOption = new JButton("Option");
 		btnOption.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -368,7 +391,7 @@ Inclinaison imageInclinaison = new Inclinaison();
 
 
 
-		JSlider sliderEtirement = new JSlider();
+		 sliderEtirement = new JSlider();
 
 		sliderEtirement.setEnabled(false);
 
@@ -505,10 +528,6 @@ Inclinaison imageInclinaison = new Inclinaison();
 			e1.printStackTrace();
 		}
 		
-		JLabel lblImage = new JLabel(new ImageIcon(imageBille));
-		lblImage.setBounds(798, 750, 192, 143);
-		contentPane.add(lblImage);
-		
 		JCheckBox chckbxAimant = new JCheckBox("Aimant");
 		chckbxAimant.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -528,6 +547,11 @@ Inclinaison imageInclinaison = new Inclinaison();
 		lblValeurVitesse_1.setBounds(841, 133, 30, 14);
 		contentPane.add(lblValeurVitesse_1);
 		
+		SceneImage sceneImage = new SceneImage();
+		sceneImage.setBounds(958, 59, 100, 100);
+		contentPane.add(sceneImage);
+		
+
 		
 		if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
 			sliderEtirement.setValue(0);
@@ -538,7 +562,5 @@ Inclinaison imageInclinaison = new Inclinaison();
 		miseAjourInterface();
 	
 	}
-	private void setJslider(int nbr) {
-		
-	}
+	
 }

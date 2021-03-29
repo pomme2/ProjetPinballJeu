@@ -230,6 +230,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	private double posYCarre = 0.3;
 	private double translatCarreX=0.01;
 	private double translatCarreY=0.01;
+	private double maxObstacleHaut = 1.26, maxObstacleGauche = 0.11, maxObstacleDroite = 1.05, maxObstacleBas = 0.15;
+
 	private Shape carreTransfo;
 
 
@@ -1474,10 +1476,11 @@ public class ZonePinball extends JPanel implements Runnable {
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
+				
 				//if(e.getY()<=550) {
 				//	System.out.println("ffffffffffffffff"+obstacle.getPosY()+obstacle.getLarg());
 				//	if(obstacle.getPosY()+obstacle.getLarg()<=590)	{			
-				if(obstacle.getPosY()+obstacle.getHaut()<=1.26 && obstacle.getPosX()>=0.11 && (obstacle.getPosX()+obstacle.getLarg())<=1.05 && obstacle.getPosY()>=0.15)	{				
+				if(obstacle.getPosY()+obstacle.getHaut()<=maxObstacleHaut && obstacle.getPosX()>=maxObstacleGauche && (obstacle.getPosX()+obstacle.getLarg())<=maxObstacleDroite && obstacle.getPosY()>=maxObstacleBas)	{				
 
 					if (formeSelectionne) {
 						//System.out.println("fffffffffffffffffff");
@@ -1492,14 +1495,14 @@ public class ZonePinball extends JPanel implements Runnable {
 					}
 				}else {
 					if (formeSelectionne) {
-						if(obstacle.getPosY()+obstacle.getHaut()>1.26) {
+						if(obstacle.getPosY()+obstacle.getHaut()>maxObstacleHaut) {
 							translatCarreY += -0.01;
 
 							repaint();
-						}else if(obstacle.getPosX()+obstacle.getLarg()>1.05 && obstacle.getPosX()!=0.11) {
+						}else if(obstacle.getPosX()+obstacle.getLarg()>maxObstacleDroite && obstacle.getPosX()!=maxObstacleGauche) {
 							translatCarreX += -0.01;
 							repaint();
-						} else  if(obstacle.getPosX()<0.11 && obstacle.getPosX()+obstacle.getLarg()!=1.05 ){
+						} else  if(obstacle.getPosX()<maxObstacleGauche && obstacle.getPosX()+obstacle.getLarg()!=maxObstacleBas ){
 							translatCarreX += 0.01;
 							repaint();
 						}else {
@@ -1564,10 +1567,6 @@ public class ZonePinball extends JPanel implements Runnable {
 	public void setForme(String forme) {
 		this.forme=forme;
 		obstacle = new ObstacleClique(301,301,65,45,forme);
-
-
-
-
 		repaint();
 
 	}
