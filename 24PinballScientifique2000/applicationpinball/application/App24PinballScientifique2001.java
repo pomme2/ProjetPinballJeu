@@ -1,3 +1,4 @@
+package application;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -6,7 +7,6 @@ import javax.swing.border.TitledBorder;
 
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.awt.Color;
@@ -68,8 +68,6 @@ public App24PinballScientifique2001() throws IOException {
 	setContentPane(contentPane);
 	contentPane.setLayout(null);
 	
-	
-	
 	JButton btnOption = new JButton("Options");
 	btnOption.setFont(new Font("Tahoma", Font.PLAIN, 18));
 	btnOption.addActionListener(new ActionListener() {
@@ -95,19 +93,12 @@ public App24PinballScientifique2001() throws IOException {
 	
 	JButton btnBac = new JButton("Bac \u00E0 sable");
 	btnBac.addActionListener(new ActionListener() {
-		
-		ImageBille imageB = new ImageBille("\\ImageB2.png");
-		SceneImage imagebil = new SceneImage();
-
 		public void actionPerformed(ActionEvent e) {
 			fenBac.setVisible(true);
 			setVisible(false);
 			BufferedImage imageBille = null;
 			try {
 				imageBille = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
-				ImageIO.write(imageBille, "png", new File(System.getProperty("user.home")+"\\ImageB2.png"));
-				imagebil.changerImage("\\ImageB2.png");
-				//imageB.changerImage("\\ImageB2.png");
 			} catch (IOException e1) {
 				
 				e1.printStackTrace();

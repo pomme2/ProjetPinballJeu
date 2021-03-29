@@ -25,8 +25,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import dessinable.Dessinable;
+import application.App24PinballScientifique2001;
+import application.FenetreBacSable;
+import application.FenetreOption;
 import dessinable.OutilsImage;
+import geometrie.Aimant;
 import geometrie.Bille;
 import geometrie.Flipper;
 import geometrie.Murs;
@@ -46,6 +49,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+
 /**Classe qui effectue l'animation du jeu de pinball scientifique. 
  * 
  * @author Thomas Bourgault
@@ -54,16 +58,19 @@ import java.awt.event.KeyEvent;
  *
  */
 
-public class ZonePinball  extends JPanel implements Runnable  {
-	private static final long serialVersionUID = 1L;
+public class ZonePinball extends JPanel implements Runnable {
+	private static final long serialVersionUID = 1 ;
+	//objet de type Scene
+	Scene scene;
+
 
 	//Ressort Audrey
 	private Ressort ressort;
-	private final Vecteur2D positionInitialRessort = new Vecteur2D(1.009,1.272);
-	private final Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(0,-0.0000001 ); 
-	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0); 
+	private final Vecteur2D positionInitialRessort = new Vecteur2D(1.009, 1.272);
+	private final Vecteur2D VITESSE_INIT_RESSORT = new Vecteur2D(0, -0.0000001);
+	private final Vecteur2D ACCEL_INIT_RESSORT = new Vecteur2D(0, 0);
 
-	private final int TEMPS_DU_SLEEP = 25;
+	private final int TEMPS_DU_SLEEP = 10;
 	private  double K_RESSORT = 50;
 	private final double ETIREMENT_NAT = 0.1;
 
@@ -71,100 +78,123 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private final double MASSE_POUR_CETTE_SCENE = 0.7; // en kg
 
 
+	private final double RAYON_COURBE = 0.505; //en m
+
+	private Vecteur2D posCentre = new Vecteur2D(0.598, 0.712);
+
 	//variable bille Carlos
-	private double deltaT = 0.005;
+	private double deltaT = 0.003;
 
 
-	private double diametreBallePourCetteScene = 0.03;  //em mètres
+	private double diametreBallePourCetteScene = 0.03; //em mètres
 	private double massePourCetteScene = 0.1; //en kg
 
-	private Vecteur2D posInitBalle;  //position intiale pour la balle
-	private Vecteur2D vitInitBalle = new Vecteur2D(0, 0);  //vitesse intiale pour la balle
-	private Vecteur2D accelInitBalle = new Vecteur2D(0, 0);  //acceleration intiale pour la balle
+	private Vecteur2D posInitBalle; //position intiale pour la balle
+	private Vecteur2D vitInitBalle = new Vecteur2D(0, 0); //vitesse intiale pour la balle
+	private Vecteur2D accelInitBalle = new Vecteur2D(0, 0); //acceleration intiale pour la balle
 
 
 	//position intiales pour la bille
 	private Bille uneBille;
-	private boolean enCoursDAnimation= false;
-	private double tempsTotalEcoule = 0; 
+	private boolean enCoursDAnimation = false;
+	private double tempsTotalEcoule = 0;
 	private int tempsDuSleep = 10;
 
 
+	//variable aimant
+	private Aimant unAimant;
+
+	private Vecteur2D positionAimant = new Vecteur2D(0.32, 1.076);
+
+	boolean aimantActif;
+
+
+	//variable pour pointage
+	PointageAnimation score = new PointageAnimation();
+
+	int pointCercle = 5;
+	int triange = 10;
+	int temps=0;
+
 
 	//tableau pour obstacles
-	private ArrayList<Murs> obstaclesCercle = new ArrayList<Murs>();
+	private ArrayList < Murs > obstaclesCercle = new ArrayList < Murs > ();
 
 	//tab pour mursHorizontales (sol)
-	private ArrayList<MursDroits> solHorizontal = new ArrayList<MursDroits>();
+	private ArrayList < MursDroits > solHorizontal = new ArrayList < MursDroits > ();
 
 	//tab pour les pentes
-	private ArrayList<MursDroits> pentes = new ArrayList<MursDroits>();
+	private ArrayList < MursDroits > pentes = new ArrayList < MursDroits > ();
 
-	private ArrayList<MursDroits> droitSous = new ArrayList<MursDroits>();
+	private ArrayList < MursDroits > droitSous = new ArrayList < MursDroits > ();
+
+
+	private ArrayList < MursDroits > coteTriangle = new ArrayList < MursDroits > ();
+
+
+	private ArrayList < MursDroits > courbe = new ArrayList < MursDroits > ();
 
 
 	//tab pour les murs
 
-	ArrayList<MursDroits> murs = new ArrayList<MursDroits>();
+	ArrayList < MursDroits > murs = new ArrayList < MursDroits > ();
 
 	//liste des coordonnes en X et Y des courbes
-	ArrayList<Double> arcCercleGauCoordX=new ArrayList<Double>();
-	ArrayList<Double> arcCercleGauCoordY=new ArrayList<Double>();
-	ArrayList<Double> arcCercleDroitCoordX=new ArrayList<Double>();
-	ArrayList<Double> arcCercleDroitCoordY=new ArrayList<Double>();
-	ArrayList<Double> arcCerclePetitCoordX=new ArrayList<Double>();
-	ArrayList<Double> arcCerclePetitCoordY=new ArrayList<Double>();
+	ArrayList < Double > arcCercleGauCoordX = new ArrayList < Double > ();
+	ArrayList < Double > arcCercleGauCoordY = new ArrayList < Double > ();
+	ArrayList < Double > arcCercleDroitCoordX = new ArrayList < Double > ();
+	ArrayList < Double > arcCercleDroitCoordY = new ArrayList < Double > ();
+	ArrayList < Double > arcCerclePetitCoordX = new ArrayList < Double > ();
+	ArrayList < Double > arcCerclePetitCoordY = new ArrayList < Double > ();
 
 	//tab avec flippers
 
-	private ArrayList<MursDroits> flipperGauche= new ArrayList<MursDroits>();
+	private ArrayList < MursDroits > flipperGauche = new ArrayList < MursDroits > ();
 
-	private ArrayList<MursDroits> flipperDroit= new ArrayList<MursDroits>();
+	private ArrayList < MursDroits > flipperDroit = new ArrayList < MursDroits > ();
 
 
 	private MursDroits ligneRessort;
 
-	private boolean premiereFois=true;
-	private boolean premiereFoisImage=true;
+	private boolean premiereFois = true;
+	private boolean premiereFoisImage = true;
 
 	//Image et pixelParMetre
-	private int dimensionImageX=600,dimensionImageY=768;	
-	private double largeurDuComposantMetre=1.2;
-	private double hauteurDuComposantMetre=1.536;
-	private double pixelParMetre=500;
+	private int dimensionImageX = 600, dimensionImageY = 768;
+	private double largeurDuComposantMetre = 1.2;
+	private double hauteurDuComposantMetre = 1.536;
+	private double pixelParMetre = 500;
 	private Image imageTerrainPinball1;
 	//4 cercles
-	private Murs cercleMauveBas,cercleMauveHautGauche,cercleMauveHaut,cercleMauveHautDroit;
-	private double coordXBas=0.526, coordYBas=0.7865, coordXHautGauche=0.340,coordYHautGauche=0.458,coordXHaut=0.546,coordYHaut=0.3145,coordXHautDroit=0.719,coordYHautDroit=0.462;
-	private double diametre=0.105;
+	private Murs cercleMauveBas, cercleMauveHautGauche, cercleMauveHaut, cercleMauveHautDroit;
+	private double coordXBas = 0.526, coordYBas = 0.7865, coordXHautGauche = 0.340, coordYHautGauche = 0.458, coordXHaut = 0.546, coordYHaut = 0.3145, coordXHautDroit = 0.719, coordYHautDroit = 0.462;
+	private double diametre = 0.105;
 	//2 triangles
 	//Triangle de gauche:
-	private MursDroits ligTriGaucheGau,ligTriGaucheDroit,ligTriGaucheBas;
-	private double coordX1TriGauche=0.192,coordY1TriGauche=0.778,coordX2TriGauche=0.316,coordY2TriGauche=0.898,coordX3TriGauche=0.194,coordY3TriGauche=0.896;
+	private MursDroits ligTriGaucheGau, ligTriGaucheDroit, ligTriGaucheBas;
+	private double coordX1TriGauche = 0.192, coordY1TriGauche = 0.778, coordX2TriGauche = 0.316, coordY2TriGauche = 0.898, coordX3TriGauche = 0.194, coordY3TriGauche = 0.896;
 	//Triangle de droite:
-	private MursDroits ligTriDroitGau,ligTriDroitDroit,ligTriDroitBas;
-	private double coordX1TriDroite=0.926,coordY1TriDroite=0.83,coordX2TriDroite=0.922,coordY2TriDroite= 1.044,coordX3TriDroite=0.814,coordY3TriDroite=1.048;
+	private MursDroits ligTriDroitGau, ligTriDroitDroit, ligTriDroitBas;
+	private double coordX1TriDroite = 0.926, coordY1TriDroite = 0.83, coordX2TriDroite = 0.922, coordY2TriDroite = 1.044, coordX3TriDroite = 0.814, coordY3TriDroite = 1.048;
 
 	//Coin gauche terrain pinball	
-	private MursDroits ligneDroitHautGau,ligneDroitTrapezeGau,lignePencheTrapezeGau,ligneDroitBasGau,lignePetiteHautGau;
-	private double coordX0CoinGauche=0.09,coordY0CoinGauche=0.71,coordX1CoinGauche=0.06,coordY1CoinGauche=0.71,coordX2CoinGauche=0.058,coordY2CoinGauche=1.202,coordX3CoinGauche=0.202,coordY3CoinGauche=1.202,coordX4CoinGauche=0.494,coordY4CoinGauche=1.386,coordX5CoinGauche=0.494,coordY5CoinGauche=1.532;
+	private MursDroits ligneDroitHautGau, ligneDroitTrapezeGau, lignePencheTrapezeGau, ligneDroitBasGau, lignePetiteHautGau;
+	private double coordX0CoinGauche = 0.09, coordY0CoinGauche = 0.71, coordX1CoinGauche = 0.06, coordY1CoinGauche = 0.71, coordX2CoinGauche = 0.058, coordY2CoinGauche = 1.202, coordX3CoinGauche = 0.202, coordY3CoinGauche = 1.202, coordX4CoinGauche = 0.494, coordY4CoinGauche = 1.386, coordX5CoinGauche = 0.494, coordY5CoinGauche = 1.532;
 
 	//Coin droit terrain pinball
-	private MursDroits ligneDroitTrapezeDroite,lignePencheTrapezeDroite,ligneDroitBasDroite;
-	private double coordX1CoinDroit=0.662,coordY1CoinDroit=1.532,coordX2CoinDroit=0.662,coordY2CoinDroit=1.388,coordX3CoinDroit=0.93,coordY3CoinDroit=1.21,coordX4CoinDroit=1,coordY4CoinDroit=1.21,coordX5CoinDroit=1,coordY5CoinDroit=0.942;
+	private MursDroits ligneDroitTrapezeDroite, lignePencheTrapezeDroite, ligneDroitBasDroite;
+	private double coordX1CoinDroit = 0.662, coordY1CoinDroit = 1.532, coordX2CoinDroit = 0.662, coordY2CoinDroit = 1.388, coordX3CoinDroit = 0.93, coordY3CoinDroit = 1.21, coordX4CoinDroit = 1, coordY4CoinDroit = 1.21, coordX5CoinDroit = 1, coordY5CoinDroit = 0.942;
 
 	//Grande courbe haut:
-	private MursCourbes arcCerclegau, arcCercleDroit,arcCerclePetit;
-	private double coordX1CourbeGau=0.09,coordY1CourbeGau=0.71,controleXGau=0.16,controleYGau=0.16,coordX3CourbeGau=0.584,coordY3CourbeGau=0.1;
-	private double coordX1CourbeDroit=0.584,coordY1CourbeDroit=0.1,controleX=1.01,controleY=0.12,coordX3CourbeDroit=1.094,coordY3CourbeDroit=0.708;
-	private double controleXPetit=1,controleYPetit=0.6, coordX1CourbePetit=0.9,coordY1CourbePetit=0.398;
-	private Path2D.Double segmentCourbeGauche,segmentCourbeDroit, segmentCourbePetit;
+	private MursCourbes arcCerclegau, arcCercleDroit, arcCerclePetit;
+	private double coordX1CourbeGau = 0.09, coordY1CourbeGau = 0.71, controleXGau = 0.16, controleYGau = 0.16, coordX3CourbeGau = 0.584, coordY3CourbeGau = 0.1;
+	private double coordX1CourbeDroit = 0.584, coordY1CourbeDroit = 0.1, controleX = 1.01, controleY = 0.12, coordX3CourbeDroit = 1.094, coordY3CourbeDroit = 0.708;
+	private double controleXPetit = 1, controleYPetit = 0.6, coordX1CourbePetit = 0.9, coordY1CourbePetit = 0.398;
+	private Path2D.Double segmentCourbeGauche, segmentCourbeDroit, segmentCourbePetit;
+
 	//Mur gauche et droit tunnel ressort
 	private MursDroits tunnelRessortDroite, tunnelRessortGauche;
-	private double coordX1TunnelGauche=1.006,coordY1TunnelGauche=1.534,coordX2TunnelGauche=1.01,coordY2TunnelGauche=0.784,coordX1TunnelDroit=1.096 ,coordY1TunnelDroit=0.716,coordX2TunnelDroit= 1.096,coordY2TunnelDroit=1.532;
-
-
-
+	private double coordX1TunnelGauche = 1.006, coordY1TunnelGauche = 1.534, coordX2TunnelGauche = 1.01, coordY2TunnelGauche = 0.784, coordX1TunnelDroit = 1.096, coordY1TunnelDroit = 0.716, coordX2TunnelDroit = 1.096, coordY2TunnelDroit = 1.532;
 
 	//Flippers
 
@@ -180,15 +210,17 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double coordX2MurFlipperGauche=0.465,coordY2MurFlipperGauche=1.3785,coordX1MurFlipperGauche=0.555,coordY1MurFlipperGauche=1.3785;
 	private double coordX1MurFlipperDroit=0.6,coordY1MurFlipperDroit=1.3785,coordX2MurFlipperDroit=0.690,coordY2MurFlipperDroit=1.3785;
 	private boolean gauche=true;
+	private double angleMax=30,angleEquilibre=0,frequenceAngulaire=40;
+	private double angleGauche,angleDroit;
+	private double tempsEcouleGaucheMonter,tempsEcouleGaucheDescendre,tempsEcouleDroitDescendre,tempsEcouleDroitMonter;
+	private Vecteur2D vitesseFlipDroit,vitesseFlipGauche;
+	private boolean premierQuartPeriode=true;
 
+	//image et booleans
+	private boolean contour = false, ImageSelectionne = false, coord = false, gaucheActive = false, droitActive = false, gaucheDescente = false, droitDescente = false;
+	java.net.URL urlPinballTerrain = getClass().getClassLoader().getResource("pinballTerrain.png");
+	double compteurGauche, compteurDroit;
 
-
-
-
-	private boolean contour=false,ImageSelectionne=false,coord=false,gaucheActive=false,droitActive=false,gaucheDescente=false,droitDescente=false;	
-	java.net.URL urlPinballTerrain=getClass().getClassLoader().getResource("pinballTerrain.png");
-	double compteurGauche,compteurDroit;
-	private boolean billeEnDehors=false;
 
 	private ObstacleClique obstacle,obstacle1,obstacle2,obstacle3,obstacle4,obstacle5,obstacle6;
 	private String forme;
@@ -200,32 +232,28 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	private double translatCarreY=0.01;
 	private Shape carreTransfo;
 
+
 	//Thomas Bourgault
 	/**
 	 * Constructeur qui gère les différents types d'évènements de la souris, permet l'initialisation de l'image ainsi que de la bille
 	 * @throws IOException si le programme n'arrive pas à lire l'URL de l'image
 	 */
-	public ZonePinball() {
+	public ZonePinball(Scene scene) {
+		this.scene = scene;
+		this.scene = new Scene();
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_A) {
-					//System.out.println("touche a active");
+				if (e.getKeyCode() == KeyEvent.VK_A) {
 					repaint();
 
-					flipGauche.setVitesse(new Vecteur2D(2,2));
-					//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-3));
 					gaucheActive=true;
-					gaucheDescente=false;
+					gaucheDescente=false;					
 
-				}else {
-					if(e.getKeyCode()==KeyEvent.VK_D ) {
-						//System.out.println("touche d active");
-						droitActive=true;
-						droitDescente=false;
-						flipDroit.setVitesse(new Vecteur2D(2,2));
-
-						//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),-2.4));
+				} else {
+					if (e.getKeyCode() == KeyEvent.VK_D) {
+						droitActive = true;
+						droitDescente = false;
 
 						repaint();
 					}
@@ -233,17 +261,17 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			}
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_A) {
-					gaucheActive=false;
-					gaucheDescente=true;
-					flipGauche.setVitesse(new Vecteur2D(0,0));
+				if (e.getKeyCode() == KeyEvent.VK_A) {
+					gaucheActive = false;
+					gaucheDescente = true;
+					flipGauche.setVitesse(new Vecteur2D(0, 0));
 
 					repaint();
-				}else {
-					if(e.getKeyCode() == KeyEvent.VK_D) {
-						droitActive=false;
-						droitDescente=true;
-						flipDroit.setVitesse(new Vecteur2D(0,0));
+				} else {
+					if (e.getKeyCode() == KeyEvent.VK_D) {
+						droitActive = false;
+						droitDescente = true;
+						flipDroit.setVitesse(new Vecteur2D(0, 0));
 						repaint();
 					}
 				}
@@ -251,73 +279,49 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		});
 
-
-
-
-		ressort = new Ressort(positionInitialRessort,0.088,0.192);
+		ressort = new Ressort(positionInitialRessort, 0.088, 0.192);
 		ressort.setkRessort(K_RESSORT);
-
 		ressort.setMu(COEFF_FROT);
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
 		ressort.setMasseEnKg(MASSE_POUR_CETTE_SCENE);
-
-
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
+
 		flippers();
 
-
-		/////test
-		//obstacle = new ObstacleClique(translatCarreX,translatCarreY,65,45,forme);
-		//System.out.println("lllllllllllll"+forme);
-
-
-
-
-
-		posInitBalle = new Vecteur2D(ressort.getMurs().getCoordX1()+diametreBallePourCetteScene, ressort.getMursY()-diametreBallePourCetteScene + getEtirement());
-
-
-
-
-
-
-		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
+		posInitBalle = new Vecteur2D(ressort.getMurs().getCoordX1() + diametreBallePourCetteScene, ressort.getMursY() - diametreBallePourCetteScene + getEtirement());
+		uneBille = new Bille(posInitBalle, diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
 
-
-
-		//posInitBalle = new Vecteur2D(1.058, ressort.getMurs().getCoordY1()-diametreBallePourCetteScene);
-
+		unAimant = new Aimant(0.32, 1.076, 0.05);
 
 		initialiseBille();
-
-
+		
 		gestionSourisObs();
 
 
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				ImageSelectionne=true;
+				ImageSelectionne = true;
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				ImageSelectionne=false;
+				ImageSelectionne = false;
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(ImageSelectionne) {
-					System.out.println("X: "+e.getX()/(dimensionImageX/largeurDuComposantMetre)+" cliqué "+" Y: "+e.getY()/(dimensionImageY/hauteurDuComposantMetre)+" cliqué");
-					
-					uneBille.setPosition(new Vecteur2D(e.getX(),e.getY()));
+				if (ImageSelectionne) {
+					System.out.println("X: " + e.getX() / (dimensionImageX / largeurDuComposantMetre) + " cliqué " + " Y: " + e.getY() / (dimensionImageY / hauteurDuComposantMetre) + " cliqué");
+
+					uneBille.setPosition(new Vecteur2D(e.getX(), e.getY()));
 				}
 			}
 		});
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				if(ImageSelectionne && coord) {
-					System.out.println("X: "+e.getX()/(dimensionImageX/largeurDuComposantMetre)+" Y: "+e.getY()/(dimensionImageY/hauteurDuComposantMetre));
+				if (ImageSelectionne && coord) {
+					System.out.println("X: " + e.getX() / (dimensionImageX / largeurDuComposantMetre) + " Y: " + e.getY() / (dimensionImageY / hauteurDuComposantMetre));
 
 				}
 			}
@@ -328,8 +332,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		Image imageTerrainPinballMauvaiseDim;
 		try {
 			imageTerrainPinballMauvaiseDim = ImageIO.read(urlPinballTerrain);
-			imageTerrainPinball1= imageTerrainPinballMauvaiseDim.getScaledInstance(dimensionImageX,dimensionImageY,Image.SCALE_SMOOTH);
-		} catch (IOException e1) {			
+			imageTerrainPinball1 = imageTerrainPinballMauvaiseDim.getScaledInstance(dimensionImageX, dimensionImageY, Image.SCALE_SMOOTH);
+		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 
@@ -343,63 +347,63 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		double pixelParMetre=getWidth()/largeurDuComposantMetre;							
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		double pixelParMetre = getWidth() / largeurDuComposantMetre;
 		//Construction image									
-		AffineTransform mat= new AffineTransform();			
-		double factReso=largeurDuComposantMetre/ imageTerrainPinball1.getWidth(null);
-		mat.scale (factReso*pixelParMetre,factReso*pixelParMetre);						
-		g2d.drawImage(imageTerrainPinball1,mat,null);
+		AffineTransform mat = new AffineTransform();
+		double factReso = largeurDuComposantMetre / imageTerrainPinball1.getWidth(null);
+		mat.scale(factReso * pixelParMetre, factReso * pixelParMetre);
+		g2d.drawImage(imageTerrainPinball1, mat, null);
 		g2d.setColor(Color.white);
 		////////////////////////////////////////////////////////////////////////GAUCHE
 		AffineTransform oldGauche = g2d.getTransform();
 		AffineTransform trans = new AffineTransform();
-		if(gaucheActive ) {							
-			g2d.rotate(Math.toRadians(-30),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
+		if (gaucheActive) {
+			g2d.rotate(Math.toRadians(angleGauche),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
 		}
-		if(gaucheDescente) {
-			trans.rotate(Math.toRadians(0),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
+		if (gaucheDescente) {
+			g2d.rotate(Math.toRadians(angleGauche),coordX1FlipperGauche*pixelParMetre,coordY1FlipperGauche*pixelParMetre);
 		}
 		g2d.transform(trans);
 		flipGauche.dessiner(g2d);
-		if(contour) {
+		if (contour) {
 			murFlipperGauche.dessiner(g2d);
 		}
 
 		g2d.setTransform(oldGauche);
 		////////////////////////////////////////////////////////////////////////////////DROIT
 		AffineTransform oldDroit = g2d.getTransform();
-		if(droitActive) {
-			g2d.rotate(Math.toRadians(30),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
+		if (droitActive) {
+			g2d.rotate(Math.toRadians(angleDroit), coordX1FlipperDroit * pixelParMetre, coordY1FlipperDroit * pixelParMetre);
 
-			System.out.println("Y1 " +murFlipperDroit.getCoordY1());
+			System.out.println("Y1 " + murFlipperDroit.getCoordY1());
 
 
 
 		}
-		if(droitDescente) {
-			g2d.rotate(Math.toRadians(0),coordX1FlipperDroit*pixelParMetre,coordY1FlipperDroit*pixelParMetre);
+		if (droitDescente) {
+			g2d.rotate(Math.toRadians(angleDroit), coordX1FlipperDroit * pixelParMetre, coordY1FlipperDroit * pixelParMetre);
 
-			System.out.println("Y2   "+murFlipperDroit.getCoordY2());
+			System.out.println("Y2   " + murFlipperDroit.getCoordY2());
 		}
 		flipDroit.dessiner(g2d);
-		if(contour) {
+		if (contour) {
 			murFlipperDroit.dessiner(g2d);
 		}
 		g2d.setTransform(oldDroit);
 		////////////////////////////////////////////////////////////////////////////////
 
-		if(premiereFois) {
+		if (premiereFois) {
 			//Construction 4 cercles
 
-			cercle();			
+			cercle();
 			//Construction 2 triangles
 			//Triangle gauche:	
 			triangleGauche();
 			//Triangle droit:
 			triangleDroit();
 			//Coin gauche:
-			coinGauche();			
+			coinGauche();
 			//Coin droit:
 			coinDroit();
 			//Arc cercle haut gauche et droit/celui qui est petit:
@@ -407,13 +411,15 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 			//Construction tunnel du ressort
 			tunnel();
-			//Construction flippers	
-			//arcCercleGauCoordX.add(8);
-			premiereFois=false;
+			//Segment petite courbe
+			listeCourbe();
+			SegmentCourbe();
+
+			premiereFois = false;
 		}
 		changPositionFlipper();
 
-		listeObstacle();			
+		listeObstacle();
 
 		//ressort = new Ressort(positionInitialRessort,0.088,0.192);
 		ressort.setPixelsParMetre(pixelParMetre);
@@ -424,19 +430,22 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		//g2d.setColor(Color.red);
 		uneBille.setPixelsParMetre(pixelParMetre);
-		uneBille.dessiner(g2d);	
+		uneBille.dessiner(g2d);
+
+
+		unAimant.setPixelsParMetre(pixelParMetre);
+		unAimant.dessiner(g2d);
+		
 
 		g2d.setColor(Color.yellow);
-		obstacle = new ObstacleClique(posXCarre+translatCarreX,posYCarre+translatCarreY,0.1,0.1,forme);
+			obstacle = new ObstacleClique(posXCarre+translatCarreX,posYCarre+translatCarreY,0.1,0.1,forme);
 
-		obstacle.setPixelsParMetre(pixelParMetre);
-		obstacle.dessiner(g2d);
+			obstacle.setPixelsParMetre(pixelParMetre);
+			obstacle.dessiner(g2d);
 
-		
-	
-		
-		if(contour) {
-			g2d.setColor(Color.green);		
+
+		if (contour) {
+			g2d.setColor(Color.green);
 			//Les 4 cercles
 			cercleMauveBas.dessiner(g2d);
 			cercleMauveHautGauche.dessiner(g2d);
@@ -468,46 +477,35 @@ public class ZonePinball  extends JPanel implements Runnable  {
 			tunnelRessortDroite.dessiner(g2d);
 			tunnelRessortGauche.dessiner(g2d);
 
-		}	
-	}
+		}
 
+		if (aimantActif) {
 
+			g2d.setColor(Color.red);
+			unAimant.dessiner(g2d);
+		}
 
-
-
-
-	//Thomas Bourgault
-	/**
-	 * Méthode qui permet d'activer ou de desactiver la visibilite des différents murs
-	 * @param contour est un boolean qui active la visibilité des murs
-	 */
-	public void setContour(boolean contour) {
-		this.contour = contour;
-		repaint();
-	}
-	//Thomas Bourgault
-	/**
-	 * Méthode qui permet d'activer ou de desactiver les coordonnées quand on bouge la souris
-	 * @param coord est un boolean qui active le mode coordonne avec la souris
-	 */
-	public void setCoord(boolean coord) {
-		this.coord=coord;
 	}
 	//Thomas Bourgault
 	/**
 	 * Méthode qui initialise les différents objets de type Murs (des cercles)
 	 */
 	public void cercle() {
-		cercleMauveBas=new Murs(coordXBas,coordYBas,diametre);	
+		cercleMauveBas = new Murs(coordXBas, coordYBas, diametre);
 		cercleMauveBas.setPixelsParMetre(pixelParMetre);
 
-		cercleMauveHautGauche=new Murs( coordXHautGauche,coordYHautGauche,diametre);
+
+		cercleMauveHautGauche = new Murs(coordXHautGauche, coordYHautGauche, diametre);
 		cercleMauveHautGauche.setPixelsParMetre(pixelParMetre);
 
-		cercleMauveHaut=new Murs(coordXHaut,coordYHaut,diametre);
+		Vecteur2D vitesseNegatif = new Vecteur2D(uneBille.getVitesse().getX() * -1, uneBille.getVitesse().getY());
+		uneBille.setVitesse(vitesseNegatif);
+
+
+		cercleMauveHaut = new Murs(coordXHaut, coordYHaut, diametre);
 		cercleMauveHaut.setPixelsParMetre(pixelParMetre);
 
-		cercleMauveHautDroit=new Murs(coordXHautDroit,coordYHautDroit,diametre);
+		cercleMauveHautDroit = new Murs(coordXHautDroit, coordYHautDroit, diametre);
 		cercleMauveHautDroit.setPixelsParMetre(pixelParMetre);
 	}
 	//Thomas Bourgault
@@ -515,11 +513,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Méthode qui initialise les différents objets de type MursDroits pour le triangle gauche de l'image
 	 */
 	public void triangleGauche() {
-		ligTriGaucheGau=new MursDroits(coordX1TriGauche,coordY1TriGauche,coordX3TriGauche,coordY3TriGauche);
+		ligTriGaucheGau = new MursDroits(coordX1TriGauche, coordY1TriGauche, coordX3TriGauche, coordY3TriGauche);
 		ligTriGaucheGau.setPixelsParMetre(pixelParMetre);
-		ligTriGaucheBas=new MursDroits(coordX2TriGauche,coordY2TriGauche,coordX3TriGauche,coordY3TriGauche);
+		ligTriGaucheBas = new MursDroits(coordX3TriGauche, coordY3TriGauche, coordX2TriGauche, coordY2TriGauche);
 		ligTriGaucheBas.setPixelsParMetre(pixelParMetre);
-		ligTriGaucheDroit=new MursDroits(coordX1TriGauche,coordY1TriGauche,coordX2TriGauche,coordY2TriGauche);
+		ligTriGaucheDroit = new MursDroits(coordX1TriGauche, coordY1TriGauche, coordX2TriGauche, coordY2TriGauche);
 		ligTriGaucheDroit.setPixelsParMetre(pixelParMetre);
 	}
 	//Thomas Bourgault
@@ -527,11 +525,11 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Méthode qui initialise les différents objets de type MursDroits pour le triangle droit de l'image
 	 */
 	public void triangleDroit() {
-		ligTriDroitGau=new MursDroits(coordX3TriDroite,coordY3TriDroite,coordX1TriDroite,coordY1TriDroite);
+		ligTriDroitGau = new MursDroits(coordX3TriDroite, coordY3TriDroite, coordX1TriDroite, coordY1TriDroite);
 		ligTriDroitGau.setPixelsParMetre(pixelParMetre);
-		ligTriDroitBas=new MursDroits(coordX2TriDroite,coordY2TriDroite,coordX3TriDroite,coordY3TriDroite);
+		ligTriDroitBas = new MursDroits(coordX2TriDroite, coordY2TriDroite, coordX3TriDroite, coordY3TriDroite);
 		ligTriDroitBas.setPixelsParMetre(pixelParMetre);
-		ligTriDroitDroit=new MursDroits(coordX2TriDroite,coordY2TriDroite,coordX1TriDroite,coordY1TriDroite);
+		ligTriDroitDroit = new MursDroits(coordX1TriDroite, coordY1TriDroite, coordX2TriDroite, coordY2TriDroite);
 		ligTriDroitDroit.setPixelsParMetre(pixelParMetre);
 	}
 	//Thomas Bourgault
@@ -540,15 +538,15 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 */
 	public void coinGauche() {
 		//ligneDroitHautGau,ligneDroitTrapezeGau,lignePencheTrapezeGau,ligneDroitBasGau;
-		lignePetiteHautGau=new MursDroits(coordX0CoinGauche,coordY0CoinGauche,coordX1CoinGauche,coordY1CoinGauche);
+		lignePetiteHautGau = new MursDroits(coordX0CoinGauche, coordY0CoinGauche, coordX1CoinGauche, coordY1CoinGauche);
 		lignePetiteHautGau.setPixelsParMetre(pixelParMetre);
-		ligneDroitHautGau= new MursDroits(coordX1CoinGauche,coordY1CoinGauche,coordX2CoinGauche,coordY2CoinGauche);
+		ligneDroitHautGau = new MursDroits(coordX1CoinGauche, coordY1CoinGauche, coordX2CoinGauche, coordY2CoinGauche);
 		ligneDroitHautGau.setPixelsParMetre(pixelParMetre);
-		ligneDroitTrapezeGau=new MursDroits(coordX2CoinGauche,coordY2CoinGauche,coordX3CoinGauche,coordY3CoinGauche);
+		ligneDroitTrapezeGau = new MursDroits(coordX2CoinGauche, coordY2CoinGauche, coordX3CoinGauche, coordY3CoinGauche);
 		ligneDroitTrapezeGau.setPixelsParMetre(pixelParMetre);
-		lignePencheTrapezeGau=new MursDroits(coordX3CoinGauche,coordY3CoinGauche,coordX4CoinGauche,coordY4CoinGauche);
+		lignePencheTrapezeGau = new MursDroits(coordX3CoinGauche, coordY3CoinGauche, coordX4CoinGauche, coordY4CoinGauche);
 		lignePencheTrapezeGau.setPixelsParMetre(pixelParMetre);
-		ligneDroitBasGau=new MursDroits(coordX4CoinGauche,coordY4CoinGauche,coordX5CoinGauche,coordY5CoinGauche);
+		ligneDroitBasGau = new MursDroits(coordX4CoinGauche, coordY4CoinGauche, coordX5CoinGauche, coordY5CoinGauche);
 		ligneDroitBasGau.setPixelsParMetre(pixelParMetre);
 	}
 	//Thomas Bourgault
@@ -556,36 +554,33 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Méthode qui initialise les différents objets de type MursDroits pour le coin droit de l'image
 	 */
 	public void coinDroit() {
-		//ligneDroitHautDroite,ligneDroitTrapezeDroite,lignePencheTrapezeDroite,ligneDroitBasDroite;
-
-		ligneDroitBasDroite=new MursDroits(coordX1CoinDroit,coordY1CoinDroit,coordX2CoinDroit,coordY2CoinDroit);
+		ligneDroitBasDroite = new MursDroits(coordX1CoinDroit, coordY1CoinDroit, coordX2CoinDroit, coordY2CoinDroit);
 		ligneDroitBasDroite.setPixelsParMetre(pixelParMetre);
-		lignePencheTrapezeDroite=new MursDroits(coordX2CoinDroit,coordY2CoinDroit,coordX3CoinDroit,coordY3CoinDroit);
+		lignePencheTrapezeDroite = new MursDroits(coordX2CoinDroit, coordY2CoinDroit, coordX3CoinDroit, coordY3CoinDroit);
 		lignePencheTrapezeDroite.setPixelsParMetre(pixelParMetre);
-		ligneDroitTrapezeDroite=new MursDroits(coordX3CoinDroit,coordY3CoinDroit,coordX4CoinDroit,coordY4CoinDroit);
-		ligneDroitTrapezeDroite.setPixelsParMetre(pixelParMetre);		
+		ligneDroitTrapezeDroite = new MursDroits(coordX3CoinDroit, coordY3CoinDroit, coordX4CoinDroit, coordY4CoinDroit);
+		ligneDroitTrapezeDroite.setPixelsParMetre(pixelParMetre);
 	}
 	//Thomas Bourgault
 	/**
 	 * Méthode qui initialise les différents objets de type MursCourbes qui représente les arcs de cercle
 	 */
 	public void arcCercle() {
-		arcCerclegau=new MursCourbes(coordX1CourbeGau,coordY1CourbeGau,controleXGau,controleYGau,coordX3CourbeGau,coordY3CourbeGau,segmentCourbeGauche);
-		arcCerclegau.setPixelsParMetre(pixelParMetre);		
-		arcCercleDroit= new MursCourbes(coordX1CourbeDroit,coordY1CourbeDroit,controleX,controleY,coordX3CourbeDroit,coordY3CourbeDroit,segmentCourbeDroit);
+		arcCerclegau = new MursCourbes(coordX1CourbeGau, coordY1CourbeGau, controleXGau, controleYGau, coordX3CourbeGau, coordY3CourbeGau, segmentCourbeGauche);
+		arcCerclegau.setPixelsParMetre(pixelParMetre);
+		arcCercleDroit = new MursCourbes(coordX1CourbeDroit, coordY1CourbeDroit, controleX, controleY, coordX3CourbeDroit, coordY3CourbeDroit, segmentCourbeDroit);
 		arcCercleDroit.setPixelsParMetre(pixelParMetre);
-		arcCerclePetit=new MursCourbes(coordX1CourbePetit,coordY1CourbePetit,controleXPetit,controleYPetit,coordX2TunnelGauche,coordY2TunnelGauche,segmentCourbePetit);
-		arcCerclePetit.setPixelsParMetre(pixelParMetre);		
+		arcCerclePetit = new MursCourbes(coordX1CourbePetit, coordY1CourbePetit, controleXPetit, controleYPetit, coordX2TunnelGauche, coordY2TunnelGauche, segmentCourbePetit);
+		arcCerclePetit.setPixelsParMetre(pixelParMetre);
 	}
 	//Thomas Bourgault
 	/**
 	 * Méthode qui initialise les deux objets de type MursDroits qui rerpésente le tunnel du ressort
 	 */
 	public void tunnel() {
-		//tunnelRessortDroite, tunnelRessortGauche
-		tunnelRessortDroite=new MursDroits(coordX1TunnelDroit,coordY1TunnelDroit,coordX2TunnelDroit,coordY2TunnelDroit);
+		tunnelRessortDroite = new MursDroits(coordX1TunnelDroit, coordY1TunnelDroit, coordX2TunnelDroit, coordY2TunnelDroit);
 		tunnelRessortDroite.setPixelsParMetre(pixelParMetre);
-		tunnelRessortGauche=new MursDroits (coordX1TunnelGauche,coordY2TunnelGauche,coordX2TunnelGauche,coordY1TunnelGauche);
+		tunnelRessortGauche = new MursDroits(coordX1TunnelGauche, coordY2TunnelGauche, coordX2TunnelGauche, coordY1TunnelGauche);
 		tunnelRessortGauche.setPixelsParMetre(pixelParMetre);
 	}
 	//Thomas Bourgault
@@ -593,93 +588,16 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Méthode qui initialise les deux flippers de type MursDroits
 	 */
 	public void flippers() {
-		flipGauche=new Flipper(positionFlipperGauche,longueurMancheGauche,diametreMancheGauche,gauche);
+		flipGauche = new Flipper(positionFlipperGauche, longueurMancheGauche, diametreMancheGauche, gauche);
 		flipGauche.setPixelsParMetre(pixelParMetre);
-		flipDroit=new Flipper(positionFlipperDroit,longueurMancheGauche,diametreMancheGauche,!gauche);
+		flipDroit = new Flipper(positionFlipperDroit, longueurMancheGauche, diametreMancheGauche, !gauche);
 		flipDroit.setPixelsParMetre(pixelParMetre);
-		murFlipperGauche=new MursDroits(coordX1MurFlipperGauche,coordY1MurFlipperGauche,coordX2MurFlipperGauche,coordY2MurFlipperGauche);
+		murFlipperGauche = new MursDroits(coordX1MurFlipperGauche, coordY1MurFlipperGauche, coordX2MurFlipperGauche, coordY2MurFlipperGauche);
 		murFlipperGauche.setPixelsParMetre(pixelParMetre);
-		murFlipperDroit=new MursDroits(coordX1MurFlipperDroit,coordY1MurFlipperDroit,coordX2MurFlipperDroit,coordY2MurFlipperDroit);
+		murFlipperDroit = new MursDroits(coordX1MurFlipperDroit, coordY1MurFlipperDroit, coordX2MurFlipperDroit, coordY2MurFlipperDroit);
 		murFlipperDroit.setPixelsParMetre(pixelParMetre);
 	}
-	//Carlos Eduardo
 
-	/**
-	 * Animation de la balle
-	 */
-	public void run() {
-
-		while (enCoursDAnimation) {
-
-			/**	
-			}
-			if(gaucheActive) {
-				compteurGauche++;
-			}
-			if (coordY2FlipperGauche-(compteurGauche/100000000)<1.2 ) {				
-				gaucheActive=false;
-				gaucheDescente=true;
-
-				if(coordY2FlipperDroit-(compteurDroit/100000000)<1.2 ) {
-					droitActive=false;
-				droitDescente=true;
-				}
-			}
-
-			if(coordY2FlipperGauche+(compteurGauche/100000000)>1.405) {				
-				gaucheDescente=false;							
-			}
-			if(coordY2FlipperDroit+(compteurDroit/100000000)>1.405) {
-				droitDescente=false;
-			}
-			 */
-			//System.out.println("Un tour de run...on avance de " + deltaT + " secondes");
-			calculerUneIterationPhysique(deltaT);
-			if(ressort.isArrete()) {
-				arreter();
-			}
-			testerCollisionsEtAjusterPositions();//pas utile pour le moment
-
-			repaint();
-			try {
-				Thread.sleep(tempsDuSleep);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}//fin while
-		//System.out.println("Le thread est mort...");
-	}
-
-
-	//Carlos Eduardo
-	/**
-	 * Calcul des nouvelles positions pour
-	 * tous les objets de la scène
-	 */
-	private void calculerUneIterationPhysique(double deltaT) {
-		tempsTotalEcoule += deltaT;
-		uneBille.avancerUnPas( deltaT );
-		getBille();
-		if(gaucheActive) {
-			flipGauche.avancerUnPas(deltaT);
-			//System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
-			//System.out.println("Px gauche: "+positionFlipperGauche.getX()+" Py gauche: "+positionFlipperGauche.getY());
-		}
-		if(droitActive) {
-			flipDroit.avancerUnPas(deltaT);
-			//System.out.println("//////////////////////////////////////////////////////////////////////////////////////");
-			//System.out.println("Px droit: "+positionFlipperDroit.getX()+" Py droit: "+positionFlipperDroit.getY());
-		}
-		ressort.avancerUnPas(deltaT);
-
-		//System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
-		//System.out.println("Nouvelle vitesse: " + uneBille.getVitesse().toString(2));
-		//System.out.println("Nouvelle position: " + uneBille.getPosition().toString(2));
-
-		//System.out.println("\nTemps total simulé écoulé: "  + String.format("%.3f",tempsTotalEcoule) + "sec (en temps simulé!)");
-
-
-	}
 
 	//Carlos Eduardo
 	/**
@@ -693,250 +611,401 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		boolean col = false;
 
-
-		/*
-		//colission avec la courbe superieure
-		if(arcCercleDroit.getCourbe().intersects(uneBille.getPosition().getX()+uneBille.getDiametre(), uneBille.getPosition().getY()+uneBille.getDiametre(), uneBille.getDiametre()/2, uneBille.getDiametre()/2)) {
-
-
-
-				Vecteur2D vitesseNegatif = new Vecteur2D (uneBille.getVitesse().getX(),uneBille.getVitesse().getY()*-1);
-				uneBille.setVitesse(vitesseNegatif);
-
-
-			}
-
-		 */
-
 		//colision avec mur vertical
 
-		if(uneBille.getPosition().getX() < ligneDroitHautGau.getCoordX1() ) {
+		if (uneBille.getPosition().getX() < ligneDroitHautGau.getCoordX1()) {
 
-			Vecteur2D vitesseNegatif = new Vecteur2D (uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY());
+			Vecteur2D vitesseNegatif = new Vecteur2D(uneBille.getVitesse().getX() * -1, uneBille.getVitesse().getY());
 			uneBille.setVitesse(vitesseNegatif);
 
 		}
 
-
 		//colision avec les obstacles en cerlce
 
-
-		for(int i=0; i< obstaclesCercle.size();i++) {
+		for (int i = 0; i < obstaclesCercle.size(); i++) {
 
 			Murs cercle = obstaclesCercle.get(i);
 
 			//pythagore de la distance entre les centres de la bille et l"obstacle si inferieure a la somme des deux rayons donc collision 
-			if(Math.hypot((uneBille.getPosition().getX()+uneBille.getDiametre()/2)-(cercle.getPositionMursX()), (uneBille.getPosition().getY()+uneBille.getDiametre()/2)-(cercle.getPositionMursY())) < (uneBille.getDiametre()/2 + cercle.getDiametre()/2)) {
+			if (Math.hypot((uneBille.getPosition().getX() + uneBille.getDiametre() / 2) - (cercle.getPositionMursX()), (uneBille.getPosition().getY() + uneBille.getDiametre() / 2) - (cercle.getPositionMursY())) < (uneBille.getDiametre() / 2 + cercle.getDiametre() / 2)) {
 
 				col = false;
 
-				System.out.println("pos x de bile : "+uneBille.getPosition().getX());
 
-				System.out.println("centre du cerlce : "+ cercle.getPositionMursX() );
+				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX()) {
 
-				if(uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX()){
+					if (uneBille.getPosition().getX() > cercle.getPositionMursX() && col) {
 
-					if(uneBille.getPosition().getX() > cercle.getPositionMursX() && col  ){
+						double vitX = uneBille.getVitesse().getX() + 0.4;
 
-						double vitX =uneBille.getVitesse().getX() +0.4; 
-
-						Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
+						Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
 
 						uneBille.setVitesse(VitYnegatif);
+
+						score.updateScore(pointCercle);
 
 					}
 
 				}
 
-				if(uneBille.getVitesse().getX() + uneBille.getPosition().getX() < cercle.getPositionMursX()){
+				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() < cercle.getPositionMursX()) {
 
-					if(uneBille.getPosition().getX() > cercle.getPositionMursX() && col  ){
+					if (uneBille.getPosition().getX() > cercle.getPositionMursX() && col) {
 
-						double vitX =uneBille.getVitesse().getX() -0.4; 
+						double vitX = uneBille.getVitesse().getX() - 0.4;
 
-						Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
+						Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
 
 						uneBille.setVitesse(VitYnegatif);
+
+						score.updateScore(pointCercle);
+
 					}
 				}
 				boolean colY = false;
 				boolean colX = false;
 
-				if(uneBille.getPosition().getX() < cercle.getPositionMursX()) {
+				if (uneBille.getPosition().getX() < cercle.getPositionMursX()) {
 
-					double vitX =uneBille.getVitesse().getX() +0.4; 
-
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX*-1,uneBille.getVitesse().getY()*-1);
-
+					double vitX = uneBille.getVitesse().getX() + 0.4;
+					Vecteur2D VitYnegatif = new Vecteur2D(vitX * -1, uneBille.getVitesse().getY() * -1);
 					uneBille.setVitesse(VitYnegatif);
 					colX = true;
 
+					score.updateScore(pointCercle);
 
-				}if(uneBille.getPosition().getX() > cercle.getPositionMursX()){
+
+				}
+				if (uneBille.getPosition().getX() > cercle.getPositionMursX()) {
 					colY = true;
+					score.updateScore(pointCercle);
+
 				}
 
-				if(uneBille.getVitesse().getY() + uneBille.getPosition().getY() > cercle.getPositionMursY() && colY ){
+				if (uneBille.getVitesse().getY() + uneBille.getPosition().getY() > cercle.getPositionMursY() && colY) {
 
-					double vitX =uneBille.getVitesse().getX() +0.4; 
+					double vitX = uneBille.getVitesse().getX() + 0.4;
 
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
-
-					uneBille.setVitesse(VitYnegatif);
-
-				}	
-
-				if(uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX() && colX ){
-
-
-					double vitX =uneBille.getVitesse().getX() -0.4; 
-
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
+					Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
 
 					uneBille.setVitesse(VitYnegatif);
+					score.updateScore(pointCercle);
+
+				}
+
+				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX() && colX) {
+
+					double vitX = uneBille.getVitesse().getX() - 0.4;
+
+					Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
+
+					uneBille.setVitesse(VitYnegatif);
+					score.updateScore(pointCercle);
+
 				}
 			}
-		}	
+		}
 
 
 		//collision entre la bille et les surfaces en pentes.
 
-		for (int i= 0; i < pentes.size();i++) {
-
+		for (int i = 0; i < pentes.size(); i++) {
 
 			MursDroits pente = pentes.get(i);
 
+			Line2D.Double line = new Line2D.Double(pente.getCoordX1(), pente.getCoordY1(), pente.getCoordX2(), pente.getCoordY2());
+
+			if (line.ptSegDist(uneBille.getPosition().getX() + uneBille.getDiametre() / 2, uneBille.getPosition().getY() + uneBille.getDiametre() / 2) < uneBille.getDiametre() / 2) {
 
 
-			Line2D.Double line = new Line2D.Double(pente.getCoordX1(),pente.getCoordY1(),pente.getCoordX2(),pente.getCoordY2());
+				Vecteur2D x = new Vecteur2D(pente.getCoordX1(), pente.getCoordY1());
+				Vecteur2D y = new Vecteur2D(pente.getCoordX2(), pente.getCoordY2());
+				Vecteur2D temp = x.soustrait(y);
 
-			if(line.ptSegDist(uneBille.getPosition().getX()+uneBille.getDiametre()/2,uneBille.getPosition().getY()+uneBille.getDiametre()/2) < uneBille.getDiametre()/2) {
+				double dx = temp.getX();
+				double dy = temp.getY();
+
+				Vecteur2D fini = new Vecteur2D(dy * -3, dx);
+
+				uneBille.setVitesse(fini);
+
+			}
+
+		}
+		//collision flipper gauche
+		for (int i = 0; i < flipperGauche.size(); i++) {
+
+			MursDroits flipper = flipperGauche.get(i);
+
+			Line2D.Double line = new Line2D.Double(flipper.getCoordX1(), flipper.getCoordY1(), flipper.getCoordX2(), flipper.getCoordY2());
+
+			if (line.ptSegDist(uneBille.getPosition().getX() + uneBille.getDiametre() / 2, uneBille.getPosition().getY() + uneBille.getDiametre() / 2) < uneBille.getDiametre() / 2 && gaucheActive) {
+
+				//	uneBille.setVitesse(MoteurPhysique.calculVitesseBilleFlipper(flipGauche.getVitesse().module(), uneBille.getVitesse()));
+				uneBille.setVitesse(flipGauche.getVitesse().multiplie(0.01));
 
 
-				Vecteur2D x = new Vecteur2D(pente.getCoordX1(),pente.getCoordY1());
 
-				Vecteur2D y = new Vecteur2D(pente.getCoordX2(),pente.getCoordY2());
+			}
+
+			if (uneBille.getPosition().getY() + uneBille.getDiametre() > flipper.getCoordY1() && uneBille.getPosition().getX() > flipper.getCoordX1() && uneBille.getPosition().getX() < flipper.getCoordX2()) {
+
+				uneBille.setVitesse(flipGauche.getVitesse().multiplie(0.01));
+
+			}
+		}
+		//collision flipper droit
+		for (int i = 0; i < flipperDroit.size(); i++) {
+
+			MursDroits flipper = flipperDroit.get(i);
+
+
+			Line2D.Double line = new Line2D.Double(flipper.getCoordX1(), flipper.getCoordY1(), flipper.getCoordX2(), flipper.getCoordY2());
+
+			if (line.ptSegDist(uneBille.getPosition().getX() + uneBille.getDiametre() / 2, uneBille.getPosition().getY() + uneBille.getDiametre() / 2) < uneBille.getDiametre() / 2 && droitActive) {
+
+				//	uneBille.setVitesse(MoteurPhysique.calculVitesseBilleFlipper(flipGauche.getVitesse().module(), uneBille.getVitesse()));
+
+				uneBille.setVitesse(flipDroit.getVitesse().multiplie(0.01));
+			}
+
+			if (uneBille.getPosition().getY() + uneBille.getDiametre() > flipper.getCoordY1() && uneBille.getPosition().getX() > flipper.getCoordX1() && uneBille.getPosition().getX() < flipper.getCoordX2()) {
+
+				uneBille.setVitesse(flipDroit.getVitesse().multiplie(0.01));
+			}
+		}
+
+		//collision avec les surfaces planes (sol)
+		for (int i = 0; i < solHorizontal.size(); i++) {
+
+			MursDroits sol = solHorizontal.get(i);
+
+			if (uneBille.getPosition().getY() + uneBille.getDiametre() > sol.getCoordY1() && uneBille.getPosition().getX() > sol.getCoordX1() && uneBille.getPosition().getX() < sol.getCoordX2()) {
+
+				double vitX = uneBille.getVitesse().getX();
+
+				Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
+
+				uneBille.setVitesse(VitYnegatif);
+			}
+		}
+
+		//surface plates
+		for (int i = 0; i < murs.size(); i++) {
+
+			MursDroits mur = murs.get(i);
+
+			if (uneBille.getPosition().getX() + uneBille.getDiametre() > mur.getCoordX1() && uneBille.getPosition().getY() > mur.getCoordY1() && uneBille.getPosition().getY() < mur.getCoordY2()) {
+
+				Vecteur2D VitYnegatif = new Vecteur2D(uneBille.getVitesse().getX() * -1, uneBille.getVitesse().getY());
+
+				uneBille.setVitesse(VitYnegatif);
+			}
+		}
+
+		//bille tombe dans trou reset
+		if (uneBille.getPosition().getY() > hauteurDuComposantMetre) {
+			arreter();
+			retablirPosition();
+			score.resetScore();
+		}
+
+		for (int i = 0; i < droitSous.size(); i++) {
+
+			MursDroits sous = droitSous.get(i);
+
+			boolean under = false;
+
+			if (uneBille.getPosition().getY() + uneBille.getDiametre() > sous.getCoordY1()) {
+
+				under = true;
+			}
+			if (uneBille.getPosition().getX() > sous.getCoordX1() && uneBille.getPosition().getX() < sous.getCoordX2() && uneBille.getPosition().getY() < sous.getCoordY1() && under) {
+
+				uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(), uneBille.getVitesse().getY() * -1));
+			}
+		}
+
+		//cote des triangles
+		for (int i = 0; i < coteTriangle.size(); i++) {
+
+			MursDroits cote = coteTriangle.get(i);
+
+			Line2D.Double line = new Line2D.Double(cote.getCoordX1(), cote.getCoordY1(), cote.getCoordX2(), cote.getCoordY2());
+
+			if (line.ptSegDist(uneBille.getPosition().getX() + uneBille.getDiametre() / 2, uneBille.getPosition().getY() + uneBille.getDiametre() / 2) < uneBille.getDiametre() / 2) {
+
+				//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX() * -1, uneBille.getVitesse().getY()));
+
+			}
+
+		}
+
+
+		//collision avec courbe initiale
+		if (uneBille.getPosition().getY() < 0.732 && uneBille.getPosition().getX() > 0.898) {
+
+			double fc = moteur.MoteurPhysique.calculForceCentripete(massePourCetteScene, uneBille.getVitesse(), RAYON_COURBE);
+
+			Vecteur2D fcFinal;
+
+			fcFinal = moteur.MoteurPhysique.calculDelta(posCentre, uneBille.getPosition());
+
+			Vecteur2D fcTemp;
+
+			fcTemp = (fcFinal.multiplie(fc * -1));
+
+			double fcGraviter = fcTemp.getY() * -4.8;
+
+			Vecteur2D FCFINAL = new Vecteur2D(fcTemp.getX(), fcGraviter);
+
+			uneBille.setForceExterieureAppliquee(FCFINAL);
+
+		}else
+		{
+			
+			//uneBille.setForceExterieureAppliquee(new Vecteur2D (0,4.8));
+
+
+		}
+		//collision avec la courbe 
+		for (int i = 0; i < courbe.size(); i++) {
+
+			MursDroits courbes = courbe.get(i);
+
+			Line2D.Double line = new Line2D.Double(courbes.getCoordX1(), courbes.getCoordY1(), courbes.getCoordX2(), courbes.getCoordY2());
+
+			if (line.ptSegDist(uneBille.getPosition().getX() + uneBille.getDiametre() / 2, uneBille.getPosition().getY() + uneBille.getDiametre() / 2) < uneBille.getDiametre() / 2) {
+
+
+				Vecteur2D x = new Vecteur2D(courbes.getCoordX1(), courbes.getCoordY1());
+
+				Vecteur2D y = new Vecteur2D(courbes.getCoordX2(), courbes.getCoordY2());
 
 				Vecteur2D temp = x.soustrait(y);
 
 				double dx = temp.getX();
 				double dy = temp.getY();
 
-				Vecteur2D fini = new Vecteur2D(dy*-3,dx);
-
-
+				Vecteur2D fini = new Vecteur2D(dy * -3, dx);
 
 				uneBille.setVitesse(fini);
-
-
-			}
-
-		}
-
-		for (int i= 0; i < flipperGauche.size();i++) {
-
-			MursDroits flipper = flipperGauche.get(i);
-
-
-			Line2D.Double line = new Line2D.Double(flipper.getCoordX1(),flipper.getCoordY1(),flipper.getCoordX2(),flipper.getCoordY2());
-
-			if(line.ptSegDist(uneBille.getPosition().getX()+uneBille.getDiametre()/2,uneBille.getPosition().getY()+uneBille.getDiametre()/2) < uneBille.getDiametre()/2 && gaucheActive) {
-
-				//	uneBille.setVitesse(MoteurPhysique.calculVitesseBilleFlipper(flipGauche.getVitesse().module(), uneBille.getVitesse()));
-				uneBille.setVitesse(new Vecteur2D(-1.8,-5));
-
-			}
-
-			if(uneBille.getPosition().getY() +uneBille.getDiametre() > flipper.getCoordY1() && uneBille.getPosition().getX() > flipper.getCoordX1() && uneBille.getPosition().getX() < flipper.getCoordX2()) {
-
-				uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),uneBille.getVitesse().getY()*-1));
-			}
-
-
-
-		}
-
-		for (int i= 0; i < flipperDroit.size();i++) {
-
-			MursDroits flipper = flipperDroit.get(i);
-
-
-			Line2D.Double line = new Line2D.Double(flipper.getCoordX1(),flipper.getCoordY1(),flipper.getCoordX2(),flipper.getCoordY2());
-
-			if(line.ptSegDist(uneBille.getPosition().getX()+uneBille.getDiametre()/2,uneBille.getPosition().getY()+uneBille.getDiametre()/2) < uneBille.getDiametre()/2 && droitActive) {
-
-				//	uneBille.setVitesse(MoteurPhysique.calculVitesseBilleFlipper(flipGauche.getVitesse().module(), uneBille.getVitesse()));
-
-				uneBille.setVitesse(new Vecteur2D(1.5,-4));
-
-			}
-
-			if( uneBille.getPosition().getY() +uneBille.getDiametre() > flipper.getCoordY1() && uneBille.getPosition().getX() > flipper.getCoordX1() && uneBille.getPosition().getX() < flipper.getCoordX2() ) {
-
-				uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(),uneBille.getVitesse().getY()*-1));
-			}
-
-
-
-		}
-
-		//collision avec les surfaces planes (sol)
-		for(int i =0; i < solHorizontal.size();i++) {
-
-			MursDroits sol = solHorizontal.get(i);
-
-			if(uneBille.getPosition().getY() +uneBille.getDiametre() > sol.getCoordY1() && uneBille.getPosition().getX() > sol.getCoordX1() && uneBille.getPosition().getX() < sol.getCoordX2())  {
-
-
-
-
-				double vitX =uneBille.getVitesse().getX(); 
-
-				Vecteur2D VitYnegatif = new Vecteur2D(vitX,uneBille.getVitesse().getY()*-1);
-
-				uneBille.setVitesse(VitYnegatif);
-
-			}
-
-
-
-
-		}
-
-		for(int i=0;i < murs.size();i++) {
-
-			MursDroits mur = murs.get(i);
-
-			if(uneBille.getPosition().getX()+ uneBille.getDiametre() > mur.getCoordX1() && uneBille.getPosition().getY() > mur.getCoordY1() && uneBille.getPosition().getY() < mur.getCoordY2()) {
-
-				Vecteur2D VitYnegatif = new Vecteur2D(uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY());
-
-				uneBille.setVitesse(VitYnegatif);
 			}
 		}
 
-		if(uneBille.getPosition().getY() > hauteurDuComposantMetre) {
-			billeEnDehors=true;
-			arreter();
-			retablirPosition();
-		}else {
-			billeEnDehors=false;
-		}
 
-		boolean first= true;
-		if(uneBille.getPosition().getY() < 0.304 && first) {
-			uneBille.setForceExterieureAppliquee( new Vecteur2D(0,2));
+	} ///fin collision
 
 
+	//Carlos Eduardo
 
-		}
+	/**
+	 * Animation de la balle
+	 */
+	public void run() {
 
-
-
-		//	System.out.println("RESSORT TEST: "+ressort.getPosition().getY());
-
+		while (enCoursDAnimation) {
+			//System.out.println("Un tour de run...on avance de " + deltaT + " secondes");			
+			calculerUneIterationPhysique(deltaT);
+			score.timerScore();
+			if (ressort.isArrete()) {
+				arreter();
+			}
+			testerCollisionsEtAjusterPositions(); //pas utile pour le moment
+			repaint();
+			try {
+				Thread.sleep(tempsDuSleep);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} //fin while
+		System.out.println("Le thread est mort...");
 	}
 
+
+
+
+
+
+	//Thomas Bourgault
+	/**
+	 * Calcul des nouvelles positions pour
+	 * tous les objets de la scène
+	 */
+	private void calculerUneIterationPhysique(double deltaT) {
+		tempsTotalEcoule += deltaT;
+		uneBille.avancerUnPas(deltaT);
+		getBille();
+		ressort.avancerUnPas(deltaT);
+		if(gaucheActive) {
+			double deltaTFlipperGaucheMonter;
+			//Si quart de période atteint
+			if(tempsEcouleGaucheMonter==0.085) {
+				deltaTFlipperGaucheMonter=0;				
+			}else {
+				deltaTFlipperGaucheMonter=deltaT;
+			}
+
+			//frequenceAngulaire
+
+			flipGauche.avancerUnPas(-angleMax,tempsEcouleGaucheMonter, frequenceAngulaire,premierQuartPeriode);
+			angleGauche=flipGauche.getAngle();
+			angleGauche=(-angleMax-flipGauche.getAngle())/2;
+
+			tempsEcouleGaucheMonter += deltaTFlipperGaucheMonter;
+			System.out.println("////////////////////////////");
+			System.out.println("Temps ecoule gaucheActive : "+tempsEcouleGaucheMonter + "  Valeur de l'angle : "+angleGauche);
+
+
+		}
+		if(gaucheDescente) {
+			double deltaTFlipperGaucheDescendre;
+			deltaTFlipperGaucheDescendre=deltaT;
+			if( angleGauche==angleEquilibre) {
+				tempsEcouleGaucheMonter=0;
+				tempsEcouleGaucheDescendre=0;
+			}
+			flipGauche.avancerUnPas(angleEquilibre, tempsEcouleGaucheDescendre+tempsEcouleGaucheMonter, frequenceAngulaire,!premierQuartPeriode);
+			angleGauche=flipGauche.getAngle();
+			angleGauche=(-flipGauche.getAngle())/2;
+			tempsEcouleGaucheDescendre+=deltaTFlipperGaucheDescendre;
+			System.out.println("Temps ecoule gaucheDescendre : "+tempsEcouleGaucheDescendre+tempsEcouleGaucheMonter + "  Valeur de l'angle : "+angleGauche);					
+		}
+		if(droitActive) {
+			double deltaTFlipperDroitMonter;
+			if(tempsEcouleDroitMonter==0.085) {
+				deltaTFlipperDroitMonter=0;				
+			}else {
+				deltaTFlipperDroitMonter=deltaT;
+			}
+			flipDroit.avancerUnPas(angleMax,tempsEcouleDroitMonter, frequenceAngulaire,premierQuartPeriode);
+			angleDroit=flipDroit.getAngle();
+			angleDroit=(angleMax-flipDroit.getAngle())/2;
+			tempsEcouleDroitMonter += deltaTFlipperDroitMonter;
+			System.out.println("Temps ecoule droitActive : "+tempsEcouleDroitMonter + "  Valeur de l'angle : "+angleDroit);
+
+		}
+		if(droitDescente) {
+			double deltaTFlipperDroitDescendre;
+			deltaTFlipperDroitDescendre=deltaT;
+			if( angleDroit==angleEquilibre) {
+				tempsEcouleDroitMonter=0;
+				tempsEcouleDroitDescendre=0;
+			}
+			flipDroit.avancerUnPas(angleEquilibre, tempsEcouleDroitDescendre+tempsEcouleDroitMonter, frequenceAngulaire,!premierQuartPeriode);
+			angleDroit=flipDroit.getAngle();
+			angleDroit=(-flipDroit.getAngle())/2;
+			tempsEcouleGaucheDescendre+=deltaTFlipperDroitDescendre;
+			System.out.println("Temps ecoule droitDescendre : "+tempsEcouleDroitDescendre+tempsEcouleDroitMonter + "  Valeur de l'angle : "+angleDroit);
+		}
+
+		//System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
+		//System.out.println("Nouvelle vitesse: " + uneBille.getVitesse().toString(2));
+		//System.out.println("Nouvelle position: " + uneBille.getPosition().toString(2));
+
+		//System.out.println("\nTemps total simulé écoulé: "  + String.format("%.3f",tempsTotalEcoule) + "sec (en temps simulé!)");
+
+	}
 
 
 	//Carlos Eduardo
@@ -944,11 +1013,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * Demarre le thread s'il n'est pas deja demarre
 	 */
 	public void demarrer() {
-		uneBille.setForceExterieureAppliquee( new Vecteur2D(-1,0.48));
+		uneBille.setForceExterieureAppliquee(new Vecteur2D(0, 0.48));
 		uneBille.setVitesse(MoteurPhysique.caculVitesseBilleRessort(getK_RESSORT(), getEtirement(), uneBille.getMasseEnKg()));
 
-
-		if (!enCoursDAnimation) { 
+		if (!enCoursDAnimation) {
 			Thread proc = new Thread(this);
 			proc.start();
 			enCoursDAnimation = true;
@@ -964,10 +1032,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		enCoursDAnimation = false;
 	}
 
-	public boolean isAnimationEnCours() {
-		return enCoursDAnimation;
-	}
-
 	//Carlos Eduardo
 	/**
 	 * Reinitialise la position et la vitesse de la balle
@@ -979,8 +1043,6 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		uneBille.setAccel(accelInitBalle);
 
 		tempsTotalEcoule = 0;
-
-
 		ressort.setPosition(positionInitialRessort);
 		ressort.setAccel(ACCEL_INIT_RESSORT);
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
@@ -994,14 +1056,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		repaint();
 
-
-
-		billeEnDehors=false;
-
-
-
 	}
-
 
 	//Carlos Eduardo
 	/**
@@ -1011,8 +1066,20 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		calculerUneIterationPhysique(deltaT);
 		testerCollisionsEtAjusterPositions();
 		repaint();
+	}
+
+	//Carlos Eduardo
+	/**Active un aimant et calcul la force electrique avec la loi de Coulomb
+	 *  
+	 * @param si checkbox aimant est true ou false
+	 */
+	public void aimantActif(boolean aimant) {
+
+
+		Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
 
 	}
+
 
 	//Audrey Viger
 	/**
@@ -1020,24 +1087,25 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * @param kRessort la constante du ressort, exprime en N/m
 	 */
 	public void setkRessort(double kRessort) {
-
-		K_RESSORT = kRessort;
-
+		K_RESSORT = kRessort;				
 		ressort.setkRessort(kRessort);
 		repaint();
-	}// fin methode
+	} // fin methode
+
+
+
 
 	//Audrey Viger
 	/**
 	 * Modifie le coefficient de friction cinétique du bloc
 	 * 
 	 * @param coeffFrot le coefficient de friction cinétique du bloc
-	 */
-
+	 */									
 	public void setCoeffFrot(double coeffFrot) {
 		ressort.setMu(coeffFrot);
 		repaint();
-	}// fin methode
+	} // fin methode
+
 
 
 	//Audrey Viger
@@ -1046,14 +1114,19 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * @param etirement distance entre le bloc et la position naturelle du ressort
 	 */
 	public void setEtirement(double etirement) {
-		ressort.setPosition(new Vecteur2D(positionInitialRessort.getX() , positionInitialRessort.getY()+ etirement));
+		ressort.setPosition(new Vecteur2D(positionInitialRessort.getX(), positionInitialRessort.getY() + etirement));
 
-		uneBille.setPosition(new Vecteur2D(positionInitialRessort.getX() + uneBille.getDiametre() , positionInitialRessort.getY()+ etirement - uneBille.getDiametre()-0.01));
+		uneBille.setPosition(new Vecteur2D(positionInitialRessort.getX() + uneBille.getDiametre(), positionInitialRessort.getY() + etirement - uneBille.getDiametre() - 0.001));
 		repaint();
-	}// fin methode
+	} // fin methode
 
+	//Audrey Viger
+	/**
+	 * méthode qui permet de retourner l'étirement du ressort
+	 * @return l'étirement du ressort
+	 */
 	public double getEtirement() {
-		double etirement = ressort.getPosition().getY()-positionInitialRessort.getY();
+		double etirement = ressort.getPosition().getY() - positionInitialRessort.getY();
 
 		return etirement;
 	}
@@ -1066,7 +1139,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 */
 	public double getK_RESSORT() {
 		return K_RESSORT;
-	}// fin methode
+	} // fin methode
 
 	//Carlos Eduardo
 	/**
@@ -1075,11 +1148,10 @@ public class ZonePinball  extends JPanel implements Runnable  {
 	 * @param forceX La force totale exercee en X
 	 * @param forceY La force totale exercee en Y
 	 */
-
-	public void setForces(double forceX, double forceY) { 
+	public void setForces(double forceX, double forceY) {
 		//dans cette application, les forces ne sont pas calculées : elles
 		//sont plutôt directement données par l'utilisateur! (peu probable dans une vraie application!)
-		uneBille.setForceExterieureAppliquee( new Vecteur2D(0,0));
+		uneBille.setForceExterieureAppliquee(new Vecteur2D(0, 0));
 	}
 
 	//Audrey Viger
@@ -1090,7 +1162,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 	public double getETIREMENT_NAT() {
 		return ETIREMENT_NAT;
-	}// fin methode
+	} // fin methode
 
 	//Carlos Eduardo
 	/**
@@ -1109,7 +1181,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 	public double getMASSE_POUR_CETTE_SCENE() {
 		return MASSE_POUR_CETTE_SCENE;
-	}// fin methode
+	} // fin methode
 
 	//Carlos Eduardo
 	/**
@@ -1138,10 +1210,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		this.deltaT = deltaT;
 	}
 
-
 	//Carlos Eduardo
-
-
 	/**
 	 * Retourne le pas intervalle) de la simulation
 	 * @return le pas intervalle) de la simulation, exprime en secondes
@@ -1150,14 +1219,80 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		return (deltaT);
 	}
 
+	public boolean isAnimationEnCours() {
+		return enCoursDAnimation;
+	}
+
+
+	public void setAnimationEnCours(boolean animationEnCours) {
+		this.enCoursDAnimation = animationEnCours;
+
+	}
+
 	//Carlos Eduardo
 	/**
 	 * Méthode qui initialise la bille en par rapport à sa position, son diametre et sa masse pour cette scene
 	 */
 	private void initialiseBille() {
-		uneBille = new Bille(posInitBalle,diametreBallePourCetteScene);
+		uneBille = new Bille(posInitBalle, diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
 	}
+	/**
+	 * Modifie la masse du bloc
+	 * 
+	 * @param massePourCetteScene la masse du bloc, exprime en kg
+	 */
+
+
+	//retourne la uneBille obj Bille
+	public Bille getBille() {
+
+		return uneBille;
+	}
+
+	public Vecteur2D getPositionBille() {
+		return (uneBille.getPosition());
+	}
+	public double getPostionYBille() {
+		return (uneBille.getPosition().getY());
+	}
+	public Vecteur2D getPositionIniBille() {
+		return (posInitBalle);
+	}
+	public void setMasseBalle(int masseEnKg) {
+		this.massePourCetteScene = masseEnKg;
+	}
+
+
+
+
+	public PointageAnimation getScore() {
+
+		return score;
+	}
+
+
+	//Thomas Bourgault
+	/**
+	 * Méthode qui permet d'activer ou de desactiver la visibilite des différents murs
+	 * @param contour est un boolean qui active la visibilité des murs
+	 */
+	public void setContour(boolean contour) {
+		this.contour = contour;
+		repaint();
+	}
+
+	//Thomas Bourgault
+	/**
+	 * Méthode qui permet d'activer ou de desactiver les coordonnées quand on bouge la souris
+	 * @param coord est un boolean qui active le mode coordonne avec la souris
+	 */
+	public void setCoord(boolean coord) {
+		this.coord = coord;
+	}
+
+
+	//Carlos Eduardo
 	/**
 	 * Modifie la masse du bloc
 	 * 
@@ -1201,27 +1336,21 @@ public class ZonePinball  extends JPanel implements Runnable  {
 
 		murs.add(tunnelRessortDroite);
 		murs.add(tunnelRessortGauche);
+
+
+
+
+		coteTriangle.add(ligTriGaucheGau);
+		//coteTriangle.add(ligTriDroitDroit);
+
+
+
+
+
 		//murs.add(ligneDroitBasGau);
 		//murs.add(ligneDroitBasDroite);
 	}
 
-	//retourne la uneBille obj Bille
-	public Bille getBille() {
-
-		return uneBille;
-	}
-	public Vecteur2D getPositionBille() {
-		return (uneBille.getPosition());
-	}
-	public double getPostionYBille() {
-		return (uneBille.getPosition().getY());
-	}
-	public Vecteur2D getPositionIniBille() {
-		return (posInitBalle);
-	}
-	public void setMasseBalle(int masseEnKg) {
-		this.massePourCetteScene = masseEnKg;
-	}
 	public void changPositionFlipper() {
 		if(gaucheActive) {
 			murFlipperGauche.setCoordX1(0.536);
@@ -1247,13 +1376,13 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		}
 
 	}
-	public boolean getBilleEnDehors() {
-		return billeEnDehors;
-	}
+
+
+	//Thomas Bourgault
 	public void listeCourbe() {
 		//coordonne en x et en y des segments de la courbe gauche
-		double gaucheX1=0.09,gaucheX2=0.11303125,gaucheX3=0.147125,gaucheX4=0.19228125000000001,gaucheX5=0.2485,gaucheX6=0.31578125,gaucheX7=0.394125,gaucheX8=0.48353124999999997,gaucheX9=0.584;
-		double gaucheY1=0.71,gaucheY2=0.5801562499999999,gaucheY3=0.465625,gaucheY4=0.36640625000000004,gaucheY5=0.2825,gaucheY6=0.21390624999999996,gaucheY7=0.160625,gaucheY8=0.12265625000000001,gaucheY9=0.1;
+		double gaucheX1 = 0.09, gaucheX2 = 0.11303125, gaucheX3 = 0.147125, gaucheX4 = 0.19228125000000001, gaucheX5 = 0.2485, gaucheX6 = 0.31578125, gaucheX7 = 0.394125, gaucheX8 = 0.48353124999999997, gaucheX9 = 0.584;
+		double gaucheY1 = 0.71, gaucheY2 = 0.5801562499999999, gaucheY3 = 0.465625, gaucheY4 = 0.36640625000000004, gaucheY5 = 0.2825, gaucheY6 = 0.21390624999999996, gaucheY7 = 0.160625, gaucheY8 = 0.12265625000000001, gaucheY9 = 0.1;
 		//on ajoute à la liste les x et y
 
 		//gauche x
@@ -1278,8 +1407,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		arcCercleGauCoordY.add(gaucheY8);
 		arcCercleGauCoordY.add(gaucheY9);
 		//coordonne en x et en y des segments de la courbe droit
-		double droitX1=0.584,droitX2=0.6851562499999999,droitX3=0.7756249999999999,droitX4=0.8554062499999999,droitX5=0.9245,droitX6=0.9829062500000001,droitX7=1.0306250000000001,droitX8=1.06765625,droitX9=1.094;
-		double droitY1=0.1,droitY2=0.11387500000000002,droitY3=0.14550000000000002,droitY4=0.19487500000000002,droitY5=0.262,droitY6=0.34687499999999993,droitY7=0.44949999999999996,droitY8=0.5698749999999999,droitY9=0.708;
+		double droitX1 = 0.584, droitX2 = 0.6851562499999999, droitX3 = 0.7756249999999999, droitX4 = 0.8554062499999999, droitX5 = 0.9245, droitX6 = 0.9829062500000001, droitX7 = 1.0306250000000001, droitX8 = 1.06765625, droitX9 = 1.094;
+		double droitY1 = 0.1, droitY2 = 0.11387500000000002, droitY3 = 0.14550000000000002, droitY4 = 0.19487500000000002, droitY5 = 0.262, droitY6 = 0.34687499999999993, droitY7 = 0.44949999999999996, droitY8 = 0.5698749999999999, droitY9 = 0.708;
 		//droit x
 		arcCercleDroitCoordX.add(droitX1);
 		arcCercleDroitCoordX.add(droitX2);
@@ -1303,8 +1432,8 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		arcCercleDroitCoordY.add(droitY9);
 
 		//coordonne en x et en y des segments de la courbe petit
-		double petitX1=0.9,petitX2=0.9774999999999999,petitX3=0.9993749999999999,petitX4=1.01;
-		double petitY1= 0.398, petitY2=0.5954999999999999, petitY3=0.6908749999999999, petitY4= 0.784;
+		double petitX1 = 0.9, petitX2 = 0.9774999999999999, petitX3 = 0.9993749999999999, petitX4 = 1.01;
+		double petitY1 = 0.398, petitY2 = 0.5954999999999999, petitY3 = 0.6908749999999999, petitY4 = 0.784;
 		//petit x
 		arcCerclePetitCoordX.add(petitX1);
 		arcCerclePetitCoordX.add(petitX2);
@@ -1317,61 +1446,75 @@ public class ZonePinball  extends JPanel implements Runnable  {
 		arcCerclePetitCoordY.add(petitY4);
 	}
 
-	public void setForme(String forme) {
-		this.forme=forme;
-		obstacle = new ObstacleClique(301,301,65,45,forme);
 
+	public void SegmentCourbe() {
+		MursDroits mur;
+		for (int i = 0; i < 3; i++) {
+			mur = new MursDroits(arcCerclePetitCoordX.get(i), arcCerclePetitCoordY.get(i), arcCerclePetitCoordX.get(i + 1), arcCerclePetitCoordY.get(i + 1));
+			mur.setPixelsParMetre(pixelParMetre);
+			courbe.add(mur);
 
-
-
-		repaint();
-
+		}
+		for (int j = 0; j < 7; j++) {
+			mur = new MursDroits(arcCercleDroitCoordX.get(j), arcCercleDroitCoordY.get(j), arcCercleDroitCoordX.get(j + 1), arcCercleDroitCoordY.get(j + 1));
+			mur.setPixelsParMetre(pixelParMetre);
+			courbe.add(mur);
+		}
+		for (int j = 0; j < 7; j++) {
+			mur = new MursDroits(arcCercleGauCoordX.get(j + 1), arcCercleGauCoordY.get(j + 1), arcCercleGauCoordX.get(j), arcCercleGauCoordY.get(j));
+			mur.setPixelsParMetre(pixelParMetre);
+			courbe.add(mur);
+		}
+		for (int k = 0; k < courbe.size(); k++) {
+			// System.out.print("donne de la liste des courbes : " + courbe.get(k));
+		}
 	}
+
 	private void gestionSourisObs() {
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-			//if(e.getY()<=550) {
-			//	System.out.println("ffffffffffffffff"+obstacle.getPosY()+obstacle.getLarg());
-		//	if(obstacle.getPosY()+obstacle.getLarg()<=590)	{			
-			if(obstacle.getPosY()+obstacle.getHaut()<=1.26 && obstacle.getPosX()>=0.11 && (obstacle.getPosX()+obstacle.getLarg())<=1.05 && obstacle.getPosY()>=0.15)	{				
-					
-				if (formeSelectionne) {
-					//System.out.println("fffffffffffffffffff");
+				//if(e.getY()<=550) {
+				//	System.out.println("ffffffffffffffff"+obstacle.getPosY()+obstacle.getLarg());
+				//	if(obstacle.getPosY()+obstacle.getLarg()<=590)	{			
+				if(obstacle.getPosY()+obstacle.getHaut()<=1.26 && obstacle.getPosX()>=0.11 && (obstacle.getPosX()+obstacle.getLarg())<=1.05 && obstacle.getPosY()>=0.15)	{				
+
+					if (formeSelectionne) {
+						//System.out.println("fffffffffffffffffff");
 						translatCarreX += e.getX()/(dimensionImageX/largeurDuComposantMetre) - xPrecedent;
 						translatCarreY += e.getY()/(dimensionImageX/largeurDuComposantMetre) - yPrecedent;
 						xPrecedent = e.getX()/(dimensionImageX/largeurDuComposantMetre) ;
 						yPrecedent = e.getY()/(dimensionImageX/largeurDuComposantMetre) ;
 						//System.out.println("sdsds "+obstacle.getPosX());
-					//	System.out.println("sdsds2 "+obstacle.getLarg());
-					//	System.out.println("sdsds3 "+(obstacle.getPosX()+obstacle.getLarg()));
+						//	System.out.println("sdsds2 "+obstacle.getLarg());
+						//	System.out.println("sdsds3 "+(obstacle.getPosX()+obstacle.getLarg()));
 						repaint();
 					}
-			}else {
-				if (formeSelectionne) {
-					if(obstacle.getPosY()+obstacle.getHaut()>1.26) {
-						translatCarreY += -0.01;
-						
-					repaint();
-					}else if(obstacle.getPosX()+obstacle.getLarg()>1.05 && obstacle.getPosX()!=0.11) {
-						translatCarreX += -0.01;
-						repaint();
-					} else  if(obstacle.getPosX()<0.11 && obstacle.getPosX()+obstacle.getLarg()!=1.05 ){
-						translatCarreX += 0.01;
-						repaint();
-					}else {
-						translatCarreY += 0.01;
-						repaint();
+				}else {
+					if (formeSelectionne) {
+						if(obstacle.getPosY()+obstacle.getHaut()>1.26) {
+							translatCarreY += -0.01;
+
+							repaint();
+						}else if(obstacle.getPosX()+obstacle.getLarg()>1.05 && obstacle.getPosX()!=0.11) {
+							translatCarreX += -0.01;
+							repaint();
+						} else  if(obstacle.getPosX()<0.11 && obstacle.getPosX()+obstacle.getLarg()!=1.05 ){
+							translatCarreX += 0.01;
+							repaint();
+						}else {
+							translatCarreY += 0.01;
+							repaint();
+						}
+
 					}
-					
 				}
-			}
 			} //fin drag
 		});	
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
+
 				if(forme=="Cercle") {
 					if (obstacle.contientCercle(e.getX()/(dimensionImageX/largeurDuComposantMetre), e.getY()/(dimensionImageX/largeurDuComposantMetre))){
 						//System.out.println("cccccccccccccccccccccccccccc"+translatCarreX);
@@ -1404,7 +1547,7 @@ public class ZonePinball  extends JPanel implements Runnable  {
 						yPrecedent = e.getY()/(dimensionImageX/largeurDuComposantMetre);
 						repaint();
 					}
-			
+
 				}
 			}
 			@Override
@@ -1412,7 +1555,21 @@ public class ZonePinball  extends JPanel implements Runnable  {
 				formeSelectionne = false;
 
 			} //fin released
-		});
+
+		});	
+		
+		
+	}
+	
+	public void setForme(String forme) {
+		this.forme=forme;
+		obstacle = new ObstacleClique(301,301,65,45,forme);
+
+
+
+
+		repaint();
+
 	}
 
-}
+	}

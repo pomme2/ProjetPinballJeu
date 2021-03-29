@@ -1,5 +1,6 @@
 package moteur;
 
+import geometrie.Bille;
 import geometrie.Vecteur2D;
 
 /**
@@ -16,7 +17,9 @@ import geometrie.Vecteur2D;
 public class MoteurPhysique {
 
 	private static final double ACCEL_GRAV = 9.8066;
-	private static final double EPSILON = 1e-10; //tolerance utilisee dans les comparaisons reelles avec zero
+	private static final double EPSILON = 1e-10; //tolerance utilisee dans les comparaisons reelles avec zero+
+	
+	private static final double K = 9e+10;
 
 	/**
 	 * Calcule et retourne l'acceleration en utilisant F=ma
@@ -148,6 +151,100 @@ public class MoteurPhysique {
 		return vitesseBille;
 	}
 	
+	public static Vecteur2D calculRebondBilleCerlce (Bille billeVitesse) {
+		
+		
+		billeVitesse.getVitesse();
+		
+		return null;
+	}
+	/**Methode qui calcule et retourne la force Centripete avec la masse de la bille , sa vitesse et le rayon de la courbe
+	 * 
+	 * @param masse de la bille en kg
+	 * @param vitesse de la bille en ms
+	 * @param rayon de la courbe du cercle
+	 * @return force centripete de la bille
+	 */
+	public static double calculForceCentripete(double masse, Vecteur2D vitesse, double rayon) {
+		
+		double temp =masse*Math.pow(vitesse.module(), 2);
+		
+		double fc = temp/rayon;
+		
+		return fc;
+	}
+	
+	
+	/**
+	 * Methode qui calcule et retourne l'angle de la Force Centripete dirigee vers le centre du cercle
+	 * 
+	 * @param centre positon du cercle
+	 * @param positionCourbe ; position de la bille Sur la courbe
+	 * @return un vecteur contenant les x et y de l'angle qui forme le FC
+	 */
+	public static Vecteur2D calculDelta(Vecteur2D centre,Vecteur2D positionCourbe ) {
+		
+		
+		double deltaY =	positionCourbe.getY()-centre.getY();
+		
+		
+		double deltaX =	positionCourbe.getX()-centre.getX();
+		
+		deltaY = Math.abs(deltaY);
+		
+		deltaX= Math.abs(deltaX);
+		
+		
+		
+		 double hypo = Math.pow(deltaY*deltaY + deltaX*deltaX , 0.5);
+		 
+		
+		
+		double temp = deltaY/hypo;
+		
+		double tempo = Math.asin(temp);
+		
+		double angle = Math.toDegrees(tempo);
+			
+		
+		
+		
+		return new Vecteur2D(deltaX,deltaY);
+		
+	}
+	
+	
+	public static double forceElectrique(double q1, double q2,double r) {
+		
+		
+		double temp =K*q1*q2*Math.pow(1.602e-19, 2);
+		
+		
+	
+		
+		
+		double distance = Math.pow(r, 2);
+		
+		double Fe =temp/distance;
+		
+		
+		
+		
+		
+		
+		return Fe;
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	//Thomas Bourgault
@@ -165,6 +262,41 @@ public class MoteurPhysique {
 		Vecteur2D nouvPosition= new Vecteur2D();
 		position=position.rotation(position,angle,longueurManche);
 		return position;
+	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui calcule l'angle d'un flipper avec l'équation d'un mouvement harmonique simple
+	 * @param angleMax est l'angle maximum qu'un flipper peut atteindre
+	 * @param deltaT est le pas d'animation
+	 * @param frequenceAngulaire est la vitesse à quel point une oscillation complète peut être effectue
+	 * @return l,angle du flipper selon le deltaT (pas d'animation)
+	 */
+	public static double calculAngle(double angleMax, double tempsTotalEcoule, double frequenceAngulaire,boolean premierQuartPeriode) {
+		if( premierQuartPeriode) {
+			double angle;
+		angle=angleMax*Math.sin(frequenceAngulaire*tempsTotalEcoule+Math.PI/2);		
+		return angle;		
+		}else {
+			double angle;
+			angle=angleMax*Math.sin(frequenceAngulaire*tempsTotalEcoule+Math.PI);		
+			return angle;		
+		}
+		
+	}
+	//Thomas Bourgault
+	
+	public static Vecteur2D vitesseFlipper(double angleMax, double tempsTotalEcoule, double frequenceAngulaire,boolean premierQuartPeriode) {
+		if( premierQuartPeriode) {
+		
+		double vy=angleMax*frequenceAngulaire*Math.cos(frequenceAngulaire*tempsTotalEcoule+Math.PI/2);
+		Vecteur2D vitesse=new Vecteur2D(0,vy);
+		return vitesse;
+		}else {
+			double vy=angleMax*frequenceAngulaire*Math.cos(frequenceAngulaire*tempsTotalEcoule+Math.PI);
+			Vecteur2D vitesse=new Vecteur2D(0,vy);
+			return vitesse;
+		}
+		
 	}
 	
 	

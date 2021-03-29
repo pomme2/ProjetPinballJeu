@@ -102,9 +102,8 @@ public class Ressort implements Dessinable {
 				positionZigzagX=positionX;
 			}
 		}
-		//zigzag.lineTo(positionX+largeur/2,positionY-distanceZigzag);
-		
-		System.out.println("posY"+position.getY()+" "+position.getX());
+	
+	
 		
 		/**
 		 * Permet de dessiner le bloc ressort, sur le contexte graphique passe en parametre.
@@ -125,10 +124,6 @@ public class Ressort implements Dessinable {
 
 		g2dPrive.setColor(Color.green);
 	
-		//System.out.println("rrrrrrrrrrrrr"+kRessort);
-
-
-
 		
 		
 	}

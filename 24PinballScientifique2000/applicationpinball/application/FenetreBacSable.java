@@ -1,3 +1,4 @@
+package application;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -7,57 +8,26 @@ import javax.swing.JProgressBar;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Color;
-import java.awt.Component;
-
-import java.awt.Color;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JLabel;
-
-import java.awt.Font;
-
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
-
-
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.border.CompoundBorder;
-
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+
 import animation.ZoneSimulationPhysique;
 import geometrie.Bille;
-import geometrie.ObstacleClique;
 import geometrie.Vecteur2D;
+import animation.Scene;
 import animation.TestAnimation;
 import animation.ZonePinball;
 import javax.swing.SpinnerNumberModel;
@@ -90,49 +60,56 @@ public class FenetreBacSable extends JFrame{
 	private int valeurAimant,valeurMasse=1;
 	private int valeurRessort;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-
 	private boolean enCoursdAnimation=false;
 	private Ressort ressort;
-	private ZonePinball zonePinball;
-	private JPanel panelResul;
-	private JSlider sliderEtirement;
-	private JButton btnDemarrer;
-	private JLabel lblAcceleration;
-
 	private  Inclinaison imageInclinaison;
 	private double hauteurDuComposantMetre=1.536;
-	BufferedImage imageBille = null;
+	private Scene scene;
+	
+	//carlos affichage des resultats
+	private JLabel lblVitesseX;
+	private JLabel lblVitesseY;
+	private JLabel lblAcceleration;
+	private JLabel lblCharge;
+	private JLabel lblScore; 
+	
 	private Timer minuteurResultats=null;
-	private JLabel lblPosition;
-	/**
-	 */
+	
+	private ZonePinball zonePinball;
 
+	
+	
+	/**
+	 *  Creation d'un ecouteur qui sera jumelé au timer pour l'affichage des resultats
+	 */
 	private ActionListener ecouteurDuMinuteur = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//miseAjourInterface();
+			miseAjourInterface();
 	}};
-	
-	/*public void miseAjourInterface() {
-		System.out.println("Interface mise à jour.....");
-		
-		
-		//lblPosition.setText("" +  String.format("%."+ 1 +"f",zonePinball.getBackground())  );
-		//lblAcceleration.setText(""+String.format("%."+ 1 +"f",zonePinball.getK_RESSORT()) );
-		if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
+
+		/**
+		 * Méthode qui questionne le composant d'animation pour obtenir les résultats actuels
+		 * et les affiche ensuite sur l'interface
+		 * Cette méthode détecte aussi la fin de l'animation, et arrête le minuteur dans ce cas.
+		 */
+		public void miseAjourInterface() {
 			
-			minuteurResultats.stop();
-			btnDemarrer.setEnabled(true);
+			//System.out.println("Interface mise à jour.....");
+			lblAcceleration.setText("Acc\u00E9l\u00E9ration: "  +String.format("%."+ 1 +"f", zonePinball.getBille().getAccel().getX()));
+			lblVitesseX.setText("Vitesse X : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getX()));
+			lblVitesseY.setText("Vitesse Y : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getY()));
 			
+			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
+			lblScore.setText("Score : "+ zonePinball.getScore().toString());
+			
+			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
+			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
+			if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
+				minuteurResultats.stop();
+				
+			}
 		}
-	}*/
-	/*public void etirement() {
-		if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
-			sliderEtirement.setValue(0);
-			System.out.println("je suis passe dans le ifffffff");
-		}
-	}
-*/
 
 	/**
 	 * Constructeur : création et initialisation de l'inteface
@@ -152,32 +129,35 @@ public class FenetreBacSable extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		ZonePinball zonePinball = new ZonePinball();
+		zonePinball = new ZonePinball(scene);
 		zonePinball.setBounds(71, 26, 600,768);
 		contentPane.add(zonePinball);
+
 
 		//Initialisation des valeurs de spinners initiales.
 		int etirementInitial = (int)(zonePinball.getETIREMENT_NAT()*100.0);
 		int kRessortInitial = (int)zonePinball.getK_RESSORT();
-
+		
+	
+		
 		JLabel lblDonneesBalle = new JLabel("Donn\u00E9es de la balle");
 		lblDonneesBalle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDonneesBalle.setBounds(817, 26, 192, 37);
 		contentPane.add(lblDonneesBalle);
 
-		JLabel lblAcceleration = new JLabel("Acc\u00E9l\u00E9ration:");
+		 lblAcceleration = new JLabel("Acc\u00E9l\u00E9ration:");
 		lblAcceleration.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblAcceleration.setBounds(734, 79, 89, 14);
+		lblAcceleration.setBounds(724, 79, 122, 14);
 		contentPane.add(lblAcceleration);
 
-		JLabel lblVitesse = new JLabel("Vitesse:");
-		lblVitesse.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblVitesse.setBounds(734, 114, 98, 19);
-		contentPane.add(lblVitesse);
+		 lblVitesseX = new JLabel("Vitesse:");
+		lblVitesseX.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblVitesseX.setBounds(724, 104, 122, 19);
+		contentPane.add(lblVitesseX);
 
-		JLabel lblCharge = new JLabel("Charge:");
+		 lblCharge = new JLabel("Charge:");
 		lblCharge.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblCharge.setBounds(734, 153, 98, 19);
+		lblCharge.setBounds(724, 153, 98, 19);
 		contentPane.add(lblCharge);
 
 		JLabel lblMasse = new JLabel("Masse:");
@@ -205,23 +185,23 @@ public class FenetreBacSable extends JFrame{
 		lblConstanteRessort.setBounds(734, 430, 178, 22);
 		contentPane.add(lblConstanteRessort);
 
-		JLabel lblScore = new JLabel("Score:");
+		 lblScore = new JLabel("Score:");
 		lblScore.setForeground(Color.RED);
 		lblScore.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblScore.setBounds(773, 501, 116, 37);
+		lblScore.setBounds(732, 511, 287, 37);
 		contentPane.add(lblScore);
 
 		JRadioButton rdbtnChargePos = new JRadioButton("+e");
 		buttonGroup.add(rdbtnChargePos);
-		rdbtnChargePos.setBounds(897, 153, 48, 23);
+		rdbtnChargePos.setBounds(841, 153, 48, 23);
 		contentPane.add(rdbtnChargePos);
 
 		JRadioButton rdbtnChargeNeg = new JRadioButton("-e");
 		buttonGroup.add(rdbtnChargeNeg);
-		rdbtnChargeNeg.setBounds(948, 153, 42, 23);
+		rdbtnChargeNeg.setBounds(908, 153, 42, 23);
 		contentPane.add(rdbtnChargeNeg);
 
-		
+
 
 		Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 
@@ -233,8 +213,10 @@ public class FenetreBacSable extends JFrame{
 			
 			}
 		});
-		comboBoxObstacles.setBounds(734, 563, 344, 37);
-		contentPane.add(comboBoxObstacles);
+		
+	
+	comboBoxObstacles.setBounds(734, 563, 344, 37);
+	contentPane.add(comboBoxObstacles);
 
 		JButton btnOption = new JButton("Option");
 		btnOption.addActionListener(new ActionListener() {
@@ -246,16 +228,12 @@ public class FenetreBacSable extends JFrame{
 		btnOption.setBounds(908, 614, 170, 69);
 		contentPane.add(btnOption);
 
-
-
-
 		JButton btnSauvegarde = new JButton("Sauvegarder et revenir au menu");
 		btnSauvegarde.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fenMenu.setVisible(true);
 				setVisible(false);
-
-
+				
 			}
 		});
 		btnSauvegarde.setBounds(734, 694, 344, 60);
@@ -322,19 +300,15 @@ public class FenetreBacSable extends JFrame{
 		contentPane.add(sliderRessort);
 
 		JSlider sliderInclinaison = new JSlider();
-		sliderInclinaison.setToolTipText("");
-		sliderInclinaison.setMinimum(35);
-		sliderInclinaison.setValue(70);
+		sliderInclinaison.setValue(0);
 		sliderInclinaison.setMaximum(75);
-
 		
-		Inclinaison imageInclinaison = new Inclinaison();
+		
+Inclinaison imageInclinaison = new Inclinaison();
 		imageInclinaison.setBounds(1000,283,78,60);
 		contentPane.add(imageInclinaison);
-		imageInclinaison.setInclinaison(70);
-
+		
 		JSpinner spinnerInclinaison = new JSpinner();
-		spinnerInclinaison.setModel(new SpinnerNumberModel(70, 35, 75, 1));
 		spinnerInclinaison.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				valeurInclinaison = (int) spinnerInclinaison.getValue();
@@ -346,8 +320,8 @@ public class FenetreBacSable extends JFrame{
 		spinnerInclinaison.setBounds(948, 299, 42, 22);
 		contentPane.add(spinnerInclinaison);
 		valeurInclinaison = (int) spinnerInclinaison.getValue();
-
-
+		
+		
 
 
 		spinnerRessort.addChangeListener(new ChangeListener() {
@@ -369,20 +343,13 @@ public class FenetreBacSable extends JFrame{
 		sliderInclinaison.setBounds(734, 306, 200, 37);
 		contentPane.add(sliderInclinaison);
 
-
-
-
-
-
-
-
 		JLabel lblValeurAccel = new JLabel("       m/s\u00B2");
-		lblValeurAccel.setBounds(827, 81, 85, 14);
+		lblValeurAccel.setBounds(837, 81, 85, 14);
 		contentPane.add(lblValeurAccel);
 		//double vitesse = Math.sqrt(zonePinball.getVitesseBalle().getX()+zonePinball.getVitesseBalle().getY());
 
 		JLabel lblValeurVitesse = new JLabel( " m/s");
-		lblValeurVitesse.setBounds(798, 118, 149, 14);
+		lblValeurVitesse.setBounds(848, 108, 30, 14);
 		contentPane.add(lblValeurVitesse);
 
 		JLabel lblValeurCharge = new JLabel("      C");
@@ -403,14 +370,14 @@ public class FenetreBacSable extends JFrame{
 
 		JSlider sliderEtirement = new JSlider();
 
-		sliderEtirement.setVisible(false);
+		sliderEtirement.setEnabled(false);
 
 		sliderEtirement.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent e) {
 				if(zonePinball.isVisible()==true && zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
 					zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
-					System.out.println("Je suis entrer dans le component shown");
+					//System.out.println("Je suis entrer dans le component shown");
 					sliderEtirement.setValue(0);
 				}
 			}
@@ -420,20 +387,21 @@ public class FenetreBacSable extends JFrame{
 			@Override
 			public void mousePressed(MouseEvent e) {
 
-				System.out.println("Slider active");
 
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				System.out.println("Slider desactive");
+			
 				zonePinball.demarrer();
 				zonePinball.requestFocusInWindow();
+				minuteurResultats = new Timer(10, ecouteurDuMinuteur );
+				minuteurResultats.start();
 
 				if(zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
 					sliderEtirement.setValue(0);
 				}
-
-
+				
+				
 
 			}
 		});
@@ -442,10 +410,12 @@ public class FenetreBacSable extends JFrame{
 		sliderEtirement.setMaximum(0);
 		sliderEtirement.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				// carlos testing
-				//zonePinball.getBille().setPosition(new Vecteur2D (1.056, 1- (int) sliderEtirement.getValue()/100));
+
 
 				zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
+
+
+
 
 			}
 		});
@@ -459,28 +429,7 @@ public class FenetreBacSable extends JFrame{
 
 
 
-JButton btnDemarrer = new JButton("D\u00E9marrer");
-		btnDemarrer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				sliderEtirement.setVisible(true);
-				//if(zonePinball.getPositionBille().getX()==zonePinball.getPositionIniBille().getX()) {
-				//	 sliderEtirement.setValue(0);
-				// }
-				btnDemarrer.setEnabled(false);
-				minuteurResultats = new Timer(10,ecouteurDuMinuteur);
-					minuteurResultats.start();
-					
-				if ((int)sliderEtirement.getValue() != 0) {					
-					zonePinball.demarrer();
-					enCoursdAnimation=true;
-					zonePinball.requestFocusInWindow();
-					
 
-				}
-			}			
-
-
-		});
 
 
 
@@ -491,17 +440,16 @@ JButton btnDemarrer = new JButton("D\u00E9marrer");
 				spinnerMasse.setValue(1);
 				spinnerAimant.setValue(0);
 				spinnerRessort.setValue(0);
-				spinnerInclinaison.setValue(70);
+				spinnerInclinaison.setValue(0);
 				sliderRessort.setValue(0);
-				sliderInclinaison.setValue(70);
+				sliderInclinaison.setValue(0);
 				sliderAimant.setValue(0);
 				zonePinball.retablirPosition();
 				spinnerEtirement.setValue(1);
 				sliderEtirement.setValue(0);
-				btnDemarrer.setEnabled(true);
 
-				sliderEtirement.setVisible(false);
-
+				sliderEtirement.setEnabled(false);
+			
 			}
 		});
 		btnRecommencer.setBounds(734, 614, 170, 69);
@@ -516,12 +464,27 @@ JButton btnDemarrer = new JButton("D\u00E9marrer");
 
 
 
-		
+		JButton btnDemarrer = new JButton("D\u00E9marrer");
+		btnDemarrer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sliderEtirement.setEnabled(true);
+			
+				if ((int)sliderEtirement.getValue() != 0) {					
+					zonePinball.demarrer();
+					enCoursdAnimation=true;
+					zonePinball.requestFocusInWindow();
+					minuteurResultats = new Timer(10, ecouteurDuMinuteur );
+					minuteurResultats.start();
+				
 
+				}
+			}			
+
+
+		});
+	
 		btnDemarrer.setBounds(248, 808, 218, 60);
 		contentPane.add(btnDemarrer);
-		
-		
 
 		JCheckBox chckbxContour = new JCheckBox("Contour");
 		chckbxContour.addActionListener(new ActionListener() {
@@ -533,36 +496,49 @@ JButton btnDemarrer = new JButton("D\u00E9marrer");
 		chckbxContour.setBounds(107, 827, 99, 23);
 		contentPane.add(chckbxContour);
 
+		
+		BufferedImage imageBille = null;
 		try {
 			imageBille = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
 		} catch (IOException e1) {
-
+			
 			e1.printStackTrace();
 		}
-
-
-		/*JLabel lblImage = new JLabel(new ImageIcon(imageBille));
-		lblImage.setBounds(968, 51, 99, 100);
-		contentPane.add(lblImage);
-*/
-
-		SceneImage sceneImage = new SceneImage();
-		sceneImage.setBounds(974, 46, 100, 100);
-		contentPane.add(sceneImage);
 		
+		JLabel lblImage = new JLabel(new ImageIcon(imageBille));
+		lblImage.setBounds(798, 750, 192, 143);
+		contentPane.add(lblImage);
+		
+		JCheckBox chckbxAimant = new JCheckBox("Aimant");
+		chckbxAimant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
-
+				//zonePinball.aimantActif(chckbxAimant.isSelected());
+			}
+		});
+		chckbxAimant.setBounds(109, 859, 97, 23);
+		contentPane.add(chckbxAimant);
+		
+		lblVitesseY = new JLabel("Vitesse Y : 0.00");
+		lblVitesseY.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblVitesseY.setBounds(724, 129, 120, 19);
+		contentPane.add(lblVitesseY);
+		
+		JLabel lblValeurVitesse_1 = new JLabel(" m/s");
+		lblValeurVitesse_1.setBounds(841, 133, 30, 14);
+		contentPane.add(lblValeurVitesse_1);
+		
+		
 		if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
 			sliderEtirement.setValue(0);
-			System.out.println("je suis passe dans le ifffffff");
+			//System.out.println("je suis passe dans le ifffffff");
 		}
-
-		//miseAjourInterface();
-		//etirement();
-
-	}
-
 	
-
+	
+		miseAjourInterface();
+	
+	}
+	private void setJslider(int nbr) {
+		
+	}
 }
-

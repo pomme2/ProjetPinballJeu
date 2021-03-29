@@ -165,19 +165,19 @@ public class MursCourbes implements Dessinable{
 			int type = path.currentSegment(coordonnees);
 			switch (type) {
 			case PathIterator.SEG_MOVETO:
-				System.out.println("Move to " + coordonnees[0] + ", " + coordonnees[1]);
+				//System.out.println("Move to " + coordonnees[0] + ", " + coordonnees[1]);
 				segmentTest.moveTo(coordonnees[0] , coordonnees[1]);				
 				coordXligneSegment.add(coordonnees[0]);
 				coordYligneSegment.add(coordonnees[1]);
 				break;
 			case PathIterator.SEG_LINETO:
-				System.out.println("Line to " + coordonnees[0] + ", " + coordonnees[1]);
+				//System.out.println("Line to " + coordonnees[0] + ", " + coordonnees[1]);
 				segmentTest.lineTo(coordonnees[0] , coordonnees[1]); 
 				coordXligneSegment.add(coordonnees[0]);
 				coordYligneSegment.add(coordonnees[1]);
 				break;
 			case PathIterator.SEG_CLOSE:
-				System.out.println("Close");
+				//System.out.println("Close");
 				segmentTest.closePath();
 				break;
 			}
@@ -185,14 +185,14 @@ public class MursCourbes implements Dessinable{
 
 		}
 		for(int i=0;i<coordXligneSegment.size();i++){
-			System.out.println("list des coord en x : "+coordXligneSegment.get(i));		   
+			//System.out.println("list des coord en x : "+coordXligneSegment.get(i));		   
 		} 
-		System.out.println("taille list coord en x: "+coordXligneSegment.size());
+		//System.out.println("taille list coord en x: "+coordXligneSegment.size());
 
 		for(int i=0;i<coordYligneSegment.size();i++){
-			System.out.println("list des coord en y : "+coordYligneSegment.get(i));		   
+			//System.out.println("list des coord en y : "+coordYligneSegment.get(i));		   
 		} 
-		System.out.println("taille list coord en y: "+coordYligneSegment.size());
+	//	System.out.println("taille list coord en y: "+coordYligneSegment.size());
 		
 	}
 	public ArrayList<Double> listeCoordX(){

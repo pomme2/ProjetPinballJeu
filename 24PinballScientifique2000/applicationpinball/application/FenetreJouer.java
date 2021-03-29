@@ -1,3 +1,4 @@
+package application;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -20,7 +21,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.ButtonGroup;
 import animation.ZoneSimulationPhysique;
+import application.SceneImage;
 import geometrie.Bille;
+import animation.Scene;
 import animation.TestAnimation;
 import animation.ZonePinball;
 
@@ -33,6 +36,7 @@ public class FenetreJouer extends JFrame{
 	private int valeurAimant;
 	private int valeurRessort;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private Scene scene;
 	
 
 	/**
@@ -55,7 +59,7 @@ public class FenetreJouer extends JFrame{
 		contentPane.setLayout(null);
 		
 		
-		ZonePinball zonePinball = new ZonePinball();
+		ZonePinball zonePinball = new ZonePinball(scene);
 		zonePinball.setBounds(71, 26, 600,768);
 		contentPane.add(zonePinball);
 		
