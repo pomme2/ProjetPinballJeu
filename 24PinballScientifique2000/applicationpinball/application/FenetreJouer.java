@@ -121,17 +121,17 @@ public class FenetreJouer extends JFrame{
 
 			lblAcceleration = new JLabel("Acc\u00E9l\u00E9ration:");
 			lblAcceleration.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblAcceleration.setBounds(734, 79, 89, 14);
+			lblAcceleration.setBounds(711, 79, 112, 14);
 			contentPane.add(lblAcceleration);
 
 			lblVitesseX = new JLabel("VitesseX:");
 			lblVitesseX.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblVitesseX.setBounds(817, 114, 98, 19);
+			lblVitesseX.setBounds(837, 114, 117, 19);
 			contentPane.add(lblVitesseX);
 
 			lblVitesseY = new JLabel("VitesseY:");
 			lblVitesseY.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblVitesseY.setBounds(681, 114, 98, 19);
+			lblVitesseY.setBounds(711, 114, 101, 19);
 			contentPane.add(lblVitesseY);
 
 			lblCharge = new JLabel("Charge:");
@@ -139,9 +139,9 @@ public class FenetreJouer extends JFrame{
 			lblCharge.setBounds(734, 153, 98, 19);
 			contentPane.add(lblCharge);
 
-			JLabel lblMasse = new JLabel("Masse:");
+			JLabel lblMasse = new JLabel("Masse:" + zonePinball.getBille().getMasseEnKg());
 			lblMasse.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblMasse.setBounds(734, 196, 48, 14);
+			lblMasse.setBounds(734, 196, 85, 14);
 			contentPane.add(lblMasse);
 
 			JLabel lblAutresDonnees = new JLabel("Autres donn\u00E9es");
@@ -159,15 +159,15 @@ public class FenetreJouer extends JFrame{
 			lblIntensiteAimant.setBounds(734, 342, 155, 21);
 			contentPane.add(lblIntensiteAimant);
 
-			JLabel lblConstanteRessort = new JLabel("Constante du ressort:");
+			JLabel lblConstanteRessort = new JLabel("Constante du ressort: " + zonePinball.getRessort().getkRessort());
 			lblConstanteRessort.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblConstanteRessort.setBounds(734, 417, 178, 22);
+			lblConstanteRessort.setBounds(734, 417, 299, 22);
 			contentPane.add(lblConstanteRessort);
 
 			lblScore = new JLabel("Score:");
 			lblScore.setForeground(Color.RED);
 			lblScore.setFont(new Font("Tahoma", Font.PLAIN, 30));
-			lblScore.setBounds(773, 501, 116, 37);
+			lblScore.setBounds(734, 509, 305, 37);
 			contentPane.add(lblScore);
 
 			Inclinaison imageInclinaison = new Inclinaison();
@@ -201,7 +201,7 @@ public class FenetreJouer extends JFrame{
 			contentPane.add(btnSauvegarde);
 
 			JLabel lblKg = new JLabel("kg");
-			lblKg.setBounds(841, 198, 48, 14);
+			lblKg.setBounds(817, 198, 48, 14);
 			contentPane.add(lblKg);
 
 
@@ -216,7 +216,7 @@ public class FenetreJouer extends JFrame{
 			contentPane.add(lblValeurAccel);
 
 			JLabel lblValeurVitesse = new JLabel("      m/s");
-			lblValeurVitesse.setBounds(916, 118, 48, 14);
+			lblValeurVitesse.setBounds(921, 118, 35, 14);
 			contentPane.add(lblValeurVitesse);
 
 			JLabel lblValeurCharge = new JLabel("      C");
@@ -316,7 +316,7 @@ public class FenetreJouer extends JFrame{
 			contentPane.add(lblEtirement);
 
 			JLabel lblValeurVitesse_1 = new JLabel("      m/s");
-			lblValeurVitesse_1.setBounds(773, 118, 48, 14);
+			lblValeurVitesse_1.setBounds(798, 118, 48, 14);
 			contentPane.add(lblValeurVitesse_1);
 			miseAjourInterface();
 		}

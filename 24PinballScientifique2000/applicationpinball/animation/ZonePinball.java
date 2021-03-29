@@ -79,7 +79,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 	private final double RAYON_COURBE = 0.505; //en m
-
+	
+	private double largeurRessort = 0.088;
+	private double longueurRessort = 0.192;
 	private Vecteur2D posCentre = new Vecteur2D(0.598, 0.712);
 
 	//variable bille Carlos
@@ -107,6 +109,12 @@ public class ZonePinball extends JPanel implements Runnable {
 	private Vecteur2D positionAimant = new Vecteur2D(0.32, 1.076);
 
 	boolean aimantActif;
+	
+	
+	double aimantX = 0.32;
+	double aimantY = 1.076;
+	
+	double aimantDiametre = 0.05;
 
 	//variable pour la courbe
 	double courbeX = 0.898;
@@ -283,7 +291,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		});
 
-		ressort = new Ressort(positionInitialRessort, 0.088, 0.192);
+		ressort = new Ressort(positionInitialRessort, largeurRessort, longueurRessort);
 		ressort.setkRessort(K_RESSORT);
 		ressort.setMu(COEFF_FROT);
 		ressort.setVitesse(VITESSE_INIT_RESSORT);
@@ -296,7 +304,7 @@ public class ZonePinball extends JPanel implements Runnable {
 		uneBille = new Bille(posInitBalle, diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
 
-		unAimant = new Aimant(0.32, 1.076, 0.05);
+		unAimant = new Aimant(aimantX, aimantY, aimantDiametre);
 
 		initialiseBille();
 
@@ -915,6 +923,8 @@ public class ZonePinball extends JPanel implements Runnable {
 		}
 		
 		}
+		
+		aimantActif(aimantActif);
 
 
 	} ///fin collision
@@ -1120,6 +1130,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 		Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
+		
+		double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
+		System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
 
 	}
 
@@ -1311,6 +1324,29 @@ public class ZonePinball extends JPanel implements Runnable {
 	public Bille getBille() {
 
 		return uneBille;
+	}
+	
+	//Carlos Eduardo
+	/**metode qui retourne le ressort comme objet
+	 * 
+	 * @return le ressort d'objet Ressort
+	 */
+	public Ressort getRessort() {
+		
+		return ressort;
+	}
+	/**
+	 * Methode retourne le aimant comme objet
+	 * @return l'aimant d'objet Aimant
+	 */
+	public Aimant getAimant() {
+		
+		return unAimant;
+		
+		
+	}
+	public ZonePinball() {
+		// TODO Auto-generated constructor stub
 	}
 	//Carlos Eduardo
 	/**

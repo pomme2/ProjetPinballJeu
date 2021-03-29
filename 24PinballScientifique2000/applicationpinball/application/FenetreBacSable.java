@@ -259,8 +259,10 @@ public class FenetreBacSable extends JFrame{
 			spinnerAimant.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					valeurAimant = (int) spinnerAimant.getValue();
-					System.out.println(valeurAimant);
+					//System.out.println(valeurAimant);
 					sliderAimant.setValue(valeurAimant);
+					zonePinball.getAimant().setCharge(sliderAimant.getValue());
+
 				}
 			});
 			spinnerAimant.setBounds(948, 379, 42, 22);
@@ -270,6 +272,7 @@ public class FenetreBacSable extends JFrame{
 			sliderAimant.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					spinnerAimant.setValue( sliderAimant.getValue());
+					zonePinball.getAimant().setCharge(sliderAimant.getValue());
 				}
 			});
 
@@ -488,7 +491,7 @@ public class FenetreBacSable extends JFrame{
 			chckbxAimant.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					//zonePinball.aimantActif(chckbxAimant.isSelected());
+					zonePinball.aimantActif(chckbxAimant.isSelected());
 				}
 			});
 			chckbxAimant.setBounds(109, 859, 97, 23);
