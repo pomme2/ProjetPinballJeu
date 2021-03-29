@@ -930,6 +930,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			tempsEcouleGaucheMonter += deltaTFlipperGaucheMonter;
 			System.out.println("////////////////////////////");
 			System.out.println("Temps ecoule gaucheActive : "+tempsEcouleGaucheMonter + "  Valeur de l'angle : "+angleGauche);
+			System.out.println("Vitesse flipper gauche : "+flipGauche.getVitesse().getY() + "  Valeur de l'angle : "+angleGauche);
 			
 			
 		}
@@ -944,7 +945,8 @@ public class ZonePinball extends JPanel implements Runnable {
 			 angleGauche=flipGauche.getAngle();
 			 angleGauche=(-flipGauche.getAngle())/2;
 			tempsEcouleGaucheDescendre+=deltaTFlipperGaucheDescendre;
-			System.out.println("Temps ecoule gaucheDescendre : "+tempsEcouleGaucheDescendre+tempsEcouleGaucheMonter + "  Valeur de l'angle : "+angleGauche);					
+			System.out.println("Temps ecoule gaucheDescendre : "+tempsEcouleGaucheDescendre+tempsEcouleGaucheMonter + "  Valeur de l'angle : "+angleGauche);
+			System.out.println("Vitesse flipper gauche : "+flipGauche.getVitesse().getY() + "  Valeur de l'angle : "+angleGauche);
 		}
 		if(droitActive) {
 			double deltaTFlipperDroitMonter;
@@ -958,6 +960,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			angleDroit=(angleMax-flipDroit.getAngle())/2;
 			tempsEcouleDroitMonter += deltaTFlipperDroitMonter;
 			System.out.println("Temps ecoule droitActive : "+tempsEcouleDroitMonter + "  Valeur de l'angle : "+angleDroit);
+			System.out.println("Vitesse flipper droit: "+flipDroit.getVitesse().getY() + "  Valeur de l'angle : "+angleDroit);
 			
 		}
 		if(droitDescente) {
@@ -972,6 +975,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			 angleDroit=(-flipDroit.getAngle())/2;
 			 tempsEcouleGaucheDescendre+=deltaTFlipperDroitDescendre;
 			 System.out.println("Temps ecoule droitDescendre : "+tempsEcouleDroitDescendre+tempsEcouleDroitMonter + "  Valeur de l'angle : "+angleDroit);
+			 System.out.println("Vitesse flipper droit: "+flipDroit.getVitesse().getY() + "  Valeur de l'angle : "+angleDroit);
 		}
 
 		//System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
