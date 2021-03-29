@@ -108,6 +108,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	boolean aimantActif;
 
+	//variable pour la courbe
+	double courbeX = 0.898;
+	double courbeY=0.732;
 
 	//variable pour pointage
 	PointageAnimation score = new PointageAnimation();
@@ -126,12 +129,13 @@ public class ZonePinball extends JPanel implements Runnable {
 	//tab pour les pentes
 	private ArrayList < MursDroits > pentes = new ArrayList < MursDroits > ();
 
+	//tab pour les mursSous les triangles
 	private ArrayList < MursDroits > droitSous = new ArrayList < MursDroits > ();
-
-
+	
+	//tab pour les cotes des triangles
 	private ArrayList < MursDroits > coteTriangle = new ArrayList < MursDroits > ();
 
-
+	//tab pour les murs line2D sur la courbe
 	private ArrayList < MursDroits > courbe = new ArrayList < MursDroits > ();
 
 
@@ -860,7 +864,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 		//collision avec courbe initiale
-		if (uneBille.getPosition().getY() < 0.732 && uneBille.getPosition().getX() > 0.898) {
+		if (uneBille.getPosition().getY() < courbeY && uneBille.getPosition().getX() > courbeX) {
 
 			double fc = moteur.MoteurPhysique.calculForceCentripete(massePourCetteScene, uneBille.getVitesse(), RAYON_COURBE);
 
@@ -880,7 +884,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 		}else{
-			if(uneBille.getPosition().getX()<0.898) {
+			if(uneBille.getPosition().getX()<courbeX) {
 				uneBille.setForceExterieureAppliquee(new Vecteur2D (0,4.8));
 			}
 				
