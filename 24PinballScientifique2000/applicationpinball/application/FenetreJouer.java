@@ -180,7 +180,7 @@ public class FenetreJouer extends JFrame{
 			lblScore = new JLabel("Score:");
 			lblScore.setForeground(Color.RED);
 			lblScore.setFont(new Font("Tahoma", Font.PLAIN, 30));
-			lblScore.setBounds(773, 501, 116, 37);
+			lblScore.setBounds(773, 501, 261, 37);
 			contentPane.add(lblScore);
 
 			Inclinaison imageInclinaison = new Inclinaison();
