@@ -8,9 +8,7 @@ package animation;
  */
 public class PointageAnimation {
 
-	protected int score = 0;
-
-	
+	protected int score = 0;	
 /**
  * 
  * @param points le  nombre de points que cet obstacles donne au joueur

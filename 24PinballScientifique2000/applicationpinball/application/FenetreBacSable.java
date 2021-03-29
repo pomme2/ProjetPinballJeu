@@ -206,8 +206,17 @@ public class FenetreBacSable extends JFrame{
 		Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 
 		JComboBox<Object> comboBoxObstacles = new JComboBox<Object>(choixObstacles);
-		comboBoxObstacles.setBounds(734, 563, 344, 37);
-		contentPane.add(comboBoxObstacles);
+		comboBoxObstacles.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			String forme = (String) comboBoxObstacles.getSelectedItem();
+			zonePinball.setForme(forme);
+			
+			}
+		});
+		
+	
+	comboBoxObstacles.setBounds(734, 563, 344, 37);
+	contentPane.add(comboBoxObstacles);
 
 		JButton btnOption = new JButton("Option");
 		btnOption.addActionListener(new ActionListener() {

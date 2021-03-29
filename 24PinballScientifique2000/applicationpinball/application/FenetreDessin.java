@@ -1,5 +1,4 @@
 package application;
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -60,7 +59,7 @@ public class FenetreDessin extends JFrame{
 
 
 
-
+		
 
 
 		setTitle("Dessin");
@@ -71,6 +70,8 @@ public class FenetreDessin extends JFrame{
 				fenMenu.setVisible(true);
 				setVisible(false);
 				dessin.sauvegarderImage("ImageB","png");
+				
+				
 			}
 		});
 		
