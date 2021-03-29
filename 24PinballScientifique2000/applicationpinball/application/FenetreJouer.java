@@ -186,6 +186,7 @@ public class FenetreJouer extends JFrame{
 			Inclinaison imageInclinaison = new Inclinaison();
 			imageInclinaison.setBounds(1000,283,78,60);
 			contentPane.add(imageInclinaison);
+			imageInclinaison.setInclinaison(5);
 
 			Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 

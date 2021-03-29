@@ -323,15 +323,18 @@ public class FenetreBacSable extends JFrame{
 			contentPane.add(sliderRessort);
 
 			JSlider sliderInclinaison = new JSlider();
-			sliderInclinaison.setValue(0);
+			sliderInclinaison.setMinimum(5);
+			sliderInclinaison.setValue(5);
 			sliderInclinaison.setMaximum(75);
 
 
 			Inclinaison imageInclinaison = new Inclinaison();
 			imageInclinaison.setBounds(1000,283,78,60);
 			contentPane.add(imageInclinaison);
+			imageInclinaison.setInclinaison(5);
 
 			JSpinner spinnerInclinaison = new JSpinner();
+			spinnerInclinaison.setModel(new SpinnerNumberModel(5, 5, 75, 1));
 			spinnerInclinaison.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					valeurInclinaison = (int) spinnerInclinaison.getValue();
