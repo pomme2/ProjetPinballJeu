@@ -14,9 +14,13 @@ import java.awt.geom.Rectangle2D;
 
 import dessinable.Dessinable;
 import dessinable.Selectionnable;
-
+/**
+ * Classe qui permet de creer une des 4 formes selectionnes dans FenetreBacSable ou FenetreJouer
+ * @author Audrey Viger
+ *
+ */
 public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
-	
+
 	private double posX;
 	private double posY;
 	private double larg;
@@ -29,7 +33,14 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 	private boolean cercleSelectionne = false, carreSelectionne = false, triangleSelectionne=false,rectangleSelectionne = false;
 	private double translatCarreX = 0, translatCarreY=0;
 	private double xPrecedent, yPrecedent;
-	
+	/**
+	 * Constructeur des formes
+	 * @param poX est la position en x des formes
+	 * @param posY est la position en y des formes
+	 * @param larg est la largeur des formes
+	 * @param haut est la hauteur des formes
+	 * @param forme est le nomd e la forme
+	 */
 	public ObstacleClique(double poX, double posY, double larg,double haut,  String forme) {
 		this.posX = poX;
 		this.posY = posY;
@@ -37,19 +48,15 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 		this.larg = larg;
 		this.haut = haut;
 		creerLaGeometrie();
-		
+
 	}
 
 
-	
-
-
-
-
-
-
+	/**
+	 * Methode qui permet de creer la bonne forme selon la forme selectionneee dans FenetreBacSable ou FenetreJouer
+	 */
 	private void creerLaGeometrie() {
-		
+
 		if(forme == "Triangle") {
 			ligneJ = new Rectangle2D.Double(0,590,700,5);
 			triangle = new Path2D.Double();
@@ -57,11 +64,11 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 			triangle.lineTo(posX,posY-haut/2);
 			triangle.lineTo(posX+larg/2,posY+haut/2);
 			triangle.closePath();
-			
+
 		}else if(forme == "Carré") {
-		carre = new Rectangle2D.Double(posX-haut/2,posY-haut/2,haut,haut);
-		ligneJ = new Rectangle2D.Double(30,590,471,2);
-		
+			carre = new Rectangle2D.Double(posX-haut/2,posY-haut/2,haut,haut);
+			ligneJ = new Rectangle2D.Double(30,590,471,2);
+
 			//obstacle.moveTo(posX-larg/2, posY-larg/2);
 			//obstacle.lineTo(posX+larg/2, posY-larg/2);
 			//obstacle.lineTo(posX+larg/2, posY+larg/2);
@@ -69,7 +76,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 		}else if (forme == "Cercle") {
 			cercle = new Ellipse2D.Double(posX-larg/2,posY-larg/2,larg,larg);
 			ligneJ = new Rectangle2D.Double(0,590,700,5);
-			
+
 		}else if (forme == "Rectangle") {
 			rectangle = new Rectangle2D.Double(posX-larg/2,posY-haut/2,larg+larg/2.5,haut-haut/2.5);
 			ligneJ = new Rectangle2D.Double(0,590,700,5);
@@ -78,37 +85,40 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 			//obstacle.moveTo(posX+larg/2,posY+haut/2);
 			//obstacle.closePath();
 		}
-		
-		
+
+
 	}
-	
 
 
+	/**
+	 * Methode qui permet de dessiner les formes
+	 * @g2d contexte graphique
+	 */
 	public void dessiner(Graphics2D g2d) {
 		AffineTransform mat = new AffineTransform();
 		mat.scale(pixelsParMetre ,pixelsParMetre);
-		
+
 		if(forme=="Cercle") {
 			g2d.fill(mat.createTransformedShape(cercle));
-		//	g2d.fill(mat.createTransformedShape(ligneJ));
+			//	g2d.fill(mat.createTransformedShape(ligneJ));
 		}else if(forme=="Carré"){
 			g2d.fill(mat.createTransformedShape(carre));
 			//g2d.fill(mat.createTransformedShape(ligneJ));
 		}else if(forme=="Rectangle") {
 			g2d.fill(mat.createTransformedShape(rectangle));
-		//	g2d.fill(mat.createTransformedShape(ligneJ));
-			
-		//}else {
+			//	g2d.fill(mat.createTransformedShape(ligneJ));
+
+			//}else {
 			//g2d.fill(mat.createTransformedShape(triangle));
 		}else if(forme=="Triangle"){
 			g2d.fill(mat.createTransformedShape(triangle));
-		//	g2d.fill(mat.createTransformedShape(ligneJ));
+			//	g2d.fill(mat.createTransformedShape(ligneJ));
 		}
-		
-		
+
+
 	}
-/*
- * @Override
+	/*
+	 * @Override
 	public boolean contientCercle(double xPix, double yPix) {
 	if(cercle.contains(xPix,yPix)) {
 		return true;
@@ -119,33 +129,53 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 	}else {
 		return false;
 	}
-		
+
 	}
- * 
- */
+	 * 
+	 */
+	/**
+	 * Methode qui permet de determiner si le cercle est à une certaine position
+	 * @param xPix est la postion en x
+	 * @param  yPix est la position en y
+	 */
 	@Override
 	public boolean contientCercle(double xPix, double yPix) {
-	if(cercle.contains(xPix,yPix)) {
-		return true;
-	}else {
-		return false;
+		if(cercle.contains(xPix,yPix)) {
+			return true;
+		}else {
+			return false;
+		}
+
 	}
-		
-	}
+	/**
+	 * Methode qui permet de determiner si le carre est à une certaine position
+	 * @param xPix est la postion en x
+	 * @param  yPix est la position en y
+	 */
 	public boolean contientCarre(double xPix, double yPix) {
 		if(carre.contains(xPix,yPix)) {
 			return true;
-	}else {
-		return false;
+		}else {
+			return false;
+		}
 	}
-	}
+	/**
+	 * Methode qui permet de determiner si le rectangle est à une certaine position
+	 * @param xPix est la postion en x
+	 * @param  yPix est la position en y
+	 */
 	public boolean contientRectangle(double xPix, double yPix) {
-	if(rectangle.contains(xPix,yPix)) {
-		return true;
-	}else {
-		return false;
+		if(rectangle.contains(xPix,yPix)) {
+			return true;
+		}else {
+			return false;
+		}
 	}
-	}
+	/**
+	 * Methode qui permet de determiner si le triangle est à une certaine position
+	 * @param xPix est la postion en x
+	 * @param  yPix est la position en y
+	 */
 	public boolean contientTriangle(double xPix, double yPix) {
 		if(triangle.contains(xPix,yPix)) {
 			return true;
@@ -154,13 +184,10 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 		}
 	}
 
-	@Override
-	public Rectangle getBounds() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
+	/**
+	 * Methodes qui sont de type abstraits car nous devons implementer le classe Shape
+	 */
+	////////////////////////////////////////////////////////////////////////////////////
 	@Override
 	public Rectangle2D getBounds2D() {
 		// TODO Auto-generated method stub
@@ -223,49 +250,63 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 		return null;
 	}
 
-
+	@Override
+	public Rectangle getBounds() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	@Override
 	public boolean contient(double xPix, double yPix) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Methode qui retourne la position en y
+	 * @return posY la position en y
+	 */
 	public double getPosY() {
 		return posY;
 	}
 
-
+	/**
+	 * Methode qui modofie la position en y
+	 * @param posY la position en y
+	 */
 	public void setPosY(double posY) {
 		this.posY = posY;
 	}
 
-
+	/**
+	 * Methode qui retourne la largeur des différentes formes
+	 * @return la largeur des différentes formes
+	 */
 	public double getLarg() {
 		if(forme=="Cercle") {
 			return larg;
-		//	g2d.fill(mat.createTransformedShape(ligneJ));
+			//	g2d.fill(mat.createTransformedShape(ligneJ));
 		}else if(forme=="Carré"){
 			return haut;
 			//g2d.fill(mat.createTransformedShape(ligneJ));
 		}else if(forme=="Rectangle") {
 			return (larg+larg/2.5);
-		//	g2d.fill(mat.createTransformedShape(ligneJ));
-			
-		//}else {
+			//	g2d.fill(mat.createTransformedShape(ligneJ));
+
+			//}else {
 			//g2d.fill(mat.createTransformedShape(triangle));
 		}else if(forme=="Triangle"){
 			return larg;
-		//	g2d.fill(mat.createTransformedShape(ligneJ));
+			//	g2d.fill(mat.createTransformedShape(ligneJ));
 		}else {
 			return larg;
 		}
-		
+
 	}
 
-
-
-
-
+	/**
+	 * Methode qui modofie la largeur des formes
+	 * @param larg la lageur des formes
+	 */
 	public void setLarg(int larg) {
 		this.larg = larg;
 	}
@@ -273,30 +314,36 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 
 
 
-
+	/**
+	 * Methode qui retourne la hauteur des différentes formes
+	 * @return la hauteur des différentes formes
+	 */
 	public double getHaut() {
 		if(forme=="Cercle") {
 			return haut;
-		//	g2d.fill(mat.createTransformedShape(ligneJ));
+			//	g2d.fill(mat.createTransformedShape(ligneJ));
 		}else if(forme=="Carré"){
 			return haut;
 			//g2d.fill(mat.createTransformedShape(ligneJ));
 		}else if(forme=="Rectangle") {
 			return (haut-haut/2.5);
-		//	g2d.fill(mat.createTransformedShape(ligneJ));
-			
-		//}else {
+			//	g2d.fill(mat.createTransformedShape(ligneJ));
+
+			//}else {
 			//g2d.fill(mat.createTransformedShape(triangle));
 		}else if(forme=="Triangle"){
 			return haut;
-		//	g2d.fill(mat.createTransformedShape(ligneJ));
+			//	g2d.fill(mat.createTransformedShape(ligneJ));
 		}else {
 			return haut;
 		}
 	}
 
 
-
+	/**
+	 * Methode qui modofie la hauteur des formes
+	 * @param haut la hauteur des formes
+	 */
 
 
 	public void setHaut(int haut) {
@@ -313,15 +360,17 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 		this.pixelsParMetre = pixelsParMetre;
 	}
 
-
-
-
-
-
+	/**
+	 * Methode qui retourne la position en x des formes
+	 * @return la position en x des formes
+	 */
 	public double getPosX() {
 		// TODO Auto-generated method stub
 		return posX;
 	}
+
+
+
 
 
 }

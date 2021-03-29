@@ -16,7 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import dessinable.Dessinable;
-
+/**
+ * Classe qui permet de gerer l'image de la bille
+ * @author Audrey Viger
+ *
+ */
 public class ImageBille implements Dessinable{
 
 	private static final long serialVersionUID = 1L;
@@ -25,7 +29,10 @@ public class ImageBille implements Dessinable{
 	private Image image;
 
 	
-
+/**
+ * Constructeur pour le nom de l'image
+ * @param nomImage est le nom de l'image
+ */
 	public ImageBille(String nomImage) {
 		this.nomImage = nomImage;
 		/*try {
@@ -38,7 +45,10 @@ public class ImageBille implements Dessinable{
 
 		
 	}
-
+/**
+ * Methode permettant d'appliquer une texture sur l'image de la bille
+ * @param g2d le contexte graphique
+ */
 	@Override
 	public void dessiner(Graphics2D g2d) {
 		File pngOriginal = new File(System.getProperty("user.home")+"\\ImageB2.png");
@@ -64,12 +74,19 @@ public class ImageBille implements Dessinable{
 		g2d.drawImage(image,0,0,null);
 
 	}
+	/**
+	 * methode qui modifie le nom de l'image
+	 * @param nomImageBille est le nom de l'image 
+	 */
 	public void changerImage(String nomImageBille) {
 		this.nomImage = nomImageBille;
 		
 		
 	}
-
+/**
+ * Methode qui retourne le nom de l'image
+ * @return le nom de l'image
+ */
 	public String getNomImage() {
 		
 		return nomImage;

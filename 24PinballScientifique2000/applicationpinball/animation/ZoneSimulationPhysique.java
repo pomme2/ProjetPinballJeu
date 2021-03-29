@@ -1,6 +1,7 @@
 package animation;
 
 /**
+ * @author Carlos Eduardo
  * Composant illustrant la simujlation : c'est la scence physique ou on  dessine et anime les objets.
  * C,est ce composant qui doit connaitre/determiner les parametres physiques : largeur du composant en metres, 
  * valeur du pas de simulation deltaT, positions et vitesses initiales des objets etc. etc.

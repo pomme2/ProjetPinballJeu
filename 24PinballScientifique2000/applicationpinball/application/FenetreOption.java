@@ -16,14 +16,17 @@ import java.awt.event.ActionEvent;
  * 
  * 
  * @author Audrey Viger
- *
+ * Classe qui permet de creer la fenetre pour les options
  */
 
 public class FenetreOption extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private App24PinballScientifique2001 fenMenu;
 
-	
+	/**
+	 * Constructeur qui permet de creer les composants de la FenetreOption
+	 * @param fenMenu est la fenetre du menu
+	 */
 	public FenetreOption(App24PinballScientifique2001 fenMenu) {
 		this.fenMenu = fenMenu;
 		setTitle("Options");	

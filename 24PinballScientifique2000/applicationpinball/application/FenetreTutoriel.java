@@ -11,14 +11,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 /**
  * 
- * 
+ * Classe qui permet de creer la fenetre pour le tutoriel
  * @author Audrey Viger
  *
  */
 public class FenetreTutoriel extends JFrame{	
 	private static final long serialVersionUID = 1L;
 	private App24PinballScientifique2001 fenMenu;
-	
+	/**
+	 * Constructeur qui permet de creer les composants de la FenetreTutoriel
+	 * @param fenMenu est la fenetre du Menu
+	 */
 	public FenetreTutoriel(App24PinballScientifique2001 fenMenu) {
 		this.fenMenu = fenMenu;
 		getContentPane().setLayout(null);

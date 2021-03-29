@@ -11,9 +11,9 @@ import dessinable.Dessinable;
 import moteur.MoteurPhysique;
 
 /**
+ * Classe qui permet de creer une flipper gauche et un flipper droit
  * 
- * 
- * @author Carlos Ed
+ * @author Thomas Bourgault
  *
  */
 
@@ -32,7 +32,13 @@ public class Flipper implements Dessinable {
 	private int rad;
 
 
-
+/**
+ * Constructeur des flippers
+ * @param position est la postion du flipper en Vecteur2D
+ * @param longueurManche est la longueur du flipper
+ * @param diametreManche est la largeur du flipper
+ * @param gauche determine si le flipper est celui de gauche ou celui de droite
+ */
 	public  Flipper (Vecteur2D position, double longueurManche, double diametreManche,boolean gauche) {
 		this.position=new Vecteur2D(position);
 		this.longueurManche=longueurManche;
@@ -40,7 +46,9 @@ public class Flipper implements Dessinable {
 		this.gauche=gauche;
 		creerLaGeometrie();
 	}
-
+/**
+ * methode qui permet de recreer le flipper si c'est celui de gauche ou celui de droite
+ */
 	private void creerLaGeometrie() {
 		if(gauche==true) {
 			manche=new Ellipse2D.Double(position.x,position.y-diametreManche/2,longueurManche,diametreManche);	
@@ -48,14 +56,16 @@ public class Flipper implements Dessinable {
 			manche= new Ellipse2D.Double(position.x-longueurManche,position.y-diametreManche/2,longueurManche,diametreManche);
 		}
 	}
-
+/**
+ * Methode qui permet de dessiner les flippers
+ * @param g2d contexte graphique
+ */
 	@Override
 	public void dessiner(Graphics2D g2d) {
 		AffineTransform mat= new AffineTransform();
 		mat.scale(pixelsParMetre,pixelsParMetre);
 		
 		g2d.fill(mat.createTransformedShape(manche));
-
 
 	}
 
@@ -67,7 +77,13 @@ public class Flipper implements Dessinable {
 		this.pixelsParMetre = pixelsParMetre;
 
 	}
-
+/**
+ * Methode qui permet de calculer la vitesse et l'angle des flippers selon le pas d'animation
+ * @param angleMax est l'angle maximum pour la rotation
+ * @param tempsTotalEcoule est le temps depuis que le flipper est active
+ * @param frequenceAngulaire est la variable qui determine la vitesse de l'animation
+ * @param premierQuartPeriode determine si le flipper est dans la montee ou la descente
+ */
 	public void avancerUnPas(double angleMax, double tempsTotalEcoule, double frequenceAngulaire,boolean premierQuartPeriode) {
 		angle=MoteurPhysique.calculAngle(angleMax, tempsTotalEcoule, frequenceAngulaire, premierQuartPeriode);
 		vitesse=MoteurPhysique.vitesseFlipper( angleMax,  tempsTotalEcoule,  frequenceAngulaire, premierQuartPeriode);		

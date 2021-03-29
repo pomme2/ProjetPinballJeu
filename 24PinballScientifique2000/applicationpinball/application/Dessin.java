@@ -32,13 +32,10 @@ import javax.swing.JPanel;
  * 
  *
  * @author Audrey Viger
- *
+ * Cette classe permet de dessiner sur la balle
  */
 public class Dessin extends JPanel  {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	// Image in which we're going to draw
 	private Image imageBille;
@@ -57,7 +54,9 @@ public class Dessin extends JPanel  {
 	
 	String nomDossier = "imageBille";
 	private String nomImage = "imageBille";
-
+/**
+ * Constructeur qui gère le déplacement de la souris ainsi que la zone du dessin
+ */
 	public Dessin() {
 		
 		cercle = new Ellipse2D.Double(585/2-285,621/2-285,570,570);
@@ -113,7 +112,9 @@ public class Dessin extends JPanel  {
 		}
 		
 
-
+/**
+ * Methode qui gère le contexte graphique g
+ */
 protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	Graphics2D g2d = (Graphics2D)g;
@@ -136,6 +137,9 @@ protected void paintComponent(Graphics g) {
 	
 }
 
+/**
+ * Methode qui permet d'effacer le dessin fait sur la balle
+ */
 
 public void clear() {
 	g2.setPaint(Color.white);
@@ -143,15 +147,27 @@ public void clear() {
 	g2.setPaint(Color.black);
 	repaint();
 }
-
+/**
+ * Methode qui modifie le trait avec lequel on dessine sur la balle
+ * @param couleur est la couleur du trait avec lequel on dessine sur la balle
+ */
 public void setCouleur(Color couleur) {
 	g2.setPaint(couleur);
 	repaint();
 }
+/**
+ * methode qui modifie le diametre de la balle pour la zone du dessin
+ * @param diametre est le diametre de la balle pour la zone du dessin
+ */
 public void setDiametre(int diametre) {
 	this.diametre = diametre;
 	repaint();
 }
+/**
+ * Methode qui permet de sauvegarder l'image
+ * @param name  est le nom de l'image qu'on enregistre
+ * @param type est le type de fichier pour l'image, ici c'est un png
+ */
 public void sauvegarderImage(String name,String type)  {
 	BufferedImage imageBille = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
 

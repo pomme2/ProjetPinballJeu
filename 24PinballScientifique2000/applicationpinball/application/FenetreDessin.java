@@ -26,7 +26,11 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
-
+/**
+ * 
+ * @author Audrey Viger
+ *Cette permet d'initialiser la fenetre qui permet de dessiner sur la bille
+ */
 public class FenetreDessin extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private App24PinballScientifique2001 fenMenu;
@@ -37,7 +41,10 @@ public class FenetreDessin extends JFrame{
 	private BufferedImage imageBille;
 	private final JFileChooser saveFileChooser;
 	protected JLabel label; 
-
+/**
+ * Constructeur de la fenetre de dessin qui permet de dessiner sur la bille
+ * @param fenMenu est la fenetre du menu
+ */
 	public FenetreDessin(App24PinballScientifique2001 fenMenu) {
 		final JFrame frame = new JFrame("JColorChooser Demo");
 		this.fenMenu = fenMenu;

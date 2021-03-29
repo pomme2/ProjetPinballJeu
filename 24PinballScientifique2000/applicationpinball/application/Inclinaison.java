@@ -9,7 +9,11 @@ import java.awt.geom.Path2D;
 import javax.swing.JPanel;
 
 import dessinable.Dessinable;
-
+/**
+ * Classe qui permet de montrer l'inclinaison de la table
+ * @author Adurey Viger
+ *
+ */
 public class Inclinaison extends JPanel{
 	private static final long serialVersionUID = 1L;
 
@@ -18,13 +22,19 @@ public class Inclinaison extends JPanel{
 	private int coordx1 =15, coordx2 = 55, coordy1 = 10, coordy2 = 50, coordYangle = 20;
 	private Path2D.Double graph;
 	private Line2D.Double inclinaison;
-
+/**
+ * Constructeur de l'inclinaison de la table
+ */
 	public Inclinaison(){
 
 		setBackground(Color.white);
 
 	}
 //1000,283,78,60
+	/**
+	 * Methode qui permet de dessiner l'inclinaison
+	 * @param g le contexte graphique
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -45,11 +55,11 @@ public class Inclinaison extends JPanel{
 		g2d.rotate(Math.toRadians(-angle),coordx1,coordy2);
 		g2d.draw(inclinaison);
 
-
-
-
-
 	}
+	/**
+	 * Permet de modfier l'inclinaison de la table
+	 * @param angle est l'angle d'inclinaison de la table
+	 */
 	public void setInclinaison(int angle) {
 		this.angle = angle;
 		repaint();

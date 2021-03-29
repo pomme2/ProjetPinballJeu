@@ -68,7 +68,9 @@ public class Scene {
 	//flippers		
 	private Flipper flipGauche,flipDroit;
 	
-
+/**
+ * Constructeur qui permet d'initialiser la bille et le ressort
+ */
 	public Scene() {		
 		//ressort
 		initialiserRessort();

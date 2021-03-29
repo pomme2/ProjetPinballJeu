@@ -18,9 +18,9 @@ public class MoteurPhysique {
 
 	private static final double ACCEL_GRAV = 9.8066;
 	private static final double EPSILON = 1e-10; //tolerance utilisee dans les comparaisons reelles avec zero+
-	
-	private static final double K = 9e+10;
 
+	private static final double K = 9e+10;
+	//Carlos Eduardo
 	/**
 	 * Calcule et retourne l'acceleration en utilisant F=ma
 	 * @param sommeDesForces Somme des forces appliquees
@@ -34,7 +34,7 @@ public class MoteurPhysique {
 		else
 			return new Vecteur2D( sommeDesForces.getX()/masse , sommeDesForces.getY()/masse );	
 	}
-
+	//Carlos Eduardo
 	/**
 	 * Calcule et retourne la nouvelle vitesse, deltaT secondes plus tard, en utilisant l'algorithme
 	 * d'Euler semi-implicite.
@@ -49,7 +49,7 @@ public class MoteurPhysique {
 		return new Vecteur2D(resultVit.getX(), resultVit.getY());
 
 	}
-
+	//Carlos Eduardo
 	/**
 	 * Calcule et retourne la nouvelle position, deltaT secondes plus tard, en utilisant l'algorithme
 	 * d'Euler semi-implicite.
@@ -65,6 +65,7 @@ public class MoteurPhysique {
 		return new Vecteur2D(resultPos.getX(), resultPos.getY());
 
 	}
+	//Audrey Viger
 	/**
 	 * Calcule et retourne la force de rappel du ressort
 	 * @param kRessort La constante du ressort 
@@ -74,6 +75,7 @@ public class MoteurPhysique {
 	public static Vecteur2D calculForceRappel(double kRessort, Vecteur2D etirement) {
 		return new Vecteur2D(0 ,-kRessort * etirement.getY() );
 	}
+	//Carlos Eduardo
 	/**
 	 * Calcule et retourne la force gravitationnelle
 	 * @param masse La masse de l'objet
@@ -82,6 +84,7 @@ public class MoteurPhysique {
 	public static Vecteur2D calculForceGrav(double masse) {
 		return new Vecteur2D(0, -ACCEL_GRAV * masse);
 	}
+	//Carlos Eduardo
 	/**
 	 * Calcule et retourne la force normale
 	 * @param masse La masse de l'objet
@@ -92,7 +95,7 @@ public class MoteurPhysique {
 	}
 
 
-
+	//Audrey Viger
 	/**
 	 * Calcule et retourne la force de friction
 	 * @param mu Le coefficient friction cinetique
@@ -109,7 +112,7 @@ public class MoteurPhysique {
 			return new Vecteur2D(0,mu * calculForceNormale(masse).getX() );
 		}
 	}
-	
+	//Carlos Eduardo
 	/**
 	 *  Calcul et retourne l'energie cinetique de la balle a partir de l'energie potentiel du ressort
 	 * @param k La constante de rappel du ressort
@@ -118,23 +121,23 @@ public class MoteurPhysique {
 	 * @return Le vecteur de l'energie cinetique
 	 */
 	public static Vecteur2D caculVitesseBilleRessort(double k, double etirement,double masse){
-		
+
 		double energiePotentiel =  (k*Math.pow(etirement, 2))/2;
 
-		
-		
+
+
 		//System.out.println( "ENERGIE POTENIELLLLL "+energiePotentiel);
-		
+
 		double energieCinetique;
-		
+
 		energieCinetique = Math.pow(2*energiePotentiel/masse, 0.5);
-		
-		
-		
+
+
+
 		return new Vecteur2D (0,energieCinetique*-1);
 	}
-	
-	
+
+	//Carlos Eduardo
 	/**
 	 * 
 	 * @param vitesseFlipper vitesse du flipper
@@ -142,22 +145,26 @@ public class MoteurPhysique {
 	 * @return la nouvelle vitesse de la bille frapper par le flipper
 	 */
 	public static Vecteur2D calculVitesseBilleFlipper(double vitesseFlipper,Vecteur2D vitesseBille) {
-		
+
 		vitesseBille.multiplie(vitesseFlipper);
-		
-		
-		
-		
+
 		return vitesseBille;
 	}
-	
+	//Carlos Eduardo
+	/**
+	 * Methode qui donne la vitesse de la bille
+	 * @param billeVitesse est un objet de type bille
+	 * @return null
+	 */
+
 	public static Vecteur2D calculRebondBilleCerlce (Bille billeVitesse) {
-		
-		
+
+
 		billeVitesse.getVitesse();
-		
+
 		return null;
 	}
+	//Carlos Eduardo
 	/**Methode qui calcule et retourne la force Centripete avec la masse de la bille , sa vitesse et le rayon de la courbe
 	 * 
 	 * @param masse de la bille en kg
@@ -166,15 +173,15 @@ public class MoteurPhysique {
 	 * @return force centripete de la bille
 	 */
 	public static double calculForceCentripete(double masse, Vecteur2D vitesse, double rayon) {
-		
+
 		double temp =masse*Math.pow(vitesse.module(), 2);
-		
+
 		double fc = temp/rayon;
-		
+
 		return fc;
 	}
-	
-	
+
+	//Carlos Eduardo
 	/**
 	 * Methode qui calcule et retourne l'angle de la Force Centripete dirigee vers le centre du cercle
 	 * 
@@ -183,86 +190,53 @@ public class MoteurPhysique {
 	 * @return un vecteur contenant les x et y de l'angle qui forme le FC
 	 */
 	public static Vecteur2D calculDelta(Vecteur2D centre,Vecteur2D positionCourbe ) {
-		
-		
+
+
 		double deltaY =	positionCourbe.getY()-centre.getY();
-		
-		
+
+
 		double deltaX =	positionCourbe.getX()-centre.getX();
-		
+
 		deltaY = Math.abs(deltaY);
-		
+
 		deltaX= Math.abs(deltaX);
-		
-		
-		
-		 double hypo = Math.pow(deltaY*deltaY + deltaX*deltaX , 0.5);
-		 
-		
-		
+
+
+
+		double hypo = Math.pow(deltaY*deltaY + deltaX*deltaX , 0.5);
+
+
+
 		double temp = deltaY/hypo;
-		
+
 		double tempo = Math.asin(temp);
-		
+
 		double angle = Math.toDegrees(tempo);
-			
-		
-		
-		
+
+
 		return new Vecteur2D(deltaX,deltaY);
-		
+
 	}
-	
-	
-	public static double forceElectrique(double q1, double q2,double r) {
-		
-		
-		double temp =K*q1*q2*Math.pow(1.602e-19, 2);
-		
-		
-	
-		
-		
-		double distance = Math.pow(r, 2);
-		
-		double Fe =temp/distance;
-		
-		
-		
-		
-		
-		
-		return Fe;
-		
-		
-		
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	//Thomas Bourgault
+
+	//Carlos Eduardo
 	/**
-	 * 
-	 * @return
+	 * Methode qui calcule la force electrique 
+	 * @param q1 est la charge de la premiere particule
+	 * @param q2 est la charge de la deuxieme particule
+	 * @param r est le rayon de la particule
+	 * @return la force electrique
 	 */
-	public static Vecteur2D vitesseRotationFlipper(Vecteur2D position, double angle,double deltaT) {
-		Vecteur2D vitesse= new Vecteur2D();
+	public static double forceElectrique(double q1, double q2,double r) {
 
-		return null;
+		double temp =K*q1*q2*Math.pow(1.602e-19, 2);
 
-	}	
-	public static Vecteur2D testFlipper (Vecteur2D position,double angle,double longueurManche) {
-		Vecteur2D nouvPosition= new Vecteur2D();
-		position=position.rotation(position,angle,longueurManche);
-		return position;
+		double distance = Math.pow(r, 2);
+
+		double Fe =temp/distance;
+
+		return Fe;		
 	}
+
 	//Thomas Bourgault
 	/**
 	 * Méthode qui calcule l'angle d'un flipper avec l'équation d'un mouvement harmonique simple
@@ -274,33 +248,39 @@ public class MoteurPhysique {
 	public static double calculAngle(double angleMax, double tempsTotalEcoule, double frequenceAngulaire,boolean premierQuartPeriode) {
 		if( premierQuartPeriode) {
 			double angle;
-		angle=angleMax*Math.sin(frequenceAngulaire*tempsTotalEcoule+Math.PI/2);		
-		return angle;		
+			angle=angleMax*Math.sin(frequenceAngulaire*tempsTotalEcoule+Math.PI/2);		
+			return angle;		
 		}else {
 			double angle;
 			angle=angleMax*Math.sin(frequenceAngulaire*tempsTotalEcoule+Math.PI);		
 			return angle;		
 		}
-		
+
 	}
 	//Thomas Bourgault
-	
+	/**
+	 * Méthode qui calcule la vitesse d'un flipper avec l'équation d'un mouvement harmonique simple
+	 * @param angleMax est l'angle maximum qu'un flipper peut atteindre
+	 * @param deltaT est le pas d'animation
+	 * @param frequenceAngulaire est la vitesse à quel point une oscillation complète peut être effectue
+	 * @return la vitesse du flipper selon le temps ecoule depuis que le flipper est active
+	 */
 	public static Vecteur2D vitesseFlipper(double angleMax, double tempsTotalEcoule, double frequenceAngulaire,boolean premierQuartPeriode) {
 		if( premierQuartPeriode) {
-		
-		double vy=angleMax*frequenceAngulaire*Math.cos(frequenceAngulaire*tempsTotalEcoule+Math.PI/2);
-		Vecteur2D vitesse=new Vecteur2D(0,vy);
-		return vitesse;
+
+			double vy=angleMax*frequenceAngulaire*Math.cos(frequenceAngulaire*tempsTotalEcoule+Math.PI/2);
+			Vecteur2D vitesse=new Vecteur2D(0,vy);
+			return vitesse;
 		}else {
 			double vy=angleMax*frequenceAngulaire*Math.cos(frequenceAngulaire*tempsTotalEcoule+Math.PI);
 			Vecteur2D vitesse=new Vecteur2D(0,vy);
 			return vitesse;
 		}
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 
 }

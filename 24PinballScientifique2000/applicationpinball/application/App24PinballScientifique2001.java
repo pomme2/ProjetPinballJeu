@@ -18,7 +18,7 @@ import java.awt.Font;
  * 
  * 
  * @author Audrey Viger
- *
+ *  Cette classe est le menu et permet d'acceder aux autres fenetres
  */
 public class App24PinballScientifique2001 extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -46,7 +46,11 @@ public static void main(String[] args) {
 		}
 	});
 }
-public void initianilisationFenSecondaire() throws IOException {
+/**
+ * 
+ * Methode qui intialise les fenetres secondaires
+ */
+public void initianilisationFenSecondaire()  {
 	fenOption = new FenetreOption(this);
 	fenDessin = new FenetreDessin(this);
 	fenTuto = new FenetreTutoriel(this);
@@ -55,8 +59,11 @@ public void initianilisationFenSecondaire() throws IOException {
 	
 }
 
-
-public App24PinballScientifique2001() throws IOException {
+/**
+ * 
+ * Constructeur du menu, on y trouve tous les boutons permettants d'acceder aux fenetres secondaires
+ */
+public App24PinballScientifique2001() {
 
 	setTitle("Menu");
 	initianilisationFenSecondaire();

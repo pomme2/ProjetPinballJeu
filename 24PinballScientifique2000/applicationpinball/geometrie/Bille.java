@@ -25,6 +25,7 @@ import moteur.MoteurPhysique;
  * 
  * @author Carlos Ed
  * @author Caro Houle
+ * @author Audrey Viger
  * 
  * Classe Bille : représentation de la bille en mouvement ou est mémoriser
  * sa vitesse , sa masse, sa position et son diametre.
@@ -50,7 +51,12 @@ public class Bille extends Rectangle implements Dessinable {
 	private BufferedImage img;
 
 
-	//constructeur de la bille
+
+/**
+ * Constructeur de la bille
+ * @param position de la bille en Vecteur2D
+ * @param diametre de la bille 
+ */
 	public Bille(Vecteur2D position, double diametre) {
 		this.position = new Vecteur2D(position);
 		this.diametre = diametre;
@@ -58,12 +64,17 @@ public class Bille extends Rectangle implements Dessinable {
 	}
 
 
-
+/**
+ * Permet de recreer la bille
+ */
 	private void creerLaGeometrie() {
 		bille = new Ellipse2D.Double(position.x,position.y,diametre,diametre);
 	}
 
-
+/**
+ * Methode qui permet de dessiner la bille
+ * @param g2d contexte graphique
+ */
 	@Override
 	public void dessiner(Graphics2D g2d) {
 		Graphics2D g2dPrive = (Graphics2D) g2d.create();
@@ -73,7 +84,10 @@ public class Bille extends Rectangle implements Dessinable {
 		lireImage(g2dPrive);
 
 	}
-
+/**
+ * Methode qui permet de calculer le deplacement de la bille a chaque pas d'animation
+ * @param deltaT est le pas d'animation
+ */
 	public void avancerUnPas(double deltaT) {
 		try {
 			//ici la somme des forces est tout simplement la force carrément appliqueée dans l'interface
@@ -119,8 +133,6 @@ public class Bille extends Rectangle implements Dessinable {
 	public void setForceExterieureAppliquee(Vecteur2D forceExterieureAppliquee) {
 		this.forceExterieureAppliquee = forceExterieureAppliquee;
 	}
-
-
 
 	/**
 	 * Modifie la position de la balle
@@ -231,14 +243,18 @@ public class Bille extends Rectangle implements Dessinable {
 	public void setCharge(double charge) {
 		this.charge = charge;
 	}
-
-
-
-
+/**
+ *  methode qui permet de retourner une Ellipse2D
+ * @return une Ellipse2D qui est la bille
+ */
 	public Ellipse2D.Double getBille() {
 		return bille;
 	}
-
+	//Audrey Viger
+/**
+ * Methode qui permet de lire l'image qui est reliée à la bille
+ * @param g2d le contexte graphique
+ */
 	public void lireImage(Graphics2D g2d) {
 
 

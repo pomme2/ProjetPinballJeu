@@ -2,7 +2,11 @@ package application;
 
 import animation.PointageAnimation;
 import geometrie.Vecteur2D;
-
+/**
+ * Classe qui permet de tester le score
+ * @author Carlos Eduardo
+ *
+ */
 public class testPhysique {
 
 	public static void main(String[] args) {

@@ -115,19 +115,10 @@ public class MursDroits implements Dessinable  {
 		public void setCoordY2(double coordY2) {
 			this.coordY2 = coordY2;
 		}
-		public void flipperRotationGauche(Graphics2D g2d) {
-			double k=-Math.PI/12;	
-			AffineTransform mat= new AffineTransform();
-			mat.rotate(k/5, coordX1, coordY1);	
-			g2d.draw(mat.createTransformedShape(MurDroit));	
-		}
-		public void flipperRotationDroite(Graphics2D g2d) {
-			double k=Math.PI/12;
-			AffineTransform mat= new AffineTransform();
-			mat.rotate(k, coordX1, coordY1);
-			g2d.draw(mat.createTransformedShape(MurDroit));	
-			
-		}
+		/**
+		 * Methode qui permet de retourner un objet de type MursDroits
+		 * @return une line2D de type MursDroits
+		 */
 		public Line2D getLine() {
 			// TODO Auto-generated method stub
 			return MurDroit;

@@ -16,7 +16,7 @@ import geometrie.Vecteur2D;
  * Classe qui permet de dessiner le ressort et sa base
  * Un bloc ressort mémorise sa masse, sa largeur, sa hauteur, sa position, sa vitesse, son accélération,
  * la somme des forces qui s'applique sur elle sous forme vectorielle
- * @Audrey Viger
+ * 
  */
 public class Ressort implements Dessinable {
 	private double massePourCetteScene = 1;
@@ -48,6 +48,7 @@ public class Ressort implements Dessinable {
 	
 	private MursDroits ligneRessort ;
 	private double coordX1Ligne = 1.008, coordYLigne = 1.27, coordX2Ligne = 1.094;
+	
 	/**
 	 * Créer un bloc et un ressort et choisir sa position, choisir sa largeur
 	 * et choisir sa hauteur
@@ -127,6 +128,10 @@ public class Ressort implements Dessinable {
 		
 		
 	}
+	/**
+	 * Methode qui permet de calculer la position du bloc et le depalcement du ressort à l'aide du pas d'animation
+	 * @param deltaT le pas d'animation
+	 */
 	public void avancerUnPas(double deltaT) {
 		Vecteur2D etirement, sommeForces, positionAvantIteration;
 		positionAvantIteration = new Vecteur2D(position);
@@ -221,7 +226,7 @@ public class Ressort implements Dessinable {
 	 * Modifie la vitesse courante du bloc
 	 * @param vitesse Vecteur incluant les vitesses en x et y 
 	 */
-	//Audrey Viger
+	
 	public void setVitesse(Vecteur2D vitesse) {
 		//on fait une copie du vecteur passé en paramètre 
 		this.vitesse = new Vecteur2D(vitesse);
@@ -231,7 +236,7 @@ public class Ressort implements Dessinable {
 	 * Retourne la vitesse courante
 	 * @return la vitesse courante
 	 */
-	//Audrey Viger
+
 	public Vecteur2D getVitesse() {
 		return (vitesse);
 	}
@@ -239,7 +244,7 @@ public class Ressort implements Dessinable {
 	 * Associe une acceleration, ou modifie l'acceleration courante du bloc
 	 * @param accel Vecteur incluant les accelerations en x et y 
 	 */
-	//Audrey Viger
+	
 	public void setAccel(Vecteur2D accel) {
 		this.accel = new Vecteur2D(accel);
 	}
@@ -247,7 +252,7 @@ public class Ressort implements Dessinable {
 	 * Retourne l'acceleration courante
 	 * @return acceleration courante
 	 */
-	//Audrey Viger
+	
 	public Vecteur2D getAccel() {
 		return (accel);
 	}
@@ -256,7 +261,7 @@ public class Ressort implements Dessinable {
 	 * Modifie la masse 
 	 * @param masseEnKg La masse exprimee en kg
 	 */
-	//Audrey Viger
+	
 	public void setMasseEnKg(double masseEnKg) {
 		this.massePourCetteScene = masseEnKg;
 		calculerForcesMasse();
@@ -268,7 +273,7 @@ public class Ressort implements Dessinable {
 	public Vecteur2D getFr() {
 		return fr;
 	}
-	//Audrey Viger
+	
 		public Vecteur2D getFf() {
 			return ff;
 		}
@@ -284,7 +289,7 @@ public class Ressort implements Dessinable {
 	 * Retourne la force normale
 	 * @return La force normale
 	 */
-	// Zarine Ardekani
+
 	public Vecteur2D getFn() {
 		return fn;
 	}
@@ -292,7 +297,7 @@ public class Ressort implements Dessinable {
 	 * Modifie la constante du ressort
 	 * @param kRessort la constante du ressort
 	 */
-	//Audrey Viger
+	
 	public void setkRessort(double kRessort) {
 		this.kRessort = kRessort;
 		calculerForceRessort();
@@ -313,11 +318,18 @@ public class Ressort implements Dessinable {
 		return false;
 	}
 	}
+	/**
+	 * Methode qui permet de changer le coefficient de frottement du ressort
+	 * @param COEFF_FROT le coefficient de frottement du ressort 
+	 */
 	public void setMu(double COEFF_FROT) {
 		this.mu = mu;
 		calculerForceFriction();
 		
 	}
+	/**
+	 * Methode qui calcule la force de frition du ressort
+	 */
 	private void calculerForceFriction() {
 		if (vitesse.getX() == 0 || vitesse.equals(vitesseInitiale)) {
 			ff = new Vecteur2D(0,0);
@@ -327,17 +339,20 @@ public class Ressort implements Dessinable {
 		
 	}
 	 
-	//Carlos
-	public double getMursY() {
-		
-		
-		return position.getY();
-		
-		
+	
+	/**
+	 * Methode qui retourne la position en y du bloc du ressort
+	 * @return la position en y du bloc du ressort
+	 */
+	public double getMursY() {				
+		return position.getY();	
 	}
 	
 
-	
+	/**
+	 * Methode qui retourne un MursDroits qui à les memes proprietes du bloc du ressort
+	 * @return une ligne de type MursDroist qui a les memes proprietes que le bloc du ressort
+	 */
 	public MursDroits getMurs() {
 		
 		   MursDroits ligneRessortTest=new MursDroits(position.getX(),position.getY(),position.getX()+largeur,position.getY());
