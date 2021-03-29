@@ -74,8 +74,14 @@ public class FenetreBacSable extends JFrame{
 
 	private ZonePinball zonePinball;
 
+	private JSlider sliderEtirement;
+	
+	
+
+
 
 	//Carlos Eduardo
+
 	/**
 	 *  Creation d'un ecouteur qui sera jumelé au timer pour l'affichage des resultats
 	 */
@@ -100,6 +106,9 @@ public class FenetreBacSable extends JFrame{
 			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
 			lblScore.setText("Score : "+ zonePinball.getScore().toString());
 
+			
+			remonterJSlider();
+
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
 			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
 			if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
@@ -107,6 +116,18 @@ public class FenetreBacSable extends JFrame{
 
 			}
 		}
+		//Audrey Viger
+		/**
+
+		 * Méthode qui remet le JSlider de l'étirement du ressort à zéro quand la bille reviens à sa position initiale
+		 * 
+		 */
+		public void remonterJSlider() {
+			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
+				sliderEtirement.setValue(0);
+			}
+			}
+
 		//Audrey Viger
 		/**
 		 * Constructeur : création et initialisation de l'inteface
@@ -284,6 +305,11 @@ public class FenetreBacSable extends JFrame{
 			JSpinner spinnerRessort = new JSpinner();
 			spinnerRessort.setModel(new SpinnerNumberModel(50, 50, 800, 1));
 
+			SceneImage sceneImage = new SceneImage();
+			sceneImage.setBounds(958, 59, 100, 100);
+			contentPane.add(sceneImage);
+
+			
 			JSlider sliderRessort = new JSlider();
 			sliderRessort.setMaximum(800);
 			sliderRessort.setMinimum(50);
@@ -300,15 +326,18 @@ public class FenetreBacSable extends JFrame{
 			contentPane.add(sliderRessort);
 
 			JSlider sliderInclinaison = new JSlider();
-			sliderInclinaison.setValue(0);
+			sliderInclinaison.setMinimum(5);
+			sliderInclinaison.setValue(5);
 			sliderInclinaison.setMaximum(75);
 
 
 			Inclinaison imageInclinaison = new Inclinaison();
 			imageInclinaison.setBounds(1000,283,78,60);
 			contentPane.add(imageInclinaison);
+			imageInclinaison.setInclinaison(5);
 
 			JSpinner spinnerInclinaison = new JSpinner();
+			spinnerInclinaison.setModel(new SpinnerNumberModel(5, 5, 75, 1));
 			spinnerInclinaison.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					valeurInclinaison = (int) spinnerInclinaison.getValue();
@@ -366,7 +395,7 @@ public class FenetreBacSable extends JFrame{
 			});
 
 
-			JSlider sliderEtirement = new JSlider();
+			 sliderEtirement = new JSlider();
 
 			sliderEtirement.setEnabled(false);
 
@@ -425,13 +454,15 @@ public class FenetreBacSable extends JFrame{
 					spinnerMasse.setValue(1);
 					spinnerAimant.setValue(0);
 					spinnerRessort.setValue(0);
-					spinnerInclinaison.setValue(0);
+					spinnerInclinaison.setValue(5);
 					sliderRessort.setValue(0);
 					sliderInclinaison.setValue(0);
 					sliderAimant.setValue(0);
 					zonePinball.retablirPosition();
 					spinnerEtirement.setValue(1);
 					sliderEtirement.setValue(0);
+					
+					
 
 					sliderEtirement.setEnabled(false);
 
@@ -482,10 +513,6 @@ public class FenetreBacSable extends JFrame{
 
 				e1.printStackTrace();
 			}
-
-			JLabel lblImage = new JLabel(new ImageIcon(imageBille));
-			lblImage.setBounds(798, 750, 192, 143);
-			contentPane.add(lblImage);
 
 			JCheckBox chckbxAimant = new JCheckBox("Aimant");
 			chckbxAimant.addActionListener(new ActionListener() {
