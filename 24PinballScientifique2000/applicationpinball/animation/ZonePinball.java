@@ -861,13 +861,13 @@ public class ZonePinball extends JPanel implements Runnable {
 
 			uneBille.setForceExterieureAppliquee(FCFINAL);
 
+
 		}else{
 			if(uneBille.getPosition().getX()<0.898) {
 				uneBille.setForceExterieureAppliquee(new Vecteur2D (0,4.8));
 			}
 				
-
-		}
+		
 		//collision avec la courbe 
 		for (int i = 0; i < courbe.size(); i++) {
 
@@ -891,6 +891,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 				uneBille.setVitesse(fini);
 			}
+		}
 		}
 
 
@@ -956,7 +957,13 @@ public class ZonePinball extends JPanel implements Runnable {
 			//System.out.println("////////////////////////////");
 			//System.out.println("Temps ecoule gaucheActive : "+tempsEcouleGaucheMonter + "  Valeur de l'angle : "+angleGauche);
 
+
 			//System.out.println("Vitesse flipper gauche : "+flipGauche.getVitesse().getY() + "  Valeur de l'angle : "+angleGauche);
+
+
+
+			//System.out.println("Vitesse flipper gauche : "+flipGauche.getVitesse().getY() + "  Valeur de l'angle : "+angleGauche);
+
 
 		}
 		if(gaucheDescente) {
@@ -986,6 +993,11 @@ public class ZonePinball extends JPanel implements Runnable {
 			tempsEcouleDroitMonter += deltaTFlipperDroitMonter;
 			//System.out.println("Temps ecoule droitActive : "+tempsEcouleDroitMonter + "  Valeur de l'angle : "+angleDroit);
 
+
+			//System.out.println("Vitesse flipper droit: "+flipDroit.getVitesse().getY() + "  Valeur de l'angle : "+angleDroit);
+
+
+
 			//System.out.println("Vitesse flipper droit: "+flipDroit.getVitesse().getY() + "  Valeur de l'angle : "+angleDroit);
 
 
@@ -999,17 +1011,13 @@ public class ZonePinball extends JPanel implements Runnable {
 			}
 			flipDroit.avancerUnPas(angleEquilibre, tempsEcouleDroitDescendre+tempsEcouleDroitMonter, frequenceAngulaire,!premierQuartPeriode);
 
+
 			angleDroit=flipDroit.getAngle();
 			angleDroit=(-flipDroit.getAngle())/2;
 			tempsEcouleGaucheDescendre+=deltaTFlipperDroitDescendre;
 			//System.out.println("Temps ecoule droitDescendre : "+tempsEcouleDroitDescendre+tempsEcouleDroitMonter + "  Valeur de l'angle : "+angleDroit);
 			//System.out.println("Vitesse flipper droit: "+flipDroit.getVitesse().getY() + "  Valeur de l'angle : "+angleDroit);
-
-			angleDroit=flipDroit.getAngle();
-			angleDroit=(-flipDroit.getAngle())/2;
-			tempsEcouleGaucheDescendre+=deltaTFlipperDroitDescendre;
-			//System.out.println("Temps ecoule droitDescendre : "+tempsEcouleDroitDescendre+tempsEcouleDroitMonter + "  Valeur de l'angle : "+angleDroit);
-
+			
 		}
 
 		//System.out.println("\nNouvelle accel: " + uneBille.getAccel().toString(2));
@@ -1187,6 +1195,10 @@ public class ZonePinball extends JPanel implements Runnable {
 		return uneBille.getMasseEnKg();
 	}
 
+
+
+	
+
 	//Carlos Eduardo
 	/**
 	 * Transmettre la masse initiale du bloc à l'application
@@ -1232,7 +1244,11 @@ public class ZonePinball extends JPanel implements Runnable {
 	public double getDeltaT() {
 		return (deltaT);
 	}
-	//Carlos Eduardo
+
+	
+
+//Carlos Eduardo
+
 	/**
 	 * Méthode qui retourne le boolean pour savoir si l'animation est en cours
 	 * @return la variable boolean qui détermine si l'animation est en cours
@@ -1615,11 +1631,15 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 	}
+
 	//Audrey Viger
 	/**
 	 * Methode qui modifie la forme selectionne dans la FenetreBacSable ou FenetreJouer
 	 * @param forme est la forme selectionne dans la FenetreBacSable ou FenetreJouer
 	 */
+
+
+
 	public void setForme(String forme) {
 		this.forme=forme;
 		obstacle = new ObstacleClique(301,301,65,45,forme);
