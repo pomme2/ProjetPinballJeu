@@ -77,7 +77,7 @@ public App24PinballScientifique2001() {
 	contentPane.setLayout(null);
 	
 	JButton btnOption = new JButton("Options");
-	btnOption.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnOption.setFont(new Font("Pill Gothic 600mg Semibd", Font.BOLD, 18));
 	btnOption.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenOption.setVisible(true);
@@ -89,7 +89,7 @@ public App24PinballScientifique2001() {
 	getContentPane().add(btnOption);
 	
 	JButton btnDessin = new JButton("Dessin");
-	btnDessin.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnDessin.setFont(new Font("Pill Gothic 600mg Light", Font.BOLD, 18));
 	btnDessin.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenDessin.setVisible(true);
@@ -113,7 +113,7 @@ public App24PinballScientifique2001() {
 			}
 		}
 	});
-	btnBac.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnBac.setFont(new Font("Pill Gothic 600mg Light", Font.ITALIC, 18));
 	btnBac.setBounds(112, 388, 244, 101);
 	getContentPane().add(btnBac);
 	
@@ -124,12 +124,12 @@ public App24PinballScientifique2001() {
 			setVisible(false);
 		}
 	});
-	btnJouer.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnJouer.setFont(new Font("Pill Gothic 600mg Semibd", Font.ITALIC, 18));
 	btnJouer.setBounds(112, 186, 244, 101);
 	getContentPane().add(btnJouer);
 	
 	JButton btnTuto = new JButton("Tutoriel");
-	btnTuto.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnTuto.setFont(new Font("Pill Gothic 600mg Light", Font.BOLD | Font.ITALIC, 18));
 	btnTuto.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenTuto.setVisible(true);
@@ -140,7 +140,7 @@ public App24PinballScientifique2001() {
 	getContentPane().add(btnTuto);
 	
 	JButton btnQuitter = new JButton("Quitter");
-	btnQuitter.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnQuitter.setFont(new Font("Pill Gothic 600mg Light", Font.BOLD | Font.ITALIC, 18));
 	btnQuitter.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
