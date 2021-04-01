@@ -303,6 +303,15 @@ public class Ressort implements Dessinable {
 		this.kRessort = kRessort;
 		calculerForceRessort();
 		}
+	
+	/**retourne la constante du ressort
+	 * 
+	 * @return la constante dur ressort en double
+	 */
+	public double getkRessort() {
+		
+		return kRessort;
+	}
 
 	/**
 	 * Vérifie si arrete est à true ou à false.

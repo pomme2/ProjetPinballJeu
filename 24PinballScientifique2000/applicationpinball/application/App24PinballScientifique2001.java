@@ -14,7 +14,11 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+
 import java.awt.Image;
+
+import javax.swing.JLabel;
+
 
 /**
  * 
@@ -93,7 +97,7 @@ public App24PinballScientifique2001() {
 	dessinImage = dessin.dessinImage();
 	
 	JButton btnOption = new JButton("Options");
-	btnOption.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnOption.setFont(new Font("Pill Gothic 600mg Semibd", Font.BOLD, 18));
 	btnOption.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenOption.setVisible(true);
@@ -105,7 +109,7 @@ public App24PinballScientifique2001() {
 	getContentPane().add(btnOption);
 	
 	JButton btnDessin = new JButton("Dessin");
-	btnDessin.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnDessin.setFont(new Font("Pill Gothic 600mg Light", Font.BOLD, 18));
 	btnDessin.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenDessin.setVisible(true);
@@ -146,7 +150,7 @@ public App24PinballScientifique2001() {
 			
 		}
 	});
-	btnBac.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnBac.setFont(new Font("Pill Gothic 600mg Light", Font.ITALIC, 18));
 	btnBac.setBounds(112, 388, 244, 101);
 	getContentPane().add(btnBac);
 	
@@ -158,12 +162,12 @@ public App24PinballScientifique2001() {
 			
 		}
 	});
-	btnJouer.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnJouer.setFont(new Font("Pill Gothic 600mg Semibd", Font.ITALIC, 18));
 	btnJouer.setBounds(112, 186, 244, 101);
 	getContentPane().add(btnJouer);
 	
 	JButton btnTuto = new JButton("Tutoriel");
-	btnTuto.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnTuto.setFont(new Font("Pill Gothic 600mg Light", Font.BOLD | Font.ITALIC, 18));
 	btnTuto.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenTuto.setVisible(true);
@@ -174,7 +178,7 @@ public App24PinballScientifique2001() {
 	getContentPane().add(btnTuto);
 	
 	JButton btnQuitter = new JButton("Quitter");
-	btnQuitter.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	btnQuitter.setFont(new Font("Pill Gothic 600mg Light", Font.BOLD | Font.ITALIC, 18));
 	btnQuitter.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
@@ -182,6 +186,13 @@ public App24PinballScientifique2001() {
 	});
 	btnQuitter.setBounds(720, 581, 244, 102);
 	getContentPane().add(btnQuitter);
+	
+	JLabel lblTitreApplication = new JLabel("Pinball Scientifique 2000");
+	lblTitreApplication.setBackground(Color.WHITE);
+	lblTitreApplication.setFont(new Font("Tahoma", Font.PLAIN, 38));
+	lblTitreApplication.setForeground(Color.MAGENTA);
+	lblTitreApplication.setBounds(318, 11, 425, 171);
+	contentPane.add(lblTitreApplication);
 	
 	
 
