@@ -111,6 +111,7 @@ public class MoteurPhysique {
 		} else { 
 			return new Vecteur2D(0,mu * calculForceNormale(masse).getX() );
 		}
+		
 	}
 	//Carlos Eduardo
 	/**

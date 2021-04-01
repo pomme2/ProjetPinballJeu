@@ -54,6 +54,10 @@ public class Dessin extends JPanel  {
 	
 	String nomDossier = "imageBille";
 	private String nomImage = "imageBille";
+	private boolean dessinerImage = false;
+	
+	java.net.URL urlBilleBlanc = getClass().getClassLoader().getResource("Blanc.png");
+	private Image imageB;
 /**
  * Constructeur qui gère le déplacement de la souris ainsi que la zone du dessin
  */
@@ -79,6 +83,8 @@ public class Dessin extends JPanel  {
 				// save coord x,y when mouse is pressed
 				oldX = e.getX();
 				oldY = e.getY();
+				dessinerImage = true;
+				System.out.println("image dessineee");
 			}
 		});
 
@@ -88,7 +94,7 @@ public class Dessin extends JPanel  {
 				currentX = e.getX();
 				currentY = e.getY();
 				
-
+				dessinerImage = true;
 
 				if (g2 != null) {
 					// draw line if g2 context not null
@@ -120,7 +126,7 @@ protected void paintComponent(Graphics g) {
 	Graphics2D g2d = (Graphics2D)g;
 	
 	
-	
+	System.out.println(dessinerImage);
 
 	if (imageBille == null) {
 		
@@ -170,16 +176,25 @@ public void setDiametre(int diametre) {
  */
 public void sauvegarderImage(String name,String type)  {
 	BufferedImage imageBille = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
-
+	BufferedImage imageB = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
 	Graphics2D g2 = imageBille.createGraphics();
 	paint(g2);
 
 	try{
-		ImageIO.write(imageBille, type, new File(System.getProperty("user.home"),name+"."+type));
+		if(dessinerImage) {
+			ImageIO.write(imageBille, type, new File(System.getProperty("user.home"),name+"."+type));
+		}else {
+			imageB = ImageIO.read(urlBilleBlanc);
+			ImageIO.write(imageB, type, new File(System.getProperty("user.home"),name+"."+type));
+		}
+		
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
 	
+}
+public boolean dessinImage() {
+	return dessinerImage;
 }
 
 

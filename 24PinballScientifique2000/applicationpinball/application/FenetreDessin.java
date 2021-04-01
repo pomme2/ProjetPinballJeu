@@ -65,7 +65,7 @@ public class FenetreDessin extends JFrame{
 
 
 
-
+		
 		
 
 
@@ -105,14 +105,18 @@ public class FenetreDessin extends JFrame{
 		dessin = new Dessin();
 		dessin.setBounds(89, 74, 585, 621);
 		contentPane.add(dessin);
-
+		
+		/*if(dessin.dessinImage()==false) {
+			dessin.setCouleur(Color.white);
+		}
+*/
 		JButton btn1 = new JButton("Choisir une couleur");
 
 		btn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Color couleur = JColorChooser.showDialog(
 						frame,
-						"Choose Background Color",
+						"Choisir une couleur",
 						Color.white);
 
 				if(couleur != null){

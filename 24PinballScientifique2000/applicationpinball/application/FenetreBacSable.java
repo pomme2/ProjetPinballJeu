@@ -53,6 +53,8 @@ public class FenetreBacSable extends JFrame{
 	private JPanel contentPane;
 	private App24PinballScientifique2001 fenMenu;
 	private FenetreOption fenOption;
+	private FenetreFinPartie fenFinPartie;
+	private Dessin dessin;
 	private int valeurInclinaison;
 	private int valeurAimant,valeurMasse=1;
 	private int valeurRessort;
@@ -75,9 +77,10 @@ public class FenetreBacSable extends JFrame{
 	private ZonePinball zonePinball;
 
 	private JSlider sliderEtirement;
+	java.net.URL urlBilleBlanc = getClass().getClassLoader().getResource("Blanc.png");
 	
+	private boolean dessinerImage;
 	
-
 
 
 	//Carlos Eduardo
@@ -127,6 +130,12 @@ public class FenetreBacSable extends JFrame{
 				sliderEtirement.setValue(0);
 			}
 			}
+		
+		/*public void initianilisationFenSecondaire() {
+			fenFinPartie = new FenetreFinPartie(fenMenu,this);
+			fenMenu = new App24PinballScientifique2001();
+			fenOption = new FenetreOption(fenMenu);
+		}*\
 
 		//Audrey Viger
 		/**
@@ -134,10 +143,17 @@ public class FenetreBacSable extends JFrame{
 		 * @param fenMenu est la fenetre du menu
 		 * @param fenOption est la fenetre des options
 		 */
-		public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption) {
+		public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption, FenetreFinPartie fenFinPartie) {
 
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;
+			this.fenFinPartie = fenFinPartie;
+			
+		//dessinerImage=dessin.dessinImage();
+			
+			
+			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this);
+			//initianilisationFenSecondaire();
 			setTitle("Bac à sable");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(200, 40, 1100, 928);
@@ -206,7 +222,7 @@ public class FenetreBacSable extends JFrame{
 			lblScore = new JLabel("Score:");
 			lblScore.setForeground(Color.RED);
 			lblScore.setFont(new Font("Tahoma", Font.PLAIN, 30));
-			lblScore.setBounds(732, 511, 287, 37);
+			lblScore.setBounds(732, 511, 285, 37);
 			contentPane.add(lblScore);
 
 			JRadioButton rdbtnChargePos = new JRadioButton("+e");
@@ -303,7 +319,7 @@ public class FenetreBacSable extends JFrame{
 			spinnerRessort.setModel(new SpinnerNumberModel(50, 50, 800, 1));
 
 			SceneImage sceneImage = new SceneImage();
-			sceneImage.setBounds(958, 59, 100, 100);
+			sceneImage.setBounds(968, 58, 99, 101);
 			contentPane.add(sceneImage);
 
 			
@@ -393,8 +409,8 @@ public class FenetreBacSable extends JFrame{
 
 
 			 sliderEtirement = new JSlider();
-
-			sliderEtirement.setEnabled(false);
+			 sliderEtirement.setVisible(false);
+			 	//sliderEtirement.setEnabled(false);
 
 			sliderEtirement.addComponentListener(new ComponentAdapter() {
 				@Override
@@ -459,7 +475,7 @@ public class FenetreBacSable extends JFrame{
 					spinnerEtirement.setValue(1);
 					sliderEtirement.setValue(0);
 
-					sliderEtirement.setEnabled(false);
+					sliderEtirement.setVisible(false);
 
 				}
 			});
@@ -476,8 +492,8 @@ public class FenetreBacSable extends JFrame{
 			JButton btnDemarrer = new JButton("D\u00E9marrer");
 			btnDemarrer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					sliderEtirement.setEnabled(true);
-
+					//sliderEtirement.setEnabled(true);
+					sliderEtirement.setVisible(true);
 					if ((int)sliderEtirement.getValue() != 0) {					
 						zonePinball.demarrer();
 						enCoursdAnimation=true;
@@ -494,6 +510,7 @@ public class FenetreBacSable extends JFrame{
 			chckbxContour.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					zonePinball.setContour(chckbxContour.isSelected());
+					
 				}
 			});
 
@@ -503,16 +520,24 @@ public class FenetreBacSable extends JFrame{
 
 			BufferedImage imageBille = null;
 			try {
-				imageBille = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
+				
+				if(dessinerImage) {
+					imageBille = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
+				}else {
+					imageBille = ImageIO.read(urlBilleBlanc);
+				}
+				
 			} catch (IOException e1) {
-
+				
+				
+				
 				e1.printStackTrace();
 			}
 
 			JCheckBox chckbxAimant = new JCheckBox("Aimant");
 			chckbxAimant.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					zonePinball.setAimant(chckbxAimant.isSelected());
 					//zonePinball.aimantActif(chckbxAimant.isSelected());
 				}
 			});
@@ -527,6 +552,16 @@ public class FenetreBacSable extends JFrame{
 			JLabel lblValeurVitesse_1 = new JLabel(" m/s");
 			lblValeurVitesse_1.setBounds(841, 133, 30, 14);
 			contentPane.add(lblValeurVitesse_1);
+			
+			JButton btnNewButton = new JButton("New button");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					fenFinPartie1.setVisible(true);
+					setVisible(false);
+				}
+			});
+			btnNewButton.setBounds(989, 526, 89, 23);
+			contentPane.add(btnNewButton);
 
 
 			if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {

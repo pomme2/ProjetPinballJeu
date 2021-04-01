@@ -15,7 +15,7 @@ public class SceneImage extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	private ImageBille imageBille;
-	private String nomImage = "\\ImageB2.png";
+	private String nomImage = "\\ImageB.png";
 
 /**
  * Constructeur de l'image sur l'interface

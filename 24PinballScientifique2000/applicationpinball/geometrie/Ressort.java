@@ -120,7 +120,7 @@ public class Ressort implements Dessinable {
 		g2dPrive.setColor(rose);
 		g2dPrive.fill(mat.createTransformedShape(bloc));
 		g2dPrive.draw(mat.createTransformedShape(zigzag));
-		g2dPrive.setColor(Color.white);
+		g2dPrive.setColor(rose);
 		g2dPrive.fill(mat.createTransformedShape(base));
 
 		g2dPrive.setColor(Color.green);
@@ -163,6 +163,7 @@ public class Ressort implements Dessinable {
 	 */
 	private void verifierArret(Vecteur2D positionInitiale) {
 		if (position.equals(positionRepos) && position.equals(positionInitiale)) {
+			//if (position.equals(positionInitiale)) {
 			accel = new Vecteur2D(0,0);
 			vitesse = new Vecteur2D(0,0);
 			position = new Vecteur2D(positionRepos);
@@ -331,7 +332,7 @@ public class Ressort implements Dessinable {
 	 * Methode qui calcule la force de frition du ressort
 	 */
 	private void calculerForceFriction() {
-		if (vitesse.getX() == 0 || vitesse.equals(vitesseInitiale)) {
+		if (vitesse.getY() == 0 || vitesse.equals(vitesseInitiale)) {
 			ff = new Vecteur2D(0,0);
 		} else {
 			ff = MoteurPhysique.calculForceFriction(mu, massePourCetteScene, vitesse);
