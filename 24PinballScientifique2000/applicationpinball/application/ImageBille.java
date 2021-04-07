@@ -27,6 +27,9 @@ public class ImageBille implements Dessinable{
 
 	private String nomImage;
 	private Image image;
+	private Dessin dessin;
+	private boolean dessinerImage;
+	java.net.URL urlBilleBlanc = getClass().getClassLoader().getResource("Blanc.png");
 
 	
 /**
@@ -35,6 +38,7 @@ public class ImageBille implements Dessinable{
  */
 	public ImageBille(String nomImage) {
 		this.nomImage = nomImage;
+		dessin = new Dessin();
 		/*try {
 			 image = ImageIO.read(new File(System.getProperty("user.home")+nomImage));
 			 System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+nomImage);
@@ -51,12 +55,20 @@ public class ImageBille implements Dessinable{
  */
 	@Override
 	public void dessiner(Graphics2D g2d) {
+		dessinerImage = dessin.dessinImage();
 		File pngOriginal = new File(System.getProperty("user.home")+"\\ImageB2.png");
 		File pngResized = new File(System.getProperty("user.home")+"\\ImageB.png");
 		BufferedImage img = null;
 		//redimImage(pngOriginal,pngResized,100,100,"png");
 		try {
-			img = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
+			//if(dessinerImage) {
+				//img = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB2.png"));
+				img = ImageIO.read(new File(System.getProperty("user.home")+nomImage));
+				
+		//	}else {
+			//	img = ImageIO.read(urlBilleBlanc);
+			//}
+		
 		} catch (IOException e) {
 
 			e.printStackTrace();

@@ -1,6 +1,7 @@
 package animation;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -245,6 +246,9 @@ public class ZonePinball extends JPanel implements Runnable {
 	private double maxObstacleHaut = 1.26, maxObstacleGauche = 0.11, maxObstacleDroite = 1.05, maxObstacleBas = 0.15;
 
 	private Shape carreTransfo;
+	
+	private Path2D.Double echelle;
+	private boolean dessinerAimant = false;
 
 
 	//Thomas Bourgault
@@ -306,7 +310,10 @@ public class ZonePinball extends JPanel implements Runnable {
 		uneBille = new Bille(posInitBalle, diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
 
-		unAimant = new Aimant(aimantX, aimantY, aimantDiametre);
+
+		
+			unAimant = new Aimant(0.32, 1.076, 0.04);
+	
 
 		initialiseBille();
 
@@ -326,7 +333,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			public void mousePressed(MouseEvent e) {
 				if (ImageSelectionne) {
 					System.out.println("X: " + e.getX() / (dimensionImageX / largeurDuComposantMetre) + " cliqué " + " Y: " + e.getY() / (dimensionImageY / hauteurDuComposantMetre) + " cliqué");
-
+					System.out.println("X: " + e.getX()  + " cliqué " + " Y: " + e.getY()  + " cliqué");
 					uneBille.setPosition(new Vecteur2D(e.getX(), e.getY()));
 				}
 			}
@@ -446,10 +453,10 @@ public class ZonePinball extends JPanel implements Runnable {
 		uneBille.setPixelsParMetre(pixelParMetre);
 		uneBille.dessiner(g2d);
 
-
+		if (dessinerAimant) {
 		unAimant.setPixelsParMetre(pixelParMetre);
 		unAimant.dessiner(g2d);
-
+		}
 
 		g2d.setColor(Color.yellow);
 		obstacle = new ObstacleClique(posXCarre+translatCarreX,posYCarre+translatCarreY,0.1,0.1,forme);
@@ -498,6 +505,11 @@ public class ZonePinball extends JPanel implements Runnable {
 			g2d.setColor(Color.red);
 			unAimant.dessiner(g2d);
 		}
+		
+		g2d.setColor(Color.yellow);
+		
+		dessinerEchelle(g);
+		
 
 	}
 	//Thomas Bourgault
@@ -967,6 +979,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			calculerUneIterationPhysique(deltaT);
 			score.timerScore();
 			if (ressort.isArrete()) {
+				
 				arreter();
 			}
 			testerCollisionsEtAjusterPositions(); //pas utile pour le moment
@@ -1731,9 +1744,50 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	public void setForme(String forme) {
 		this.forme=forme;
-		obstacle = new ObstacleClique(301,301,65,45,forme);
+		//obstacle = new ObstacleClique(301,301,65,45,forme);
 		repaint();
 
 	}
+	
+	//Audrey Viger
+	public void setAimant(boolean dessinerAimant) {
+		this.dessinerAimant = dessinerAimant;
+		repaint();
+	}
+	
+	//Audrey Viger
+	public void dessinerEchelle(Graphics g2d) {
+echelle = new Path2D.Double ();
+		
+		echelle.moveTo(17, 16);
+		echelle.lineTo(17,747);
+		echelle.lineTo(583,747);
+		echelle.moveTo(67, 744);
+		for(int i=1; i<12;i++) {
+			int x =17;
+			int x2 = i*50;
+			g2d.setFont(new Font("TimesRoman",Font.PLAIN,10));
+			g2d.drawString(i+"0", x+x2-6, 763);
+			echelle.lineTo(x+x2, 752);
+			echelle.moveTo((x+x2)+50,744);
+		}
+		
+		echelle.moveTo(20, 697);
+		for(int j=1; j<15;j++) {
+			int y = 747;
+			int y2 = j*50;
+			g2d.setFont(new Font("TimesRoman",Font.PLAIN,10));
+			g2d.drawString(j+"0",1, y-y2+10);
+			echelle.lineTo(12, y-y2);
+			echelle.moveTo(20,(y-y2)-50);
+		}
+		g2d.drawString("cm", 584, 751);
+		g2d.drawString("cm", 1,15 );
+		
+		//echelle.lineTo(67,752);
+		((Graphics2D) g2d).draw(echelle);
+		
+	}
+	
 
 }

@@ -7,5 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="applicationpinball"/>
 	<classpathentry kind="src" path="Ressource"/>
+	<classpathentry kind="lib" path="JTattoo-1.6.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

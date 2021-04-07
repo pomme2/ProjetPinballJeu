@@ -1,9 +1,11 @@
 package geometrie;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 import dessinable.Dessinable;
 /**
@@ -13,13 +15,15 @@ import dessinable.Dessinable;
  */
 public class Aimant  extends Rectangle implements Dessinable{
 	
-	private Ellipse2D.Double aimant;
+	private Ellipse2D.Double aimant, rondAimant;
 	private double pixelParMetre=1;
 	private double coordX,coordY,diametre;
+	private Rectangle2D.Double carreNoir,recBlanc1,recBlanc2,carreRouge1,carreRouge2;
 	
 	private Vecteur2D position;  //sera specifiee dans le constructeur
 	
 	private double charge = -1;
+	
 
 	
 
@@ -44,8 +48,12 @@ public class Aimant  extends Rectangle implements Dessinable{
 	 */
 	private void creerLaGeometrie() {
 		aimant= new Ellipse2D.Double(coordX,coordY,diametre,diametre);
-
-		
+		rondAimant = new Ellipse2D.Double(coordX-(diametre/2),coordY-(diametre/2),diametre*2,diametre*2);
+		carreNoir = new Rectangle2D.Double(coordX+(diametre/2),coordY-(diametre/2),diametre*2,diametre*2);
+		recBlanc1 = new Rectangle2D.Double(coordX+(diametre/2),coordY-(diametre/2),diametre,diametre/2);
+		recBlanc2 = new Rectangle2D.Double(coordX+(diametre/2),coordY+(diametre),diametre,diametre/2);
+		carreRouge1 = new Rectangle2D.Double(coordX+(diametre),coordY+(diametre),diametre/2,diametre/2);
+		carreRouge2 = new Rectangle2D.Double(coordX+(diametre),coordY-(diametre/2),diametre/2,diametre/2);
 	}
 
 /**
@@ -53,9 +61,25 @@ public class Aimant  extends Rectangle implements Dessinable{
  * @param g2d le contexte graphique
  */
 	public void dessiner(Graphics2D g2d) {
+		
+	
 		AffineTransform mat= new AffineTransform();
 		mat.scale(pixelParMetre,pixelParMetre);
-		g2d.draw(mat.createTransformedShape(aimant));
+		
+		g2d.setColor(Color.gray);
+		g2d.fill(mat.createTransformedShape(rondAimant));
+		
+		g2d.setColor(Color.black);
+		g2d.fill(mat.createTransformedShape(aimant));
+		g2d.fill(mat.createTransformedShape(carreNoir));
+		
+		g2d.setColor(Color.gray);
+		g2d.fill(mat.createTransformedShape(recBlanc1));
+		g2d.fill(mat.createTransformedShape(recBlanc2));
+		
+		g2d.setColor(Color.red);
+		g2d.fill(mat.createTransformedShape(carreRouge1));
+		g2d.fill(mat.createTransformedShape(carreRouge2));
 		
 	}
 	/**
@@ -166,6 +190,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	public void setPosition(Vecteur2D position) {
 		this.position = position;
 	}
+	 
 
 	
 	
