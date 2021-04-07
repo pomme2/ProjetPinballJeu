@@ -757,11 +757,19 @@ public class ZonePinball extends JPanel implements Runnable {
 
 				Vecteur2D perpendiculaire;	
 
-				perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperGauche.getCoordX1(),murFlipperGauche.getCoordY1()),new Vecteur2D(murFlipperGauche.getCoordX2(),murFlipperGauche.getCoordY2()));	
+				try {
+					perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperGauche.getCoordX1(),murFlipperGauche.getCoordY1()),new Vecteur2D(murFlipperGauche.getCoordX2(),murFlipperGauche.getCoordY2()));
+					
+					perpendiculaire =perpendiculaire.multiplie((flipGauche.getVitesse().multiplie(-0.1)).getY());
 
-				perpendiculaire =perpendiculaire.multiplie((flipGauche.getVitesse().multiplie(-0.1)).getY());
+					uneBille.setVitesse(perpendiculaire);
+				
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
 
-				uneBille.setVitesse(perpendiculaire);
+			
 
 			}
 
@@ -786,13 +794,20 @@ public class ZonePinball extends JPanel implements Runnable {
 
 				Vecteur2D perpendiculaire;	
 
-				perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperDroit.getCoordX1(),murFlipperDroit.getCoordY1()),new Vecteur2D(murFlipperDroit.getCoordX2(),murFlipperDroit.getCoordY2()));	
+				try {
+					perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperDroit.getCoordX1(),murFlipperDroit.getCoordY1()),new Vecteur2D(murFlipperDroit.getCoordX2(),murFlipperDroit.getCoordY2()));
+				
+					perpendiculaire =perpendiculaire.multiplie((flipDroit.getVitesse().multiplie(-0.1)).getY());
 
-				perpendiculaire =perpendiculaire.multiplie((flipDroit.getVitesse().multiplie(-0.1)).getY());
 
+					uneBille.setVitesse(flipDroit.getVitesse().multiplie(0.01));
 
-				uneBille.setVitesse(flipDroit.getVitesse().multiplie(0.01));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
 
+		
 
 
 
@@ -895,7 +910,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		}else{
 			if(uneBille.getPosition().getX()<courbeX) {
-				uneBille.setForceExterieureAppliquee(new Vecteur2D (0,4.8));
+				uneBille.setForceExterieureAppliquee(new Vecteur2D (0,0.48));
 			}
 
 
@@ -917,6 +932,14 @@ public class ZonePinball extends JPanel implements Runnable {
 
 					double dx = temp.getX();
 					double dy = temp.getY();
+					
+					try {
+						Vecteur2D normal = moteur.MoteurPhysique.calculPerpendiculaire(x, y);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 
 					Vecteur2D fini = new Vecteur2D(dy * -3, dx);
 

@@ -1,6 +1,7 @@
 package moteur;
 
 import geometrie.Bille;
+import geometrie.Flipper;
 import geometrie.Vecteur2D;
 
 /**
@@ -125,14 +126,9 @@ public class MoteurPhysique {
 		double energiePotentiel =  (k*Math.pow(etirement, 2))/2;
 
 
-
-		//System.out.println( "ENERGIE POTENIELLLLL "+energiePotentiel);
-
 		double energieCinetique;
 
 		energieCinetique = Math.pow(2*energiePotentiel/masse, 0.5);
-
-
 
 		return new Vecteur2D (0,energieCinetique*-1);
 	}
@@ -164,6 +160,7 @@ public class MoteurPhysique {
 
 		return null;
 	}
+	
 	//Carlos Eduardo
 	/**Methode qui calcule et retourne la force Centripete avec la masse de la bille , sa vitesse et le rayon de la courbe
 	 * 
@@ -242,8 +239,9 @@ public class MoteurPhysique {
 	 * @param pos1 position du premier point du vecteur 
 	 * @param pos2 position du 2e point du vecteur
 	 * @return un vecteur perpendiculaire au vecteur
+	 * @throws Exception 
 	 */
-	public static Vecteur2D calculPerpendiculaire(Vecteur2D pos1,Vecteur2D pos2) {
+	public static Vecteur2D calculPerpendiculaire(Vecteur2D pos1,Vecteur2D pos2) throws Exception {
 		// TODO Auto-generated method stub
 		
 		double x = pos1.getX()-pos2.getX();
@@ -254,6 +252,7 @@ public class MoteurPhysique {
 		
 		Vecteur2D vecTemp =new Vecteur2D(-y,x);
 		
+		vecTemp.normalise();
 		
 		return vecTemp;
 	}
