@@ -79,11 +79,12 @@ public class FenetreBacSable extends JFrame{
 
 	private JSlider sliderEtirement;
 	java.net.URL urlBilleBlanc = getClass().getClassLoader().getResource("Blanc.png");
-	
+
 	private boolean dessinerImage;
 	private CoeurVie vie;
+	private DessinCoeur coeur;
 	java.net.URL urlCoeur = getClass().getClassLoader().getResource("Coeur.png");
-	
+
 
 
 	//Carlos Eduardo
@@ -113,6 +114,11 @@ public class FenetreBacSable extends JFrame{
 			lblScore.setText("Score : "+ zonePinball.getScore().toString());
 
 			
+			if(vie.getNombreCoeur()==0) {
+				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this);
+				fenFinPartie1.setVisible(true);
+				System.out.println("LEs coeurs sont a 0");
+			}
 			remonterJSlider();
 
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
@@ -132,30 +138,32 @@ public class FenetreBacSable extends JFrame{
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
 			}
-			}
-		
+		}
+
 		/*public void initianilisationFenSecondaire() {
 			fenFinPartie = new FenetreFinPartie(fenMenu,this);
 			fenMenu = new App24PinballScientifique2001();
 			fenOption = new FenetreOption(fenMenu);
-		}*\
+		}*/
 
 		//Audrey Viger
 		/**
 		 * Constructeur : création et initialisation de l'inteface
 		 * @param fenMenu est la fenetre du menu
 		 * @param fenOption est la fenetre des options
+		 * 
 		 */
 		public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption, FenetreFinPartie fenFinPartie) {
-
+			
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;
 			this.fenFinPartie = fenFinPartie;
-			
-		//dessinerImage=dessin.dessinImage();
-			
-			vie=new CoeurVie(urlCoeur);
 			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this);
+
+			//dessinerImage=dessin.dessinImage();
+
+			vie=new CoeurVie(urlCoeur);
+
 			//initianilisationFenSecondaire();
 			setTitle("Bac à sable");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -328,7 +336,7 @@ public class FenetreBacSable extends JFrame{
 			sceneImage.setBounds(968, 58, 99, 101);
 			contentPane.add(sceneImage);
 
-			
+
 			JSlider sliderRessort = new JSlider();
 			sliderRessort.setMaximum(800);
 			sliderRessort.setMinimum(50);
@@ -414,9 +422,9 @@ public class FenetreBacSable extends JFrame{
 			});
 
 
-			 sliderEtirement = new JSlider();
-			 sliderEtirement.setVisible(false);
-			 	//sliderEtirement.setEnabled(false);
+			sliderEtirement = new JSlider();
+			sliderEtirement.setVisible(false);
+			//sliderEtirement.setEnabled(false);
 
 			sliderEtirement.addComponentListener(new ComponentAdapter() {
 				@Override
@@ -481,8 +489,8 @@ public class FenetreBacSable extends JFrame{
 					spinnerEtirement.setValue(1);
 					sliderEtirement.setValue(0);
 					vie.setNombreCoeur(3);
-					
-					
+
+
 
 					sliderEtirement.setVisible(false);
 
@@ -519,7 +527,7 @@ public class FenetreBacSable extends JFrame{
 			chckbxContour.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					zonePinball.setContour(chckbxContour.isSelected());
-					
+
 				}
 			});
 
@@ -529,17 +537,17 @@ public class FenetreBacSable extends JFrame{
 
 			BufferedImage imageBille = null;
 			try {
-				
+
 				if(dessinerImage) {
 					imageBille = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
 				}else {
 					imageBille = ImageIO.read(urlBilleBlanc);
 				}
-				
+
 			} catch (IOException e1) {
-				
-				
-				
+
+
+
 				e1.printStackTrace();
 			}
 
@@ -566,17 +574,17 @@ public class FenetreBacSable extends JFrame{
 			JLabel lblValeurVitesse_1 = new JLabel(" m/s");
 			lblValeurVitesse_1.setBounds(841, 133, 30, 14);
 			contentPane.add(lblValeurVitesse_1);
-			
+
 			JButton btnNewButton = new JButton("New button");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					fenFinPartie1.setVisible(true);
+					//fenFinPartie1.setVisible(true);
 					setVisible(false);
 				}
 			});
 			btnNewButton.setBounds(989, 526, 89, 23);
 			contentPane.add(btnNewButton);
-			
+
 			DessinCoeur dessinCoeur = new DessinCoeur();
 			dessinCoeur.setBounds(734, 753, 344, 129);
 			contentPane.add(dessinCoeur);
@@ -588,5 +596,5 @@ public class FenetreBacSable extends JFrame{
 			}
 			miseAjourInterface();
 
-		}		
+		}			
 }

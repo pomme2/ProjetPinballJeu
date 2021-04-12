@@ -61,5 +61,5 @@ public class CoeurVie implements Dessinable  {
 	}
 	public static void perdVie() {
 		nombreCoeur=nombreCoeur-1;
-	}
+	}	
 }

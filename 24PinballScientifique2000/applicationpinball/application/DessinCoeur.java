@@ -13,16 +13,17 @@ import animation.CoeurVie;
  */
 public class DessinCoeur extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private CoeurVie coeur;
+	private CoeurVie vie;
 	java.net.URL urlCoeur = getClass().getClassLoader().getResource("Coeur.png");
 	
+	
 	public DessinCoeur() {
-		coeur=new CoeurVie(urlCoeur);
+		vie=new CoeurVie(urlCoeur);
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D)g;
-		coeur.dessiner(g2d);
+		vie.dessiner(g2d);
 		repaint();
 	}
 
