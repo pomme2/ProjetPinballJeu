@@ -18,6 +18,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.print.DocFlavor.URL;
 
+import application.Dessin;
 import dessinable.Dessinable;
 import moteur.MoteurPhysique;
 
@@ -38,9 +39,10 @@ public class Bille extends Rectangle implements Dessinable {
 	private double diametre = 1;
 	private double masseEnKg = 0.5;
 	private double charge = 2;
-
-
-
+	
+	private Dessin dessin;
+	
+	
 	private Ellipse2D.Double bille;
 	private Vecteur2D forceExterieureAppliquee = new Vecteur2D(0,0);
 	private Vecteur2D position;  //sera specifiee dans le constructeur
