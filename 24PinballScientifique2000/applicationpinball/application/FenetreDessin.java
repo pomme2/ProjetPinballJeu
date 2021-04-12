@@ -102,7 +102,7 @@ public class FenetreDessin extends JFrame{
 		btnEffacerTout.setBounds(757, 222, 232, 46);
 		contentPane.add(btnEffacerTout);
 
-		dessin = new Dessin();
+		dessin = new Dessin();		
 		dessin.setBounds(89, 74, 585, 621);
 		contentPane.add(dessin);
 

@@ -265,7 +265,7 @@ public class Bille extends Rectangle implements Dessinable {
 
 		File pngOriginal = new File(System.getProperty("user.home")+"\\ImageB.png");
 		File pngResized = new File(System.getProperty("user.home")+"\\ImageB.png");
-		redimImage(pngOriginal,pngResized,100,100,"png");
+		//redimImage(pngOriginal,pngResized,100,100,"png");
 		try {
 			img = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
 		} catch (IOException e) {
