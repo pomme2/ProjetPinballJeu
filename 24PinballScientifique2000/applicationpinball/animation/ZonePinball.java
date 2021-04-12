@@ -249,6 +249,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	
 	private Path2D.Double echelle;
 	private boolean dessinerAimant = false;
+	private CoeurVie vie;
 
 
 	//Thomas Bourgault
@@ -851,6 +852,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			arreter();
 			retablirPosition();
 			score.resetScore();
+			vie.perdVie();
 		}
 
 		for (int i = 0; i < droitSous.size(); i++) {
@@ -1123,7 +1125,7 @@ public class ZonePinball extends JPanel implements Runnable {
 		tempsTotalEcoule = 0;
 		score.resetScore();
 		repaint();
-
+		
 	}
 
 	//Carlos Eduardo

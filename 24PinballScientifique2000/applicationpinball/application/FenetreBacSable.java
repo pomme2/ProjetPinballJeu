@@ -25,6 +25,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import geometrie.Bille;
 import geometrie.Vecteur2D;
+import animation.CoeurVie;
 import animation.Scene;
 import animation.ZonePinball;
 import javax.swing.SpinnerNumberModel;
@@ -80,6 +81,8 @@ public class FenetreBacSable extends JFrame{
 	java.net.URL urlBilleBlanc = getClass().getClassLoader().getResource("Blanc.png");
 	
 	private boolean dessinerImage;
+	private CoeurVie vie;
+	java.net.URL urlCoeur = getClass().getClassLoader().getResource("Coeur.png");
 	
 
 
@@ -151,7 +154,7 @@ public class FenetreBacSable extends JFrame{
 			
 		//dessinerImage=dessin.dessinImage();
 			
-			
+			vie=new CoeurVie(urlCoeur);
 			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this);
 			//initianilisationFenSecondaire();
 			setTitle("Bac à sable");
@@ -477,6 +480,7 @@ public class FenetreBacSable extends JFrame{
 					zonePinball.retablirPosition();
 					spinnerEtirement.setValue(1);
 					sliderEtirement.setValue(0);
+					vie.setNombreCoeur(3);
 					
 					
 
@@ -572,6 +576,10 @@ public class FenetreBacSable extends JFrame{
 			});
 			btnNewButton.setBounds(989, 526, 89, 23);
 			contentPane.add(btnNewButton);
+			
+			DessinCoeur dessinCoeur = new DessinCoeur();
+			dessinCoeur.setBounds(734, 753, 344, 129);
+			contentPane.add(dessinCoeur);
 
 
 			if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
