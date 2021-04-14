@@ -181,6 +181,9 @@ public void sauvegarderImage(String name,String type)  {
 	paint(g2);
 
 	try{
+
+		ImageIO.write(imageBille, type, new File(System.getProperty("user.home"),name+"."+type));		
+
 		if(dessinerImage) {
 			ImageIO.write(imageBille, type, new File(System.getProperty("user.home"),name+"."+type));
 		}else {
@@ -188,6 +191,7 @@ public void sauvegarderImage(String name,String type)  {
 			ImageIO.write(imageB, type, new File(System.getProperty("user.home"),name+"."+type));
 		}
 		
+
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
