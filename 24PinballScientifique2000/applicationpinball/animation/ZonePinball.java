@@ -63,8 +63,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1 ;
 	//objet de type Scene
 	Scene scene;
-public boolean coeurVie;
-public FenetreBacSable fenetreBacSable;
+	public boolean coeurVie;
+	public FenetreBacSable fenetreBacSable;
 
 
 	//Ressort Audrey
@@ -82,7 +82,7 @@ public FenetreBacSable fenetreBacSable;
 
 
 	private final double RAYON_COURBE = 0.505; //en m
-	
+
 	private double largeurRessort = 0.088;
 	private double longueurRessort = 0.192;
 	private Vecteur2D posCentre = new Vecteur2D(0.598, 0.712);
@@ -112,11 +112,11 @@ public FenetreBacSable fenetreBacSable;
 	private Vecteur2D positionAimant = new Vecteur2D(0.32, 1.076);
 
 	boolean aimantActif;
-	
-	
+
+
 	double aimantX = 0.32;
 	double aimantY = 1.076;
-	
+
 	double aimantDiametre = 0.05;
 
 	//variable pour la courbe
@@ -248,7 +248,7 @@ public FenetreBacSable fenetreBacSable;
 	private double maxObstacleHaut = 1.26, maxObstacleGauche = 0.11, maxObstacleDroite = 1.05, maxObstacleBas = 0.15;
 
 	private Shape carreTransfo;
-	
+
 	private Path2D.Double echelle;
 	private boolean dessinerAimant = false;
 	private CoeurVie vie;
@@ -262,8 +262,8 @@ public FenetreBacSable fenetreBacSable;
 	public ZonePinball(Scene scene) {
 		this.scene = scene;
 		this.scene = new Scene();
-		
-		
+
+
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -316,9 +316,9 @@ public FenetreBacSable fenetreBacSable;
 		uneBille.setMasseEnKg(massePourCetteScene);
 
 
-		
-			unAimant = new Aimant(0.32, 1.076, 0.04);
-	
+
+		unAimant = new Aimant(0.32, 1.076, 0.04);
+
 
 		initialiseBille();
 
@@ -459,8 +459,8 @@ public FenetreBacSable fenetreBacSable;
 		uneBille.dessiner(g2d);
 
 		if (dessinerAimant) {
-		unAimant.setPixelsParMetre(pixelParMetre);
-		unAimant.dessiner(g2d);
+			unAimant.setPixelsParMetre(pixelParMetre);
+			unAimant.dessiner(g2d);
 		}
 
 		g2d.setColor(Color.yellow);
@@ -510,11 +510,11 @@ public FenetreBacSable fenetreBacSable;
 			g2d.setColor(Color.red);
 			unAimant.dessiner(g2d);
 		}
-		
+
 		g2d.setColor(Color.yellow);
-		
+
 		dessinerEchelle(g);
-		
+
 
 	}
 	//Thomas Bourgault
@@ -864,7 +864,7 @@ public FenetreBacSable fenetreBacSable;
 					System.out.println("LEs coeurs sont desactives");
 				}
 			}
-			
+
 		}
 
 		for (int i = 0; i < droitSous.size(); i++) {
@@ -951,7 +951,7 @@ public FenetreBacSable fenetreBacSable;
 			}
 
 		}
-		
+
 		aimantActif(aimantActif);
 
 
@@ -970,7 +970,7 @@ public FenetreBacSable fenetreBacSable;
 			calculerUneIterationPhysique(deltaT);
 			score.timerScore();
 			if (ressort.isArrete()) {
-				
+
 				arreter();
 			}
 			testerCollisionsEtAjusterPositions(); //pas utile pour le moment
@@ -1138,7 +1138,7 @@ public FenetreBacSable fenetreBacSable;
 		tempsTotalEcoule = 0;
 		score.resetScore();
 		repaint();
-		
+
 	}
 
 	//Carlos Eduardo
@@ -1160,7 +1160,7 @@ public FenetreBacSable fenetreBacSable;
 
 
 		Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
-		
+
 		double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
 		//System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
 
@@ -1355,14 +1355,14 @@ public FenetreBacSable fenetreBacSable;
 
 		return uneBille;
 	}
-	
+
 	//Carlos Eduardo
 	/**metode qui retourne le ressort comme objet
 	 * 
 	 * @return le ressort d'objet Ressort
 	 */
 	public Ressort getRessort() {
-		
+
 		return ressort;
 	}
 	/**
@@ -1370,10 +1370,10 @@ public FenetreBacSable fenetreBacSable;
 	 * @return l'aimant d'objet Aimant
 	 */
 	public Aimant getAimant() {
-		
+
 		return unAimant;
-		
-		
+
+
 	}
 	public ZonePinball() {
 		// TODO Auto-generated constructor stub
@@ -1740,17 +1740,17 @@ public FenetreBacSable fenetreBacSable;
 		repaint();
 
 	}
-	
+
 	//Audrey Viger
 	public void setAimant(boolean dessinerAimant) {
 		this.dessinerAimant = dessinerAimant;
 		repaint();
 	}
-	
+
 	//Audrey Viger
 	public void dessinerEchelle(Graphics g2d) {
-echelle = new Path2D.Double ();
-		
+		echelle = new Path2D.Double ();
+
 		echelle.moveTo(17, 16);
 		echelle.lineTo(17,747);
 		echelle.lineTo(583,747);
@@ -1763,7 +1763,7 @@ echelle = new Path2D.Double ();
 			echelle.lineTo(x+x2, 752);
 			echelle.moveTo((x+x2)+50,744);
 		}
-		
+
 		echelle.moveTo(20, 697);
 		for(int j=1; j<15;j++) {
 			int y = 747;
@@ -1775,11 +1775,11 @@ echelle = new Path2D.Double ();
 		}
 		g2d.drawString("cm", 584, 751);
 		g2d.drawString("cm", 1,15 );
-		
+
 		//echelle.lineTo(67,752);
 		((Graphics2D) g2d).draw(echelle);
-		
+
 	}
-	
+
 
 }

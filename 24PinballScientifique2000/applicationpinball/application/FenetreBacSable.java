@@ -261,8 +261,7 @@ public class FenetreBacSable extends JFrame{
 			comboBoxObstacles.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String forme = (String) comboBoxObstacles.getSelectedItem();
-					zonePinball.setForme(forme);
-					zonePinball.arreter();
+					zonePinball.setForme(forme);					
 
 				}
 			});
