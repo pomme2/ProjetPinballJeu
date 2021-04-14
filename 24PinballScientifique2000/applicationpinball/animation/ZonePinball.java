@@ -255,7 +255,8 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	
 	//pause
-	boolean pause = false;
+	private boolean pause = false;
+	private boolean premiereFoisBille =true;
 
 	//Thomas Bourgault  et Carlos Eduardo
 	/**
@@ -1141,7 +1142,14 @@ public class ZonePinball extends JPanel implements Runnable {
 	 */
 	public void demarrer() {
 		uneBille.setForceExterieureAppliquee(new Vecteur2D(0, 0.48));
-		uneBille.setVitesse(MoteurPhysique.caculVitesseBilleRessort(getK_RESSORT(), getEtirement(), uneBille.getMasseEnKg()));
+		
+	
+		if(premiereFoisBille) {
+			
+			uneBille.setVitesse(MoteurPhysique.caculVitesseBilleRessort(getK_RESSORT(), getEtirement(), uneBille.getMasseEnKg()));
+
+			premiereFoisBille = false;
+		}
 
 		if (!enCoursDAnimation) {
 			Thread proc = new Thread(this);
@@ -1182,6 +1190,7 @@ public class ZonePinball extends JPanel implements Runnable {
 		tempsTotalEcoule = 0;
 		score.resetScore();
 		repaint();
+		premiereFoisBille = true;
 
 	}
 
