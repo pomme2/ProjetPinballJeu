@@ -506,11 +506,11 @@ public class FenetreBacSable extends JFrame{
 			});
 			btnRecommencer.setBounds(734, 614, 170, 69);
 			contentPane.add(btnRecommencer);
-			spinnerEtirement.setBounds(601, 848, 30, 20);
+			spinnerEtirement.setBounds(968, 433, 30, 20);
 			contentPane.add(spinnerEtirement);
 
 			JLabel lblEtirement = new JLabel("Etirement:");
-			lblEtirement.setBounds(515, 851, 98, 14);
+			lblEtirement.setBounds(911, 436, 98, 14);
 			contentPane.add(lblEtirement);
 
 
@@ -638,7 +638,7 @@ public class FenetreBacSable extends JFrame{
 					}
 				}
 			});
-			chckbxActiverVie.setBounds(533, 818, 160, 23);
+			chckbxActiverVie.setBounds(484, 845, 160, 23);
 			contentPane.add(chckbxActiverVie);
 
 
