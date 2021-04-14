@@ -63,6 +63,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1 ;
 	//objet de type Scene
 	Scene scene;
+	public boolean coeurVie;
+	public FenetreBacSable fenetreBacSable;
 
 
 	//Ressort Audrey
@@ -80,7 +82,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 	private final double RAYON_COURBE = 0.505; //en m
-	
+
 	private double largeurRessort = 0.088;
 	private double longueurRessort = 0.192;
 	private Vecteur2D posCentre = new Vecteur2D(0.598, 0.712);
@@ -110,11 +112,11 @@ public class ZonePinball extends JPanel implements Runnable {
 	private Vecteur2D positionAimant = new Vecteur2D(0.32, 1.076);
 
 	boolean aimantActif;
-	
-	
+
+
 	double aimantX = 0.32;
 	double aimantY = 1.076;
-	
+
 	double aimantDiametre = 0.05;
 
 	//variable pour la courbe
@@ -246,12 +248,16 @@ public class ZonePinball extends JPanel implements Runnable {
 	private double maxObstacleHaut = 1.26, maxObstacleGauche = 0.11, maxObstacleDroite = 1.05, maxObstacleBas = 0.15;
 
 	private Shape carreTransfo;
-	
+
 	private Path2D.Double echelle;
 	private boolean dessinerAimant = false;
+	private CoeurVie vie;
 
+	
+	//pause
+	boolean pause = false;
 
-	//Thomas Bourgault
+	//Thomas Bourgault  et Carlos Eduardo
 	/**
 	 * Constructeur qui gère les différents types d'évènements de la souris, permet l'initialisation de l'image ainsi que de la bille
 	 * 
@@ -259,6 +265,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	public ZonePinball(Scene scene) {
 		this.scene = scene;
 		this.scene = new Scene();
+
+
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -274,6 +282,17 @@ public class ZonePinball extends JPanel implements Runnable {
 						droitDescente = false;
 
 						repaint();
+					} else {
+						if(e.getKeyCode() == KeyEvent.VK_ESCAPE && !pause){
+							arreter();
+							pause =true;
+							
+						}
+						if(e.getKeyCode() == KeyEvent.VK_SPACE && pause){
+							demarrer();
+							pause =false;;
+							
+						}
 					}
 				}
 			}
@@ -311,9 +330,9 @@ public class ZonePinball extends JPanel implements Runnable {
 		uneBille.setMasseEnKg(massePourCetteScene);
 
 
-		
-			unAimant = new Aimant(0.32, 1.076, 0.04);
-	
+
+		unAimant = new Aimant(0.32, 1.076, 0.04);
+
 
 		initialiseBille();
 
@@ -454,8 +473,8 @@ public class ZonePinball extends JPanel implements Runnable {
 		uneBille.dessiner(g2d);
 
 		if (dessinerAimant) {
-		unAimant.setPixelsParMetre(pixelParMetre);
-		unAimant.dessiner(g2d);
+			unAimant.setPixelsParMetre(pixelParMetre);
+			unAimant.dessiner(g2d);
 		}
 
 		g2d.setColor(Color.yellow);
@@ -499,17 +518,24 @@ public class ZonePinball extends JPanel implements Runnable {
 			tunnelRessortGauche.dessiner(g2d);
 
 		}
+		
+		if(pause) {
+			g2d.setColor(Color.white);
+			
+			g2d.drawString("Pause",  getWidth()/2, getHeight()/2);
+	
+		}
 
 		if (aimantActif) {
 
 			g2d.setColor(Color.red);
 			unAimant.dessiner(g2d);
 		}
-		
+
 		g2d.setColor(Color.yellow);
-		
+
 		dessinerEchelle(g);
-		
+
 
 	}
 	//Thomas Bourgault
@@ -769,11 +795,19 @@ public class ZonePinball extends JPanel implements Runnable {
 
 				Vecteur2D perpendiculaire;	
 
-				perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperGauche.getCoordX1(),murFlipperGauche.getCoordY1()),new Vecteur2D(murFlipperGauche.getCoordX2(),murFlipperGauche.getCoordY2()));	
+				try {
+					perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperGauche.getCoordX1(),murFlipperGauche.getCoordY1()),new Vecteur2D(murFlipperGauche.getCoordX2(),murFlipperGauche.getCoordY2()));
+					
+					perpendiculaire =perpendiculaire.multiplie((flipGauche.getVitesse().multiplie(-0.1)).getY());
 
-				perpendiculaire =perpendiculaire.multiplie((flipGauche.getVitesse().multiplie(-0.1)).getY());
+					uneBille.setVitesse(perpendiculaire);
+				
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
 
-				uneBille.setVitesse(perpendiculaire);
+			
 
 			}
 
@@ -798,13 +832,20 @@ public class ZonePinball extends JPanel implements Runnable {
 
 				Vecteur2D perpendiculaire;	
 
-				perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperDroit.getCoordX1(),murFlipperDroit.getCoordY1()),new Vecteur2D(murFlipperDroit.getCoordX2(),murFlipperDroit.getCoordY2()));	
+				try {
+					perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperDroit.getCoordX1(),murFlipperDroit.getCoordY1()),new Vecteur2D(murFlipperDroit.getCoordX2(),murFlipperDroit.getCoordY2()));
+				
+					perpendiculaire =perpendiculaire.multiplie((flipDroit.getVitesse().multiplie(-0.1)).getY());
 
-				perpendiculaire =perpendiculaire.multiplie((flipDroit.getVitesse().multiplie(-0.1)).getY());
 
+					uneBille.setVitesse(flipDroit.getVitesse().multiplie(0.01));
 
-				uneBille.setVitesse(flipDroit.getVitesse().multiplie(0.01));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
 
+		
 
 
 
@@ -851,6 +892,15 @@ public class ZonePinball extends JPanel implements Runnable {
 			arreter();
 			retablirPosition();
 			score.resetScore();
+			if(coeurVie) {
+				System.out.println("LEs coeurs sont activees");
+				CoeurVie.perdVie();
+			}else {
+				if(coeurVie==false) {
+					System.out.println("LEs coeurs sont desactives");
+				}
+			}
+
 		}
 
 		for (int i = 0; i < droitSous.size(); i++) {
@@ -907,7 +957,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		}else{
 			if(uneBille.getPosition().getX()<courbeX) {
-				uneBille.setForceExterieureAppliquee(new Vecteur2D (0,4.8));
+				uneBille.setForceExterieureAppliquee(new Vecteur2D (0,0.48));
 			}
 
 
@@ -929,15 +979,23 @@ public class ZonePinball extends JPanel implements Runnable {
 
 					double dx = temp.getX();
 					double dy = temp.getY();
+					
+					try {
+						Vecteur2D normal = moteur.MoteurPhysique.calculPerpendiculaire(x, y);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 
-					Vecteur2D fini = new Vecteur2D(dy * -3, dx);
+					Vecteur2D fini = new Vecteur2D(dy*3, dx*-0.5);
 
 					uneBille.setVitesse(fini);
 				}
 			}
 
 		}
-		
+
 		aimantActif(aimantActif);
 
 
@@ -956,7 +1014,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			calculerUneIterationPhysique(deltaT);
 			score.timerScore();
 			if (ressort.isArrete()) {
-				
+
 				arreter();
 			}
 			testerCollisionsEtAjusterPositions(); //pas utile pour le moment
@@ -981,6 +1039,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * tous les objets de la scène
 	 */
 	private void calculerUneIterationPhysique(double deltaT) {
+		coeurVie=FenetreBacSable.getCoeurActive();
 		tempsTotalEcoule += deltaT;
 		uneBille.avancerUnPas(deltaT);
 		getBille();
@@ -1145,9 +1204,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 		Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
-		
+
 		double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
-		System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
+		//System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
 
 	}
 
@@ -1340,14 +1399,14 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		return uneBille;
 	}
-	
+
 	//Carlos Eduardo
 	/**metode qui retourne le ressort comme objet
 	 * 
 	 * @return le ressort d'objet Ressort
 	 */
 	public Ressort getRessort() {
-		
+
 		return ressort;
 	}
 	/**
@@ -1355,10 +1414,10 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * @return l'aimant d'objet Aimant
 	 */
 	public Aimant getAimant() {
-		
+
 		return unAimant;
-		
-		
+
+
 	}
 	public ZonePinball() {
 		// TODO Auto-generated constructor stub
@@ -1725,17 +1784,17 @@ public class ZonePinball extends JPanel implements Runnable {
 		repaint();
 
 	}
-	
+
 	//Audrey Viger
 	public void setAimant(boolean dessinerAimant) {
 		this.dessinerAimant = dessinerAimant;
 		repaint();
 	}
-	
+
 	//Audrey Viger
 	public void dessinerEchelle(Graphics g2d) {
-echelle = new Path2D.Double ();
-		
+		echelle = new Path2D.Double ();
+
 		echelle.moveTo(17, 16);
 		echelle.lineTo(17,747);
 		echelle.lineTo(583,747);
@@ -1748,7 +1807,7 @@ echelle = new Path2D.Double ();
 			echelle.lineTo(x+x2, 752);
 			echelle.moveTo((x+x2)+50,744);
 		}
-		
+
 		echelle.moveTo(20, 697);
 		for(int j=1; j<15;j++) {
 			int y = 747;
@@ -1760,11 +1819,11 @@ echelle = new Path2D.Double ();
 		}
 		g2d.drawString("cm", 584, 751);
 		g2d.drawString("cm", 1,15 );
-		
+
 		//echelle.lineTo(67,752);
 		((Graphics2D) g2d).draw(echelle);
-		
+
 	}
-	
+
 
 }

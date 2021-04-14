@@ -25,6 +25,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import geometrie.Bille;
 import geometrie.Vecteur2D;
+import animation.CoeurVie;
 import animation.Scene;
 import animation.ZonePinball;
 import javax.swing.SpinnerNumberModel;
@@ -44,7 +45,7 @@ import java.awt.event.ComponentEvent;
 /**
  * 
  * 
- * @author Audrey Viger, Carlos Eduardo
+ * @author Audrey Viger, Carlos Eduardo, Thomas Bourgault
  *Classe permettant de simuler un jeu de pinball scientifique avec des donnes qu'on modifier
  */
 
@@ -78,9 +79,15 @@ public class FenetreBacSable extends JFrame{
 
 	private JSlider sliderEtirement;
 	java.net.URL urlBilleBlanc = getClass().getClassLoader().getResource("Blanc.png");
-	
+
 	private boolean dessinerImage;
-	
+	private CoeurVie vie;
+	private DessinCoeur coeur;
+	java.net.URL urlCoeur = getClass().getClassLoader().getResource("Coeur.png");
+	private boolean premiereFoisGameOver=true;
+	private boolean CoeurVieActiveEtScore=false;
+	public static boolean coeurActive=false;
+
 
 
 	//Carlos Eduardo
@@ -107,9 +114,18 @@ public class FenetreBacSable extends JFrame{
 			lblVitesseY.setText("Vitesse Y : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getY()));
 
 			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
-			lblScore.setText("Score : "+ zonePinball.getScore().toString());
+			if(CoeurVieActiveEtScore) {
+				lblScore.setText("Score : "+ zonePinball.getScore().toString());
+			}
 
-			
+
+
+			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
+				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this);
+				fenFinPartie1.setVisible(true);
+				premiereFoisGameOver=false;
+				//System.out.println("LEs coeurs sont a 0");
+			}
 			remonterJSlider();
 
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
@@ -129,31 +145,35 @@ public class FenetreBacSable extends JFrame{
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
 			}
-			}
-		
-		
+
+
+		}
+
+
 		/*public void initianilisationFenSecondaire() {
 			fenFinPartie = new FenetreFinPartie(fenMenu,this);
 			fenMenu = new App24PinballScientifique2001();
 			fenOption = new FenetreOption(fenMenu);
-		}*\
+		}*/
 
 		//Audrey Viger
 		/**
 		 * Constructeur : création et initialisation de l'inteface
 		 * @param fenMenu est la fenetre du menu
 		 * @param fenOption est la fenetre des options
+		 * 
 		 */
 		public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption, FenetreFinPartie fenFinPartie) {
 
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;
 			this.fenFinPartie = fenFinPartie;
-			
-		//dessinerImage=dessin.dessinImage();
-			
-			
 			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this);
+
+			//dessinerImage=dessin.dessinImage();
+
+			vie=new CoeurVie(urlCoeur);
+
 			//initianilisationFenSecondaire();
 			setTitle("Bac à sable");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -220,7 +240,7 @@ public class FenetreBacSable extends JFrame{
 			lblConstanteRessort.setBounds(734, 430, 178, 22);
 			contentPane.add(lblConstanteRessort);
 
-			lblScore = new JLabel("Score:");
+			lblScore = new JLabel("");
 			lblScore.setForeground(Color.RED);
 			lblScore.setFont(new Font("Tahoma", Font.PLAIN, 30));
 			lblScore.setBounds(732, 511, 285, 37);
@@ -244,7 +264,7 @@ public class FenetreBacSable extends JFrame{
 			comboBoxObstacles.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String forme = (String) comboBoxObstacles.getSelectedItem();
-					zonePinball.setForme(forme);
+					zonePinball.setForme(forme);					
 
 				}
 			});
@@ -326,7 +346,7 @@ public class FenetreBacSable extends JFrame{
 			sceneImage.setBounds(968, 58, 99, 100);
 			contentPane.add(sceneImage);
 
-			
+
 			JSlider sliderRessort = new JSlider();
 			sliderRessort.setMaximum(800);
 			sliderRessort.setMinimum(50);
@@ -412,9 +432,9 @@ public class FenetreBacSable extends JFrame{
 			});
 
 
-			 sliderEtirement = new JSlider();
-			 sliderEtirement.setVisible(false);
-			 	//sliderEtirement.setEnabled(false);
+			sliderEtirement = new JSlider();
+			sliderEtirement.setVisible(false);
+			//sliderEtirement.setEnabled(false);
 
 			sliderEtirement.addComponentListener(new ComponentAdapter() {
 				@Override
@@ -478,8 +498,10 @@ public class FenetreBacSable extends JFrame{
 					zonePinball.retablirPosition();
 					spinnerEtirement.setValue(1);
 					sliderEtirement.setValue(0);
-					
-					
+					vie.setNombreCoeur(3);
+					premiereFoisGameOver=true;
+
+
 
 					sliderEtirement.setVisible(false);
 
@@ -487,11 +509,11 @@ public class FenetreBacSable extends JFrame{
 			});
 			btnRecommencer.setBounds(734, 614, 170, 69);
 			contentPane.add(btnRecommencer);
-			spinnerEtirement.setBounds(601, 848, 30, 20);
+			spinnerEtirement.setBounds(968, 433, 30, 20);
 			contentPane.add(spinnerEtirement);
 
 			JLabel lblEtirement = new JLabel("Etirement:");
-			lblEtirement.setBounds(515, 851, 98, 14);
+			lblEtirement.setBounds(911, 436, 98, 14);
 			contentPane.add(lblEtirement);
 
 
@@ -516,7 +538,7 @@ public class FenetreBacSable extends JFrame{
 			chckbxContour.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					zonePinball.setContour(chckbxContour.isSelected());
-					
+
 				}
 			});
 
@@ -526,17 +548,17 @@ public class FenetreBacSable extends JFrame{
 
 			BufferedImage imageBille = null;
 			try {
-				
+
 				if(dessinerImage) {
 					imageBille = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB.png"));
 				}else {
 					imageBille = ImageIO.read(urlBilleBlanc);
 				}
-				
+
 			} catch (IOException e1) {
-				
-				
-				
+
+
+
 				e1.printStackTrace();
 			}
 
@@ -563,16 +585,64 @@ public class FenetreBacSable extends JFrame{
 			JLabel lblValeurVitesse_1 = new JLabel(" m/s");
 			lblValeurVitesse_1.setBounds(841, 133, 30, 14);
 			contentPane.add(lblValeurVitesse_1);
-			
+
 			JButton btnNewButton = new JButton("New button");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					fenFinPartie1.setVisible(true);
+					//fenFinPartie1.setVisible(true);
 					setVisible(false);
 				}
 			});
 			btnNewButton.setBounds(989, 526, 89, 23);
+
 			contentPane.add(btnNewButton);
+			
+			JButton btnPause = new JButton("Pause");
+			btnPause.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					zonePinball.arreter();
+				}
+			});
+			btnPause.setBounds(484, 805, 89, 23);
+			contentPane.add(btnPause);
+			
+			JButton btnNextImg = new JButton("Next frame");
+			btnNextImg.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					zonePinball.prochaineImage();				
+					}
+			});
+			btnNextImg.setBounds(582, 805, 89, 23);
+			contentPane.add(btnNextImg);
+
+			contentPane.add(btnNewButton);			
+
+
+			DessinCoeur dessinCoeur = new DessinCoeur();
+			JCheckBox chckbxActiverVie = new JCheckBox("Activer Score et Vie");
+			//Thomas Bourgault
+			chckbxActiverVie.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if( chckbxActiverVie.isSelected()) {
+						CoeurVieActiveEtScore=true;
+						lblScore.setText("Score : ");
+						dessinCoeur.setVisible(true);
+						dessinCoeur.setBounds(734, 753, 344, 129);
+						contentPane.add(dessinCoeur);
+						setCoeurActive(true);
+						repaint();
+					}else {
+						CoeurVieActiveEtScore=false;
+						setCoeurActive(false);
+						lblScore.setText("");
+						dessinCoeur.setVisible(false);
+						repaint();
+					}
+				}
+			});
+			chckbxActiverVie.setBounds(484, 845, 160, 23);
+			contentPane.add(chckbxActiverVie);
 
 
 			if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
@@ -581,5 +651,21 @@ public class FenetreBacSable extends JFrame{
 			}
 			miseAjourInterface();
 
-		}		
+		}
+		//Thomas Bourgault
+		/**
+		 * Methode qui retourne un boolean static pour l'activation de la perte des vies
+		 * @return un boolean static qui est vrai si on a appuye sur le checkbox
+		 */
+		public static boolean getCoeurActive() {
+			return coeurActive;			
+		}
+		//Thomas Bourgault
+		/**
+		 * Methode qui permet de changer la variable statique boolean pour l'activation de la perte des vies
+		 * @param nouv est un nouveau boolean 
+		 */
+		public void setCoeurActive(boolean nouv) {
+			this.coeurActive=nouv;
+		}
 }
