@@ -145,7 +145,10 @@ public class FenetreBacSable extends JFrame{
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
 			}
+
+
 		}
+
 
 		/*public void initianilisationFenSecondaire() {
 			fenFinPartie = new FenetreFinPartie(fenMenu,this);
@@ -340,7 +343,7 @@ public class FenetreBacSable extends JFrame{
 			spinnerRessort.setModel(new SpinnerNumberModel(50, 50, 800, 1));
 
 			SceneImage sceneImage = new SceneImage();
-			sceneImage.setBounds(968, 58, 99, 101);
+			sceneImage.setBounds(968, 58, 99, 100);
 			contentPane.add(sceneImage);
 
 

@@ -71,7 +71,7 @@ public void initianilisationFenSecondaire()  {
 	fenDessin = new FenetreDessin(this);
 	fenTuto = new FenetreTutoriel(this);
 	fenBac = new FenetreBacSable(this, fenOption,fenFinPartie);
-	fenJouer = new FenetreJouer(this,fenOption);
+	fenJouer = new FenetreJouer(this,fenOption,fenFinPartie);
 	//fenFinPartie = new FenetreFinPartie(this,fenBac);
 }
 
