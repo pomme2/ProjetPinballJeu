@@ -84,6 +84,9 @@ public class FenetreBacSable extends JFrame{
 	private CoeurVie vie;
 	private DessinCoeur coeur;
 	java.net.URL urlCoeur = getClass().getClassLoader().getResource("Coeur.png");
+	private boolean premiereFoisGameOver=true;
+	private boolean CoeurVieActiveEtScore=false;
+	public static boolean coeurActive=false;
 
 
 
@@ -111,13 +114,17 @@ public class FenetreBacSable extends JFrame{
 			lblVitesseY.setText("Vitesse Y : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getY()));
 
 			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
-			lblScore.setText("Score : "+ zonePinball.getScore().toString());
+			if(CoeurVieActiveEtScore) {
+				lblScore.setText("Score : "+ zonePinball.getScore().toString());
+			}
 
-			
-			if(vie.getNombreCoeur()==0) {
+
+
+			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this);
 				fenFinPartie1.setVisible(true);
-				System.out.println("LEs coeurs sont a 0");
+				premiereFoisGameOver=false;
+				//System.out.println("LEs coeurs sont a 0");
 			}
 			remonterJSlider();
 
@@ -154,7 +161,7 @@ public class FenetreBacSable extends JFrame{
 		 * 
 		 */
 		public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption, FenetreFinPartie fenFinPartie) {
-			
+
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;
 			this.fenFinPartie = fenFinPartie;
@@ -230,7 +237,7 @@ public class FenetreBacSable extends JFrame{
 			lblConstanteRessort.setBounds(734, 430, 178, 22);
 			contentPane.add(lblConstanteRessort);
 
-			lblScore = new JLabel("Score:");
+			lblScore = new JLabel("");
 			lblScore.setForeground(Color.RED);
 			lblScore.setFont(new Font("Tahoma", Font.PLAIN, 30));
 			lblScore.setBounds(732, 511, 285, 37);
@@ -255,6 +262,7 @@ public class FenetreBacSable extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					String forme = (String) comboBoxObstacles.getSelectedItem();
 					zonePinball.setForme(forme);
+					zonePinball.arreter();
 
 				}
 			});
@@ -489,6 +497,7 @@ public class FenetreBacSable extends JFrame{
 					spinnerEtirement.setValue(1);
 					sliderEtirement.setValue(0);
 					vie.setNombreCoeur(3);
+					premiereFoisGameOver=true;
 
 
 
@@ -584,10 +593,34 @@ public class FenetreBacSable extends JFrame{
 			});
 			btnNewButton.setBounds(989, 526, 89, 23);
 			contentPane.add(btnNewButton);
+			//if(CoeurVieActive) {
+
+			//}
 
 			DessinCoeur dessinCoeur = new DessinCoeur();
-			dessinCoeur.setBounds(734, 753, 344, 129);
-			contentPane.add(dessinCoeur);
+			JCheckBox chckbxActiverVie = new JCheckBox("Activer Score et Vie");
+			//Thomas Bourgault
+			chckbxActiverVie.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if( chckbxActiverVie.isSelected()) {
+						CoeurVieActiveEtScore=true;
+						lblScore.setText("Score : ");
+						dessinCoeur.setVisible(true);
+						dessinCoeur.setBounds(734, 753, 344, 129);
+						contentPane.add(dessinCoeur);
+						setCoeurActive(true);
+						repaint();
+					}else {
+						CoeurVieActiveEtScore=false;
+						setCoeurActive(false);
+						lblScore.setText("");
+						dessinCoeur.setVisible(false);
+						repaint();
+					}
+				}
+			});
+			chckbxActiverVie.setBounds(533, 818, 160, 23);
+			contentPane.add(chckbxActiverVie);
 
 
 			if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
@@ -596,5 +629,11 @@ public class FenetreBacSable extends JFrame{
 			}
 			miseAjourInterface();
 
-		}			
+		}
+		public static boolean getCoeurActive() {
+			return coeurActive;			
+		}
+		public void setCoeurActive(boolean nouv) {
+			this.coeurActive=nouv;
+		}
 }

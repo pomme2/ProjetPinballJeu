@@ -63,6 +63,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1 ;
 	//objet de type Scene
 	Scene scene;
+public boolean coeurVie;
+public FenetreBacSable fenetreBacSable;
 
 
 	//Ressort Audrey
@@ -260,6 +262,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	public ZonePinball(Scene scene) {
 		this.scene = scene;
 		this.scene = new Scene();
+		
+		
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -852,7 +856,15 @@ public class ZonePinball extends JPanel implements Runnable {
 			arreter();
 			retablirPosition();
 			score.resetScore();
-			vie.perdVie();
+			if(coeurVie) {
+				System.out.println("LEs coeurs sont activees");
+				CoeurVie.perdVie();
+			}else {
+				if(coeurVie==false) {
+					System.out.println("LEs coeurs sont desactives");
+				}
+			}
+			
 		}
 
 		for (int i = 0; i < droitSous.size(); i++) {
@@ -983,6 +995,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * tous les objets de la scène
 	 */
 	private void calculerUneIterationPhysique(double deltaT) {
+		coeurVie=FenetreBacSable.getCoeurActive();
 		tempsTotalEcoule += deltaT;
 		uneBille.avancerUnPas(deltaT);
 		getBille();
