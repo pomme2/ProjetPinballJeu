@@ -45,7 +45,7 @@ import java.awt.event.ComponentEvent;
 /**
  * 
  * 
- * @author Audrey Viger, Carlos Eduardo
+ * @author Audrey Viger, Carlos Eduardo, Thomas Bourgault
  *Classe permettant de simuler un jeu de pinball scientifique avec des donnes qu'on modifier
  */
 
@@ -591,10 +591,7 @@ public class FenetreBacSable extends JFrame{
 				}
 			});
 			btnNewButton.setBounds(989, 526, 89, 23);
-			contentPane.add(btnNewButton);
-			//if(CoeurVieActive) {
-
-			//}
+			contentPane.add(btnNewButton);			
 
 			DessinCoeur dessinCoeur = new DessinCoeur();
 			JCheckBox chckbxActiverVie = new JCheckBox("Activer Score et Vie");
@@ -629,9 +626,19 @@ public class FenetreBacSable extends JFrame{
 			miseAjourInterface();
 
 		}
+		//Thomas Bourgault
+		/**
+		 * Methode qui retourne un boolean static pour l'activation de la perte des vies
+		 * @return un boolean static qui est vrai si on a appuye sur le checkbox
+		 */
 		public static boolean getCoeurActive() {
 			return coeurActive;			
 		}
+		//Thomas Bourgault
+		/**
+		 * Methode qui permet de changer la variable statique boolean pour l'activation de la perte des vies
+		 * @param nouv est un nouveau boolean 
+		 */
 		public void setCoeurActive(boolean nouv) {
 			this.coeurActive=nouv;
 		}
