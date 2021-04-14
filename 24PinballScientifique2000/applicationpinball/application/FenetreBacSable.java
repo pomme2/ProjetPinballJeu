@@ -572,6 +572,25 @@ public class FenetreBacSable extends JFrame{
 			});
 			btnNewButton.setBounds(989, 526, 89, 23);
 			contentPane.add(btnNewButton);
+			
+			JButton btnPause = new JButton("Pause");
+			btnPause.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					zonePinball.arreter();
+				}
+			});
+			btnPause.setBounds(484, 805, 89, 23);
+			contentPane.add(btnPause);
+			
+			JButton btnNextImg = new JButton("Next frame");
+			btnNextImg.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					zonePinball.prochaineImage();				
+					}
+			});
+			btnNextImg.setBounds(582, 805, 89, 23);
+			contentPane.add(btnNextImg);
 
 
 			if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {

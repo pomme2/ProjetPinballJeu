@@ -250,8 +250,11 @@ public class ZonePinball extends JPanel implements Runnable {
 	private Path2D.Double echelle;
 	private boolean dessinerAimant = false;
 
+	
+	//pause
+	boolean pause = false;
 
-	//Thomas Bourgault
+	//Thomas Bourgault  et Carlos Eduardo
 	/**
 	 * Constructeur qui gère les différents types d'évènements de la souris, permet l'initialisation de l'image ainsi que de la bille
 	 * 
@@ -274,6 +277,17 @@ public class ZonePinball extends JPanel implements Runnable {
 						droitDescente = false;
 
 						repaint();
+					} else {
+						if(e.getKeyCode() == KeyEvent.VK_ESCAPE && !pause){
+							arreter();
+							pause =true;
+							
+						}
+						if(e.getKeyCode() == KeyEvent.VK_SPACE && pause){
+							demarrer();
+							pause =false;;
+							
+						}
 					}
 				}
 			}
@@ -498,6 +512,13 @@ public class ZonePinball extends JPanel implements Runnable {
 			tunnelRessortDroite.dessiner(g2d);
 			tunnelRessortGauche.dessiner(g2d);
 
+		}
+		
+		if(pause) {
+			g2d.setColor(Color.white);
+			
+			g2d.drawString("Pause",  getWidth()/2, getHeight()/2);
+	
 		}
 
 		if (aimantActif) {
@@ -953,7 +974,7 @@ public class ZonePinball extends JPanel implements Runnable {
 					}
 					
 
-					Vecteur2D fini = new Vecteur2D(dy * -3, dx);
+					Vecteur2D fini = new Vecteur2D(dy*3, dx*-0.5);
 
 					uneBille.setVitesse(fini);
 				}
@@ -1170,7 +1191,7 @@ public class ZonePinball extends JPanel implements Runnable {
 		Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
 		
 		double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
-		System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
+		//System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
 
 	}
 
