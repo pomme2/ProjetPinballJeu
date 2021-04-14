@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -20,13 +21,19 @@ public class FenetreFinPartie extends JFrame{
 	private App24PinballScientifique2001 fenMenu;
 	private FenetreBacSable fenBac;
 	private JPanel contentPane;
+	private GestionScore gestionScore;
+	private JTextField txtEntreeInitiales;
 
-
+	public String getInitiales() {
+		String initiales = txtEntreeInitiales.getText().toString();
+		return initiales;
+	}
 	
 	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac) {
-		
+
 		this.fenBac = fenBac;
 		this.fenMenu = fenMenu;
+		gestionScore = new GestionScore();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 40, 1100, 928);
@@ -43,6 +50,11 @@ public class FenetreFinPartie extends JFrame{
 		lblTitre.setBounds(10, 51, 1068, 93);
 		contentPane.add(lblTitre);
 		
+		/*JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setBounds(246, 134, 582, 399);
+		contentPane.add(fileChooser);
+		fileChooser.setVisible(false);*/
+		
 		JButton btnRecommencer = new JButton("Recommencer une partie");
 		btnRecommencer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -51,22 +63,47 @@ public class FenetreFinPartie extends JFrame{
 		btnRecommencer.setBounds(91, 448, 403, 120);
 		contentPane.add(btnRecommencer);
 		
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setBounds(516, 155, 582, 399);
-		contentPane.add(fileChooser);
-		fileChooser.setVisible(false);
+		JLabel lblInitiales = new JLabel("Entrez vos initiales");
+		lblInitiales.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblInitiales.setForeground(Color.WHITE);
+		lblInitiales.setBounds(317, 210, 291, 35);
+		contentPane.add(lblInitiales);
+		lblInitiales.setVisible(false);
+		
+		txtEntreeInitiales = new JTextField();
+		txtEntreeInitiales.setBounds(317, 256, 438, 82);
+		contentPane.add(txtEntreeInitiales);
+		txtEntreeInitiales.setColumns(10);
+		txtEntreeInitiales.setVisible(false);
+		
+		JButton btnEnregistrerInit = new JButton("Enregistrer");
+		btnEnregistrerInit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String initiales = txtEntreeInitiales.getText().toString();
+				gestionScore.setInitiales( initiales);
+				gestionScore.ecrireFichier();
+				
+			//	System.out.println(txtEntreeInitiales.getText().toString());
+			}
+		});
+		btnEnregistrerInit.setBounds(317, 349, 438, 35);
+		contentPane.add(btnEnregistrerInit);
+		btnEnregistrerInit.setVisible(false);
+		
 		
 		JButton btnSauvegarderScore = new JButton("Sauvegarder le score");
 		btnSauvegarderScore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				fileChooser.setVisible(true);
+				lblInitiales.setVisible(true);
+				txtEntreeInitiales.setVisible(true);
+				btnEnregistrerInit.setVisible(true);
+				
+		
 			}
 		});
 		btnSauvegarderScore.setBounds(600, 448, 403, 120);
 		contentPane.add(btnSauvegarderScore);
-		
-		
-		
-		
+	
 	}
+	
 }

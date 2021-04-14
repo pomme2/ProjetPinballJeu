@@ -9,6 +9,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.Color;
 /**
  * 
  * Classe qui permet de creer la fenetre pour le tutoriel
@@ -35,6 +37,12 @@ public class FenetreTutoriel extends JFrame{
 		});
 		btnRetour.setBounds(91, 226, 187, 84);
 		getContentPane().add(btnRetour);
+		
+		JLabel lblNewLabel = new JLabel("alllloo");
+		lblNewLabel.setForeground(Color.GREEN);
+		lblNewLabel.setBounds(91, 120, 170, 42);
+		getContentPane().add(lblNewLabel);
+		lblNewLabel.setVisible(true);
 		setBounds(200, 40, 1100, 800);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -44,6 +52,7 @@ public class FenetreTutoriel extends JFrame{
 		menuBar.add(menuAccueil);
 
 		JMenu  menuAimant = new JMenu("Aimant");
+	
 		menuBar.add(menuAimant);
 		
 		JMenu  menuRessort = new JMenu("Ressort");

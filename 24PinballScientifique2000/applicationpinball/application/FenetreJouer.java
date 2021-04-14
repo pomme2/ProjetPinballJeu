@@ -105,7 +105,7 @@ public class FenetreJouer extends JFrame{
 		 * @param fenMenu est la fenetre du menu
 		 * @param fenOption est la fenetre des options
 		 */
-		public FenetreJouer(App24PinballScientifique2001 fenMenu, FenetreOption fenOption) {
+		public FenetreJouer(App24PinballScientifique2001 fenMenu, FenetreOption fenOption,FenetreFinPartie fenFinPartie) {
 
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;

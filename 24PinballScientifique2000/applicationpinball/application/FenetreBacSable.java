@@ -131,6 +131,7 @@ public class FenetreBacSable extends JFrame{
 			}
 			}
 		
+		
 		/*public void initianilisationFenSecondaire() {
 			fenFinPartie = new FenetreFinPartie(fenMenu,this);
 			fenMenu = new App24PinballScientifique2001();
@@ -322,7 +323,7 @@ public class FenetreBacSable extends JFrame{
 			spinnerRessort.setModel(new SpinnerNumberModel(50, 50, 800, 1));
 
 			SceneImage sceneImage = new SceneImage();
-			sceneImage.setBounds(968, 58, 99, 101);
+			sceneImage.setBounds(968, 58, 99, 100);
 			contentPane.add(sceneImage);
 
 			

@@ -23,6 +23,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	private Vecteur2D position;  //sera specifiee dans le constructeur
 	
 	private double charge = -1;
+	private Color couleur;
 	
 
 	
@@ -76,8 +77,13 @@ public class Aimant  extends Rectangle implements Dessinable{
 		g2d.setColor(Color.gray);
 		g2d.fill(mat.createTransformedShape(recBlanc1));
 		g2d.fill(mat.createTransformedShape(recBlanc2));
+			g2d.setColor(couleur);
+			g2d.setColor(Color.red);
 		
-		g2d.setColor(Color.red);
+		if (getCharge()>0) {
+			g2d.setColor(Color.YELLOW);
+		}
+	
 		g2d.fill(mat.createTransformedShape(carreRouge1));
 		g2d.fill(mat.createTransformedShape(carreRouge2));
 		
@@ -171,6 +177,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	 */
 	public void setCharge(double charge) {
 		this.charge = charge;
+		
 	}
 
 	/**
@@ -191,6 +198,9 @@ public class Aimant  extends Rectangle implements Dessinable{
 		this.position = position;
 	}
 	 
+	public void setCouleurAimant(Color couleur) {
+		this.couleur = couleur;
+	}
 
 	
 	
