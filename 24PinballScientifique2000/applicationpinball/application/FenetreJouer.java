@@ -31,6 +31,8 @@ public class FenetreJouer extends JFrame{
 	private JPanel contentPane;
 	private App24PinballScientifique2001 fenMenu;
 	private FenetreOption fenOption;
+	private FenetreFinPartie fenFinPartie;
+	private FenetreBacSable fenBac;
 	private int valeurInclinaison;
 	private int valeurAimant;
 	private int valeurRessort;
@@ -109,6 +111,8 @@ public class FenetreJouer extends JFrame{
 
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;
+			this.fenFinPartie = fenFinPartie;
+			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this);
 			setTitle("Jouer");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(200, 40, 1100, 928);
@@ -360,6 +364,16 @@ public class FenetreJouer extends JFrame{
 			JLabel lblNewLabel = new JLabel("5 degr\u00E9");
 			lblNewLabel.setBounds(888, 286, 46, 14);
 			contentPane.add(lblNewLabel);
+			
+			JButton btnNewButton = new JButton("New button");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+			
+					fenFinPartie1.setVisible(true);
+				}
+			});
+			btnNewButton.setBounds(504, 827, 89, 23);
+			contentPane.add(btnNewButton);
 			miseAjourInterface();
 		}
 }

@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import application.App24PinballScientifique2001;
 import application.FenetreBacSable;
 import application.FenetreOption;
+import application.GestionScore;
 import dessinable.OutilsImage;
 import geometrie.Aimant;
 import geometrie.Bille;
@@ -256,6 +257,9 @@ public class ZonePinball extends JPanel implements Runnable {
 	
 	//pause
 	boolean pause = false;
+	private GestionScore gestionScore;
+	private PointageAnimation pointage;
+	private PointageAnimation scoreFinal;
 
 	//Thomas Bourgault  et Carlos Eduardo
 	/**
@@ -890,6 +894,11 @@ public class ZonePinball extends JPanel implements Runnable {
 		//bille tombe dans trou reset
 		if (uneBille.getPosition().getY() > hauteurDuComposantMetre) {
 			arreter();
+			//gestionScore = new GestionScore();
+			
+		//	gestionScore.setScore(score);
+			setScoreFinal(score);
+			System.out.println("dd"+score+"ddd"+getScoreFinal());
 			retablirPosition();
 			score.resetScore();
 			if(coeurVie) {
@@ -1001,6 +1010,16 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	} ///fin collision
 
+
+	private void setScoreFinal(PointageAnimation score2) {
+		scoreFinal = score2;
+		
+	}
+	public PointageAnimation getScoreFinal() {
+		return scoreFinal;
+		
+	}
+	
 
 	//Carlos Eduardo
 

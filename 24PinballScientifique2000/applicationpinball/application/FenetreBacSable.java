@@ -26,6 +26,7 @@ import javax.swing.ImageIcon;
 import geometrie.Bille;
 import geometrie.Vecteur2D;
 import animation.CoeurVie;
+import animation.PointageAnimation;
 import animation.Scene;
 import animation.ZonePinball;
 import javax.swing.SpinnerNumberModel;
@@ -55,6 +56,7 @@ public class FenetreBacSable extends JFrame{
 	private App24PinballScientifique2001 fenMenu;
 	private FenetreOption fenOption;
 	private FenetreFinPartie fenFinPartie;
+	private FenetreJouer fenJouer;
 	private Dessin dessin;
 	private int valeurInclinaison;
 	private int valeurAimant,valeurMasse=1;
@@ -87,6 +89,8 @@ public class FenetreBacSable extends JFrame{
 	private boolean premiereFoisGameOver=true;
 	private boolean CoeurVieActiveEtScore=false;
 	public static boolean coeurActive=false;
+	private PointageAnimation pointage;
+	private GestionScore gestionScore;
 
 
 
@@ -100,6 +104,7 @@ public class FenetreBacSable extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			miseAjourInterface();
 		}};
+	
 		//Carlos Eduardo
 		/**
 		 * Méthode qui questionne le composant d'animation pour obtenir les résultats actuels
@@ -117,11 +122,11 @@ public class FenetreBacSable extends JFrame{
 			if(CoeurVieActiveEtScore) {
 				lblScore.setText("Score : "+ zonePinball.getScore().toString());
 			}
-
+			
 
 
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
-				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this);
+				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer);
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;
 				//System.out.println("LEs coeurs sont a 0");
@@ -144,6 +149,7 @@ public class FenetreBacSable extends JFrame{
 		public void remonterJSlider() {
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
+				
 			}
 
 
@@ -168,7 +174,7 @@ public class FenetreBacSable extends JFrame{
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;
 			this.fenFinPartie = fenFinPartie;
-			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this);
+			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer);
 
 			//dessinerImage=dessin.dessinImage();
 

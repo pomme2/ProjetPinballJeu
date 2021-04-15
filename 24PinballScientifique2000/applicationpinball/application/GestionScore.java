@@ -26,6 +26,7 @@ public class GestionScore {
 	
 	private ZonePinball zonePinball;
 	private App24PinballScientifique2001 fenMenu;
+	private FenetreJouer fenJouer;
 	private FenetreBacSable fenBac;
 	private PointageAnimation pointage;
 	private FenetreFinPartie fenFinPartie;
@@ -36,8 +37,8 @@ public class GestionScore {
 
 	public void ecrireFichier() {
 	String nom = null;
-		pointage = new PointageAnimation();
-		fenFinPartie = new FenetreFinPartie(fenMenu, fenBac);
+		//pointage = new PointageAnimation();
+		fenFinPartie = new FenetreFinPartie(fenMenu, fenBac, fenJouer);
 		File dossier = new File(System.getProperty("user.home"),dossierBureau);
 		if(dossier.mkdir()) {
 			System.out.println("\nLe dossier "+dossier.toString()+ " a été créé...");
@@ -52,7 +53,8 @@ public class GestionScore {
 			fluxSortie = new PrintWriter(new BufferedWriter(new FileWriter(fichierScore)));
 			fluxSortie.println(initiales);
 			System.out.println("écrire dans fichier intiales = " +initiales);
-			fluxSortie.println(pointage.getScore());
+			fluxSortie.println(pointage);
+			//fluxSortie.println(pointage.getScore());
 			
 			//fluxSortie.println(fenFinPartie.getInitiales());
 			//System.out.println(fenFinPartie.getInitiales());
@@ -100,5 +102,8 @@ public class GestionScore {
 		this.initiales  = init;
 		System.out.println("set dans fichier intiales = " +initiales);
 		
+	}
+	public void setScore(PointageAnimation pointage) {
+		this.pointage = pointage;
 	}
 }

@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+
+import animation.PointageAnimation;
+import animation.ZonePinball;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -23,17 +27,22 @@ public class FenetreFinPartie extends JFrame{
 	private JPanel contentPane;
 	private GestionScore gestionScore;
 	private JTextField txtEntreeInitiales;
+	private FenetreJouer fenJouer;
+	private ZonePinball zonePinball;
+	private PointageAnimation pointage;
 
 	public String getInitiales() {
 		String initiales = txtEntreeInitiales.getText().toString();
 		return initiales;
 	}
 	
-	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac) {
+	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac, FenetreJouer fenJouer) {
 
 		this.fenBac = fenBac;
 		this.fenMenu = fenMenu;
+		this.fenJouer = fenJouer;
 		gestionScore = new GestionScore();
+		pointage = new PointageAnimation();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 40, 1100, 928);
@@ -78,9 +87,17 @@ public class FenetreFinPartie extends JFrame{
 		
 		JButton btnEnregistrerInit = new JButton("Enregistrer");
 		btnEnregistrerInit.addActionListener(new ActionListener() {
+		
+
+		
+
 			public void actionPerformed(ActionEvent e) {
 				String initiales = txtEntreeInitiales.getText().toString();
-				gestionScore.setInitiales( initiales);
+				gestionScore.setInitiales(initiales);
+				//gestionScore.setScore(zonePinball.getScoreFinal());
+				//pointage = zonePinball.getScoreFinal();
+				//gestionScore.setScore(pointage);
+			//	System.out.println("scorefinal "+zonePinball.getScoreFinal());
 				gestionScore.ecrireFichier();
 				
 			//	System.out.println(txtEntreeInitiales.getText().toString());
