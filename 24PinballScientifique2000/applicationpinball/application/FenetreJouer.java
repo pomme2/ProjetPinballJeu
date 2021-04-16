@@ -23,6 +23,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.ButtonGroup;
 import application.SceneImage;
 import geometrie.Bille;
+import animation.CoeurVie;
 import animation.Scene;
 import animation.ZonePinball;
 
@@ -51,6 +52,11 @@ public class FenetreJouer extends JFrame{
 	private double hauteurDuComposantMetre=1.536;
 	private double kRessort=125;
 	private JSlider sliderEtirement;
+	private CoeurVie vie;
+	private DessinCoeur coeur;
+	java.net.URL urlCoeur = getClass().getClassLoader().getResource("Coeur.png");
+	private boolean premiereFoisGameOver=true;
+	private boolean coeurVie;
 
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
@@ -73,7 +79,8 @@ public class FenetreJouer extends JFrame{
 		 * Cette méthode détecte aussi la fin de l'animation, et arrête le minuteur dans ce cas.
 		 */
 		public void miseAjourInterface() {
-
+			coeurVie=FenetreBacSable.getCoeurActive();
+			FenetreBacSable.setCoeurActive(true);
 			//System.out.println("Interface mise à jour.....");
 			lblAcceleration.setText("Acc\u00E9l\u00E9ration: "  +String.format("%."+ 1 +"f", zonePinball.getBille().getAccel().getX()));
 			lblVitesseX.setText("Vitesse X : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getX()));
@@ -81,6 +88,12 @@ public class FenetreJouer extends JFrame{
 
 			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
 			lblScore.setText("Score : "+ zonePinball.getScore().toString());
+			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
+				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this);
+				fenFinPartie1.setVisible(true);
+				premiereFoisGameOver=false;
+				//System.out.println("LEs coeurs sont a 0");
+			}
 			remonterJSlider();
 
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
@@ -121,7 +134,7 @@ public class FenetreJouer extends JFrame{
 			contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			setContentPane(contentPane);
 			contentPane.setLayout(null);
-
+			vie=new CoeurVie(urlCoeur);
 
 			zonePinball = new ZonePinball(scene);
 			zonePinball.setBounds(71, 26, 600,768);
@@ -233,6 +246,7 @@ public class FenetreJouer extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					fenMenu.setVisible(true);
 					setVisible(false);
+					vie.setNombreCoeur(3);
 				}
 			});
 			btnSauvegarde.setBounds(734, 694, 344, 60);
@@ -332,6 +346,8 @@ public class FenetreJouer extends JFrame{
 					zonePinball.retablirPosition();
 					spinnerEtirement.setValue(0);				
 					sliderEtirement.setEnabled(false);
+					vie.setNombreCoeur(3);
+					premiereFoisGameOver=true;
 
 				}
 			});
@@ -374,6 +390,11 @@ public class FenetreJouer extends JFrame{
 			});
 			btnNewButton.setBounds(504, 827, 89, 23);
 			contentPane.add(btnNewButton);
+			
+			DessinCoeur dessinCoeur = new DessinCoeur();
+			dessinCoeur.setBounds(742, 754, 336, 124);
+			contentPane.add(dessinCoeur);
+			dessinCoeur.setLayout(null);
 			miseAjourInterface();
 		}
 }

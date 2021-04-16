@@ -294,6 +294,7 @@ public class FenetreBacSable extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					fenMenu.setVisible(true);
 					setVisible(false);
+					vie.setNombreCoeur(3);
 
 				}
 			});
@@ -671,7 +672,7 @@ public class FenetreBacSable extends JFrame{
 		 * Methode qui permet de changer la variable statique boolean pour l'activation de la perte des vies
 		 * @param nouv est un nouveau boolean 
 		 */
-		public void setCoeurActive(boolean nouv) {
-			this.coeurActive=nouv;
+		public static void setCoeurActive(boolean nouv) {
+			coeurActive=nouv;
 		}
 }
