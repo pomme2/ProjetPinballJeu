@@ -809,26 +809,20 @@ public class ZonePinball extends JPanel implements Runnable {
 				try {
 					perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperGauche.getCoordX1(),murFlipperGauche.getCoordY1()),new Vecteur2D(murFlipperGauche.getCoordX2(),murFlipperGauche.getCoordY2()));
 					
-					perpendiculaire =perpendiculaire.multiplie((flipGauche.getVitesse().multiplie(-0.1)).getY());
-
-					uneBille.setVitesse(perpendiculaire);
+					double vX = perpendiculaire.getX()*flipGauche.getVitesse().getY()*0.005;
+					
+					double vY = perpendiculaire.getY()*flipGauche.getVitesse().getY()*0.005;
+					
+					Vecteur2D calcul = new Vecteur2D(vX,-vY);
+					
+					uneBille.setVitesse(calcul);
 				
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}	
-
-			
-
 			}
 
-			if (uneBille.getPosition().getY() + uneBille.getDiametre() > flipper.getCoordY1() && uneBille.getPosition().getX() > flipper.getCoordX1() && uneBille.getPosition().getX() < flipper.getCoordX2()&& gaucheActive) {
-
-				uneBille.setVitesse(flipGauche.getVitesse().multiplie(1));
-
-
-
-			}
 		}
 		//collision flipper droit
 		for (int i = 0; i < flipperDroit.size(); i++) {
@@ -846,28 +840,21 @@ public class ZonePinball extends JPanel implements Runnable {
 				try {
 					perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperDroit.getCoordX1(),murFlipperDroit.getCoordY1()),new Vecteur2D(murFlipperDroit.getCoordX2(),murFlipperDroit.getCoordY2()));
 				
-					perpendiculaire =perpendiculaire.multiplie((flipDroit.getVitesse().multiplie(-0.1)).getY());
-
-
-					uneBille.setVitesse(flipDroit.getVitesse().multiplie(0.01));
+					double vX = perpendiculaire.getX()*flipDroit.getVitesse().getY()*0.005;
+					
+					double vY = perpendiculaire.getY()*flipDroit.getVitesse().getY()*0.005;
+					
+					Vecteur2D calcul = new Vecteur2D(vX,vY);
+					
+					uneBille.setVitesse(calcul);
 
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}	
 
-		
-
-
-
 			}
 
-			if (uneBille.getPosition().getY() + uneBille.getDiametre() > flipper.getCoordY1() && uneBille.getPosition().getX() > flipper.getCoordX1() && uneBille.getPosition().getX() < flipper.getCoordX2()) {
-
-
-				uneBille.setVitesse(flipDroit.getVitesse().multiplie(0.01));
-
-			}
 		}
 
 		//collision avec les surfaces planes (sol)
@@ -1007,11 +994,7 @@ public class ZonePinball extends JPanel implements Runnable {
 						
 						Vecteur2D normalVitesse = new Vecteur2D(vitX,vitY);
 						uneBille.setVitesse(normalVitesse);
-							
-					
-						
-						
-						
+											
 						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -1559,11 +1542,13 @@ public class ZonePinball extends JPanel implements Runnable {
 		solHorizontal.add(ligneDroitTrapezeDroite);
 
 
-		//solHorizontal.add(ligneRessort);
 
 
 		droitSous.add(ligTriGaucheBas);
 		droitSous.add(ligTriDroitBas);
+		droitSous.add(lignePetiteHautGau);
+		
+		
 
 		pentes.add(lignePencheTrapezeDroite);
 		pentes.add(lignePencheTrapezeGau);
@@ -1583,14 +1568,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 		coteTriangle.add(ligTriGaucheGau);
-		//coteTriangle.add(ligTriDroitDroit);
 
-
-
-
-
-		//murs.add(ligneDroitBasGau);
-		//murs.add(ligneDroitBasDroite);
 	}
 	//Thomas Bourgault
 	/**

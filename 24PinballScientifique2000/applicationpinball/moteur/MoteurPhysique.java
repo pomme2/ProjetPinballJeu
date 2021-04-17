@@ -251,7 +251,7 @@ public class MoteurPhysique {
 		x = Math.abs(x);
 		y =	Math.abs(y);
 		
-		Vecteur2D vecTemp =new Vecteur2D(-x,-y);
+		Vecteur2D vecTemp =new Vecteur2D(-y,x);
 		
 		vecTemp = vecTemp.normalise();
 		
