@@ -1163,7 +1163,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	 */
 	public void demarrer() {
 		
-		uneBille.setForceExterieureAppliquee(moteur.MoteurPhysique.calculForceGrav(massePourCetteScene));
+		uneBille.setForceExterieureAppliquee(moteur.MoteurPhysique.calculForceGravBille(massePourCetteScene));
 		
 	
 		if(premiereFoisBille) {
