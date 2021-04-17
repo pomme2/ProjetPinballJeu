@@ -46,6 +46,7 @@ public class App24PinballScientifique2001 extends JFrame{
 	private boolean dessinImage;
 	private java.net.URL urlArcade = getClass().getClassLoader().getResource("arcade-11.jpg");
 	private Image backGround, backGroundRedim;
+	private String NOM_FICHIER_SON = "8 Bit Menu.wav"; 
 	//private java.net.URL urlPlay = getClass().getClassLoader().getResource("play button.jpg");
 public static void main(String[] args) {
 	try {
@@ -112,6 +113,7 @@ public App24PinballScientifique2001() {
 		g2d.drawImage( backGroundRedim,0,0,null);
 	}
 };
+Musique musique=new Musique();
 	setTitle("Menu");
 	initianilisationFenSecondaire();
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
