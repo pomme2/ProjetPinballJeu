@@ -126,6 +126,7 @@ public App24PinballScientifique2001() {
 	btnBac.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenBac.setVisible(true);
+			FenetreBacSable.setCoeurActive(false);
 			//fenFinPartie.setVisible(false);
 			setVisible(false);
 			BufferedImage imageBille = null;
