@@ -103,7 +103,7 @@ public App24PinballScientifique2001() {
 	System.out.println("Erreur pendant la lecture du fichier d'image");
 	}
 	
-	 backGroundRedim= backGround.getScaledInstance(1920, 1080, Image.SCALE_SMOOTH );	
+	 backGroundRedim= backGround.getScaledInstance(1100, 800, Image.SCALE_SMOOTH );	
 	 panelAvecImage = new JPanel() {
 
 	protected void paintComponent(Graphics g) {
@@ -127,7 +127,9 @@ public App24PinballScientifique2001() {
 	dessinImage = dessin.dessinImage();
 	
 	JButton btnOption = new JButton("Options");
-	btnOption.setFont(new Font("Pill Gothic 600mg Semibd", Font.BOLD, 18));
+	btnOption.setForeground(Color.RED);
+	
+	btnOption.setFont(new Font("Arcade Normal", Font.BOLD, 18));
 	btnOption.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenOption.setVisible(true);
@@ -139,7 +141,8 @@ public App24PinballScientifique2001() {
 	getContentPane().add(btnOption);
 	
 	JButton btnDessin = new JButton("Dessin");
-	btnDessin.setFont(new Font("Pill Gothic 600mg Light", Font.BOLD, 18));
+	btnDessin.setForeground(Color.RED);
+	btnDessin.setFont(new Font("Arcade Normal", Font.BOLD, 18));
 	btnDessin.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenDessin.setVisible(true);
@@ -152,7 +155,8 @@ public App24PinballScientifique2001() {
 	
 	
 	
-	JButton btnBac = new JButton("Bac \u00E0 sable");
+	JButton btnBac = new JButton("Bac a sable");
+	btnBac.setForeground(Color.RED);
 	btnBac.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenBac.setVisible(true);
@@ -181,11 +185,12 @@ public App24PinballScientifique2001() {
 			
 		}
 	});
-	btnBac.setFont(new Font("Pill Gothic 600mg Light", Font.ITALIC, 18));
+	btnBac.setFont(new Font("Arcade Normal", Font.ITALIC, 18));
 	btnBac.setBounds(112, 388, 244, 101);
 	getContentPane().add(btnBac);
 	
 	JButton btnJouer = new JButton("Jouer");
+	btnJouer.setForeground(Color.RED);
 	
 	btnJouer.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -194,12 +199,13 @@ public App24PinballScientifique2001() {
 			
 		}
 	});
-	btnJouer.setFont(new Font("Pill Gothic 600mg Semibd", Font.ITALIC, 18));
+	btnJouer.setFont(new Font("Arcade Normal", Font.ITALIC, 18));
 	btnJouer.setBounds(112, 186, 244, 101);
 	getContentPane().add(btnJouer);
 	
 	JButton btnTuto = new JButton("Tutoriel");
-	btnTuto.setFont(new Font("Pill Gothic 600mg Light", Font.BOLD | Font.ITALIC, 18));
+	btnTuto.setForeground(Color.RED);
+	btnTuto.setFont(new Font("Arcade Normal", Font.BOLD | Font.ITALIC, 18));
 	btnTuto.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenTuto.setVisible(true);
@@ -210,7 +216,8 @@ public App24PinballScientifique2001() {
 	getContentPane().add(btnTuto);
 	
 	JButton btnQuitter = new JButton("Quitter");
-	btnQuitter.setFont(new Font("Pill Gothic 600mg Light", Font.BOLD | Font.ITALIC, 18));
+	btnQuitter.setForeground(Color.RED);
+	btnQuitter.setFont(new Font("Arcade Normal", Font.BOLD | Font.ITALIC, 18));
 	btnQuitter.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
@@ -221,11 +228,12 @@ public App24PinballScientifique2001() {
 	
 	JLabel lblTitreApplication = new JLabel("Pinball Scientifique 2000");
 	lblTitreApplication.setBackground(Color.WHITE);
-	lblTitreApplication.setFont(new Font("Tahoma", Font.PLAIN, 38));
-	lblTitreApplication.setForeground(Color.MAGENTA);
-	lblTitreApplication.setBounds(318, 11, 425, 171);
+	lblTitreApplication.setFont(new Font("Arcade Normal", Font.PLAIN, 38));
+	lblTitreApplication.setForeground(Color.RED);
+	lblTitreApplication.setBounds(73, 0, 1022, 171);
 	panelAvecImage.add(lblTitreApplication);
-	OutilsImage.lireImageEtPlacerSurBouton("play button.png", btnJouer);
+	//OutilsImage.lireImageEtPlacerSurBouton("play button.png", btnJouer);
+	
 	
 
 }
