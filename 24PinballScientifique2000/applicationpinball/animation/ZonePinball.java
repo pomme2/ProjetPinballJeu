@@ -127,7 +127,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	//variable pour pointage
 	PointageAnimation score = new PointageAnimation();
 
-	int pointCercle = 5;
+	int pointCercle = 1;
 	int triange = 10;
 	int temps=0;
 
@@ -683,6 +683,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		//colision avec les obstacles en cerlce
 
+		/*
 		for (int i = 0; i < obstaclesCercle.size(); i++) {
 
 			Murs cercle = obstaclesCercle.get(i);
@@ -767,6 +768,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			}
 		}
 
+		*/
 
 		//collision entre la bille et les surfaces en pentes.
 
@@ -976,6 +978,8 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 			//collision avec la courbe 
+			
+			
 			for (int i = 0; i < courbe.size(); i++) {
 
 				MursDroits courbes = courbe.get(i);
@@ -996,17 +1000,28 @@ public class ZonePinball extends JPanel implements Runnable {
 					
 					try {
 						Vecteur2D normal = moteur.MoteurPhysique.calculPerpendiculaire(x, y);
+						
+						double vitX = Math.abs(uneBille.getVitesse().getX())*normal.getX();
+						double vitY = Math.abs(uneBille.getVitesse().getY())*normal.getY();
+						
+						
+						Vecteur2D normalVitesse = new Vecteur2D(vitX,vitY);
+						uneBille.setVitesse(normalVitesse);
+							
+					
+						
+						
+						
+						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
-
-					Vecteur2D fini = new Vecteur2D(dy*3, dx*-0.5);
-
-					uneBille.setVitesse(fini);
+				
 				}
 			}
+			
+			
 
 		}
 
@@ -1164,7 +1179,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * Demarre le thread s'il n'est pas deja demarre
 	 */
 	public void demarrer() {
-		uneBille.setForceExterieureAppliquee(new Vecteur2D(0, 0.48));
+		
+		uneBille.setForceExterieureAppliquee(moteur.MoteurPhysique.calculForceGrav(massePourCetteScene));
 		
 	
 		if(premiereFoisBille) {

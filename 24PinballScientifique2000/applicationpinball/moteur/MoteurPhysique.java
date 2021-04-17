@@ -83,7 +83,7 @@ public class MoteurPhysique {
 	 * @return Le vecteur de force gravitationnelle
 	 */
 	public static Vecteur2D calculForceGrav(double masse) {
-		return new Vecteur2D(0, -ACCEL_GRAV * masse);
+		return new Vecteur2D(0, ACCEL_GRAV * masse);
 	}
 	//Carlos Eduardo
 	/**
@@ -251,11 +251,16 @@ public class MoteurPhysique {
 		x = Math.abs(x);
 		y =	Math.abs(y);
 		
-		Vecteur2D vecTemp =new Vecteur2D(-y,x);
+		Vecteur2D vecTemp =new Vecteur2D(-x,-y);
 		
-		vecTemp.normalise();
+		vecTemp = vecTemp.normalise();
+		
+		System.out.println(vecTemp);
 		
 		return vecTemp;
+		
+		
+	
 	}
 
 
