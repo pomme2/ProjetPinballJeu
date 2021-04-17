@@ -247,6 +247,7 @@ public class FenetreJouer extends JFrame{
 					fenMenu.setVisible(true);
 					setVisible(false);
 					vie.setNombreCoeur(3);
+					FenetreBacSable.setCoeurActive(false);
 				}
 			});
 			btnSauvegarde.setBounds(734, 694, 344, 60);
@@ -287,6 +288,7 @@ public class FenetreJouer extends JFrame{
 
 			 sliderEtirement = new JSlider();
 			sliderEtirement.setEnabled(false);
+			sliderEtirement.setVisible(false);
 			sliderEtirement.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
@@ -327,6 +329,7 @@ public class FenetreJouer extends JFrame{
 			JButton btnDemarrer = new JButton("D\u00E9marrer");
 			btnDemarrer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					sliderEtirement.setVisible(true);
 					sliderEtirement.setEnabled(true);
 					zonePinball.setkRessort(kRessort);
 					if ((int)sliderEtirement.getValue() != 0) {					

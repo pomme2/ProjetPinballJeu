@@ -125,7 +125,7 @@ public class FenetreBacSable extends JFrame{
 			
 
 
-			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
+			if(vie.getNombreCoeur()==0 && premiereFoisGameOver && coeurActive ) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer);
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;

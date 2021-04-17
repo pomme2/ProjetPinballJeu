@@ -1,10 +1,13 @@
 package application;
 import javax.imageio.ImageIO;
+import javax.print.DocFlavor.URL;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
+
+import dessinable.OutilsImage;
 
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -14,10 +17,12 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
-
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -35,10 +40,13 @@ public class App24PinballScientifique2001 extends JFrame{
 	private FenetreBacSable fenBac;
 	private FenetreJouer fenJouer;
 	private Dessin dessin;
-	private JPanel contentPane;
+	private JPanel panelAvecImage;
 	private boolean premiereFois=true;
 	java.net.URL urlBilleBlanc = getClass().getClassLoader().getResource("Blanc.png");
 	private boolean dessinImage;
+	private java.net.URL urlArcade = getClass().getClassLoader().getResource("arcade-11.jpg");
+	private Image backGround, backGroundRedim;
+	//private java.net.URL urlPlay = getClass().getClassLoader().getResource("play button.jpg");
 public static void main(String[] args) {
 	try {
 		UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
@@ -80,17 +88,39 @@ public void initianilisationFenSecondaire()  {
  * Constructeur du menu, on y trouve tous les boutons permettants d'acceder aux fenetres secondaires
  */
 public App24PinballScientifique2001() {
+	if (urlArcade == null) {
+	JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
+	System.exit(0);
+	}else {
+		System.out.println("pause.jpg trouvé");
+	}
+	 backGround =null;
+	try{
+		backGround = ImageIO.read(urlArcade);
+	System.out.println("fichier trouver img");
+	}
+	catch (IOException e) {
+	System.out.println("Erreur pendant la lecture du fichier d'image");
+	}
+	
+	 backGroundRedim= backGround.getScaledInstance(1920, 1080, Image.SCALE_SMOOTH );	
+	 panelAvecImage = new JPanel() {
 
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.drawImage( backGroundRedim,0,0,null);
+	}
+};
 	setTitle("Menu");
 	initianilisationFenSecondaire();
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(200, 40, 1100, 800);
 	
-	contentPane = new JPanel();
-	contentPane.setBackground(Color.WHITE);
-	contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-	setContentPane(contentPane);
-	contentPane.setLayout(null);
+	panelAvecImage.setBackground(Color.WHITE);
+	panelAvecImage.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+	setContentPane(panelAvecImage);
+	panelAvecImage.setLayout(null);
 	
 	
 	dessin = new Dessin();
@@ -126,6 +156,7 @@ public App24PinballScientifique2001() {
 	btnBac.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenBac.setVisible(true);
+			FenetreBacSable.setCoeurActive(false);
 			//fenFinPartie.setVisible(false);
 			setVisible(false);
 			BufferedImage imageBille = null;
@@ -155,6 +186,7 @@ public App24PinballScientifique2001() {
 	getContentPane().add(btnBac);
 	
 	JButton btnJouer = new JButton("Jouer");
+	
 	btnJouer.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fenJouer.setVisible(true);
@@ -192,8 +224,8 @@ public App24PinballScientifique2001() {
 	lblTitreApplication.setFont(new Font("Tahoma", Font.PLAIN, 38));
 	lblTitreApplication.setForeground(Color.MAGENTA);
 	lblTitreApplication.setBounds(318, 11, 425, 171);
-	contentPane.add(lblTitreApplication);
-	
+	panelAvecImage.add(lblTitreApplication);
+	OutilsImage.lireImageEtPlacerSurBouton("play button.png", btnJouer);
 	
 
 }
