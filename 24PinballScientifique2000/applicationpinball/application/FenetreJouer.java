@@ -66,7 +66,9 @@ public class FenetreJouer extends JFrame{
 	private boolean coeurVie;
 	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
 	private String nomFichierRessort= ".//Ressource//bruitRessort.wav"; 
+	private String nomFichierSonJouer=".//Ressource//musiqueJouer.wav";
 	private Image backGround,backGroundRedim;
+	private boolean musiquePremiereFois=true;
 
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
@@ -102,6 +104,7 @@ public class FenetreJouer extends JFrame{
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this);
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;
+				arretMusique();
 				//System.out.println("LEs coeurs sont a 0");
 			}
 			remonterJSlider();
@@ -114,16 +117,17 @@ public class FenetreJouer extends JFrame{
 			}
 		}
 		//Audrey Viger
-				/**
+		/**
 
-				 * Méthode qui remet le JSlider de l'étirement du ressort à zéro quand la bille reviens à sa position initiale
-				 * 
-				 */
-				public void remonterJSlider() {
-					if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
-						sliderEtirement.setValue(0);
-					}
-					}
+		 * Méthode qui remet le JSlider de l'étirement du ressort à zéro quand la bille reviens à sa position initiale
+		 * 
+		 */
+		public void remonterJSlider() {
+			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
+				sliderEtirement.setValue(0);
+				
+			}
+		}
 		//Audrey Viger
 		/**
 		 * Constructeur qui permet de creer les composants la FenetreJouer
@@ -134,20 +138,20 @@ public class FenetreJouer extends JFrame{
 			if (urlArcade == null) {
 				JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 				System.exit(0);
-				}else {
-					System.out.println("pause.jpg trouvé");
-				}
-				 backGround =null;
-				try{
-					backGround = ImageIO.read(urlArcade);
+			}else {
+				System.out.println("pause.jpg trouvé");
+			}
+			backGround =null;
+			try{
+				backGround = ImageIO.read(urlArcade);
 				System.out.println("fichier trouver img");
-				}
-				catch (IOException e) {
+			}
+			catch (IOException e) {
 				System.out.println("Erreur pendant la lecture du fichier d'image");
-				}
-				
-				 backGroundRedim= backGround.getScaledInstance(1100, 928, Image.SCALE_SMOOTH );	
-				 panelAvecImage = new JPanel() {
+			}
+
+			backGroundRedim= backGround.getScaledInstance(1100, 928, Image.SCALE_SMOOTH );	
+			panelAvecImage = new JPanel() {
 
 				protected void paintComponent(Graphics g) {
 					super.paintComponent(g);
@@ -248,7 +252,7 @@ public class FenetreJouer extends JFrame{
 			lblScore.setForeground(Color.CYAN);
 			lblScore.setFont(new Font("Arcade Normal", Font.PLAIN, 20));
 
-			
+
 
 			lblScore.setBounds(773, 501, 261, 37);
 			panelAvecImage.add(lblScore);
@@ -299,7 +303,7 @@ public class FenetreJouer extends JFrame{
 					FenetreBacSable.setCoeurActive(false);
 					Musique.stop();
 					Musique musique=new Musique(nomFichierSonMenu);
-					
+
 				}
 			});
 			btnSauvegarde.setBounds(734, 694, 344, 60);
@@ -346,7 +350,7 @@ public class FenetreJouer extends JFrame{
 
 
 
-			 sliderEtirement = new JSlider();
+			sliderEtirement = new JSlider();
 			sliderEtirement.setEnabled(false);
 			sliderEtirement.setVisible(false);
 			sliderEtirement.addMouseListener(new MouseAdapter() {
@@ -358,6 +362,11 @@ public class FenetreJouer extends JFrame{
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					Musique musique=new Musique(nomFichierRessort);
+					if(musiquePremiereFois) {
+						Musique musique1=new Musique(nomFichierSonJouer);
+						musique1.loop();
+						musiquePremiereFois=false;
+					}					
 					System.out.println("Slider desactive");
 					zonePinball.demarrer();
 					zonePinball.requestFocusInWindow();
@@ -386,12 +395,14 @@ public class FenetreJouer extends JFrame{
 			sliderEtirement.setPaintTicks(true);
 			sliderEtirement.setBounds(670, 652, 48, 113);
 			panelAvecImage.add(sliderEtirement);
-			
+
 			JButton btnDemarrer = new JButton("Demarrer");
 			btnDemarrer.setForeground(Color.ORANGE);
 			btnDemarrer.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			btnDemarrer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+
 					sliderEtirement.setVisible(true);
 					sliderEtirement.setEnabled(true);
 					zonePinball.setkRessort(kRessort);
@@ -411,6 +422,8 @@ public class FenetreJouer extends JFrame{
 			btnRecommencer.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnRecommencer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					musiquePremiereFois=true;					
+					arretMusique();
 					zonePinball.retablirPosition();
 					spinnerEtirement.setValue(0);				
 					sliderEtirement.setEnabled(false);
@@ -443,23 +456,26 @@ public class FenetreJouer extends JFrame{
 			lblValeurVitesse_1.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
 			lblValeurVitesse_1.setBounds(795, 86, 161, 14);
 			panelAvecImage.add(lblValeurVitesse_1);
-			
+
 			JLabel lblUnitekRessort = new JLabel("N/m");
 			lblUnitekRessort.setForeground(Color.CYAN);
 			lblUnitekRessort.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			lblUnitekRessort.setBounds(1012, 420, 91, 14);
 			panelAvecImage.add(lblUnitekRessort);
-			
+
 			JLabel lblNewLabel = new JLabel("5 degre");
 			lblNewLabel.setForeground(Color.CYAN);
 			lblNewLabel.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
 			lblNewLabel.setBounds(908, 285, 78, 14);
 			panelAvecImage.add(lblNewLabel);
-			
+
 			DessinCoeur dessinCoeur = new DessinCoeur();
 			dessinCoeur.setBounds(742, 754, 336, 124);
 			panelAvecImage.add(dessinCoeur);
 			dessinCoeur.setLayout(null);
 			miseAjourInterface();
+		}
+		public void arretMusique() {
+			Musique.stop();
 		}
 }

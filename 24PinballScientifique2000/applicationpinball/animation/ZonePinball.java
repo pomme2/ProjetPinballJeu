@@ -30,6 +30,7 @@ import application.App24PinballScientifique2001;
 import application.FenetreBacSable;
 import application.FenetreOption;
 import application.GestionScore;
+import application.Musique;
 import dessinable.OutilsImage;
 import geometrie.Aimant;
 import geometrie.Bille;
@@ -252,9 +253,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private Path2D.Double echelle;
 	private boolean dessinerAimant = false;
-	
 
-	
+
+
 	//pause
 
 
@@ -264,6 +265,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private boolean pause = false;
 	private boolean premiereFoisBille =true;
+	private String nomFichierSonFlipper=".//Ressource//sonFlipper.wav"; 
 
 
 	//Thomas Bourgault  et Carlos Eduardo
@@ -281,12 +283,13 @@ public class ZonePinball extends JPanel implements Runnable {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_A) {
 					repaint();
-
+					Musique musique=new Musique(nomFichierSonFlipper);
 					gaucheActive=true;
 					gaucheDescente=false;					
 
 				} else {
 					if (e.getKeyCode() == KeyEvent.VK_D) {
+						Musique musique=new Musique(nomFichierSonFlipper);
 						droitActive = true;
 						droitDescente = false;
 
@@ -295,12 +298,12 @@ public class ZonePinball extends JPanel implements Runnable {
 						if(e.getKeyCode() == KeyEvent.VK_ESCAPE && !pause){
 							arreter();
 							pause =true;
-							
+
 						}
 						if(e.getKeyCode() == KeyEvent.VK_SPACE && pause){
 							demarrer();
 							pause =false;;
-							
+
 						}
 					}
 				}
@@ -527,12 +530,12 @@ public class ZonePinball extends JPanel implements Runnable {
 			tunnelRessortGauche.dessiner(g2d);
 
 		}
-		
+
 		if(pause) {
 			g2d.setColor(Color.white);
-			
+
 			g2d.drawString("Pause",  getWidth()/2, getHeight()/2);
-	
+
 		}
 
 		if (aimantActif) {
@@ -768,7 +771,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			}
 		}
 
-		*/
+		 */
 
 		//collision entre la bille et les surfaces en pentes.
 
@@ -808,15 +811,15 @@ public class ZonePinball extends JPanel implements Runnable {
 
 				try {
 					perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperGauche.getCoordX1(),murFlipperGauche.getCoordY1()),new Vecteur2D(murFlipperGauche.getCoordX2(),murFlipperGauche.getCoordY2()));
-					
+
 					double vX = perpendiculaire.getX()*flipGauche.getVitesse().getY()*0.005;
-					
+
 					double vY = perpendiculaire.getY()*flipGauche.getVitesse().getY()*0.005;
-					
+
 					Vecteur2D calcul = new Vecteur2D(vX,-vY);
-					
+
 					uneBille.setVitesse(calcul);
-				
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -839,13 +842,13 @@ public class ZonePinball extends JPanel implements Runnable {
 
 				try {
 					perpendiculaire =moteur.MoteurPhysique.calculPerpendiculaire(new Vecteur2D(murFlipperDroit.getCoordX1(),murFlipperDroit.getCoordY1()),new Vecteur2D(murFlipperDroit.getCoordX2(),murFlipperDroit.getCoordY2()));
-				
+
 					double vX = perpendiculaire.getX()*flipDroit.getVitesse().getY()*0.005;
-					
+
 					double vY = perpendiculaire.getY()*flipDroit.getVitesse().getY()*0.005;
-					
+
 					Vecteur2D calcul = new Vecteur2D(vX,vY);
-					
+
 					uneBille.setVitesse(calcul);
 
 				} catch (Exception e) {
@@ -889,12 +892,13 @@ public class ZonePinball extends JPanel implements Runnable {
 		if (uneBille.getPosition().getY() > hauteurDuComposantMetre) {
 			arreter();
 			//gestionScore = new GestionScore();
-			
-		//	gestionScore.setScore(score);
+
+			//	gestionScore.setScore(score);
 			setScoreFinal(score);
 			System.out.println("dd"+score+"ddd"+getScoreFinal());
 			retablirPosition();
 			score.resetScore();
+			Musique.stop();
 			if(coeurVie) {
 				System.out.println("LEs coeurs sont activees");
 				CoeurVie.perdVie();
@@ -965,8 +969,8 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 			//collision avec la courbe 
-			
-			
+
+
 			for (int i = 0; i < courbe.size(); i++) {
 
 				MursDroits courbes = courbe.get(i);
@@ -984,27 +988,27 @@ public class ZonePinball extends JPanel implements Runnable {
 
 					double dx = temp.getX();
 					double dy = temp.getY();
-					
+
 					try {
 						Vecteur2D normal = moteur.MoteurPhysique.calculPerpendiculaire(x, y);
-						
+
 						double vitX = Math.abs(uneBille.getVitesse().getX())*normal.getX();
 						double vitY = Math.abs(uneBille.getVitesse().getY())*normal.getY();
-						
-						
+
+
 						Vecteur2D normalVitesse = new Vecteur2D(vitX,vitY);
 						uneBille.setVitesse(normalVitesse);
-											
-						
+
+
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				
+
 				}
 			}
-			
-			
+
+
 
 		}
 
@@ -1016,13 +1020,13 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private void setScoreFinal(PointageAnimation score2) {
 		scoreFinal = score2;
-		
+
 	}
 	public PointageAnimation getScoreFinal() {
 		return scoreFinal;
-		
+
 	}
-	
+
 
 	//Carlos Eduardo
 
@@ -1162,12 +1166,12 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * Demarre le thread s'il n'est pas deja demarre
 	 */
 	public void demarrer() {
-		
+
 		uneBille.setForceExterieureAppliquee(moteur.MoteurPhysique.calculForceGravBille(massePourCetteScene));
-		
-	
+
+
 		if(premiereFoisBille) {
-			
+
 			uneBille.setVitesse(MoteurPhysique.caculVitesseBilleRessort(getK_RESSORT(), getEtirement(), uneBille.getMasseEnKg()));
 
 			premiereFoisBille = false;
@@ -1547,8 +1551,8 @@ public class ZonePinball extends JPanel implements Runnable {
 		droitSous.add(ligTriGaucheBas);
 		droitSous.add(ligTriDroitBas);
 		droitSous.add(lignePetiteHautGau);
-		
-		
+
+
 
 		pentes.add(lignePencheTrapezeDroite);
 		pentes.add(lignePencheTrapezeGau);

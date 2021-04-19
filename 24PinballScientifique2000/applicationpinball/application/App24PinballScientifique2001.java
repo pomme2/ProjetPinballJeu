@@ -49,6 +49,7 @@ public class App24PinballScientifique2001 extends JFrame{
 	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
 	private String nomFichierSonDessin=".//Ressource//musiqueDessin.wav"; 
 	private String nomFichierSonTuto=".//Ressource//musiqueTuto.wav"; 
+	 
 	//private java.net.URL urlPlay = getClass().getClassLoader().getResource("play button.jpg");
 public static void main(String[] args) {
 	try {
@@ -203,7 +204,7 @@ Musique musique=new Musique(nomFichierSonMenu);
 		public void actionPerformed(ActionEvent e) {
 			fenJouer.setVisible(true);
 			setVisible(false);
-			Musique.stop();
+			Musique.stop();			
 			
 		}
 	});

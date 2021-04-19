@@ -50,6 +50,12 @@ public class Musique extends JPanel {
 	public void play() {
 		monClipMenu.start();
 	}
+	public void loop() {
+		monClipMenu.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+	public void stopMusicSpecifique(Musique musique) {
+		musique.stop();
+	}
 	public static Clip getClipMenu() {
 		return monClipMenu;
 	}
