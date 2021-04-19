@@ -92,6 +92,7 @@ public class FenetreBacSable extends JFrame{
 	private PointageAnimation pointage;
 	private int score;
 	private GestionScore gestionScore;
+	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
 
 
 
@@ -130,7 +131,7 @@ public class FenetreBacSable extends JFrame{
 				System.out.println("bacSable score = "+score);
 			}*/
 
-			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
+			if(vie.getNombreCoeur()==0 && premiereFoisGameOver && coeurActive ) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer);
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;
@@ -299,6 +300,9 @@ public class FenetreBacSable extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					fenMenu.setVisible(true);
 					setVisible(false);
+					vie.setNombreCoeur(3);
+					//Musique.stop();
+					Musique musique=new Musique(nomFichierSonMenu );
 
 				}
 			});
@@ -676,7 +680,7 @@ public class FenetreBacSable extends JFrame{
 		 * Methode qui permet de changer la variable statique boolean pour l'activation de la perte des vies
 		 * @param nouv est un nouveau boolean 
 		 */
-		public void setCoeurActive(boolean nouv) {
-			this.coeurActive=nouv;
+		public static void setCoeurActive(boolean nouv) {
+			coeurActive=nouv;
 		}
 }

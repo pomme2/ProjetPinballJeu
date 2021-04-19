@@ -85,6 +85,15 @@ public class MoteurPhysique {
 	public static Vecteur2D calculForceGrav(double masse) {
 		return new Vecteur2D(0, -ACCEL_GRAV * masse);
 	}
+	
+	/**
+	 * Calcule et retourne la force gravitationnelle de la bille
+	 * @param masse La masse de l'objet
+	 * @return Le vecteur de force gravitationnelle pour la bille
+	 */
+	public static Vecteur2D calculForceGravBille(double masse) {
+		return new Vecteur2D(0, ACCEL_GRAV * masse);
+	}
 	//Carlos Eduardo
 	/**
 	 * Calcule et retourne la force normale
@@ -154,10 +163,14 @@ public class MoteurPhysique {
 	 * @return null
 	 */
 
-	public static Vecteur2D calculRebondBilleCerlce (Bille billeVitesse) {
+	public static Vecteur2D calculRebondBilleCerlce (Vecteur2D billePos , Vecteur2D cerlcePos ) {
 
 
-		billeVitesse.getVitesse();
+		double deltaX =billePos.getX() - cerlcePos.getX();
+		
+		double deltaY =billePos.getY() - cerlcePos.getY();
+		
+		Vecteur2D normalCercle = new Vecteur2D(deltaX,deltaY);
 
 		return null;
 	}
@@ -253,9 +266,14 @@ public class MoteurPhysique {
 		
 		Vecteur2D vecTemp =new Vecteur2D(-y,x);
 		
-		vecTemp.normalise();
+		vecTemp = vecTemp.normalise();
+		
+		System.out.println(vecTemp);
 		
 		return vecTemp;
+		
+		
+	
 	}
 
 
