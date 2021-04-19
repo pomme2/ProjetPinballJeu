@@ -163,10 +163,14 @@ public class MoteurPhysique {
 	 * @return null
 	 */
 
-	public static Vecteur2D calculRebondBilleCerlce (Bille billeVitesse) {
+	public static Vecteur2D calculRebondBilleCerlce (Vecteur2D billePos , Vecteur2D cerlcePos ) {
 
 
-		billeVitesse.getVitesse();
+		double deltaX =billePos.getX() - cerlcePos.getX();
+		
+		double deltaY =billePos.getY() - cerlcePos.getY();
+		
+		Vecteur2D normalCercle = new Vecteur2D(deltaX,deltaY);
 
 		return null;
 	}

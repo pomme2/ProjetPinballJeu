@@ -683,6 +683,17 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		//colision avec les obstacles en cerlce
 
+		
+		
+		for(int i = 0; i < obstaclesCercle.size();i++) {
+			
+			Murs cercle = obstaclesCercle.get(i);
+			
+			
+		}
+		
+		
+		
 		/*
 		for (int i = 0; i < obstaclesCercle.size(); i++) {
 
