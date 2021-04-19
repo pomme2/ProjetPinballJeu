@@ -265,7 +265,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private boolean pause = false;
 	private boolean premiereFoisBille =true;
-	private String nomFichierSonFlipper=".//Ressource//sonFlipper.wav"; 
+	private String nomFichierSonFlipper=".//Ressource//sonFlipper1sec.wav"; 
+	private Musique musiqueFlipperGauche=new Musique (nomFichierSonFlipper);
+	private Musique musiqueFlipperDroit=new Musique (nomFichierSonFlipper);
 
 
 	//Thomas Bourgault  et Carlos Eduardo
@@ -283,13 +285,15 @@ public class ZonePinball extends JPanel implements Runnable {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_A) {
 					repaint();
-					Musique musique=new Musique(nomFichierSonFlipper);
+					musiqueFlipperGauche.reset();
+					musiqueFlipperGauche.play();
 					gaucheActive=true;
 					gaucheDescente=false;					
 
 				} else {
 					if (e.getKeyCode() == KeyEvent.VK_D) {
-						Musique musique=new Musique(nomFichierSonFlipper);
+						musiqueFlipperDroit.reset();
+						musiqueFlipperDroit.play();
 						droitActive = true;
 						droitDescente = false;
 
@@ -297,6 +301,7 @@ public class ZonePinball extends JPanel implements Runnable {
 					} else {
 						if(e.getKeyCode() == KeyEvent.VK_ESCAPE && !pause){
 							arreter();
+							
 							pause =true;
 
 						}
@@ -311,9 +316,11 @@ public class ZonePinball extends JPanel implements Runnable {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_A) {
+					
 					gaucheActive = false;
 					gaucheDescente = true;
 					flipGauche.setVitesse(new Vecteur2D(0, 0));
+					musiqueFlipperGauche.stop();
 
 					repaint();
 				} else {
@@ -322,6 +329,8 @@ public class ZonePinball extends JPanel implements Runnable {
 						droitDescente = true;
 						flipDroit.setVitesse(new Vecteur2D(0, 0));
 						repaint();
+						musiqueFlipperDroit.stop();
+						
 					}
 				}
 			}
@@ -897,8 +906,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			setScoreFinal(score);
 			System.out.println("dd"+score+"ddd"+getScoreFinal());
 			retablirPosition();
-			score.resetScore();
-			Musique.stop();
+			score.resetScore();			
 			if(coeurVie) {
 				System.out.println("LEs coeurs sont activees");
 				CoeurVie.perdVie();

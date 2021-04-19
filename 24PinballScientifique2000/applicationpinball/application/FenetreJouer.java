@@ -69,7 +69,10 @@ public class FenetreJouer extends JFrame{
 	private String nomFichierSonJouer=".//Ressource//musiqueJouer.wav";
 	private Image backGround,backGroundRedim;
 	private boolean musiquePremiereFois=true;
-	private boolean premiereFoisJSlider=true;
+	private boolean premiereFoisJSlider=true;	
+	private Musique musiqueMenu;
+	private Musique musiqueJouer=new Musique (nomFichierSonJouer);
+	private Musique musiqueRessort=new Musique(nomFichierRessort);
 
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
@@ -105,7 +108,7 @@ public class FenetreJouer extends JFrame{
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this);
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;
-				arretMusique();
+				musiqueJouer.stop();
 				//System.out.println("LEs coeurs sont a 0");
 			}
 			remonterJSlider();
@@ -114,6 +117,7 @@ public class FenetreJouer extends JFrame{
 			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
 			if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
 				minuteurResultats.stop();
+				musiqueJouer.stop();
 
 			}
 			if(sliderEtirement.getValue()==0 && !premiereFoisJSlider) {
@@ -141,6 +145,7 @@ public class FenetreJouer extends JFrame{
 		 * @param fenOption est la fenetre des options
 		 */
 		public FenetreJouer(App24PinballScientifique2001 fenMenu, FenetreOption fenOption,FenetreFinPartie fenFinPartie) {
+			musiqueMenu=App24PinballScientifique2001.musiqueMenu();
 			if (urlArcade == null) {
 				JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 				System.exit(0);
@@ -307,8 +312,10 @@ public class FenetreJouer extends JFrame{
 					setVisible(false);
 					vie.setNombreCoeur(3);
 					FenetreBacSable.setCoeurActive(false);
-					Musique.stop();
-					Musique musique=new Musique(nomFichierSonMenu);
+					
+					musiqueMenu.reset();
+					musiqueMenu.play();
+					musiqueMenu.loop();
 
 				}
 			});
@@ -367,10 +374,12 @@ public class FenetreJouer extends JFrame{
 				}
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					Musique musique=new Musique(nomFichierRessort);
-					if(musiquePremiereFois) {
-						Musique musique1=new Musique(nomFichierSonJouer);
-						musique1.loop();
+					musiqueRessort.reset();
+					musiqueRessort.play();
+					if(musiquePremiereFois) {	
+						musiqueJouer.reset();
+						musiqueJouer.play();
+						musiqueJouer.loop();
 						musiquePremiereFois=false;
 					}
 					premiereFoisJSlider=false;
@@ -430,7 +439,7 @@ public class FenetreJouer extends JFrame{
 			btnRecommencer.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnRecommencer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					arretMusique();
+					musiqueJouer.stop();
 					premiereFoisJSlider=true;
 					musiquePremiereFois=true;					
 					
@@ -486,6 +495,9 @@ public class FenetreJouer extends JFrame{
 			miseAjourInterface();
 		}
 		public void arretMusique() {
-			Musique.stop();
+			//Musique.stop();
+		}
+		public Musique musiqueJouer() {
+			return musiqueJouer;
 		}
 }
