@@ -46,7 +46,8 @@ public class App24PinballScientifique2001 extends JFrame{
 	private boolean dessinImage;
 	private java.net.URL urlArcade = getClass().getClassLoader().getResource("arcade-11.jpg");
 	private Image backGround, backGroundRedim;
-	private String NOM_FICHIER_SON = "8 Bit Menu.wav"; 
+	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
+	private String nomFichierSonDessin=".//Ressource//musiqueDessin.wav"; 
 	//private java.net.URL urlPlay = getClass().getClassLoader().getResource("play button.jpg");
 public static void main(String[] args) {
 	try {
@@ -113,7 +114,7 @@ public App24PinballScientifique2001() {
 		g2d.drawImage( backGroundRedim,0,0,null);
 	}
 };
-Musique musique=new Musique();
+Musique musique=new Musique(nomFichierSonMenu);
 	setTitle("Menu");
 	initianilisationFenSecondaire();
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -147,6 +148,8 @@ Musique musique=new Musique();
 	btnDessin.setFont(new Font("Arcade Normal", Font.BOLD, 18));
 	btnDessin.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			Musique.stop();
+			Musique musique=new Musique(nomFichierSonDessin);
 			fenDessin.setVisible(true);
 			setVisible(false);
 			premiereFois=false;
@@ -161,6 +164,7 @@ Musique musique=new Musique();
 	btnBac.setForeground(Color.RED);
 	btnBac.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			Musique.stop();
 			fenBac.setVisible(true);
 			FenetreBacSable.setCoeurActive(false);
 			//fenFinPartie.setVisible(false);
@@ -198,6 +202,7 @@ Musique musique=new Musique();
 		public void actionPerformed(ActionEvent e) {
 			fenJouer.setVisible(true);
 			setVisible(false);
+			Musique.stop();
 			
 		}
 	});
@@ -210,6 +215,7 @@ Musique musique=new Musique();
 	btnTuto.setFont(new Font("Arcade Normal", Font.BOLD | Font.ITALIC, 18));
 	btnTuto.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			Musique.stop();
 			fenTuto.setVisible(true);
 			setVisible(false);
 		}
@@ -222,6 +228,7 @@ Musique musique=new Musique();
 	btnQuitter.setFont(new Font("Arcade Normal", Font.BOLD | Font.ITALIC, 18));
 	btnQuitter.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			Musique.stop();
 			System.exit(0);
 		}
 	});

@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 /**
  * 
  * 
@@ -22,6 +24,7 @@ import java.awt.event.ActionEvent;
 public class FenetreOption extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private App24PinballScientifique2001 fenMenu;
+	private Musique clip;
 
 	/**
 	 * Constructeur qui permet de creer les composants de la FenetreOption
@@ -41,6 +44,11 @@ public class FenetreOption extends JFrame{
 		getContentPane().add(chckbxActiveLumiere);
 		
 		JSlider sliderVolume = new JSlider();
+		sliderVolume.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				clip.setVolume(  sliderVolume.getValue()/100f);
+			}
+		});
 		sliderVolume.setBounds(534, 58, 289, 15);
 		getContentPane().add(sliderVolume);
 		
