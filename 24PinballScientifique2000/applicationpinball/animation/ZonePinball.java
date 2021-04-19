@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 
 import application.App24PinballScientifique2001;
 import application.FenetreBacSable;
+import application.FenetreJouer;
 import application.FenetreOption;
 import application.GestionScore;
 import application.Musique;
@@ -268,6 +269,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	private String nomFichierSonFlipper=".//Ressource//sonFlipper1sec.wav"; 
 	private Musique musiqueFlipperGauche=new Musique (nomFichierSonFlipper);
 	private Musique musiqueFlipperDroit=new Musique (nomFichierSonFlipper);
+	private Musique musiqueJouer;
+	private boolean jouerActive;
 
 
 	//Thomas Bourgault  et Carlos Eduardo
@@ -276,6 +279,14 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * 
 	 */
 	public ZonePinball(Scene scene) {
+		musiqueJouer=FenetreJouer.musiqueJouer();
+		
+		if(jouerActive) {
+			System.out.println("Jouer active true");
+		}else {
+			System.out.println("Jouer active false");
+		}
+		
 		this.scene = scene;
 		this.scene = new Scene();
 
@@ -300,6 +311,9 @@ public class ZonePinball extends JPanel implements Runnable {
 						repaint();
 					} else {
 						if(e.getKeyCode() == KeyEvent.VK_ESCAPE && !pause){
+							if(isAnimationEnCours() && jouerActive) {
+								musiqueJouer.stop();
+							}
 							arreter();
 							
 							pause =true;
@@ -307,6 +321,10 @@ public class ZonePinball extends JPanel implements Runnable {
 						}
 						if(e.getKeyCode() == KeyEvent.VK_SPACE && pause){
 							demarrer();
+							if(isAnimationEnCours() &&  jouerActive) {
+								musiqueJouer.play();
+							}
+							
 							pause =false;;
 
 						}
@@ -1053,7 +1071,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * Animation de la balle
 	 */
 	public void run() {
-
+		jouerActive=App24PinballScientifique2001.getJouerActive();
 		while (enCoursDAnimation) {
 			//System.out.println("Un tour de run...on avance de " + deltaT + " secondes");			
 			calculerUneIterationPhysique(deltaT);
