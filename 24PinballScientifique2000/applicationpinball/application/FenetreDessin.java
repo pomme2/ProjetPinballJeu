@@ -99,6 +99,7 @@ public class FenetreDessin extends JFrame{
 		setTitle("Dessin");
 
 		JButton btnRetour = new JButton("Sauvegarder et retourner au menu");
+		btnRetour.setForeground(Color.BLUE);
 		btnRetour.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -123,6 +124,7 @@ public class FenetreDessin extends JFrame{
 		getContentPane().add(lblSelection);
 
 		JButton btnEffacerTout = new JButton("Recommencer");
+		btnEffacerTout.setForeground(Color.BLUE);
 		btnEffacerTout.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 		btnEffacerTout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -141,6 +143,7 @@ public class FenetreDessin extends JFrame{
 		}
 		 */
 		JButton btn1 = new JButton("Choisir une couleur");
+		btn1.setForeground(Color.BLUE);
 		btn1.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 
 		btn1.addActionListener(new ActionListener() {
@@ -182,6 +185,7 @@ public class FenetreDessin extends JFrame{
 		panelAvecImage.add(lblTailleTrait);
 
 		JButton btnEffacer = new JButton("Effacer");
+		btnEffacer.setForeground(Color.BLUE);
 		btnEffacer.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
 		btnEffacer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

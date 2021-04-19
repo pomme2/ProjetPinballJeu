@@ -9,54 +9,19 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Musique extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private static Clip monClipMenu;
+	private static  Clip monClipMenu;
 	private String nomFichierSon;
 	
 	public Musique(String nomFichierSon) {
 		this.nomFichierSon=nomFichierSon;
 		setFile(nomFichierSon );
-		play();
-		lireLeSon(); 
-		
+		play();				
 	}	
-	private void lireLeSon() {
-
-	/*
-	 * 	String pathDeFichier;
-		File objetFichier;
-		AudioInputStream audioInputStream;
-
-		try {
-			System.out.println(new File(".").getAbsolutePath());
-			pathDeFichier = getClass().getClassLoader().getResource(NOM_FICHIER_SON).getFile();
-			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Incapable d'ouvrir le fichier de son ");
-			e.printStackTrace();
-			return;
-		}
-		try {
-			System.out.println(new File(".").getAbsolutePath());
-			objetFichier = new File(pathDeFichier);			
-			audioInputStream = AudioSystem.getAudioInputStream(objetFichier);
-			System.out.println("J'ai ouvert le fichier son");
-			monClipMenu = AudioSystem.getClip();
-			monClipMenu.open(audioInputStream);
-			monClipMenu.loop(Clip.LOOP_CONTINUOUSLY);
-			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Problème d'ouverture du clip pour le fichier de son " + NOM_FICHIER_SON);
-			e.printStackTrace();
-			return;
-		}
-*/
-		
-	}
+	
 	public void setFile(String 	soundFileName) {
 		
 		try {
@@ -69,8 +34,7 @@ public class Musique extends JPanel {
 				e1.printStackTrace();
 			}
 			try {
-				monClipMenu.open(sound);
-				monClipMenu.loop(Clip.LOOP_CONTINUOUSLY);
+				monClipMenu.open(sound);				
 			} catch (LineUnavailableException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

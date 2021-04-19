@@ -20,6 +20,7 @@ import java.awt.Color;
 public class FenetreTutoriel extends JFrame{	
 	private static final long serialVersionUID = 1L;
 	private App24PinballScientifique2001 fenMenu;
+	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
 	/**
 	 * Constructeur qui permet de creer les composants de la FenetreTutoriel
 	 * @param fenMenu est la fenetre du Menu
@@ -31,6 +32,8 @@ public class FenetreTutoriel extends JFrame{
 		JButton btnRetour = new JButton("Retour au menu");
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Musique.stop();
+				Musique musique=new Musique(nomFichierSonMenu);
 				fenMenu.setVisible(true);
 				setVisible(false);
 			}
