@@ -32,6 +32,7 @@ import animation.CoeurVie;
 import animation.Scene;
 import animation.ZonePinball;
 import javax.swing.DefaultComboBoxModel;
+import animation.PointageAnimation;
 
 public class FenetreJouer extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -73,7 +74,9 @@ public class FenetreJouer extends JFrame{
 	private Musique musiqueMenu;
 	private Musique musiqueJouer=new Musique (nomFichierSonJouer);
 	private Musique musiqueRessort=new Musique(nomFichierRessort);
-
+	
+	PointageAnimation score = new PointageAnimation();
+	
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
 	 * @author Audrey Viger 
@@ -109,6 +112,7 @@ public class FenetreJouer extends JFrame{
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;
 				musiqueJouer.stop();
+				zonePinball.setScoreFinal(score.getScore());
 				//System.out.println("LEs coeurs sont a 0");
 			}
 			remonterJSlider();
@@ -500,4 +504,6 @@ public class FenetreJouer extends JFrame{
 		public Musique musiqueJouer() {
 			return musiqueJouer;
 		}
+		
+	
 }

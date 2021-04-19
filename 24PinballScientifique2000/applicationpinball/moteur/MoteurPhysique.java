@@ -161,9 +161,10 @@ public class MoteurPhysique {
 	 * Methode qui donne la vitesse de la bille
 	 * @param billeVitesse est un objet de type bille
 	 * @return null
+	 * @throws Exception 
 	 */
 
-	public static Vecteur2D calculRebondBilleCerlce (Vecteur2D billePos , Vecteur2D cerlcePos ) {
+	public static Vecteur2D calculRebondBilleCerlce (Vecteur2D billePos , Vecteur2D cerlcePos ) throws Exception {
 
 
 		double deltaX =billePos.getX() - cerlcePos.getX();
@@ -171,8 +172,13 @@ public class MoteurPhysique {
 		double deltaY =billePos.getY() - cerlcePos.getY();
 		
 		Vecteur2D normalCercle = new Vecteur2D(deltaX,deltaY);
+		
+		
+		normalCercle = normalCercle.normalise();
+		
+		//System.out.println(normalCercle);
 
-		return null;
+		return normalCercle;
 	}
 	
 	//Carlos Eduardo
