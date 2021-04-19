@@ -13,13 +13,13 @@ import javax.swing.JPanel;
 
 public class Musique extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private static  Clip monClipMenu;
+	private   Clip monClipMenu;
 	private String nomFichierSon;
 	
 	public Musique(String nomFichierSon) {
 		this.nomFichierSon=nomFichierSon;
 		setFile(nomFichierSon );
-		play();				
+						
 	}	
 	
 	public void setFile(String 	soundFileName) {
@@ -56,15 +56,18 @@ public class Musique extends JPanel {
 	public void stopMusicSpecifique(Musique musique) {
 		musique.stop();
 	}
-	public static Clip getClipMenu() {
+	public  Clip getClipMenu() {
 		return monClipMenu;
 	}
-	public static void stop() {
+	public void stop() {
 		monClipMenu.stop();
 	}
 	public void setVolume(float volumeChange) {
 		
 		FloatControl volume = (FloatControl) monClipMenu.getControl(FloatControl.Type.MASTER_GAIN);
 		volume.setValue(volumeChange);
+	}
+	public void reset() {
+		monClipMenu.setMicrosecondPosition(0);
 	}
 }

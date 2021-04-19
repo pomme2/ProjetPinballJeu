@@ -49,11 +49,15 @@ public class FenetreDessin extends JFrame{
 	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
 	private Image backGround,backGroundRedim;
 	private java.net.URL urlDessinNuage = getClass().getClassLoader().getResource("dessinNuage.jpg");
+	private Musique musiqueDessin;
+	private Musique musiqueMenu;
 	/**
 	 * Constructeur de la fenetre de dessin qui permet de dessiner sur la bille
 	 * @param fenMenu est la fenetre du menu
 	 */
 	public FenetreDessin(App24PinballScientifique2001 fenMenu) {
+		musiqueDessin=App24PinballScientifique2001.musiqueDessin();
+		musiqueMenu=App24PinballScientifique2001.musiqueMenu();
 		if (urlDessinNuage == null) {
 			JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 			System.exit(0);
@@ -106,8 +110,10 @@ public class FenetreDessin extends JFrame{
 				fenMenu.setVisible(true);
 				setVisible(false);
 				dessin.sauvegarderImage("ImageB","png");
-				Musique.stop();
-				Musique musique=new Musique( nomFichierSonMenu );
+				musiqueDessin.stop();
+				musiqueMenu.reset();
+				musiqueMenu.play();
+				musiqueMenu.loop();
 
 			}
 		});

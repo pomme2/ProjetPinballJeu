@@ -296,7 +296,7 @@ public class FenetreBacSable extends JFrame{
 					fenMenu.setVisible(true);
 					setVisible(false);
 					vie.setNombreCoeur(3);
-					Musique.stop();
+					//Musique.stop();
 					Musique musique=new Musique(nomFichierSonMenu );
 
 				}
