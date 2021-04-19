@@ -90,6 +90,7 @@ public class FenetreBacSable extends JFrame{
 	private boolean CoeurVieActiveEtScore=false;
 	public static boolean coeurActive=false;
 	private PointageAnimation pointage;
+	private int score;
 	private GestionScore gestionScore;
 
 
@@ -123,7 +124,11 @@ public class FenetreBacSable extends JFrame{
 				lblScore.setText("Score : "+ zonePinball.getScore().toString());
 			}
 			
-
+			/*if(zonePinball.getPositionBille().getY()>=1) {
+				score = pointage.getScore();
+				gestionScore.setScore(score);
+				System.out.println("bacSable score = "+score);
+			}*/
 
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer);

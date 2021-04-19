@@ -54,6 +54,7 @@ public class GestionScore {
 			fluxSortie.println(initiales);
 			System.out.println("écrire dans fichier intiales = " +initiales);
 			fluxSortie.println(pointage);
+			//System.out.println("score finallll"+ zonePinball.getScoreFinal().toString());
 			//fluxSortie.println(pointage.getScore());
 			
 			//fluxSortie.println(fenFinPartie.getInitiales());
@@ -103,7 +104,7 @@ public class GestionScore {
 		System.out.println("set dans fichier intiales = " +initiales);
 		
 	}
-	public void setScore(PointageAnimation pointage) {
-		this.pointage = pointage;
+	public void setScore(PointageAnimation score) {
+		this.pointage = score;
 	}
 }

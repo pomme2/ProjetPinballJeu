@@ -899,11 +899,12 @@ public class ZonePinball extends JPanel implements Runnable {
 		//bille tombe dans trou reset
 		if (uneBille.getPosition().getY() > hauteurDuComposantMetre) {
 			arreter();
-			//gestionScore = new GestionScore();
 			
-		//	gestionScore.setScore(score);
-			setScoreFinal(score);
-			System.out.println("dd"+score+"ddd"+getScoreFinal());
+			
+			//gestionScore.setScore(score);
+			//setScoreFinal(score);
+			
+			//System.out.println("dd"+score+"ddd"+getScoreFinal());
 			retablirPosition();
 			score.resetScore();
 			if(coeurVie) {
@@ -1016,8 +1017,9 @@ public class ZonePinball extends JPanel implements Runnable {
 	} ///fin collision
 
 
-	private void setScoreFinal(PointageAnimation score2) {
+	public void setScoreFinal(PointageAnimation score2) {
 		scoreFinal = score2;
+		
 		
 	}
 	public PointageAnimation getScoreFinal() {

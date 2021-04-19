@@ -94,6 +94,11 @@ public class FenetreFinPartie extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				String initiales = txtEntreeInitiales.getText().toString();
 				gestionScore.setInitiales(initiales);
+				
+				PointageAnimation score = zonePinball.getScoreFinal();
+				gestionScore.setScore(score);
+			//	PointageAnimation score = zonePinball.getScoreFinal();
+				//gestionScore.setScore(score);
 				//gestionScore.setScore(zonePinball.getScoreFinal());
 				//pointage = zonePinball.getScoreFinal();
 				//gestionScore.setScore(pointage);
