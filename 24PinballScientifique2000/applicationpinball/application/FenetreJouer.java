@@ -69,6 +69,7 @@ public class FenetreJouer extends JFrame{
 	private String nomFichierSonJouer=".//Ressource//musiqueJouer.wav";
 	private Image backGround,backGroundRedim;
 	private boolean musiquePremiereFois=true;
+	private boolean premiereFoisJSlider=true;
 
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
@@ -115,6 +116,10 @@ public class FenetreJouer extends JFrame{
 				minuteurResultats.stop();
 
 			}
+			if(sliderEtirement.getValue()==0 && !premiereFoisJSlider) {
+				arretMusique();
+				musiquePremiereFois=true;
+			}
 		}
 		//Audrey Viger
 		/**
@@ -125,6 +130,7 @@ public class FenetreJouer extends JFrame{
 		public void remonterJSlider() {
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
+			
 				
 			}
 		}
@@ -366,7 +372,8 @@ public class FenetreJouer extends JFrame{
 						Musique musique1=new Musique(nomFichierSonJouer);
 						musique1.loop();
 						musiquePremiereFois=false;
-					}					
+					}
+					premiereFoisJSlider=false;
 					System.out.println("Slider desactive");
 					zonePinball.demarrer();
 					zonePinball.requestFocusInWindow();
@@ -375,6 +382,7 @@ public class FenetreJouer extends JFrame{
 
 					if(zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
 						sliderEtirement.setValue(0);
+						
 					}
 
 				}
@@ -422,8 +430,10 @@ public class FenetreJouer extends JFrame{
 			btnRecommencer.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnRecommencer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					musiquePremiereFois=true;					
 					arretMusique();
+					premiereFoisJSlider=true;
+					musiquePremiereFois=true;					
+					
 					zonePinball.retablirPosition();
 					spinnerEtirement.setValue(0);				
 					sliderEtirement.setEnabled(false);
