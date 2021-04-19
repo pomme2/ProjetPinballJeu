@@ -1,51 +1,70 @@
 package application;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.JOptionPane;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
 public class Musique extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private static Clip monClipMenu;
-	private final String NOM_FICHIER_SON = "8 Bit Menu.wav"; 
+	private static  Clip monClipMenu;
+	private String nomFichierSon;
 	
-	public Musique() {
-		lireLeSon(); 
-		
+	public Musique(String nomFichierSon) {
+		this.nomFichierSon=nomFichierSon;
+		setFile(nomFichierSon );
+		play();				
 	}	
-	private void lireLeSon() {
-
-		String pathDeFichier;
-		File objetFichier;
-		AudioInputStream audioInputStream;
-
+	
+	public void setFile(String 	soundFileName) {
+		
 		try {
-			pathDeFichier = getClass().getClassLoader().getResource(NOM_FICHIER_SON).getFile();
-			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Incapable d'ouvrir le fichier de son ");
+			File file= new File(soundFileName);
+			AudioInputStream sound=AudioSystem.getAudioInputStream(file);
+			try {
+				monClipMenu=AudioSystem.getClip();
+			} catch (LineUnavailableException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				monClipMenu.open(sound);				
+			} catch (LineUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return;
-		}
-		try {
-			objetFichier = new File(pathDeFichier);			
-			audioInputStream = AudioSystem.getAudioInputStream(objetFichier);
-			System.out.println("J'ai ouvert le fichier son");
-			monClipMenu = AudioSystem.getClip();
-			monClipMenu.open(audioInputStream);
-			monClipMenu.loop(Clip.LOOP_CONTINUOUSLY);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Problème d'ouverture du clip pour le fichier de son " + NOM_FICHIER_SON);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return;
 		}
-
+	}
+	public void play() {
+		monClipMenu.start();
+	}
+	public void loop() {
+		monClipMenu.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+	public void stopMusicSpecifique(Musique musique) {
+		musique.stop();
 	}
 	public static Clip getClipMenu() {
 		return monClipMenu;
+	}
+	public static void stop() {
+		monClipMenu.stop();
+	}
+	public void setVolume(float volumeChange) {
+		
+		FloatControl volume = (FloatControl) monClipMenu.getControl(FloatControl.Type.MASTER_GAIN);
+		volume.setValue(volumeChange);
 	}
 }

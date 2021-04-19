@@ -91,6 +91,7 @@ public class FenetreBacSable extends JFrame{
 	public static boolean coeurActive=false;
 	private PointageAnimation pointage;
 	private GestionScore gestionScore;
+	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
 
 
 
@@ -295,6 +296,8 @@ public class FenetreBacSable extends JFrame{
 					fenMenu.setVisible(true);
 					setVisible(false);
 					vie.setNombreCoeur(3);
+					Musique.stop();
+					Musique musique=new Musique(nomFichierSonMenu );
 
 				}
 			});
