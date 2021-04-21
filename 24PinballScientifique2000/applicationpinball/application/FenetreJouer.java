@@ -32,6 +32,7 @@ import animation.CoeurVie;
 import animation.Scene;
 import animation.ZonePinball;
 import javax.swing.DefaultComboBoxModel;
+import animation.PointageAnimation;
 
 public class FenetreJouer extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -67,14 +68,16 @@ public class FenetreJouer extends JFrame{
 	private boolean coeurVie;
 	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
 	private String nomFichierRessort= ".//Ressource//bruitRessort.wav"; 
-	private String nomFichierSonJouer=".//Ressource//musiqueJouer.wav";
+	private static String nomFichierSonJouer=".//Ressource//musiqueJouer.wav";
 	private Image backGround,backGroundRedim;
 	private boolean musiquePremiereFois=true;
 	private boolean premiereFoisJSlider=true;	
 	private Musique musiqueMenu;
-	private Musique musiqueJouer=new Musique (nomFichierSonJouer);
+	private static Musique musiqueJouer=new Musique (nomFichierSonJouer);
 	private Musique musiqueRessort=new Musique(nomFichierRessort);
-
+	
+	PointageAnimation score = new PointageAnimation();
+	
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
 	 * @author Audrey Viger 
@@ -110,6 +113,7 @@ public class FenetreJouer extends JFrame{
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;
 				musiqueJouer.stop();
+				zonePinball.setScoreFinal(score.getScore());
 				//System.out.println("LEs coeurs sont a 0");
 			}
 			remonterJSlider();
@@ -145,7 +149,7 @@ public class FenetreJouer extends JFrame{
 		 * @param fenMenu est la fenetre du menu
 		 * @param fenOption est la fenetre des options
 		 */
-		public FenetreJouer(App24PinballScientifique2001 fenMenu, FenetreOption fenOption,FenetreFinPartie fenFinPartie) {
+		public FenetreJouer(App24PinballScientifique2001 fenMenu, FenetreOption fenOption,FenetreFinPartie fenFinPartie) {			
 			musiqueMenu=App24PinballScientifique2001.musiqueMenu();
 			if (urlArcade == null) {
 				JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
@@ -262,11 +266,11 @@ public class FenetreJouer extends JFrame{
 
 			lblScore = new JLabel("Score:");
 			lblScore.setForeground(Color.CYAN);
-			lblScore.setFont(new Font("Arcade Normal", Font.PLAIN, 20));
+			lblScore.setFont(new Font("Arcade Normal", Font.PLAIN, 30));
 
 
 
-			lblScore.setBounds(773, 501, 261, 37);
+			lblScore.setBounds(722, 461, 352, 77);
 			panelAvecImage.add(lblScore);
 
 			Inclinaison imageInclinaison = new Inclinaison();
@@ -313,7 +317,7 @@ public class FenetreJouer extends JFrame{
 					setVisible(false);
 					vie.setNombreCoeur(3);
 					FenetreBacSable.setCoeurActive(false);
-					
+					App24PinballScientifique2001.setJouerActive(false);
 					musiqueMenu.reset();
 					musiqueMenu.play();
 					musiqueMenu.loop();
@@ -353,14 +357,6 @@ public class FenetreJouer extends JFrame{
 			lblValeurCharge.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			lblValeurCharge.setBounds(742, 155, 91, 14);
 			panelAvecImage.add(lblValeurCharge);
-
-			JSpinner spinnerEtirement = new JSpinner();
-			spinnerEtirement.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent e) {
-					zonePinball.setEtirement((int)spinnerEtirement.getValue()/100.0);
-
-				}
-			});
 
 
 
@@ -444,8 +440,7 @@ public class FenetreJouer extends JFrame{
 					premiereFoisJSlider=true;
 					musiquePremiereFois=true;					
 					
-					zonePinball.retablirPosition();
-					spinnerEtirement.setValue(0);				
+					zonePinball.retablirPosition();								
 					sliderEtirement.setEnabled(false);
 					vie.setNombreCoeur(3);
 					premiereFoisGameOver=true;
@@ -454,8 +449,6 @@ public class FenetreJouer extends JFrame{
 			});
 			btnRecommencer.setBounds(734, 614, 170, 69);
 			panelAvecImage.add(btnRecommencer);
-			spinnerEtirement.setBounds(835, 457, 63, 38);
-			panelAvecImage.add(spinnerEtirement);
 
 			JProgressBar progressBar = new JProgressBar();
 			progressBar.setBounds(734, 372, 256, 19);
@@ -464,12 +457,6 @@ public class FenetreJouer extends JFrame{
 			SceneImage sceneImage = new SceneImage();
 			sceneImage.setBounds(974, 46, 100, 100);
 			panelAvecImage.add(sceneImage);
-
-			JLabel lblEtirement = new JLabel("Etirement:");
-			lblEtirement.setForeground(Color.CYAN);
-			lblEtirement.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
-			lblEtirement.setBounds(734, 465, 138, 25);
-			panelAvecImage.add(lblEtirement);
 
 			JLabel lblValeurVitesse_1 = new JLabel("      m/s");
 			lblValeurVitesse_1.setForeground(Color.CYAN);
@@ -498,7 +485,9 @@ public class FenetreJouer extends JFrame{
 		public void arretMusique() {
 			//Musique.stop();
 		}
-		public Musique musiqueJouer() {
+		public static Musique musiqueJouer() {
 			return musiqueJouer;
 		}
+		
+	
 }

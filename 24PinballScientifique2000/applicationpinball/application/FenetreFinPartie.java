@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import animation.PointageAnimation;
+import animation.Scene;
 import animation.ZonePinball;
 
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
+import application.FenetreJouer;
 
 public class FenetreFinPartie extends JFrame{
 
@@ -28,9 +30,14 @@ public class FenetreFinPartie extends JFrame{
 	private GestionScore gestionScore;
 	private JTextField txtEntreeInitiales;
 	private FenetreJouer fenJouer;
-	private ZonePinball zonePinball;
 	private PointageAnimation pointage;
+
 	private FenetreClassement fenClassement;
+
+	private Scene scene;
+	private int scoreFinal;
+
+
 
 	public String getInitiales() {
 		String initiales = txtEntreeInitiales.getText().toString();
@@ -39,6 +46,8 @@ public class FenetreFinPartie extends JFrame{
 	
 	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac, FenetreJouer fenJouer, FenetreClassement fenClassement) {
 
+		scoreFinal = ZonePinball.getScorefinal();
+		
 		this.fenBac = fenBac;
 		this.fenMenu = fenMenu;
 		this.fenJouer = fenJouer;
@@ -119,6 +128,8 @@ public class FenetreFinPartie extends JFrame{
 				gestionScore.ecrireFichier();
 				gestionScore.lireFichierTexte();
 				
+				System.out.println(scoreFinal);
+				
 			//	System.out.println(txtEntreeInitiales.getText().toString());
 			}
 		});
@@ -137,6 +148,9 @@ public class FenetreFinPartie extends JFrame{
 		
 			}
 		});
+		
+	
+
 		btnSauvegarderScore.setBounds(600, 448, 403, 120);
 		contentPane.add(btnSauvegarderScore);
 		

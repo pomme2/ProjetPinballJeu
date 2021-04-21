@@ -3,9 +3,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Color;
 import javax.swing.JRadioButton;
@@ -42,6 +45,7 @@ import dessinable.OutilsImage;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  * 
@@ -52,7 +56,7 @@ import java.awt.event.ComponentEvent;
 
 public class FenetreBacSable extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	private JPanel panelAvecImage;
 	private App24PinballScientifique2001 fenMenu;
 	private FenetreOption fenOption;
 	private FenetreFinPartie fenFinPartie;
@@ -94,6 +98,10 @@ public class FenetreBacSable extends JFrame{
 	private int score;
 	private GestionScore gestionScore;
 	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
+	private Musique musiqueMenu;
+	private java.net.URL urlBacSable = getClass().getClassLoader().getResource("ImageBacSable2e.jpg");
+	private Image backGround, backGroundRedim;
+	private Musique musiqueBacSable;
 
 
 
@@ -117,7 +125,7 @@ public class FenetreBacSable extends JFrame{
 		public void miseAjourInterface() {
 
 			//System.out.println("Interface mise à jour.....");
-			lblAcceleration.setText("Acc\u00E9l\u00E9ration: "  +String.format("%."+ 1 +"f", zonePinball.getBille().getAccel().getX()));
+			lblAcceleration.setText("Acceleration: 0,0");
 			lblVitesseX.setText("Vitesse X : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getX()));
 			lblVitesseY.setText("Vitesse Y : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getY()));
 
@@ -136,7 +144,7 @@ public class FenetreBacSable extends JFrame{
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer, fenClassement);
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;
-				//System.out.println("LEs coeurs sont a 0");
+				
 			}
 			remonterJSlider();
 
@@ -177,7 +185,32 @@ public class FenetreBacSable extends JFrame{
 		 * 
 		 */
 		public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption, FenetreFinPartie fenFinPartie) {
+			musiqueMenu=App24PinballScientifique2001.musiqueMenu();
+			 musiqueBacSable=App24PinballScientifique2001.musiqueBacSable();
+			if (urlBacSable == null) {
+				JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
+				System.exit(0);
+			}else {
+				System.out.println("pause.jpg trouvé");
+			}
+			backGround =null;
+			try{
+				backGround = ImageIO.read(urlBacSable);
+				System.out.println("fichier trouver img");
+			}
+			catch (IOException e) {
+				System.out.println("Erreur pendant la lecture du fichier d'image");
+			}
 
+			backGroundRedim= backGround.getScaledInstance(1664, 936, Image.SCALE_SMOOTH );	
+			panelAvecImage = new JPanel() {
+
+				protected void paintComponent(Graphics g) {
+					super.paintComponent(g);
+					Graphics2D g2d = (Graphics2D) g;
+					g2d.drawImage( backGroundRedim,0,0,null);
+				}
+			};
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;
 			this.fenFinPartie = fenFinPartie;
@@ -190,16 +223,15 @@ public class FenetreBacSable extends JFrame{
 			//initianilisationFenSecondaire();
 			setTitle("Bac à sable");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(200, 40, 1100, 928);
-			contentPane = new JPanel();
-			contentPane.setBackground(Color.WHITE);
-			contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			setContentPane(contentPane);
-			contentPane.setLayout(null);
+			setBounds(200, 40, 1100, 928);			
+			panelAvecImage.setBackground(Color.WHITE);
+			panelAvecImage.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			setContentPane(panelAvecImage);
+			panelAvecImage.setLayout(null);
 
 			zonePinball = new ZonePinball(scene);
 			zonePinball.setBounds(71, 26, 600,768);
-			contentPane.add(zonePinball);
+			panelAvecImage.add(zonePinball);
 
 
 			//Initialisation des valeurs de spinners initiales.
@@ -208,72 +240,88 @@ public class FenetreBacSable extends JFrame{
 
 
 
-			JLabel lblDonneesBalle = new JLabel("Donn\u00E9es de la balle");
-			lblDonneesBalle.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			lblDonneesBalle.setBounds(817, 26, 192, 37);
-			contentPane.add(lblDonneesBalle);
+			JLabel lblDonneesBalle = new JLabel("Donnees de la balle");
+			lblDonneesBalle.setForeground(Color.ORANGE);
+			lblDonneesBalle.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
+			lblDonneesBalle.setBounds(776, 26, 233, 37);
+			panelAvecImage.add(lblDonneesBalle);
 
 			lblAcceleration = new JLabel("Acc\u00E9l\u00E9ration:");
-			lblAcceleration.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblAcceleration.setBounds(724, 79, 122, 14);
-			contentPane.add(lblAcceleration);
+			lblAcceleration.setForeground(Color.ORANGE);
+			lblAcceleration.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
+			lblAcceleration.setBounds(681, 79, 197, 14);
+			panelAvecImage.add(lblAcceleration);
 
 			lblVitesseX = new JLabel("Vitesse:");
-			lblVitesseX.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblVitesseX.setBounds(724, 104, 122, 19);
-			contentPane.add(lblVitesseX);
+			lblVitesseX.setForeground(Color.ORANGE);
+			lblVitesseX.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
+			lblVitesseX.setBounds(681, 104, 165, 19);
+			panelAvecImage.add(lblVitesseX);
 
 			lblCharge = new JLabel("Charge:");
-			lblCharge.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblCharge.setBounds(724, 153, 98, 19);
-			contentPane.add(lblCharge);
+			lblCharge.setForeground(Color.ORANGE);
+			lblCharge.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
+			lblCharge.setBounds(681, 153, 141, 19);
+			panelAvecImage.add(lblCharge);
 
 			JLabel lblMasse = new JLabel("Masse:");
-			lblMasse.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblMasse.setBounds(734, 196, 48, 14);
-			contentPane.add(lblMasse);
+			lblMasse.setForeground(Color.ORANGE);
+			lblMasse.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
+			lblMasse.setBounds(681, 196, 101, 14);
+			panelAvecImage.add(lblMasse);
 
-			JLabel lblAutresDonnees = new JLabel("Autres donn\u00E9es");
-			lblAutresDonnees.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			lblAutresDonnees.setBounds(835, 227, 155, 21);
-			contentPane.add(lblAutresDonnees);
+			JLabel lblAutresDonnees = new JLabel("Autres donnees");
+			lblAutresDonnees.setForeground(Color.ORANGE);
+			lblAutresDonnees.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
+			lblAutresDonnees.setBounds(776, 227, 214, 21);
+			panelAvecImage.add(lblAutresDonnees);
 
 			JLabel lblInclinaison = new JLabel("Inclinaison de la table:");
-			lblInclinaison.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			lblInclinaison.setForeground(Color.ORANGE);
+			lblInclinaison.setFont(new Font("Arcade Normal", Font.PLAIN, 8));
 			lblInclinaison.setBounds(734, 273, 200, 21);
-			contentPane.add(lblInclinaison);
+			panelAvecImage.add(lblInclinaison);
 
-			JLabel lblIntensiteAimant = new JLabel("Intensit\u00E9 de l'aimant:");
-			lblIntensiteAimant.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblIntensiteAimant.setBounds(734, 354, 155, 21);
-			contentPane.add(lblIntensiteAimant);
+			JLabel lblIntensiteAimant = new JLabel("Intensite de l'aimant:");
+			lblIntensiteAimant.setForeground(Color.ORANGE);
+			lblIntensiteAimant.setFont(new Font("Arcade Normal", Font.PLAIN, 8));
+			lblIntensiteAimant.setBounds(734, 354, 200, 21);
+			panelAvecImage.add(lblIntensiteAimant);
 
 			JLabel lblConstanteRessort = new JLabel("Constante du ressort:");
-			lblConstanteRessort.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			lblConstanteRessort.setForeground(Color.ORANGE);
+			lblConstanteRessort.setFont(new Font("Arcade Normal", Font.PLAIN, 8));
 			lblConstanteRessort.setBounds(734, 430, 178, 22);
-			contentPane.add(lblConstanteRessort);
+			panelAvecImage.add(lblConstanteRessort);
 
 			lblScore = new JLabel("");
-			lblScore.setForeground(Color.RED);
-			lblScore.setFont(new Font("Tahoma", Font.PLAIN, 30));
+			lblScore.setForeground(Color.ORANGE);
+			lblScore.setFont(new Font("Arcade Normal", Font.PLAIN, 20));
 			lblScore.setBounds(732, 511, 285, 37);
-			contentPane.add(lblScore);
+			panelAvecImage.add(lblScore);
 
 			JRadioButton rdbtnChargePos = new JRadioButton("+e");
+			rdbtnChargePos.setForeground(Color.ORANGE);
+			rdbtnChargePos.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			buttonGroup.add(rdbtnChargePos);
 			rdbtnChargePos.setBounds(841, 153, 48, 23);
-			contentPane.add(rdbtnChargePos);
+			panelAvecImage.add(rdbtnChargePos);
 
 			JRadioButton rdbtnChargeNeg = new JRadioButton("-e");
+			rdbtnChargeNeg.setForeground(Color.ORANGE);
+			rdbtnChargeNeg.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			buttonGroup.add(rdbtnChargeNeg);
-			rdbtnChargeNeg.setBounds(908, 153, 42, 23);
-			contentPane.add(rdbtnChargeNeg);
+			rdbtnChargeNeg.setBounds(908, 153, 54, 23);
+			panelAvecImage.add(rdbtnChargeNeg);
 
 
 
 			Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 
 			JComboBox<Object> comboBoxObstacles = new JComboBox<Object>(choixObstacles);
+			comboBoxObstacles.setForeground(Color.CYAN);
+			comboBoxObstacles.setModel(new DefaultComboBoxModel(new String[] {"Carre", "Cercle", "Triangle", "Rectangle"}));
+			comboBoxObstacles.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			comboBoxObstacles.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String forme = (String) comboBoxObstacles.getSelectedItem();
@@ -284,9 +332,11 @@ public class FenetreBacSable extends JFrame{
 
 
 			comboBoxObstacles.setBounds(734, 563, 344, 37);
-			contentPane.add(comboBoxObstacles);
+			panelAvecImage.add(comboBoxObstacles);
 
 			JButton btnOption = new JButton("Option");
+			btnOption.setForeground(Color.CYAN);
+			btnOption.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			btnOption.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					fenOption.setVisible(true);
@@ -294,21 +344,25 @@ public class FenetreBacSable extends JFrame{
 				}
 			});
 			btnOption.setBounds(908, 614, 170, 69);
-			contentPane.add(btnOption);
+			panelAvecImage.add(btnOption);
 
 			JButton btnSauvegarde = new JButton("Sauvegarder et revenir au menu");
+			btnSauvegarde.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
+			btnSauvegarde.setForeground(Color.CYAN);
 			btnSauvegarde.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					fenMenu.setVisible(true);
 					setVisible(false);
-					vie.setNombreCoeur(3);
-					//Musique.stop();
-					Musique musique=new Musique(nomFichierSonMenu );
+					vie.setNombreCoeur(3);	
+					musiqueBacSable.stop();
+					musiqueMenu.reset();
+					musiqueMenu.play();
+					musiqueMenu.loop();
 
 				}
 			});
 			btnSauvegarde.setBounds(734, 694, 344, 60);
-			contentPane.add(btnSauvegarde);
+			panelAvecImage.add(btnSauvegarde);
 
 			JSpinner spinnerMasse = new JSpinner();
 			spinnerMasse.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
@@ -318,12 +372,14 @@ public class FenetreBacSable extends JFrame{
 					zonePinball.setMasseBalle(valeurMasse);
 				}
 			});
-			spinnerMasse.setBounds(788, 195, 44, 20);
-			contentPane.add(spinnerMasse);
+			spinnerMasse.setBounds(746, 192, 44, 20);
+			panelAvecImage.add(spinnerMasse);
 
 			JLabel lblKg = new JLabel("kg");
-			lblKg.setBounds(841, 198, 48, 14);
-			contentPane.add(lblKg);
+			lblKg.setForeground(Color.ORANGE);
+			lblKg.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
+			lblKg.setBounds(798, 195, 48, 14);
+			panelAvecImage.add(lblKg);
 
 			JSlider sliderAimant = new JSlider();
 			sliderAimant.setValue(0);
@@ -340,7 +396,7 @@ public class FenetreBacSable extends JFrame{
 				}
 			});
 			spinnerAimant.setBounds(948, 379, 42, 22);
-			contentPane.add(spinnerAimant);
+			panelAvecImage.add(spinnerAimant);
 
 
 			sliderAimant.addChangeListener(new ChangeListener() {
@@ -353,14 +409,14 @@ public class FenetreBacSable extends JFrame{
 			sliderAimant.setMajorTickSpacing(25);
 			sliderAimant.setPaintTicks(true);
 			sliderAimant.setBounds(734, 386, 200, 33);
-			contentPane.add(sliderAimant);
+			panelAvecImage.add(sliderAimant);
 
 			JSpinner spinnerRessort = new JSpinner();
 			spinnerRessort.setModel(new SpinnerNumberModel(50, 50, 800, 1));
 
 			SceneImage sceneImage = new SceneImage();
 			sceneImage.setBounds(968, 58, 99, 100);
-			contentPane.add(sceneImage);
+			panelAvecImage.add(sceneImage);
 
 
 			JSlider sliderRessort = new JSlider();
@@ -376,7 +432,7 @@ public class FenetreBacSable extends JFrame{
 			sliderRessort.setPaintTicks(true);
 			sliderRessort.setMajorTickSpacing(25);
 			sliderRessort.setBounds(734, 463, 200, 37);
-			contentPane.add(sliderRessort);
+			panelAvecImage.add(sliderRessort);
 
 			JSlider sliderInclinaison = new JSlider();
 			sliderInclinaison.setMinimum(5);
@@ -386,7 +442,7 @@ public class FenetreBacSable extends JFrame{
 
 			Inclinaison imageInclinaison = new Inclinaison();
 			imageInclinaison.setBounds(1000,283,78,60);
-			contentPane.add(imageInclinaison);
+			panelAvecImage.add(imageInclinaison);
 			imageInclinaison.setInclinaison(5);
 
 			JSpinner spinnerInclinaison = new JSpinner();
@@ -400,7 +456,7 @@ public class FenetreBacSable extends JFrame{
 				}
 			});
 			spinnerInclinaison.setBounds(948, 299, 42, 22);
-			contentPane.add(spinnerInclinaison);
+			panelAvecImage.add(spinnerInclinaison);
 			valeurInclinaison = (int) spinnerInclinaison.getValue();
 
 
@@ -413,7 +469,7 @@ public class FenetreBacSable extends JFrame{
 				}
 			});
 			spinnerRessort.setBounds(948, 463, 42, 22);
-			contentPane.add(spinnerRessort);
+			panelAvecImage.add(spinnerRessort);
 
 			sliderInclinaison.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
@@ -423,29 +479,25 @@ public class FenetreBacSable extends JFrame{
 			sliderInclinaison.setPaintTicks(true);
 			sliderInclinaison.setMajorTickSpacing(25);
 			sliderInclinaison.setBounds(734, 306, 200, 37);
-			contentPane.add(sliderInclinaison);
+			panelAvecImage.add(sliderInclinaison);
 
 			JLabel lblValeurAccel = new JLabel("       m/s\u00B2");
-			lblValeurAccel.setBounds(837, 81, 85, 14);
-			contentPane.add(lblValeurAccel);
+			lblValeurAccel.setForeground(Color.ORANGE);
+			lblValeurAccel.setBounds(840, 78, 85, 14);
+			panelAvecImage.add(lblValeurAccel);
 			//double vitesse = Math.sqrt(zonePinball.getVitesseBalle().getX()+zonePinball.getVitesseBalle().getY());
 
 			JLabel lblValeurVitesse = new JLabel( " m/s");
-			lblValeurVitesse.setBounds(848, 108, 30, 14);
-			contentPane.add(lblValeurVitesse);
+			lblValeurVitesse.setForeground(Color.ORANGE);
+			lblValeurVitesse.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
+			lblValeurVitesse.setBounds(849, 106, 64, 14);
+			panelAvecImage.add(lblValeurVitesse);
 
 			JLabel lblValeurCharge = new JLabel("      C");
-			lblValeurCharge.setBounds(798, 157, 48, 14);
-			contentPane.add(lblValeurCharge);
-
-			JSpinner spinnerEtirement = new JSpinner();
-			spinnerEtirement.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
-			spinnerEtirement.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent e) {
-					zonePinball.setEtirement((int)spinnerEtirement.getValue()/100.0);
-
-				}
-			});
+			lblValeurCharge.setForeground(Color.ORANGE);
+			lblValeurCharge.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
+			lblValeurCharge.setBounds(760, 157, 91, 14);
+			panelAvecImage.add(lblValeurCharge);
 
 
 			sliderEtirement = new JSlider();
@@ -498,10 +550,12 @@ public class FenetreBacSable extends JFrame{
 			sliderEtirement.setMinorTickSpacing(5);
 			sliderEtirement.setPaintTicks(true);
 			sliderEtirement.setBounds(670, 652, 48, 113);
-			contentPane.add(sliderEtirement);
+			panelAvecImage.add(sliderEtirement);
 
 
 			JButton btnRecommencer = new JButton("Recommencer la partie");
+			btnRecommencer.setForeground(Color.CYAN);
+			btnRecommencer.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnRecommencer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					spinnerMasse.setValue(1);
@@ -511,8 +565,7 @@ public class FenetreBacSable extends JFrame{
 					sliderRessort.setValue(0);
 					sliderInclinaison.setValue(0);
 					sliderAimant.setValue(0);
-					zonePinball.retablirPosition();
-					spinnerEtirement.setValue(1);
+					zonePinball.retablirPosition();					
 					sliderEtirement.setValue(0);
 					vie.setNombreCoeur(3);
 					premiereFoisGameOver=true;
@@ -524,16 +577,12 @@ public class FenetreBacSable extends JFrame{
 				}
 			});
 			btnRecommencer.setBounds(734, 614, 170, 69);
-			contentPane.add(btnRecommencer);
-			spinnerEtirement.setBounds(968, 433, 30, 20);
-			contentPane.add(spinnerEtirement);
-
-			JLabel lblEtirement = new JLabel("Etirement:");
-			lblEtirement.setBounds(911, 436, 98, 14);
-			contentPane.add(lblEtirement);
+			panelAvecImage.add(btnRecommencer);
 
 
-			JButton btnDemarrer = new JButton("D\u00E9marrer");
+			JButton btnDemarrer = new JButton("Demarrer");
+			btnDemarrer.setForeground(Color.CYAN);
+			btnDemarrer.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			btnDemarrer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					//sliderEtirement.setEnabled(true);
@@ -548,9 +597,11 @@ public class FenetreBacSable extends JFrame{
 			});
 
 			btnDemarrer.setBounds(248, 808, 218, 60);
-			contentPane.add(btnDemarrer);
+			panelAvecImage.add(btnDemarrer);
 
 			JCheckBox chckbxContour = new JCheckBox("Contour");
+			chckbxContour.setForeground(Color.CYAN);
+			chckbxContour.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			chckbxContour.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					zonePinball.setContour(chckbxContour.isSelected());
@@ -558,8 +609,8 @@ public class FenetreBacSable extends JFrame{
 				}
 			});
 
-			chckbxContour.setBounds(107, 827, 99, 23);
-			contentPane.add(chckbxContour);
+			chckbxContour.setBounds(107, 827, 135, 23);
+			panelAvecImage.add(chckbxContour);
 
 
 			BufferedImage imageBille = null;
@@ -579,6 +630,8 @@ public class FenetreBacSable extends JFrame{
 			}
 
 			JCheckBox chckbxAimant = new JCheckBox("Aimant");
+			chckbxAimant.setForeground(Color.CYAN);
+			chckbxAimant.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			chckbxAimant.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
@@ -590,53 +643,49 @@ public class FenetreBacSable extends JFrame{
 
 				}
 			});
-			chckbxAimant.setBounds(109, 859, 97, 23);
-			contentPane.add(chckbxAimant);
+			chckbxAimant.setBounds(109, 859, 133, 23);
+			panelAvecImage.add(chckbxAimant);
 
 			lblVitesseY = new JLabel("Vitesse Y : 0.00");
-			lblVitesseY.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblVitesseY.setBounds(724, 129, 120, 19);
-			contentPane.add(lblVitesseY);
+			lblVitesseY.setForeground(Color.ORANGE);
+			lblVitesseY.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
+			lblVitesseY.setBounds(681, 129, 163, 19);
+			panelAvecImage.add(lblVitesseY);
 
 			JLabel lblValeurVitesse_1 = new JLabel(" m/s");
-			lblValeurVitesse_1.setBounds(841, 133, 30, 14);
-			contentPane.add(lblValeurVitesse_1);
-
-			JButton btnNewButton = new JButton("New button");
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					//fenFinPartie1.setVisible(true);
-					setVisible(false);
-				}
-			});
-			btnNewButton.setBounds(989, 526, 89, 23);
-
-			contentPane.add(btnNewButton);
+			lblValeurVitesse_1.setForeground(Color.ORANGE);
+			lblValeurVitesse_1.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
+			lblValeurVitesse_1.setBounds(843, 131, 93, 14);
+			panelAvecImage.add(lblValeurVitesse_1);
 			
 			JButton btnPause = new JButton("Pause");
+			btnPause.setForeground(Color.CYAN);
+			btnPause.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			btnPause.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					zonePinball.arreter();
 				}
 			});
 			btnPause.setBounds(484, 805, 89, 23);
-			contentPane.add(btnPause);
+			panelAvecImage.add(btnPause);
 			
 			JButton btnNextImg = new JButton("Next frame");
+			btnNextImg.setForeground(Color.CYAN);
+			btnNextImg.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnNextImg.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
 					zonePinball.prochaineImage();				
 					}
 			});
-			btnNextImg.setBounds(582, 805, 89, 23);
-			contentPane.add(btnNextImg);
-
-			contentPane.add(btnNewButton);			
+			btnNextImg.setBounds(582, 805, 101, 23);
+			panelAvecImage.add(btnNextImg);
 
 
 			DessinCoeur dessinCoeur = new DessinCoeur();
 			JCheckBox chckbxActiverVie = new JCheckBox("Activer Score et Vie");
+			chckbxActiverVie.setForeground(Color.CYAN);
+			chckbxActiverVie.setFont(new Font("Arcade Normal", Font.PLAIN, 8));
 			//Thomas Bourgault
 			chckbxActiverVie.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -645,7 +694,7 @@ public class FenetreBacSable extends JFrame{
 						lblScore.setText("Score : ");
 						dessinCoeur.setVisible(true);
 						dessinCoeur.setBounds(734, 753, 344, 129);
-						contentPane.add(dessinCoeur);
+						panelAvecImage.add(dessinCoeur);
 						setCoeurActive(true);
 						repaint();
 					}else {
@@ -657,8 +706,8 @@ public class FenetreBacSable extends JFrame{
 					}
 				}
 			});
-			chckbxActiverVie.setBounds(484, 845, 160, 23);
-			contentPane.add(chckbxActiverVie);
+			chckbxActiverVie.setBounds(484, 845, 199, 23);
+			panelAvecImage.add(chckbxActiverVie);
 
 
 			if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
