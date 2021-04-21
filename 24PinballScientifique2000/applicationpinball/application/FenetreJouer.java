@@ -269,7 +269,7 @@ public class FenetreJouer extends JFrame{
 
 
 
-			lblScore.setBounds(722, 461, 312, 77);
+			lblScore.setBounds(722, 461, 352, 77);
 			panelAvecImage.add(lblScore);
 
 			Inclinaison imageInclinaison = new Inclinaison();

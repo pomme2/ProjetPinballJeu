@@ -30,9 +30,9 @@ public class FenetreFinPartie extends JFrame{
 	private GestionScore gestionScore;
 	private JTextField txtEntreeInitiales;
 	private FenetreJouer fenJouer;
-	private ZonePinball zonePinball;
 	private PointageAnimation pointage;
 	private Scene scene;
+	private int scoreFinal;
 
 
 	public String getInitiales() {
@@ -42,6 +42,8 @@ public class FenetreFinPartie extends JFrame{
 	
 	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac, FenetreJouer fenJouer) {
 
+		scoreFinal = ZonePinball.getScorefinal();
+		
 		this.fenBac = fenBac;
 		this.fenMenu = fenMenu;
 		this.fenJouer = fenJouer;
@@ -104,7 +106,7 @@ public class FenetreFinPartie extends JFrame{
 			//	System.out.println("scorefinal "+zonePinball.getScoreFinal());
 				gestionScore.ecrireFichier();
 				
-				System.out.println(zonePinball.getScoreFinal());
+				System.out.println(scoreFinal);
 				
 			//	System.out.println(txtEntreeInitiales.getText().toString());
 			}
@@ -125,7 +127,7 @@ public class FenetreFinPartie extends JFrame{
 			}
 		});
 		
-		zonePinball = new ZonePinball(scene);
+	
 
 		btnSauvegarderScore.setBounds(600, 448, 403, 120);
 		contentPane.add(btnSauvegarderScore);

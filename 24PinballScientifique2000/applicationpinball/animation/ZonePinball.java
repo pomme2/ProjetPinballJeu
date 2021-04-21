@@ -264,7 +264,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private GestionScore gestionScore;
 	private PointageAnimation pointage;
-	public int scoreFinal = 0;
+	public static int scoreFinal = 0;
 
 	private boolean pause = false;
 	private boolean premiereFoisBille =true;
@@ -1917,6 +1917,13 @@ public class ZonePinball extends JPanel implements Runnable {
 		//echelle.lineTo(67,752);
 		((Graphics2D) g2d).draw(echelle);
 
+	}
+	
+	
+	public static int getScorefinal() {
+		return scoreFinal;
+		
+		
 	}
 
 
