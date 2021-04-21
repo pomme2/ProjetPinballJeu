@@ -730,18 +730,15 @@ public class ZonePinball extends JPanel implements Runnable {
 				Vecteur2D cerclePos = new Vecteur2D(cercle.getPositionMursX(),cercle.getPositionMursY());
 				
 				Vecteur2D normal = moteur.MoteurPhysique.calculRebondBilleCerlce(uneBille.getPosition(),cerclePos);
-				
-				
+					
 				
 				double vX =normal.getX();
 				
 				double vY =normal.getY();
-				
-				
+						
 				
 				Vecteur2D vitesseRebound = new Vecteur2D(vX,vY);
 				
-				System.out.println(vitesseRebound);
 				
 				uneBille.setVitesse(vitesseRebound);
 				

@@ -17,7 +17,7 @@ import geometrie.Vecteur2D;
 
 public class MoteurPhysique {
 
-	private static final double ACCEL_GRAV = 9.8066;
+	private static double ACCEL_GRAV = 9.8066;
 	private static final double EPSILON = 1e-10; //tolerance utilisee dans les comparaisons reelles avec zero+
 
 	private static final double K = 9e+10;
@@ -176,8 +176,6 @@ public class MoteurPhysique {
 		
 		normalCercle = normalCercle.normalise();
 		
-		//System.out.println(normalCercle);
-
 		return normalCercle;
 	}
 	
@@ -274,7 +272,6 @@ public class MoteurPhysique {
 		
 		vecTemp = vecTemp.normalise();
 		
-		System.out.println(vecTemp);
 		
 		return vecTemp;
 		
@@ -328,5 +325,11 @@ public class MoteurPhysique {
 
 
 
+	public static double getACCEL_GRAV() {
+		return ACCEL_GRAV;
+	}
+	public static void setACCEL_GRAV(double aCCEL_GRAV) {
+		ACCEL_GRAV = aCCEL_GRAV;
+	}
 
 }

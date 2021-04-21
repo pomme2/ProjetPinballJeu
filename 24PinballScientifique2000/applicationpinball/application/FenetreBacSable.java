@@ -71,6 +71,8 @@ public class FenetreBacSable extends JFrame{
 	private  Inclinaison imageInclinaison;
 	private double hauteurDuComposantMetre=1.536;
 	private Scene scene;
+	
+	private double inclinaisonAjustement = 0.128;
 
 	//carlos affichage des resultats
 	private JLabel lblVitesseX;
@@ -447,6 +449,10 @@ public class FenetreBacSable extends JFrame{
 					//System.out.println(valeurInclinaison);
 					sliderInclinaison.setValue(valeurInclinaison);
 					imageInclinaison.setInclinaison(valeurInclinaison);
+					
+					double grav = valeurInclinaison;
+					
+					moteur.MoteurPhysique.setACCEL_GRAV(grav*inclinaisonAjustement);
 				}
 			});
 			spinnerInclinaison.setBounds(948, 299, 42, 22);
