@@ -4,7 +4,7 @@ package animation;
  * les obstacles.
  * 
  * @author Carlos Eduardo
- *
+ *@author Thomas Bourgault
  */
 public class PointageAnimation {
 
@@ -65,6 +65,17 @@ public class PointageAnimation {
 		
 		return score;
 	}
-	
+	//Thomas Bourgault
+    /**
+     * Methode qui permet de savoir si le jouer à atteint le score minimum pour activer les formes
+     * @return vrai si le jouer a atteint ce score et retoune faux si le jouer n'a pas atteint ce score
+     */
+    public boolean activerForme() {
+        if(score>=50) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 
 }

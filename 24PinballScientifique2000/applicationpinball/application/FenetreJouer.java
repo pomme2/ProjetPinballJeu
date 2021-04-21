@@ -29,6 +29,7 @@ import javax.swing.ButtonGroup;
 import application.SceneImage;
 import geometrie.Bille;
 import animation.CoeurVie;
+import animation.PointageAnimation;
 import animation.Scene;
 import animation.ZonePinball;
 import javax.swing.DefaultComboBoxModel;
@@ -73,6 +74,10 @@ public class FenetreJouer extends JFrame{
 	private Musique musiqueMenu;
 	private static Musique musiqueJouer=new Musique (nomFichierSonJouer);
 	private Musique musiqueRessort=new Musique(nomFichierRessort);
+	private PointageAnimation scoreVie1;
+    private PointageAnimation scoreVie2;
+    private PointageAnimation scoreVie3;
+    private JComboBox<Object> comboBoxObstacles;
 
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
@@ -104,6 +109,18 @@ public class FenetreJouer extends JFrame{
 
 			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
 			lblScore.setText("Score : "+ zonePinball.getScore().toString());
+			if(vie.getNombreCoeur()==3) {
+                scoreVie3=zonePinball.getScore();
+                System.out.println("Scorevie3: "+scoreVie3);
+            }
+            if(vie.getNombreCoeur()==2) {
+                scoreVie2=zonePinball.getScore();
+                System.out.println("Scorevie2: "+scoreVie2);
+            }
+            if(vie.getNombreCoeur()==1) {
+                scoreVie1=zonePinball.getScore();
+                System.out.println("Scorevie1: "+scoreVie1);
+            }
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this);
 				fenFinPartie1.setVisible(true);
@@ -111,6 +128,7 @@ public class FenetreJouer extends JFrame{
 				musiqueJouer.stop();
 				//System.out.println("LEs coeurs sont a 0");
 			}
+			activeFormeObstacle();
 			remonterJSlider();
 
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
@@ -261,7 +279,7 @@ public class FenetreJouer extends JFrame{
 
 			lblScore = new JLabel("Score:");
 			lblScore.setForeground(Color.CYAN);
-			lblScore.setFont(new Font("Arcade Normal", Font.PLAIN, 30));
+			lblScore.setFont(new Font("Arcade Normal", Font.PLAIN, 20));
 
 
 
@@ -275,7 +293,8 @@ public class FenetreJouer extends JFrame{
 
 			Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 
-			JComboBox<Object> comboBoxObstacles = new JComboBox<Object>(choixObstacles);
+			comboBoxObstacles = new JComboBox<Object>(choixObstacles);
+			comboBoxObstacles.setEnabled(false);
 			comboBoxObstacles.setForeground(Color.CYAN);
 			comboBoxObstacles.setModel(new DefaultComboBoxModel(new String[] {"Carre", "Cercle", "Triangle", "Rectangle"}));
 			comboBoxObstacles.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
@@ -431,6 +450,7 @@ public class FenetreJouer extends JFrame{
 			btnRecommencer.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnRecommencer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					comboBoxObstacles.setEnabled(false);
 					musiqueJouer.stop();
 					premiereFoisJSlider=true;
 					musiquePremiereFois=true;					
@@ -483,4 +503,9 @@ public class FenetreJouer extends JFrame{
 		public static Musique musiqueJouer() {
 			return musiqueJouer;
 		}
+		public void activeFormeObstacle() {
+	        if(scoreVie3.activerForme()==true) {
+	            comboBoxObstacles.setEnabled(true);
+	        }
+	    }
 }

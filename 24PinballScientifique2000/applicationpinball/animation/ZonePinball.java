@@ -271,6 +271,10 @@ public class ZonePinball extends JPanel implements Runnable {
 	private Musique musiqueFlipperDroit=new Musique (nomFichierSonFlipper);
 	private Musique musiqueJouer;
 	private boolean jouerActive;
+	
+	private double compteurPortailGaucheSol=0;
+    private int compteur=0;
+    private int variablePourCompter=1;
 
 
 	//Thomas Bourgault  et Carlos Eduardo
@@ -471,7 +475,13 @@ public class ZonePinball extends JPanel implements Runnable {
 		}
 		g2d.setTransform(oldDroit);
 		////////////////////////////////////////////////////////////////////////////////
-
+		g2d.setColor(Color.cyan);
+        for(compteur=0;compteur<variablePourCompter;compteur++) {
+            Ellipse2D.Double portailGaucheSol=new Ellipse2D.Double(0.195,0.892,0.122+compteurPortailGaucheSol,0.01);
+            AffineTransform matPortail= new AffineTransform();
+            matPortail.scale(pixelParMetre,pixelParMetre);
+            g2d.fill(matPortail.createTransformedShape(portailGaucheSol));
+        }
 		if (premiereFois) {
 			//Construction 4 cercles
 
@@ -1102,6 +1112,17 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * tous les objets de la scène
 	 */
 	private void calculerUneIterationPhysique(double deltaT) {
+		if(compteurPortailGaucheSol<0.015) {
+            compteurPortailGaucheSol=compteurPortailGaucheSol+0.001;
+        }
+        if(compteurPortailGaucheSol==0.015) {
+            compteurPortailGaucheSol=0;
+        }
+        variablePourCompter++;
+        if(variablePourCompter==22) {
+            variablePourCompter=0;
+            compteur=0;
+        }
 		coeurVie=FenetreBacSable.getCoeurActive();
 		tempsTotalEcoule += deltaT;
 		uneBille.avancerUnPas(deltaT);
