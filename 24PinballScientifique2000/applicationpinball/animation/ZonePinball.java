@@ -725,8 +725,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 			//pythagore de la distance entre les centres de la bille et l"obstacle si inferieure a la somme des deux rayons donc collision 
 			if (Math.hypot((uneBille.getPosition().getX() + uneBille.getDiametre() / 2) - (cercle.getPositionMursX()), (uneBille.getPosition().getY() + uneBille.getDiametre() / 2) - (cercle.getPositionMursY())) < (uneBille.getDiametre() / 2 + cercle.getDiametre() / 2)) {
-
-				col = false;
+			
 
 				Vecteur2D cerclePos = new Vecteur2D(cercle.getPositionMursX(),cercle.getPositionMursY());
 				
@@ -734,96 +733,21 @@ public class ZonePinball extends JPanel implements Runnable {
 				
 				
 				
-				double vX = uneBille.getVitesse().getX();
+				double vX =normal.getX();
 				
-				double vY = uneBille.getVitesse().getY();
-				
-				vX =vX*normal.getX();
-				
-				vY =vY*normal.getY();
+				double vY =normal.getY();
 				
 				
 				
 				Vecteur2D vitesseRebound = new Vecteur2D(vX,vY);
 				
-				//uneBille.setVitesse(vitesseRebound);
+				System.out.println(vitesseRebound);
+				
+				uneBille.setVitesse(vitesseRebound);
 				
 				
-				/*
-				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX()) {
-
-					if (uneBille.getPosition().getX() > cercle.getPositionMursX() && col) {
-
-						double vitX = uneBille.getVitesse().getX() + 0.4;
-
-						Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-						uneBille.setVitesse(VitYnegatif);
-
-						score.updateScore(pointCercle);
-
-					}
-
-				}
-
-				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() < cercle.getPositionMursX()) {
-
-					if (uneBille.getPosition().getX() > cercle.getPositionMursX() && col) {
-
-						double vitX = uneBille.getVitesse().getX() - 0.4;
-
-						Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-						uneBille.setVitesse(VitYnegatif);
-
-						score.updateScore(pointCercle);
-
-					}
-				}
-				boolean colY = false;
-				boolean colX = false;
-
-				if (uneBille.getPosition().getX() < cercle.getPositionMursX()) {
-
-					double vitX = uneBille.getVitesse().getX() + 0.4;
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX * -1, uneBille.getVitesse().getY() * -1);
-					uneBille.setVitesse(VitYnegatif);
-					colX = true;
-
-					score.updateScore(pointCercle);
-
-
-				}
-				if (uneBille.getPosition().getX() > cercle.getPositionMursX()) {
-					colY = true;
-					score.updateScore(pointCercle);
-
-				}
-
-				if (uneBille.getVitesse().getY() + uneBille.getPosition().getY() > cercle.getPositionMursY() && colY) {
-
-					double vitX = uneBille.getVitesse().getX() + 0.4;
-
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-					uneBille.setVitesse(VitYnegatif);
-					score.updateScore(pointCercle);
-
-				}
-
-				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX() && colX) {
-
-					double vitX = uneBille.getVitesse().getX() - 0.4;
-
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-					uneBille.setVitesse(VitYnegatif);
-					score.updateScore(pointCercle);
-
-				}
+				score.updateScore(1);
 				
-				*/
-				//////////////////////
 			}
 		}
 
