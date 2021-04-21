@@ -132,6 +132,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	int pointCercle = 1;
 	int triange = 10;
 	int temps=0;
+	
+	int finalScore;
 
 
 	//tableau pour obstacles
@@ -262,7 +264,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private GestionScore gestionScore;
 	private PointageAnimation pointage;
-	private PointageAnimation scoreFinal;
+	public static int scoreFinal = 0;
 
 	private boolean pause = false;
 	private boolean premiereFoisBille =true;
@@ -706,9 +708,10 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * sont en collision. Si oui : on calculerait par exemple les rebonds et
 	 * en déduirait des nouvelles accelerations, vitesses, positions
 	 * Pour cet exemple, on laissera cette methode vide.
+	 * @throws Exception 
 	 */
 
-	private void testerCollisionsEtAjusterPositions() {
+	private void testerCollisionsEtAjusterPositions() throws Exception {
 
 		boolean col = false;
 
@@ -719,107 +722,43 @@ public class ZonePinball extends JPanel implements Runnable {
 			Vecteur2D vitesseNegatif = new Vecteur2D(uneBille.getVitesse().getX() * -1, uneBille.getVitesse().getY());
 			uneBille.setVitesse(vitesseNegatif);
 
+		
 		}
 
 		//colision avec les obstacles en cerlce
 
 		
 		
-		for(int i = 0; i < obstaclesCercle.size();i++) {
-			
-			Murs cercle = obstaclesCercle.get(i);
-			
-			
-		}
-		
-		
-		
-		/*
 		for (int i = 0; i < obstaclesCercle.size(); i++) {
 
 			Murs cercle = obstaclesCercle.get(i);
 
 			//pythagore de la distance entre les centres de la bille et l"obstacle si inferieure a la somme des deux rayons donc collision 
 			if (Math.hypot((uneBille.getPosition().getX() + uneBille.getDiametre() / 2) - (cercle.getPositionMursX()), (uneBille.getPosition().getY() + uneBille.getDiametre() / 2) - (cercle.getPositionMursY())) < (uneBille.getDiametre() / 2 + cercle.getDiametre() / 2)) {
+			
 
-				col = false;
-
-
-				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX()) {
-
-					if (uneBille.getPosition().getX() > cercle.getPositionMursX() && col) {
-
-						double vitX = uneBille.getVitesse().getX() + 0.4;
-
-						Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-						uneBille.setVitesse(VitYnegatif);
-
-						score.updateScore(pointCercle);
-
-					}
-
-				}
-
-				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() < cercle.getPositionMursX()) {
-
-					if (uneBille.getPosition().getX() > cercle.getPositionMursX() && col) {
-
-						double vitX = uneBille.getVitesse().getX() - 0.4;
-
-						Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-						uneBille.setVitesse(VitYnegatif);
-
-						score.updateScore(pointCercle);
-
-					}
-				}
-				boolean colY = false;
-				boolean colX = false;
-
-				if (uneBille.getPosition().getX() < cercle.getPositionMursX()) {
-
-					double vitX = uneBille.getVitesse().getX() + 0.4;
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX * -1, uneBille.getVitesse().getY() * -1);
-					uneBille.setVitesse(VitYnegatif);
-					colX = true;
-
-					score.updateScore(pointCercle);
-
-
-				}
-				if (uneBille.getPosition().getX() > cercle.getPositionMursX()) {
-					colY = true;
-					score.updateScore(pointCercle);
-
-				}
-
-				if (uneBille.getVitesse().getY() + uneBille.getPosition().getY() > cercle.getPositionMursY() && colY) {
-
-					double vitX = uneBille.getVitesse().getX() + 0.4;
-
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-					uneBille.setVitesse(VitYnegatif);
-					score.updateScore(pointCercle);
-
-				}
-
-				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX() && colX) {
-
-					double vitX = uneBille.getVitesse().getX() - 0.4;
-
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-					uneBille.setVitesse(VitYnegatif);
-					score.updateScore(pointCercle);
-
-				}
+				Vecteur2D cerclePos = new Vecteur2D(cercle.getPositionMursX(),cercle.getPositionMursY());
+				
+				Vecteur2D normal = moteur.MoteurPhysique.calculRebondBilleCerlce(uneBille.getPosition(),cerclePos);
+					
+				
+				double vX =normal.getX();
+				
+				double vY =normal.getY();
+						
+				
+				Vecteur2D vitesseRebound = new Vecteur2D(vX,vY);
+				
+				
+				uneBille.setVitesse(vitesseRebound);
+				
+				
+				score.updateScore(1);
+				
 			}
 		}
 
-		 */
+		 
 
 		//collision entre la bille et les surfaces en pentes.
 
@@ -938,14 +877,12 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		//bille tombe dans trou reset
 		if (uneBille.getPosition().getY() > hauteurDuComposantMetre) {
+			
+			setScoreFinal(score.getScore());
+			
 			arreter();
-			//gestionScore = new GestionScore();
-
-			//	gestionScore.setScore(score);
-			setScoreFinal(score);
-			System.out.println("dd"+score+"ddd"+getScoreFinal());
-			retablirPosition();
-			score.resetScore();			
+			retablirPosition();	
+			score.setScore(scoreFinal);
 			if(coeurVie) {
 				System.out.println("LEs coeurs sont activees");
 				CoeurVie.perdVie();
@@ -1065,11 +1002,12 @@ public class ZonePinball extends JPanel implements Runnable {
 	} ///fin collision
 
 
-	private void setScoreFinal(PointageAnimation score2) {
-		scoreFinal = score2;
+	public void setScoreFinal(int score) {
+		scoreFinal = score;
 
 	}
-	public PointageAnimation getScoreFinal() {
+	
+	public int getScoreFinal() {
 		return scoreFinal;
 
 	}
@@ -1090,7 +1028,12 @@ public class ZonePinball extends JPanel implements Runnable {
 
 				arreter();
 			}
-			testerCollisionsEtAjusterPositions(); //pas utile pour le moment
+			try {
+				testerCollisionsEtAjusterPositions();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} //pas utile pour le moment
 			repaint();
 			try {
 				Thread.sleep(tempsDuSleep);
@@ -1284,7 +1227,12 @@ public class ZonePinball extends JPanel implements Runnable {
 	 */
 	public void prochaineImage() {
 		calculerUneIterationPhysique(deltaT);
-		testerCollisionsEtAjusterPositions();
+		try {
+			testerCollisionsEtAjusterPositions();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		repaint();
 	}
 
@@ -1911,6 +1859,13 @@ public class ZonePinball extends JPanel implements Runnable {
 		//echelle.lineTo(67,752);
 		((Graphics2D) g2d).draw(echelle);
 
+	}
+	
+	
+	public static int getScorefinal() {
+		return scoreFinal;
+		
+		
 	}
 
 

@@ -33,6 +33,7 @@ import animation.PointageAnimation;
 import animation.Scene;
 import animation.ZonePinball;
 import javax.swing.DefaultComboBoxModel;
+import animation.PointageAnimation;
 
 public class FenetreJouer extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -74,10 +75,16 @@ public class FenetreJouer extends JFrame{
 	private Musique musiqueMenu;
 	private static Musique musiqueJouer=new Musique (nomFichierSonJouer);
 	private Musique musiqueRessort=new Musique(nomFichierRessort);
+
 	private PointageAnimation scoreVie1;
     private PointageAnimation scoreVie2;
     private PointageAnimation scoreVie3;
     private JComboBox<Object> comboBoxObstacles;
+
+
+	
+	PointageAnimation score = new PointageAnimation();
+	
 
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
@@ -126,6 +133,7 @@ public class FenetreJouer extends JFrame{
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;
 				musiqueJouer.stop();
+				zonePinball.setScoreFinal(score.getScore());
 				//System.out.println("LEs coeurs sont a 0");
 			}
 			activeFormeObstacle();
@@ -283,7 +291,7 @@ public class FenetreJouer extends JFrame{
 
 
 
-			lblScore.setBounds(722, 461, 312, 77);
+			lblScore.setBounds(722, 461, 352, 77);
 			panelAvecImage.add(lblScore);
 
 			Inclinaison imageInclinaison = new Inclinaison();
@@ -503,9 +511,11 @@ public class FenetreJouer extends JFrame{
 		public static Musique musiqueJouer() {
 			return musiqueJouer;
 		}
+
 		public void activeFormeObstacle() {
 	        if(scoreVie3.activerForme()==true) {
 	            comboBoxObstacles.setEnabled(true);
 	        }
 	    }
+			
 }
