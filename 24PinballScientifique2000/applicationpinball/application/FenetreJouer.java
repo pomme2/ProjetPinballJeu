@@ -40,6 +40,7 @@ public class FenetreJouer extends JFrame{
 	private FenetreOption fenOption;
 	private FenetreFinPartie fenFinPartie;
 	private FenetreBacSable fenBac;
+	private FenetreClassement fenClassement;
 	private int valeurInclinaison;
 	private int valeurAimant;
 	private int valeurRessort;
@@ -105,7 +106,7 @@ public class FenetreJouer extends JFrame{
 			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
 			lblScore.setText("Score : "+ zonePinball.getScore().toString());
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
-				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this);
+				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this, fenClassement);
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;
 				musiqueJouer.stop();
@@ -173,7 +174,7 @@ public class FenetreJouer extends JFrame{
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;
 			this.fenFinPartie = fenFinPartie;
-			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this);
+			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this, fenClassement);
 			setTitle("Jouer");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(200, 40, 1100, 928);			

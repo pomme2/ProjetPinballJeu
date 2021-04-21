@@ -30,19 +30,24 @@ public class FenetreFinPartie extends JFrame{
 	private FenetreJouer fenJouer;
 	private ZonePinball zonePinball;
 	private PointageAnimation pointage;
+	private FenetreClassement fenClassement;
 
 	public String getInitiales() {
 		String initiales = txtEntreeInitiales.getText().toString();
 		return initiales;
 	}
 	
-	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac, FenetreJouer fenJouer) {
+	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac, FenetreJouer fenJouer, FenetreClassement fenClassement) {
 
 		this.fenBac = fenBac;
 		this.fenMenu = fenMenu;
 		this.fenJouer = fenJouer;
 		gestionScore = new GestionScore();
 		pointage = new PointageAnimation();
+		FenetreClassement fenClassement1 = new FenetreClassement(this);
+		
+		HighScore hs = new HighScore(new String[]{"Nom","Score"},new int[][]
+                {{1,0},{0,1}},10,"Score.txt",":");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 40, 1100, 928);
@@ -93,10 +98,18 @@ public class FenetreFinPartie extends JFrame{
 
 			public void actionPerformed(ActionEvent e) {
 				String initiales = txtEntreeInitiales.getText().toString();
+				hs.addLigne(new Comparable[]{new String(initiales),
+                    Integer.valueOf("100")});
+				 for(int i=0;i<hs.getNbLines();i++)
+		               System.out.println(hs.getLigne(i)[0] + "\t"+hs.getLigne(i)[1]);
+				 hs.Enregistre();
+				 hs.Charge();
 				gestionScore.setInitiales(initiales);
 				
-				PointageAnimation score = zonePinball.getScoreFinal();
-				gestionScore.setScore(score);
+				gestionScore.setScore(12);
+				
+				//PointageAnimation score = zonePinball.getScoreFinal();
+				//gestionScore.setScore(score);
 			//	PointageAnimation score = zonePinball.getScoreFinal();
 				//gestionScore.setScore(score);
 				//gestionScore.setScore(zonePinball.getScoreFinal());
@@ -104,6 +117,7 @@ public class FenetreFinPartie extends JFrame{
 				//gestionScore.setScore(pointage);
 			//	System.out.println("scorefinal "+zonePinball.getScoreFinal());
 				gestionScore.ecrireFichier();
+				gestionScore.lireFichierTexte();
 				
 			//	System.out.println(txtEntreeInitiales.getText().toString());
 			}
@@ -125,7 +139,16 @@ public class FenetreFinPartie extends JFrame{
 		});
 		btnSauvegarderScore.setBounds(600, 448, 403, 120);
 		contentPane.add(btnSauvegarderScore);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fenClassement1.setVisible(true);
+				
+			}
+		});
+		btnNewButton.setBounds(869, 286, 89, 23);
+		contentPane.add(btnNewButton);
 	
 	}
-	
 }

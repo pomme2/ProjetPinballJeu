@@ -57,6 +57,7 @@ public class FenetreBacSable extends JFrame{
 	private FenetreOption fenOption;
 	private FenetreFinPartie fenFinPartie;
 	private FenetreJouer fenJouer;
+	private FenetreClassement fenClassement;
 	private Dessin dessin;
 	private int valeurInclinaison;
 	private int valeurAimant,valeurMasse=1;
@@ -132,7 +133,7 @@ public class FenetreBacSable extends JFrame{
 			}*/
 
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver && coeurActive ) {
-				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer);
+				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer, fenClassement);
 				fenFinPartie1.setVisible(true);
 				premiereFoisGameOver=false;
 				//System.out.println("LEs coeurs sont a 0");
@@ -180,7 +181,7 @@ public class FenetreBacSable extends JFrame{
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;
 			this.fenFinPartie = fenFinPartie;
-			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer);
+			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer, fenClassement);
 
 			//dessinerImage=dessin.dessinImage();
 
