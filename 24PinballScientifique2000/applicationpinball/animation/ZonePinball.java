@@ -1226,7 +1226,9 @@ public class ZonePinball extends JPanel implements Runnable {
 		Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
 
 		double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
-		//System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
+		
+		//uneBille.setForceExterieureAppliquee(new Vecteur2D(forceElectrique,forceElectrique));
+		System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
 
 	}
 
