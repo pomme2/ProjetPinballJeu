@@ -64,7 +64,6 @@ public class Dessin extends JPanel  {
 	public Dessin() {
 		
 		cercle = new Ellipse2D.Double(585/2-285,621/2-285,570,570);
-		//cercle = new Ellipse2D.Double(250,300,100,100);
 		rectangle = new Rectangle2D.Double(0, 0, 585, 621);
 		
 
@@ -72,9 +71,7 @@ public class Dessin extends JPanel  {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-			//	if(ImageSelectionne) {
 					System.out.println("X: "+e.getX()+" cliqué "+" Y: "+e.getY()+" cliqué");
-				//}
 			}
 		});
 		setDoubleBuffered(false);
@@ -90,7 +87,6 @@ public class Dessin extends JPanel  {
 
 		addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent e) {
-				// coord x,y when drag mouse
 				currentX = e.getX();
 				currentY = e.getY();
 				

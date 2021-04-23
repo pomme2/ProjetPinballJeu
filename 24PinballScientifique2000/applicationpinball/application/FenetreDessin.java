@@ -143,11 +143,6 @@ public class FenetreDessin extends JFrame{
 		dessin = new Dessin();		
 		dessin.setBounds(89, 74, 585, 621);
 		panelAvecImage.add(dessin);
-
-		/*if(dessin.dessinImage()==false) {
-			dessin.setCouleur(Color.white);
-		}
-		 */
 		JButton btn1 = new JButton("Choisir une couleur");
 		btn1.setForeground(Color.BLUE);
 		btn1.setFont(new Font("Arcade Normal", Font.PLAIN, 10));

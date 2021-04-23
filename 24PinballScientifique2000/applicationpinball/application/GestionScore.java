@@ -55,13 +55,12 @@ public class GestionScore {
 			
 			fluxSortie = new PrintWriter(new BufferedWriter(new FileWriter(fichierScore)));
 			fluxSortie.println(initiales);
-			//System.out.println("écrire dans fichier intiales = " +initiales);
+
 			fluxSortie.println(score);
-			//System.out.println("score finallll"+ zonePinball.getScoreFinal().toString());
-			//fluxSortie.println(pointage.getScore());
-			
-			//fluxSortie.println(fenFinPartie.getInitiales());
-			//System.out.println(fenFinPartie.getInitiales());
+
+			System.out.println("écrire dans fichier intiales = " +initiales);
+			fluxSortie.println(pointage);
+
 		}catch(IOException e) {
 			JOptionPane.showMessageDialog(null,"Erreur d'écriture");
 			e.printStackTrace();
