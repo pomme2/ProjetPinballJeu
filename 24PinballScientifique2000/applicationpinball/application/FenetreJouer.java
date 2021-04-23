@@ -75,6 +75,7 @@ public class FenetreJouer extends JFrame{
 	private Musique musiqueMenu;
 	private static Musique musiqueJouer=new Musique (nomFichierSonJouer);
 	private static Musique musiqueRessort=new Musique(nomFichierRessort);
+	private Musique musiquePortail;
 
 	private PointageAnimation scoreVie1;
     private PointageAnimation scoreVie2;
@@ -171,6 +172,7 @@ public class FenetreJouer extends JFrame{
 		 */
 		public FenetreJouer(App24PinballScientifique2001 fenMenu, FenetreOption fenOption,FenetreFinPartie fenFinPartie) {			
 			musiqueMenu=App24PinballScientifique2001.musiqueMenu();
+			musiquePortail=App24PinballScientifique2001.musiquePortail();
 			if (urlArcade == null) {
 				JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 				System.exit(0);
@@ -340,6 +342,7 @@ public class FenetreJouer extends JFrame{
 					vie.setNombreCoeur(3);
 					FenetreBacSable.setCoeurActive(false);
 					App24PinballScientifique2001.setJouerActive(false);
+					musiquePortail.stop();
 					musiqueMenu.reset();
 					musiqueMenu.play();
 					musiqueMenu.loop();

@@ -103,6 +103,7 @@ public class FenetreBacSable extends JFrame{
 	private Image backGround, backGroundRedim;
 	private Musique musiqueBacSable;
 	private Musique musiqueRessort;
+	private Musique musiquePortail;
 
 
 
@@ -185,6 +186,7 @@ public class FenetreBacSable extends JFrame{
 			musiqueMenu=App24PinballScientifique2001.musiqueMenu();
 			musiqueBacSable=App24PinballScientifique2001.musiqueBacSable();
 			musiqueRessort=FenetreJouer.musiqueRessort();
+			musiquePortail=App24PinballScientifique2001.musiquePortail();
 			if (urlBacSable == null) {
 				JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 				System.exit(0);
@@ -352,6 +354,7 @@ public class FenetreBacSable extends JFrame{
 					fenMenu.setVisible(true);
 					setVisible(false);
 					vie.setNombreCoeur(3);	
+					musiquePortail.stop();
 					musiqueBacSable.stop();
 					musiqueMenu.reset();
 					musiqueMenu.play();

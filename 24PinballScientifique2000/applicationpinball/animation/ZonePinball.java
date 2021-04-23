@@ -271,7 +271,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	private static String nomFichierSonFlipper=".//Ressource//sonFlipper1sec.wav"; 
 	private static Musique musiqueFlipperGauche=new Musique (nomFichierSonFlipper);
 	private static Musique musiqueFlipperDroit=new Musique (nomFichierSonFlipper);
-	private Musique musiqueJouer;
+	private Musique musiqueJouer;	 		
 	private boolean jouerActive;
 	
 	//Portails
@@ -287,6 +287,10 @@ public class ZonePinball extends JPanel implements Runnable {
 	//Portail Droit
 	private double coordXPortailDroitSol=0.812,coordYPortailDroitSol=1.046,longueurPortailDroitSol=0.106;
 	private double coordXPortailDroitDroit=0.924, coordYPortailDroitDroit=0.826,longueurPortailDroitDroit=0.218;
+	//Trou courbe
+	private double x1=0.161,y1=0.396,x2=0.12,y2=0.490,x3=0.10,y3=0.56;
+	private double diametreTrou=0.05;
+	private double lignex1=0.064,ligney1=0.71, longueur=0.024, hauteur=0.03;
 
 
 	//Thomas Bourgault  et Carlos Eduardo
@@ -497,6 +501,26 @@ public class ZonePinball extends JPanel implements Runnable {
 			g2d.fill(matPortailDroit.createTransformedShape(portailDroitSol));
 			g2d.fill(matPortailDroit.createTransformedShape(portailDroitDroit));
 		}
+		g2d.setColor(Color.BLACK);
+		AffineTransform matTrou1= new AffineTransform();
+		Ellipse2D.Double trou1= new Ellipse2D.Double( x1, y1,diametreTrou,diametreTrou);
+		matTrou1.scale(pixelParMetre,pixelParMetre);
+		g2d.fill(matTrou1.createTransformedShape(trou1));
+		
+		AffineTransform matTrou2= new AffineTransform();
+		Ellipse2D.Double trou2= new Ellipse2D.Double( x2, y2,diametreTrou,diametreTrou);
+		matTrou2.scale(pixelParMetre,pixelParMetre);
+		g2d.fill(matTrou2.createTransformedShape(trou2));
+		
+		AffineTransform matTrou3= new AffineTransform();
+		Ellipse2D.Double trou3= new Ellipse2D.Double( x3, y3,diametreTrou,diametreTrou);
+		matTrou3.scale(pixelParMetre,pixelParMetre);
+		g2d.fill(matTrou3.createTransformedShape(trou3));
+		
+		AffineTransform matTrou4= new AffineTransform();
+		Rectangle2D.Double trou4=new Rectangle2D.Double(lignex1,ligney1,longueur,hauteur);
+		matTrou4.scale(pixelParMetre,pixelParMetre);
+		g2d.fill(matTrou4.createTransformedShape(trou4));
 		if (premiereFois) {
 			//Construction 4 cercles
 
@@ -911,13 +935,17 @@ public class ZonePinball extends JPanel implements Runnable {
 
 			boolean under = false;
 
-			if (uneBille.getPosition().getY() + uneBille.getDiametre() > sous.getCoordY1()) {
-
+			if (uneBille.getPosition().getY() + uneBille.getDiametre() > sous.getCoordY1()) {				
 				under = true;
+				
+									
 			}
 			if (uneBille.getPosition().getX() > sous.getCoordX1() && uneBille.getPosition().getX() < sous.getCoordX2() && uneBille.getPosition().getY() < sous.getCoordY1() && under) {
 
 				uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(), uneBille.getVitesse().getY() * -1));
+				
+				
+				
 			}
 		}
 

@@ -54,6 +54,8 @@ public class App24PinballScientifique2001 extends JFrame{
 	public static Musique musiqueTuto=new Musique(nomFichierSonTuto);
 	private static String nomFichierSonBacSable=".//Ressource//musiqueBacSable.wav"; 
 	private static Musique musiqueBacSable= new Musique(nomFichierSonBacSable);
+	private static String nomFichierSonPortail=".//Ressource//Portail.wav"; 
+	private static Musique musiquePortail= new Musique(nomFichierSonPortail);
 	private static boolean jouerActive=false;
 
 	//private java.net.URL urlPlay = getClass().getClassLoader().getResource("play button.jpg");
@@ -180,6 +182,10 @@ public class App24PinballScientifique2001 extends JFrame{
 				musiqueBacSable.reset();
 				musiqueBacSable.play();
 				musiqueBacSable.loop();
+				musiquePortail.setVolume(0.05f);
+				musiquePortail.reset();
+				musiquePortail.play();
+				musiquePortail.loop();
 				fenBac.setVisible(true);
 				FenetreBacSable.setCoeurActive(false);
 				//fenFinPartie.setVisible(false);
@@ -218,6 +224,10 @@ public class App24PinballScientifique2001 extends JFrame{
 				musiqueMenu.stop();
 				setJouerActive(true);
 				fenJouer.setVisible(true);
+				musiquePortail.setVolume(0.05f);
+				musiquePortail.reset();
+				musiquePortail.play();
+				musiquePortail.loop();
 				setVisible(false);
 						
 
@@ -284,6 +294,9 @@ public class App24PinballScientifique2001 extends JFrame{
 	}
 	public static void setJouerActive(boolean jouer) {
 		jouerActive=jouer;
+	}
+	public static Musique musiquePortail() {
+		return musiquePortail;
 	}
 }
 
