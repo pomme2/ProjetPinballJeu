@@ -39,15 +39,7 @@ public class ImageBille implements Dessinable{
 	public ImageBille(String nomImage) {
 		this.nomImage = nomImage;
 		dessin = new Dessin();
-		/*try {
-			 image = ImageIO.read(new File(System.getProperty("user.home")+nomImage));
-			 System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+nomImage);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 
-		
 	}
 /**
  * Methode permettant d'appliquer une texture sur l'image de la bille
@@ -59,25 +51,15 @@ public class ImageBille implements Dessinable{
 		File pngOriginal = new File(System.getProperty("user.home")+"\\ImageB2.png");
 		File pngResized = new File(System.getProperty("user.home")+"\\ImageB.png");
 		BufferedImage img = null;
-		//redimImage(pngOriginal,pngResized,100,100,"png");
+
 		try {
-			//if(dessinerImage) {
-				//img = ImageIO.read(new File(System.getProperty("user.home")+"\\ImageB2.png"));
 				img = ImageIO.read(new File(System.getProperty("user.home")+nomImage));
-				
-		//	}else {
-			//	img = ImageIO.read(urlBilleBlanc);
-			//}
 		
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
 		Rectangle2D rect = new Rectangle2D.Double(0,0,100,100);
-		//Rectangle2D rect = new Rectangle2D.Double(14,5.5,diametre,diametre);
-		//Rectangle2D rect = new Rectangle2D.Double(14,5.5,diametre,diametre);
-		//Rectangle2D rect = new Rectangle2D.Double(img.getWidth()-(img.getWidth()/2),img.getHeight()+(img.getHeight()/2),diametre,diametre);
-		//Rectangle2D rect = new Rectangle2D.Double(position.getX()-15,position.getY()-3,diametre,diametre);
 		TexturePaint texturePaintBille = new TexturePaint(img,rect);
 		g2d.setPaint(texturePaintBille);
 		Rectangle2D rect2 = new Rectangle2D.Double(0,0,100,100);

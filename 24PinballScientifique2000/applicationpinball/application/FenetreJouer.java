@@ -109,7 +109,6 @@ public class FenetreJouer extends JFrame{
 		public void miseAjourInterface() {
 			coeurVie=FenetreBacSable.getCoeurActive();
 			FenetreBacSable.setCoeurActive(true);
-			//System.out.println("Interface mise à jour.....");
 			lblAcceleration.setText("Acceleration: 0,0");
 			lblVitesseX.setText("Vitesse X : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getX()));
 			lblVitesseY.setText("Vitesse Y : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getY()));
@@ -118,15 +117,15 @@ public class FenetreJouer extends JFrame{
 			lblScore.setText("Score : "+ zonePinball.getScore().toString());
 			if(vie.getNombreCoeur()==3) {
                 scoreVie3=zonePinball.getScore();
-                System.out.println("Scorevie3: "+scoreVie3);
+              ///////////////////////////////////// pour thomas System.out.println("Scorevie3: "+scoreVie3);
             }
             if(vie.getNombreCoeur()==2) {
                 scoreVie2=zonePinball.getScore();
-                System.out.println("Scorevie2: "+scoreVie2);
+            ////////////////////////////////////////////// pour thomas  System.out.println("Scorevie2: "+scoreVie2);
             }
             if(vie.getNombreCoeur()==1) {
                 scoreVie1=zonePinball.getScore();
-                System.out.println("Scorevie1: "+scoreVie1);
+             //////////////////////////////////////////////pour thomas   System.out.println("Scorevie1: "+scoreVie1);
             }
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this);
@@ -134,7 +133,7 @@ public class FenetreJouer extends JFrame{
 				premiereFoisGameOver=false;
 				musiqueJouer.stop();
 				zonePinball.setScoreFinal(score.getScore());
-				//System.out.println("LEs coeurs sont a 0");
+
 			}
 			activeFormeObstacle();
 			remonterJSlider();
@@ -356,12 +355,6 @@ public class FenetreJouer extends JFrame{
 			panelAvecImage.add(lblKg);
 
 
-
-
-
-
-
-
 			JLabel lblValeurAccel = new JLabel("       m/s\u00B2");
 			lblValeurAccel.setForeground(Color.CYAN);
 			lblValeurAccel.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -389,7 +382,6 @@ public class FenetreJouer extends JFrame{
 				@Override
 				public void mousePressed(MouseEvent e) {
 
-					System.out.println("Slider active");
 				}
 				@Override
 				public void mouseReleased(MouseEvent e) {
@@ -402,7 +394,6 @@ public class FenetreJouer extends JFrame{
 						musiquePremiereFois=false;
 					}
 					premiereFoisJSlider=false;
-					System.out.println("Slider desactive");
 					zonePinball.demarrer();
 					zonePinball.requestFocusInWindow();
 					minuteurResultats = new Timer(10, ecouteurDuMinuteur );
@@ -420,7 +411,6 @@ public class FenetreJouer extends JFrame{
 			sliderEtirement.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
-					System.out.println(sliderEtirement.getValue()/100.0);
 				}
 			});
 

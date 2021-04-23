@@ -71,9 +71,6 @@ public class MursCourbes implements Dessinable{
 		g2d.setColor(Color.green);
 		g2d.draw(mat.createTransformedShape(murCourbe));
 
-		//Enlever commentaire pour voir dessin courbe segmentee
-		//g2d.setColor(Color.red);
-		//g2d.draw(mat.createTransformedShape(segmentTest));
 
 	}
 	//Thomas Bourgault
@@ -174,34 +171,23 @@ public class MursCourbes implements Dessinable{
 			int type = path.currentSegment(coordonnees);
 			switch (type) {
 			case PathIterator.SEG_MOVETO:
-				//System.out.println("Move to " + coordonnees[0] + ", " + coordonnees[1]);
 				segmentTest.moveTo(coordonnees[0] , coordonnees[1]);				
 				coordXligneSegment.add(coordonnees[0]);
 				coordYligneSegment.add(coordonnees[1]);
 				break;
 			case PathIterator.SEG_LINETO:
-				//System.out.println("Line to " + coordonnees[0] + ", " + coordonnees[1]);
 				segmentTest.lineTo(coordonnees[0] , coordonnees[1]); 
 				coordXligneSegment.add(coordonnees[0]);
 				coordYligneSegment.add(coordonnees[1]);
 				break;
 			case PathIterator.SEG_CLOSE:
-				//System.out.println("Close");
 				segmentTest.closePath();
 				break;
 			}
 			path.next(); 
 
 		}
-		for(int i=0;i<coordXligneSegment.size();i++){
-			//System.out.println("list des coord en x : "+coordXligneSegment.get(i));		   
-		} 
-		//System.out.println("taille list coord en x: "+coordXligneSegment.size());
 
-		for(int i=0;i<coordYligneSegment.size();i++){
-			//System.out.println("list des coord en y : "+coordYligneSegment.get(i));		   
-		} 
-	//	System.out.println("taille list coord en y: "+coordYligneSegment.size());
 		
 	}
 	//Thomas Bourgault

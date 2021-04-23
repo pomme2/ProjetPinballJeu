@@ -54,10 +54,6 @@ public class GestionScore {
 			fluxSortie.println(initiales);
 			System.out.println("écrire dans fichier intiales = " +initiales);
 			fluxSortie.println(pointage);
-			//fluxSortie.println(pointage.getScore());
-			
-			//fluxSortie.println(fenFinPartie.getInitiales());
-			//System.out.println(fenFinPartie.getInitiales());
 		}catch(IOException e) {
 			JOptionPane.showMessageDialog(null,"Erreur d'écriture");
 			e.printStackTrace();

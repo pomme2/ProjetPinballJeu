@@ -163,7 +163,6 @@ public class Ressort implements Dessinable {
 	 */
 	private void verifierArret(Vecteur2D positionInitiale) {
 		if (position.equals(positionRepos) && position.equals(positionInitiale)) {
-			//if (position.equals(positionInitiale)) {
 			accel = new Vecteur2D(0,0);
 			vitesse = new Vecteur2D(0,0);
 			position = new Vecteur2D(positionRepos);
