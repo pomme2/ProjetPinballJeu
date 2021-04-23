@@ -260,10 +260,6 @@ public class Bille extends Rectangle implements Dessinable {
 	public void lireImage(Graphics2D g2d) {
 
 
-		//BufferedImage nImg = redimensionner(img,(int)diametre,(int)diametre);
-		//Rectangle2D rect = new Rectangle2D.Double(0,0,nImg.getWidth(),nImg.getHeight());
-		//TexturePaint texturePaintBille = new TexturePaint(nImg,rect);
-		//BufferedImage imgB = scale(img,10,10);
 
 		File pngOriginal = new File(System.getProperty("user.home")+"\\ImageB.png");
 		File pngResized = new File(System.getProperty("user.home")+"\\ImageB.png");
@@ -275,10 +271,7 @@ public class Bille extends Rectangle implements Dessinable {
 			e.printStackTrace();
 		}
 		Rectangle2D rect = new Rectangle2D.Double(13.098,4.391,diametre,diametre);
-		//Rectangle2D rect = new Rectangle2D.Double(14,5.5,diametre,diametre);
-		//Rectangle2D rect = new Rectangle2D.Double(14,5.5,diametre,diametre);
-		//Rectangle2D rect = new Rectangle2D.Double(img.getWidth()-(img.getWidth()/2),img.getHeight()+(img.getHeight()/2),diametre,diametre);
-		//Rectangle2D rect = new Rectangle2D.Double(position.getX()-15,position.getY()-3,diametre,diametre);
+
 		TexturePaint texturePaintBille = new TexturePaint(img,rect);
 		g2d.setPaint(texturePaintBille);
 		Ellipse2D ellipseBille = new Ellipse2D.Double(position.getX(),position.getY(),diametre,diametre);
