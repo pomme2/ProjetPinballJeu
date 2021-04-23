@@ -168,7 +168,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	ArrayList < Double > arcCerclePetitCoordY = new ArrayList < Double > ();
 
 	//tab avec flippers
-
+	
 	private ArrayList < MursDroits > flipperGauche = new ArrayList < MursDroits > ();
 
 	private ArrayList < MursDroits > flipperDroit = new ArrayList < MursDroits > ();
