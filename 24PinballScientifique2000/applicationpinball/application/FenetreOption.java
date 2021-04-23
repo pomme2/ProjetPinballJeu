@@ -65,7 +65,7 @@ public class FenetreOption extends JFrame{
 		getContentPane().add(chckbxActiveLumiere);
 		
 		JSlider sliderVolume = new JSlider();
-		sliderVolume.setValue(5);
+		sliderVolume.setValue(10);
 		sliderVolume.setMaximum(10);
 		sliderVolume.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {				
