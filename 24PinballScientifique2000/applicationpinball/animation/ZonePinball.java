@@ -114,7 +114,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private Vecteur2D positionAimant = new Vecteur2D(0.32, 1.076);
 
-	boolean aimantActif;
+	boolean aimantActif = false;
 
 
 	double aimantX = 0.32;
@@ -268,11 +268,15 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private boolean pause = false;
 	private boolean premiereFoisBille =true;
-	private String nomFichierSonFlipper=".//Ressource//sonFlipper1sec.wav"; 
-	private Musique musiqueFlipperGauche=new Musique (nomFichierSonFlipper);
-	private Musique musiqueFlipperDroit=new Musique (nomFichierSonFlipper);
+	private static String nomFichierSonFlipper=".//Ressource//sonFlipper1sec.wav"; 
+	private static Musique musiqueFlipperGauche=new Musique (nomFichierSonFlipper);
+	private static Musique musiqueFlipperDroit=new Musique (nomFichierSonFlipper);
 	private Musique musiqueJouer;
 	private boolean jouerActive;
+	
+	private double compteurPortailGaucheSol=0;
+    private int compteur=0;
+    private int variablePourCompter=1;
 
 
 	//Thomas Bourgault  et Carlos Eduardo
@@ -473,7 +477,15 @@ public class ZonePinball extends JPanel implements Runnable {
 		}
 		g2d.setTransform(oldDroit);
 		////////////////////////////////////////////////////////////////////////////////
-
+		g2d.setColor(Color.cyan);
+        for(compteur=0;compteur<variablePourCompter;compteur++) {
+            Ellipse2D.Double portailGaucheSol=new Ellipse2D.Double(0.195,0.893,0.122+compteurPortailGaucheSol,0.007);
+            Ellipse2D.Double portailGaucheDroit=new Ellipse2D.Double(0.191,0.770,0.007,0.114+compteurPortailGaucheSol);
+            AffineTransform matPortail= new AffineTransform();
+            matPortail.scale(pixelParMetre,pixelParMetre);
+            g2d.fill(matPortail.createTransformedShape(portailGaucheSol));
+            g2d.fill(matPortail.createTransformedShape(portailGaucheDroit));
+        }
 		if (premiereFois) {
 			//Construction 4 cercles
 
@@ -725,105 +737,26 @@ public class ZonePinball extends JPanel implements Runnable {
 
 			//pythagore de la distance entre les centres de la bille et l"obstacle si inferieure a la somme des deux rayons donc collision 
 			if (Math.hypot((uneBille.getPosition().getX() + uneBille.getDiametre() / 2) - (cercle.getPositionMursX()), (uneBille.getPosition().getY() + uneBille.getDiametre() / 2) - (cercle.getPositionMursY())) < (uneBille.getDiametre() / 2 + cercle.getDiametre() / 2)) {
-
-				col = false;
+			
 
 				Vecteur2D cerclePos = new Vecteur2D(cercle.getPositionMursX(),cercle.getPositionMursY());
 				
 				Vecteur2D normal = moteur.MoteurPhysique.calculRebondBilleCerlce(uneBille.getPosition(),cerclePos);
+					
 				
+				double vX =normal.getX();
 				
-				
-				double vX = uneBille.getVitesse().getX();
-				
-				double vY = uneBille.getVitesse().getY();
-				
-				vX =vX*normal.getX();
-				
-				vY =vY*normal.getY();
-				
-				
+				double vY =normal.getY();
+						
 				
 				Vecteur2D vitesseRebound = new Vecteur2D(vX,vY);
 				
-				//uneBille.setVitesse(vitesseRebound);
+				
+				uneBille.setVitesse(vitesseRebound);
 				
 				
-				/*
-				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX()) {
-
-					if (uneBille.getPosition().getX() > cercle.getPositionMursX() && col) {
-
-						double vitX = uneBille.getVitesse().getX() + 0.4;
-
-						Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-						uneBille.setVitesse(VitYnegatif);
-
-						score.updateScore(pointCercle);
-
-					}
-
-				}
-
-				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() < cercle.getPositionMursX()) {
-
-					if (uneBille.getPosition().getX() > cercle.getPositionMursX() && col) {
-
-						double vitX = uneBille.getVitesse().getX() - 0.4;
-
-						Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-						uneBille.setVitesse(VitYnegatif);
-
-						score.updateScore(pointCercle);
-
-					}
-				}
-				boolean colY = false;
-				boolean colX = false;
-
-				if (uneBille.getPosition().getX() < cercle.getPositionMursX()) {
-
-					double vitX = uneBille.getVitesse().getX() + 0.4;
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX * -1, uneBille.getVitesse().getY() * -1);
-					uneBille.setVitesse(VitYnegatif);
-					colX = true;
-
-					score.updateScore(pointCercle);
-
-
-				}
-				if (uneBille.getPosition().getX() > cercle.getPositionMursX()) {
-					colY = true;
-					score.updateScore(pointCercle);
-
-				}
-
-				if (uneBille.getVitesse().getY() + uneBille.getPosition().getY() > cercle.getPositionMursY() && colY) {
-
-					double vitX = uneBille.getVitesse().getX() + 0.4;
-
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-					uneBille.setVitesse(VitYnegatif);
-					score.updateScore(pointCercle);
-
-				}
-
-				if (uneBille.getVitesse().getX() + uneBille.getPosition().getX() > cercle.getPositionMursX() && colX) {
-
-					double vitX = uneBille.getVitesse().getX() - 0.4;
-
-					Vecteur2D VitYnegatif = new Vecteur2D(vitX, uneBille.getVitesse().getY() * -1);
-
-					uneBille.setVitesse(VitYnegatif);
-					score.updateScore(pointCercle);
-
-				}
+				score.updateScore(1);
 				
-				*/
-				//////////////////////
 			}
 		}
 
@@ -1067,7 +1000,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		}
 
-		aimantActif(aimantActif);
+		//aimantActif(false);
 
 
 	} ///fin collision
@@ -1127,6 +1060,17 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * tous les objets de la scène
 	 */
 	private void calculerUneIterationPhysique(double deltaT) {
+		if(compteurPortailGaucheSol<0.015) {
+            compteurPortailGaucheSol=compteurPortailGaucheSol+0.001;
+        }
+        if(compteurPortailGaucheSol==0.015) {
+            compteurPortailGaucheSol=0;
+        }
+        variablePourCompter++;
+        if(variablePourCompter==22) {
+            variablePourCompter=0;
+            compteur=0;
+        }
 		coeurVie=FenetreBacSable.getCoeurActive();
 		tempsTotalEcoule += deltaT;
 		uneBille.avancerUnPas(deltaT);
@@ -1302,15 +1246,20 @@ public class ZonePinball extends JPanel implements Runnable {
 	 *  
 	 * @param si checkbox aimant est true ou false
 	 */
-	public void aimantActif(boolean aimant) {
+		public void aimantActif(boolean aimant) {
 
+			Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
 
-		Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
-
-		double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
-		//System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
-
+			double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
+			
+			
+			distance = distance.multiplie(forceElectrique);
+			
+			uneBille.setForceExterieureAppliquee(new Vecteur2D(distance));
+			System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
 	}
+		
+
 
 
 	//Audrey Viger
@@ -1839,7 +1788,7 @@ public class ZonePinball extends JPanel implements Runnable {
 						repaint();
 					}
 
-				}else if (forme=="Carré") {
+				}else if (forme=="Carre") {
 					if (obstacle.contientCarre(e.getX()/(dimensionImageX/largeurDuComposantMetre), e.getY()/(dimensionImageX/largeurDuComposantMetre))){
 						formeSelectionne = true;
 						xPrecedent = e.getX()/(dimensionImageX/largeurDuComposantMetre);
@@ -1924,9 +1873,14 @@ public class ZonePinball extends JPanel implements Runnable {
 	
 	
 	public static int getScorefinal() {
-		return scoreFinal;
+		return scoreFinal;		
 		
-		
+	}
+	public static Musique musiqueFlipperGauche() {
+		return musiqueFlipperGauche;
+	}
+	public static Musique musiqueFlipperDroit() {
+		return musiqueFlipperDroit;
 	}
 
 

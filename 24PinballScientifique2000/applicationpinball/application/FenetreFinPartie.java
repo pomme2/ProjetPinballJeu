@@ -81,6 +81,7 @@ public class FenetreFinPartie extends JFrame{
 		JButton btnRecommencer = new JButton("Revenir au menu");
 		btnRecommencer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//fenClassement = new FenetreClassement(fenBac);
 				fenMenu.setVisible(true);
 				setVisible(false);
 			}
@@ -155,4 +156,5 @@ public class FenetreFinPartie extends JFrame{
 		contentPane.add(lblScore);
 	
 	}
+
 }

@@ -75,6 +75,8 @@ public class FenetreBacSable extends JFrame{
 	private double hauteurDuComposantMetre=1.536;
 	private Scene scene;
 
+	private double inclinaisonAjustement = 0.128;
+
 	//carlos affichage des resultats
 	private JLabel lblVitesseX;
 	private JLabel lblVitesseY;
@@ -104,6 +106,8 @@ public class FenetreBacSable extends JFrame{
 	private java.net.URL urlBacSable = getClass().getClassLoader().getResource("ImageBacSable2e.jpg");
 	private Image backGround, backGroundRedim;
 	private Musique musiqueBacSable;
+	private Musique musiqueRessort;
+	private FenetreClassement fenClassement1;
 
 
 
@@ -117,7 +121,7 @@ public class FenetreBacSable extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			miseAjourInterface();
 		}};
-	
+
 		//Carlos Eduardo
 		/**
 		 * Méthode qui questionne le composant d'animation pour obtenir les résultats actuels
@@ -135,18 +139,14 @@ public class FenetreBacSable extends JFrame{
 			if(CoeurVieActiveEtScore) {
 				lblScore.setText("Score : "+ zonePinball.getScore().toString());
 			}
-			
-			/*if(zonePinball.getPositionBille().getY()>=1) {
-				score = pointage.getScore();
-				gestionScore.setScore(score);
-				System.out.println("bacSable score = "+score);
-			}*/
+
 
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver && coeurActive ) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer, fenClassement);
 				fenFinPartie1.setVisible(true);
 				setVisible(false);
 				premiereFoisGameOver=false;
+				
 				
 			}
 			remonterJSlider();
@@ -167,7 +167,7 @@ public class FenetreBacSable extends JFrame{
 		public void remonterJSlider() {
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
-				
+
 			}
 
 
@@ -189,7 +189,8 @@ public class FenetreBacSable extends JFrame{
 		 */
 		public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption, FenetreFinPartie fenFinPartie) {
 			musiqueMenu=App24PinballScientifique2001.musiqueMenu();
-			 musiqueBacSable=App24PinballScientifique2001.musiqueBacSable();
+			musiqueBacSable=App24PinballScientifique2001.musiqueBacSable();
+			musiqueRessort=FenetreJouer.musiqueRessort();
 			if (urlBacSable == null) {
 				JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 				System.exit(0);
@@ -221,7 +222,7 @@ public class FenetreBacSable extends JFrame{
 			HighScore hs = new HighScore(new String[]{"Nom","Score"},new int[][]
 	                {{1,0},{0,1}},10,"Score.txt","  ");
 			//dessinerImage=dessin.dessinImage();
-			FenetreClassement fenClassement1 = new FenetreClassement(this);
+		
 			vie=new CoeurVie(urlCoeur);
 
 			//initianilisationFenSecondaire();
@@ -320,7 +321,7 @@ public class FenetreBacSable extends JFrame{
 
 
 
-			Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
+			Object[] choixObstacles = { "Carre", "Cercle","Triangle","Rectangle"};
 
 			JComboBox<Object> comboBoxObstacles = new JComboBox<Object>(choixObstacles);
 			comboBoxObstacles.setForeground(Color.CYAN);
@@ -457,6 +458,10 @@ public class FenetreBacSable extends JFrame{
 					//System.out.println(valeurInclinaison);
 					sliderInclinaison.setValue(valeurInclinaison);
 					imageInclinaison.setInclinaison(valeurInclinaison);
+
+					double grav = valeurInclinaison;
+
+					moteur.MoteurPhysique.setACCEL_GRAV(grav*inclinaisonAjustement);
 				}
 			});
 			spinnerInclinaison.setBounds(948, 299, 42, 22);
@@ -527,7 +532,8 @@ public class FenetreBacSable extends JFrame{
 				}
 				@Override
 				public void mouseReleased(MouseEvent e) {
-
+					musiqueRessort.reset();
+					musiqueRessort.play();
 					zonePinball.demarrer();
 					zonePinball.requestFocusInWindow();
 					minuteurResultats = new Timer(10, ecouteurDuMinuteur );
@@ -661,7 +667,7 @@ public class FenetreBacSable extends JFrame{
 			lblValeurVitesse_1.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
 			lblValeurVitesse_1.setBounds(843, 131, 93, 14);
 			panelAvecImage.add(lblValeurVitesse_1);
-			
+
 			JButton btnPause = new JButton("Pause");
 			btnPause.setForeground(Color.CYAN);
 			btnPause.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
@@ -672,15 +678,15 @@ public class FenetreBacSable extends JFrame{
 			});
 			btnPause.setBounds(484, 805, 89, 23);
 			panelAvecImage.add(btnPause);
-			
+
 			JButton btnNextImg = new JButton("Next frame");
 			btnNextImg.setForeground(Color.CYAN);
 			btnNextImg.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnNextImg.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+
 					zonePinball.prochaineImage();				
-					}
+				}
 			});
 			btnNextImg.setBounds(582, 805, 101, 23);
 			panelAvecImage.add(btnNextImg);

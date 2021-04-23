@@ -65,7 +65,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 			triangle.lineTo(posX+larg/2,posY+haut/2);
 			triangle.closePath();
 
-		}else if(forme == "Carré") {
+		}else if(forme == "Carre") {
 			carre = new Rectangle2D.Double(posX-haut/2,posY-haut/2,haut,haut);
 			ligneJ = new Rectangle2D.Double(30,590,471,2);
 
@@ -101,7 +101,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 		if(forme=="Cercle") {
 			g2d.fill(mat.createTransformedShape(cercle));
 			//	g2d.fill(mat.createTransformedShape(ligneJ));
-		}else if(forme=="Carré"){
+		}else if(forme=="Carre"){
 			g2d.fill(mat.createTransformedShape(carre));
 			//g2d.fill(mat.createTransformedShape(ligneJ));
 		}else if(forme=="Rectangle") {
@@ -285,7 +285,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 		if(forme=="Cercle") {
 			return larg;
 			//	g2d.fill(mat.createTransformedShape(ligneJ));
-		}else if(forme=="Carré"){
+		}else if(forme=="Carre"){
 			return haut;
 			//g2d.fill(mat.createTransformedShape(ligneJ));
 		}else if(forme=="Rectangle") {
@@ -322,7 +322,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 		if(forme=="Cercle") {
 			return haut;
 			//	g2d.fill(mat.createTransformedShape(ligneJ));
-		}else if(forme=="Carré"){
+		}else if(forme=="Carre"){
 			return haut;
 			//g2d.fill(mat.createTransformedShape(ligneJ));
 		}else if(forme=="Rectangle") {

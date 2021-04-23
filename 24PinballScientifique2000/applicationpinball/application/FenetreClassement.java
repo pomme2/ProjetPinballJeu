@@ -32,10 +32,11 @@ public class FenetreClassement extends JFrame {
 		private FenetreBacSable fenBacSable;
 		private FenetreJouer fenJouer;
 
-	
+		
 		
 		public FenetreClassement( FenetreJouer fenJouer) {
 			this.fenJouer = fenJouer;
+		
 			
 			getContentPane().setLayout(null);
 			
@@ -79,6 +80,9 @@ public class FenetreClassement extends JFrame {
 			//hs.
 			//lblNewLabel.setText(text);;
 		}
+		/**
+		 * @wbp.parser.constructor
+		 */
 		public FenetreClassement(FenetreBacSable fenetreBacSable) {
 		this.fenBacSable = fenetreBacSable;
 			
@@ -116,6 +120,8 @@ public class FenetreClassement extends JFrame {
 			contentPane.add(textArea);
 			
 			readTextFile(textArea,"Score.txt");
+			
+			
 			
 		}
 		private void readTextFile(JTextArea texte, String fileName) 
