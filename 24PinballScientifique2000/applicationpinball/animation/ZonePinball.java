@@ -268,9 +268,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private boolean pause = false;
 	private boolean premiereFoisBille =true;
-	private String nomFichierSonFlipper=".//Ressource//sonFlipper1sec.wav"; 
-	private Musique musiqueFlipperGauche=new Musique (nomFichierSonFlipper);
-	private Musique musiqueFlipperDroit=new Musique (nomFichierSonFlipper);
+	private static String nomFichierSonFlipper=".//Ressource//sonFlipper1sec.wav"; 
+	private static Musique musiqueFlipperGauche=new Musique (nomFichierSonFlipper);
+	private static Musique musiqueFlipperDroit=new Musique (nomFichierSonFlipper);
 	private Musique musiqueJouer;
 	private boolean jouerActive;
 	
@@ -479,10 +479,12 @@ public class ZonePinball extends JPanel implements Runnable {
 		////////////////////////////////////////////////////////////////////////////////
 		g2d.setColor(Color.cyan);
         for(compteur=0;compteur<variablePourCompter;compteur++) {
-            Ellipse2D.Double portailGaucheSol=new Ellipse2D.Double(0.195,0.892,0.122+compteurPortailGaucheSol,0.01);
+            Ellipse2D.Double portailGaucheSol=new Ellipse2D.Double(0.195,0.893,0.122+compteurPortailGaucheSol,0.007);
+            Ellipse2D.Double portailGaucheDroit=new Ellipse2D.Double(0.191,0.770,0.007,0.114+compteurPortailGaucheSol);
             AffineTransform matPortail= new AffineTransform();
             matPortail.scale(pixelParMetre,pixelParMetre);
             g2d.fill(matPortail.createTransformedShape(portailGaucheSol));
+            g2d.fill(matPortail.createTransformedShape(portailGaucheDroit));
         }
 		if (premiereFois) {
 			//Construction 4 cercles
@@ -1868,9 +1870,14 @@ public class ZonePinball extends JPanel implements Runnable {
 	
 	
 	public static int getScorefinal() {
-		return scoreFinal;
+		return scoreFinal;		
 		
-		
+	}
+	public static Musique musiqueFlipperGauche() {
+		return musiqueFlipperGauche;
+	}
+	public static Musique musiqueFlipperDroit() {
+		return musiqueFlipperDroit;
 	}
 
 

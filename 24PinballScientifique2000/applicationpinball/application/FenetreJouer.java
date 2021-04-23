@@ -67,14 +67,14 @@ public class FenetreJouer extends JFrame{
 	private boolean premiereFoisGameOver=true;
 	private boolean coeurVie;
 	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
-	private String nomFichierRessort= ".//Ressource//bruitRessort.wav"; 
+	private static String nomFichierRessort= ".//Ressource//bruitRessort.wav"; 
 	private static String nomFichierSonJouer=".//Ressource//musiqueJouer.wav";
 	private Image backGround,backGroundRedim;
 	private boolean musiquePremiereFois=true;
 	private boolean premiereFoisJSlider=true;	
 	private Musique musiqueMenu;
 	private static Musique musiqueJouer=new Musique (nomFichierSonJouer);
-	private Musique musiqueRessort=new Musique(nomFichierRessort);
+	private static Musique musiqueRessort=new Musique(nomFichierRessort);
 
 	private PointageAnimation scoreVie1;
     private PointageAnimation scoreVie2;
@@ -147,7 +147,7 @@ public class FenetreJouer extends JFrame{
 
 			}
 			if(sliderEtirement.getValue()==0 && !premiereFoisJSlider) {
-				arretMusique();
+				
 				musiquePremiereFois=true;
 			}
 		}
@@ -505,11 +505,12 @@ public class FenetreJouer extends JFrame{
 			dessinCoeur.setLayout(null);
 			miseAjourInterface();
 		}
-		public void arretMusique() {
-			//Musique.stop();
-		}
+		
 		public static Musique musiqueJouer() {
 			return musiqueJouer;
+		}
+		public static Musique musiqueRessort() {
+			return musiqueRessort;
 		}
 
 		public void activeFormeObstacle() {
