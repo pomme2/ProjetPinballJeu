@@ -12,6 +12,7 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import animation.ZonePinball;
 import dessinable.Dessinable;
 import dessinable.Selectionnable;
 /**
@@ -33,6 +34,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 	private boolean cercleSelectionne = false, carreSelectionne = false, triangleSelectionne=false,rectangleSelectionne = false;
 	private double translatCarreX = 0, translatCarreY=0;
 	private double xPrecedent, yPrecedent;
+	private boolean premiereFoisObstacle;
 	/**
 	 * Constructeur des formes
 	 * @param poX est la position en x des formes
@@ -42,6 +44,8 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 	 * @param forme est le nomd e la forme
 	 */
 	public ObstacleClique(double poX, double posY, double larg,double haut,  String forme) {
+		//Si false, on sait que obstacle est a l'arret
+		premiereFoisObstacle=ZonePinball.premiereFoisObstacle();
 		this.posX = poX;
 		this.posY = posY;
 		this.forme = forme;
