@@ -335,6 +335,7 @@ public class FenetreJouer extends JFrame{
 			btnSauvegarde.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			btnSauvegarde.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					musiqueJouer.stop();
 					fenMenu.setVisible(true);
 					setVisible(false);
 					vie.setNombreCoeur(3);
