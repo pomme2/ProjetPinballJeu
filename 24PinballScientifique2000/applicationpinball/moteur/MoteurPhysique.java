@@ -243,7 +243,7 @@ public class MoteurPhysique {
 	 */
 	public static double forceElectrique(double q1, double q2,double r) {
 
-		double temp =K*q1*q2*Math.pow(1.602e-19, 2);
+		double temp =K*q1*q2*Math.pow(1.602e-6, 2);
 
 		double distance = Math.pow(r, 2);
 
