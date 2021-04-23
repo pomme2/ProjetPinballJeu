@@ -111,6 +111,7 @@ public class FenetreJouer extends JFrame{
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this, fenClassement);
 				fenFinPartie1.setVisible(true);
+				setVisible(false);
 				premiereFoisGameOver=false;
 				musiqueJouer.stop();
 				zonePinball.setScoreFinal(score.getScore());

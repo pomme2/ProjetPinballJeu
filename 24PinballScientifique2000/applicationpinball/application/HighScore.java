@@ -5,11 +5,7 @@ import java.io.*;
 import java.util.StringTokenizer;
 
 /**
- * <p>Titre : L'highScore</p>
- * <p>Description : Classe qui gère un l'high Score totalement configurable</p>
- * <p>Copyright : Copyright (c) 2003</p>
- * @author Pluquet Frédéric
- * @version 1.0
+ 
  */
 
 public class HighScore {

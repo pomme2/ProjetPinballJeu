@@ -19,6 +19,8 @@ import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
@@ -143,6 +145,7 @@ public class FenetreBacSable extends JFrame{
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver && coeurActive ) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer, fenClassement);
 				fenFinPartie1.setVisible(true);
+				setVisible(false);
 				premiereFoisGameOver=false;
 				
 			}
@@ -215,9 +218,10 @@ public class FenetreBacSable extends JFrame{
 			this.fenOption = fenOption;
 			this.fenFinPartie = fenFinPartie;
 			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer, fenClassement);
-
+			HighScore hs = new HighScore(new String[]{"Nom","Score"},new int[][]
+	                {{1,0},{0,1}},10,"Score.txt","  ");
 			//dessinerImage=dessin.dessinImage();
-
+			FenetreClassement fenClassement1 = new FenetreClassement(this);
 			vie=new CoeurVie(urlCoeur);
 
 			//initianilisationFenSecondaire();
@@ -343,7 +347,7 @@ public class FenetreBacSable extends JFrame{
 
 				}
 			});
-			btnOption.setBounds(908, 614, 170, 69);
+			btnOption.setBounds(908, 632, 170, 54);
 			panelAvecImage.add(btnOption);
 
 			JButton btnSauvegarde = new JButton("Sauvegarder et revenir au menu");
@@ -576,7 +580,7 @@ public class FenetreBacSable extends JFrame{
 
 				}
 			});
-			btnRecommencer.setBounds(734, 614, 170, 69);
+			btnRecommencer.setBounds(734, 632, 170, 54);
 			panelAvecImage.add(btnRecommencer);
 
 
@@ -708,6 +712,16 @@ public class FenetreBacSable extends JFrame{
 			});
 			chckbxActiverVie.setBounds(484, 845, 199, 23);
 			panelAvecImage.add(chckbxActiverVie);
+			
+			JButton btnClassement = new JButton("Classement");
+			btnClassement.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					fenClassement1.setVisible(true);
+				}
+			});
+			btnClassement.setBounds(734, 607, 344, 24);
+			panelAvecImage.add(btnClassement);
 
 
 			if(zonePinball.getPostionYBille()>=hauteurDuComposantMetre) {
@@ -733,4 +747,5 @@ public class FenetreBacSable extends JFrame{
 		public static void setCoeurActive(boolean nouv) {
 			coeurActive=nouv;
 		}
+		
 }
