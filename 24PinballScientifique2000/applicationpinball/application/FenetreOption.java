@@ -13,6 +13,9 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
+
+import animation.ZonePinball;
+
 import javax.swing.event.ChangeEvent;
 /**
  * 
@@ -25,12 +28,30 @@ public class FenetreOption extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private App24PinballScientifique2001 fenMenu;
 	private Musique clip;
+	private Musique musiqueMenu;
+	private Musique musiqueDessin;
+	private Musique musiqueTuto;
+	private Musique musiqueBacSable;
+	private Musique musiqueJouer;
+	private Musique musiqueRessort;
+	private Musique musiqueFlipperGauche;
+	private Musique musiqueFlipperDroit;
+
 
 	/**
 	 * Constructeur qui permet de creer les composants de la FenetreOption
 	 * @param fenMenu est la fenetre du menu
 	 */
 	public FenetreOption(App24PinballScientifique2001 fenMenu) {
+		musiqueMenu=App24PinballScientifique2001.musiqueMenu();
+		musiqueDessin=App24PinballScientifique2001.musiqueDessin();
+		musiqueTuto=App24PinballScientifique2001.musiqueTuto();
+		musiqueBacSable=App24PinballScientifique2001.musiqueBacSable();
+		musiqueJouer=FenetreJouer.musiqueJouer();
+		musiqueRessort=FenetreJouer.musiqueRessort();
+		musiqueFlipperGauche=ZonePinball.musiqueFlipperGauche();
+		musiqueFlipperDroit=ZonePinball.musiqueFlipperDroit();
+		
 		this.fenMenu = fenMenu;
 		setTitle("Options");	
 		getContentPane().setLayout(null);
@@ -44,9 +65,18 @@ public class FenetreOption extends JFrame{
 		getContentPane().add(chckbxActiveLumiere);
 		
 		JSlider sliderVolume = new JSlider();
+		sliderVolume.setValue(5);
+		sliderVolume.setMaximum(10);
 		sliderVolume.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				clip.setVolume(  sliderVolume.getValue()/100f);
+			public void stateChanged(ChangeEvent e) {				
+				musiqueMenu.setVolume( (float) sliderVolume.getValue()/10f);
+				musiqueDessin.setVolume( (float) sliderVolume.getValue()/10f);
+				musiqueTuto.setVolume( (float) sliderVolume.getValue()/10f);
+				musiqueBacSable.setVolume( (float) sliderVolume.getValue()/10f);
+				musiqueJouer.setVolume( (float) sliderVolume.getValue()/10f);
+				musiqueRessort.setVolume( (float) sliderVolume.getValue()/10f);
+				musiqueFlipperGauche.setVolume( (float) sliderVolume.getValue()/10f);
+				musiqueFlipperDroit.setVolume( (float) sliderVolume.getValue()/10f);
 			}
 		});
 		sliderVolume.setBounds(534, 58, 289, 15);

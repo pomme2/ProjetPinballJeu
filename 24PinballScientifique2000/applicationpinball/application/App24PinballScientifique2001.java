@@ -146,7 +146,7 @@ public class App24PinballScientifique2001 extends JFrame{
 		btnOption.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fenOption.setVisible(true);
-				setVisible(false);
+				
 			}
 		});
 		getContentPane().setLayout(null);

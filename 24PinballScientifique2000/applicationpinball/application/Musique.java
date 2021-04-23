@@ -15,15 +15,16 @@ public class Musique extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private   Clip monClipMenu;
 	private String nomFichierSon;
-	
+	private float volume;
+
 	public Musique(String nomFichierSon) {
 		this.nomFichierSon=nomFichierSon;
 		setFile(nomFichierSon );
-						
+
 	}	
-	
+
 	public void setFile(String 	soundFileName) {
-		
+
 		try {
 			File file= new File(soundFileName);
 			AudioInputStream sound=AudioSystem.getAudioInputStream(file);
@@ -48,7 +49,8 @@ public class Musique extends JPanel {
 		}
 	}
 	public void play() {
-		monClipMenu.start();
+		monClipMenu.start();	
+
 	}
 	public void loop() {
 		monClipMenu.loop(Clip.LOOP_CONTINUOUSLY);
@@ -64,10 +66,16 @@ public class Musique extends JPanel {
 	}
 	public void setVolume(float volumeChange) {
 		
-		FloatControl volume = (FloatControl) monClipMenu.getControl(FloatControl.Type.MASTER_GAIN);
-		volume.setValue(volumeChange);
+			FloatControl volume = (FloatControl) monClipMenu.getControl(FloatControl.Type.MASTER_GAIN);
+			volume.setValue(20f* (float) Math.log10(volumeChange));			
+
+
 	}
 	public void reset() {
 		monClipMenu.setMicrosecondPosition(0);
+	}
+	public float getVolume() {
+		FloatControl volume = (FloatControl) monClipMenu.getControl(FloatControl.Type.MASTER_GAIN);        
+		return (float) Math.pow(10f, volume.getValue() / 20f);
 	}
 }

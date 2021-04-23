@@ -268,9 +268,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private boolean pause = false;
 	private boolean premiereFoisBille =true;
-	private String nomFichierSonFlipper=".//Ressource//sonFlipper1sec.wav"; 
-	private Musique musiqueFlipperGauche=new Musique (nomFichierSonFlipper);
-	private Musique musiqueFlipperDroit=new Musique (nomFichierSonFlipper);
+	private static String nomFichierSonFlipper=".//Ressource//sonFlipper1sec.wav"; 
+	private static Musique musiqueFlipperGauche=new Musique (nomFichierSonFlipper);
+	private static Musique musiqueFlipperDroit=new Musique (nomFichierSonFlipper);
 	private Musique musiqueJouer;
 	private boolean jouerActive;
 	
@@ -1865,9 +1865,14 @@ public class ZonePinball extends JPanel implements Runnable {
 	
 	
 	public static int getScorefinal() {
-		return scoreFinal;
+		return scoreFinal;		
 		
-		
+	}
+	public static Musique musiqueFlipperGauche() {
+		return musiqueFlipperGauche;
+	}
+	public static Musique musiqueFlipperDroit() {
+		return musiqueFlipperDroit;
 	}
 
 
