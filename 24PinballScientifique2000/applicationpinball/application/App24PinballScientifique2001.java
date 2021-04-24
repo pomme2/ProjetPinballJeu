@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
+import animation.CoeurVie;
 import dessinable.OutilsImage;
 
 import java.awt.event.ActionListener;
@@ -58,6 +59,7 @@ public class App24PinballScientifique2001 extends JFrame{
 	private static Musique musiqueBacSable= new Musique(nomFichierSonBacSable);	
 	private static boolean jouerActive=false;
 
+
 	//private java.net.URL urlPlay = getClass().getClassLoader().getResource("play button.jpg");
 	public static void main(String[] args) {
 		try {
@@ -101,6 +103,7 @@ public class App24PinballScientifique2001 extends JFrame{
 	 * Constructeur du menu, on y trouve tous les boutons permettants d'acceder aux fenetres secondaires
 	 */
 	public App24PinballScientifique2001() {	
+		
 		     try {
 		    	 Font fontSpecial= Font.createFont(Font.TRUETYPE_FONT, new File("Ressource\\arcade.ttf")).deriveFont(12f);
 		    	 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -190,6 +193,7 @@ public class App24PinballScientifique2001 extends JFrame{
 		btnBac.setForeground(Color.RED);
 		btnBac.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				initianilisationFenSecondaire();
 				musiqueMenu.stop();
 				musiqueBacSable.reset();
 				musiqueBacSable.play();
@@ -229,7 +233,8 @@ public class App24PinballScientifique2001 extends JFrame{
 		btnJouer.setForeground(Color.RED);
 
 		btnJouer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
+				initianilisationFenSecondaire();
 				musiqueMenu.stop();
 				setJouerActive(true);
 				fenJouer.setVisible(true);				

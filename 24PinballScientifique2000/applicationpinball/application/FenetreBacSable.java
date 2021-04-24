@@ -106,8 +106,8 @@ public class FenetreBacSable extends JFrame{
 	private java.net.URL urlBacSable = getClass().getClassLoader().getResource("ImageBacSable2e.jpg");
 	private Image backGround, backGroundRedim;
 	private Musique musiqueBacSable;
-	private Musique musiqueRessort;
-	private FenetreClassement fenClassement1;	
+	private Musique musiqueRessort;		
+	private JCheckBox chckbxActiverVie;
 
 
 
@@ -140,13 +140,14 @@ public class FenetreBacSable extends JFrame{
 			if(CoeurVieActiveEtScore) {
 				lblScore.setText("Score : "+ zonePinball.getScore().toString());
 			}
-
-
+			
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver && coeurActive ) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer, fenClassement);
+				musiqueBacSable.stop();
 				fenFinPartie1.setVisible(true);
 				setVisible(false);
-				premiereFoisGameOver=false;
+				premiereFoisGameOver=false;			
+				chckbxActiverVie.setSelected(false);
 				
 				
 			}
@@ -188,7 +189,8 @@ public class FenetreBacSable extends JFrame{
 		 * @param fenOption est la fenetre des options
 		 * 
 		 */
-		public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption, FenetreFinPartie fenFinPartie) {
+		public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption, FenetreFinPartie fenFinPartie) {	
+						
 			musiqueMenu=App24PinballScientifique2001.musiqueMenu();
 			musiqueBacSable=App24PinballScientifique2001.musiqueBacSable();
 			musiqueRessort=FenetreJouer.musiqueRessort();		
@@ -225,6 +227,7 @@ public class FenetreBacSable extends JFrame{
 			//dessinerImage=dessin.dessinImage();
 		
 			vie=new CoeurVie(urlCoeur);
+			
 
 			//initianilisationFenSecondaire();
 			setTitle("Bac à sable");
@@ -694,7 +697,7 @@ public class FenetreBacSable extends JFrame{
 
 
 			DessinCoeur dessinCoeur = new DessinCoeur();
-			JCheckBox chckbxActiverVie = new JCheckBox("Activer Score et Vie");
+			 chckbxActiverVie = new JCheckBox("Activer Score et Vie");
 			chckbxActiverVie.setForeground(Color.CYAN);
 			chckbxActiverVie.setFont(new Font("Arcade Normal", Font.PLAIN, 8));
 			//Thomas Bourgault
@@ -723,8 +726,10 @@ public class FenetreBacSable extends JFrame{
 			JButton btnClassement = new JButton("Classement");
 			btnClassement.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+											
+						//fenClassement1.setVisible(true);
 					
-					fenClassement1.setVisible(true);
+					
 				}
 			});
 			btnClassement.setBounds(734, 607, 344, 24);
@@ -753,6 +758,6 @@ public class FenetreBacSable extends JFrame{
 		 */
 		public static void setCoeurActive(boolean nouv) {
 			coeurActive=nouv;
-		}
+		}		
 		
 }

@@ -1,11 +1,11 @@
   java.lang.String  java.lang.Integer
   hhu  21405
   1111  399
+  testAvecBoolean  366
   rr  365
   trtr  338
   lol  303
   coucouuuu  279
   r  276
-  4r  242
-  rwwerwrww  221
-  eeee4  211
+  aaaa  256
+  test  246

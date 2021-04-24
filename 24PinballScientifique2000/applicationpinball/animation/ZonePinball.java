@@ -932,6 +932,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			score.setScore(scoreFinal);
 
 			if(coeurVie) {
+				System.out.println("J'ai perdu une vie");
 				CoeurVie.perdVie();
 			}
 		}

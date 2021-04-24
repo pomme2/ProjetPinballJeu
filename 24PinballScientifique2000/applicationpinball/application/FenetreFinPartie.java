@@ -32,10 +32,11 @@ public class FenetreFinPartie extends JFrame{
 	private FenetreJouer fenJouer;
 	private PointageAnimation pointage;
 
-	private FenetreClassement fenClassement;
+	private static FenetreClassement fenClassement;
 
 	private Scene scene;
 	private int scoreFinal;
+	
 
 
 
@@ -44,11 +45,11 @@ public class FenetreFinPartie extends JFrame{
 		return initiales;
 	}
 	
-	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac, FenetreJouer fenJouer, FenetreClassement fenClassement) {
+	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac1, FenetreJouer fenJouer, FenetreClassement fenClassement1) {
 
 		scoreFinal = ZonePinball.getScorefinal();
 		
-		this.fenBac = fenBac;
+		this.fenBac = fenBac1;
 		this.fenMenu = fenMenu;
 		this.fenJouer = fenJouer;
 		gestionScore = new GestionScore();
@@ -81,9 +82,9 @@ public class FenetreFinPartie extends JFrame{
 		JButton btnRecommencer = new JButton("Revenir au menu");
 		btnRecommencer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//fenClassement = new FenetreClassement(fenBac);
+				fenClassement = new FenetreClassement(fenBac);
 				fenMenu.setVisible(true);
-				setVisible(false);
+				setVisible(false);						
 			}
 		});
 		btnRecommencer.setBounds(91, 594, 403, 120);
@@ -156,5 +157,6 @@ public class FenetreFinPartie extends JFrame{
 		contentPane.add(lblScore);
 	
 	}
+
 
 }
