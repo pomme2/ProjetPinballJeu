@@ -996,6 +996,8 @@ public class ZonePinball extends JPanel implements Runnable {
 					}
 				}
 			}
+						
+			
 		}
 		//aimantActif(false);
 	} ///fin collision
@@ -1762,6 +1764,8 @@ public class ZonePinball extends JPanel implements Runnable {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				formeSelectionne = false;
+				
+				
 
 			} //fin released
 
