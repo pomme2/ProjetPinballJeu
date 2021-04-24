@@ -167,7 +167,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	ArrayList < Double > arcCerclePetitCoordY = new ArrayList < Double > ();
 
 	//tab avec flippers
-
+	
 	private ArrayList < MursDroits > flipperGauche = new ArrayList < MursDroits > ();
 
 	private ArrayList < MursDroits > flipperDroit = new ArrayList < MursDroits > ();
@@ -931,6 +931,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			score.setScore(scoreFinal);
 
 			if(coeurVie) {
+				System.out.println("J'ai perdu une vie");
 				CoeurVie.perdVie();
 			}
 		}
@@ -1030,6 +1031,8 @@ public class ZonePinball extends JPanel implements Runnable {
 					}
 				}
 			}
+						
+			
 		}
 		//aimantActif(false);
 	} ///fin collision
@@ -1802,7 +1805,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				formeSelectionne = false;
-				premiereFoisBougerObstacle=false;
+
 			} //fin released
 
 		});	

@@ -8,9 +8,16 @@ import javax.swing.SwingConstants;
 
 import java.awt.SystemColor;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 
@@ -35,7 +42,9 @@ public class FenetreOption extends JFrame{
 	private Musique musiqueJouer;
 	private Musique musiqueRessort;
 	private Musique musiqueFlipperGauche;
-	private Musique musiqueFlipperDroit;
+	private Musique musiqueFlipperDroit;	
+	private JSlider sliderVolume;	
+	
 
 
 	/**
@@ -43,6 +52,7 @@ public class FenetreOption extends JFrame{
 	 * @param fenMenu est la fenetre du menu
 	 */
 	public FenetreOption(App24PinballScientifique2001 fenMenu) {
+		
 		musiqueMenu=App24PinballScientifique2001.musiqueMenu();
 		musiqueDessin=App24PinballScientifique2001.musiqueDessin();
 		musiqueTuto=App24PinballScientifique2001.musiqueTuto();
@@ -52,6 +62,7 @@ public class FenetreOption extends JFrame{
 		musiqueFlipperGauche=ZonePinball.musiqueFlipperGauche();
 		musiqueFlipperDroit=ZonePinball.musiqueFlipperDroit();
 		
+		
 		this.fenMenu = fenMenu;
 		setTitle("Options");	
 		getContentPane().setLayout(null);
@@ -59,12 +70,41 @@ public class FenetreOption extends JFrame{
 		
 		
 		
-		JCheckBox chckbxActiveLumiere = new JCheckBox("Activer la lumi\u00E8re lors d'un pointage \u00E9lev\u00E9");
-		chckbxActiveLumiere.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JCheckBox chckbxActiveLumiere = new JCheckBox("Couper le son");
+		chckbxActiveLumiere.setForeground(Color.RED);
+		chckbxActiveLumiere.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chckbxActiveLumiere.isSelected()) {
+					musiqueMenu.stop();
+					musiqueMenu.setVolume(0f);					
+					musiqueDessin.setVolume(0f);
+					musiqueTuto.setVolume(0f);
+					musiqueBacSable.setVolume(0f);
+					musiqueJouer.setVolume(0f);
+					musiqueRessort.setVolume(0f);
+					musiqueFlipperGauche.setVolume(0f);
+					musiqueFlipperDroit.setVolume(0f);
+				
+				}else {
+					musiqueMenu.play();
+					musiqueMenu.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueDessin.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueTuto.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueBacSable.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueJouer.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueRessort.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueFlipperGauche.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueFlipperDroit.setVolume( (float) sliderVolume.getValue()/10f);
+					
+				}
+				
+			}
+		});
+		chckbxActiveLumiere.setFont(new Font("Arcade Normal", Font.PLAIN, 15));
 		chckbxActiveLumiere.setBounds(46, 20, 411, 41);
 		getContentPane().add(chckbxActiveLumiere);
 		
-		JSlider sliderVolume = new JSlider();
+		sliderVolume = new JSlider();
 		sliderVolume.setValue(10);
 		sliderVolume.setMaximum(10);
 		sliderVolume.addChangeListener(new ChangeListener() {
@@ -83,12 +123,15 @@ public class FenetreOption extends JFrame{
 		getContentPane().add(sliderVolume);
 		
 		JLabel lblVolume = new JLabel("Volume de la musique");
-		lblVolume.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblVolume.setForeground(Color.RED);
+		lblVolume.setFont(new Font("Arcade Normal", Font.PLAIN, 14));
 		lblVolume.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVolume.setBounds(524, 33, 299, 14);
 		getContentPane().add(lblVolume);
 		
 		JButton btnRetour = new JButton("Retour au menu");
+		btnRetour.setForeground(Color.RED);
+		btnRetour.setFont(new Font("Arcade Normal", Font.PLAIN, 7));
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fenMenu.setVisible(true);

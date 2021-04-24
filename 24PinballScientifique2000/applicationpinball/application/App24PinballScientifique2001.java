@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
+import animation.CoeurVie;
 import dessinable.OutilsImage;
 
 import java.awt.event.ActionListener;
@@ -17,8 +18,10 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 
 import javax.swing.JLabel;
@@ -53,10 +56,9 @@ public class App24PinballScientifique2001 extends JFrame{
 	public static Musique musiqueDessin=new Musique(nomFichierSonDessin);
 	public static Musique musiqueTuto=new Musique(nomFichierSonTuto);
 	private static String nomFichierSonBacSable=".//Ressource//musiqueBacSable.wav"; 
-	private static Musique musiqueBacSable= new Musique(nomFichierSonBacSable);
-	private static String nomFichierSonPortail=".//Ressource//Portail.wav"; 
-	private static Musique musiquePortail= new Musique(nomFichierSonPortail);
+	private static Musique musiqueBacSable= new Musique(nomFichierSonBacSable);	
 	private static boolean jouerActive=false;
+
 
 	//private java.net.URL urlPlay = getClass().getClassLoader().getResource("play button.jpg");
 	public static void main(String[] args) {
@@ -69,6 +71,7 @@ public class App24PinballScientifique2001 extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					App24PinballScientifique2001 frame = new App24PinballScientifique2001();
 					frame.setVisible(true);
 
@@ -99,7 +102,19 @@ public class App24PinballScientifique2001 extends JFrame{
 	 * 
 	 * Constructeur du menu, on y trouve tous les boutons permettants d'acceder aux fenetres secondaires
 	 */
-	public App24PinballScientifique2001() {
+	public App24PinballScientifique2001() {	
+		
+		     try {
+		    	 Font fontSpecial= Font.createFont(Font.TRUETYPE_FONT, new File("Ressource\\arcade.ttf")).deriveFont(12f);
+		    	 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		    	 ge.registerFont(fontSpecial);
+			} catch (FontFormatException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 		if (urlArcade == null) {
 			JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 			System.exit(0);
@@ -178,14 +193,11 @@ public class App24PinballScientifique2001 extends JFrame{
 		btnBac.setForeground(Color.RED);
 		btnBac.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				initianilisationFenSecondaire();
 				musiqueMenu.stop();
 				musiqueBacSable.reset();
 				musiqueBacSable.play();
-				musiqueBacSable.loop();
-				musiquePortail.setVolume(0.05f);
-				musiquePortail.reset();
-				musiquePortail.play();
-				musiquePortail.loop();
+				musiqueBacSable.loop();				
 				fenBac.setVisible(true);
 				FenetreBacSable.setCoeurActive(false);
 				//fenFinPartie.setVisible(false);
@@ -221,14 +233,11 @@ public class App24PinballScientifique2001 extends JFrame{
 		btnJouer.setForeground(Color.RED);
 
 		btnJouer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
+				initianilisationFenSecondaire();
 				musiqueMenu.stop();
 				setJouerActive(true);
-				fenJouer.setVisible(true);
-				musiquePortail.setVolume(0.05f);
-				musiquePortail.reset();
-				musiquePortail.play();
-				musiquePortail.loop();
+				fenJouer.setVisible(true);				
 				setVisible(false);
 						
 
@@ -295,9 +304,6 @@ public class App24PinballScientifique2001 extends JFrame{
 	}
 	public static void setJouerActive(boolean jouer) {
 		jouerActive=jouer;
-	}
-	public static Musique musiquePortail() {
-		return musiquePortail;
-	}
+	}	
 }
 

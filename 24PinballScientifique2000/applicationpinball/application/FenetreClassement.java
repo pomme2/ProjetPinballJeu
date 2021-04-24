@@ -96,7 +96,7 @@ public class FenetreClassement extends JFrame {
 			contentPane.setLayout(null);
 			
 			JLabel lblNewLabel_1 = new JLabel("Classement");
-			lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
+			lblNewLabel_1.setFont(new Font("Arcade Normal", Font.PLAIN, 28));
 			lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel_1.setBackground(Color.BLACK);
 			lblNewLabel_1.setForeground(Color.RED);
