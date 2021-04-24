@@ -12,6 +12,7 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import animation.ZonePinball;
 import dessinable.Dessinable;
 import dessinable.Selectionnable;
 /**
@@ -33,6 +34,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 	private boolean cercleSelectionne = false, carreSelectionne = false, triangleSelectionne=false,rectangleSelectionne = false;
 	private double translatCarreX = 0, translatCarreY=0;
 	private double xPrecedent, yPrecedent;
+	private boolean premiereFoisObstacle;
 	/**
 	 * Constructeur des formes
 	 * @param poX est la position en x des formes
@@ -42,6 +44,8 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 	 * @param forme est le nomd e la forme
 	 */
 	public ObstacleClique(double poX, double posY, double larg,double haut,  String forme) {
+		//Si false, on sait que obstacle est a l'arret
+		premiereFoisObstacle=ZonePinball.premiereFoisObstacle();
 		this.posX = poX;
 		this.posY = posY;
 		this.forme = forme;
@@ -93,6 +97,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 			g2d.fill(mat.createTransformedShape(cercle));
 
 			//	g2d.fill(mat.createTransformedShape(ligneJ));
+
 		}else if(forme=="Carre"){		
 			g2d.fill(mat.createTransformedShape(carre));
 		}else if(forme=="Rectangle") {
@@ -257,7 +262,9 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 			return larg;
 
 			//	g2d.fill(mat.createTransformedShape(ligneJ));
-		}else if(forme=="Carre"){		
+
+		}else if(forme=="Carre"){
+
 			return haut;
 		}else if(forme=="Rectangle") {
 			return (larg+larg/2.5);
@@ -290,7 +297,9 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 			return haut;
 
 			//	g2d.fill(mat.createTransformedShape(ligneJ));
-		}else if(forme=="Carre"){		
+
+		}else if(forme=="Carre"){
+
 			return haut;
 		}else if(forme=="Rectangle") {
 			return (haut-haut/2.5);

@@ -36,6 +36,8 @@ public class FenetreOption extends JFrame{
 	private Musique musiqueRessort;
 	private Musique musiqueFlipperGauche;
 	private Musique musiqueFlipperDroit;
+	
+	private JSlider sliderVolume;
 
 
 	/**
@@ -52,6 +54,7 @@ public class FenetreOption extends JFrame{
 		musiqueFlipperGauche=ZonePinball.musiqueFlipperGauche();
 		musiqueFlipperDroit=ZonePinball.musiqueFlipperDroit();
 		
+		
 		this.fenMenu = fenMenu;
 		setTitle("Options");	
 		getContentPane().setLayout(null);
@@ -59,12 +62,40 @@ public class FenetreOption extends JFrame{
 		
 		
 		
-		JCheckBox chckbxActiveLumiere = new JCheckBox("Activer la lumi\u00E8re lors d'un pointage \u00E9lev\u00E9");
+		JCheckBox chckbxActiveLumiere = new JCheckBox("Couper le son");
+		chckbxActiveLumiere.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chckbxActiveLumiere.isSelected()) {
+					musiqueMenu.stop();
+					musiqueMenu.setVolume(0f);					
+					musiqueDessin.setVolume(0f);
+					musiqueTuto.setVolume(0f);
+					musiqueBacSable.setVolume(0f);
+					musiqueJouer.setVolume(0f);
+					musiqueRessort.setVolume(0f);
+					musiqueFlipperGauche.setVolume(0f);
+					musiqueFlipperDroit.setVolume(0f);
+				
+				}else {
+					musiqueMenu.play();
+					musiqueMenu.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueDessin.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueTuto.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueBacSable.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueJouer.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueRessort.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueFlipperGauche.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueFlipperDroit.setVolume( (float) sliderVolume.getValue()/10f);
+					
+				}
+				
+			}
+		});
 		chckbxActiveLumiere.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		chckbxActiveLumiere.setBounds(46, 20, 411, 41);
 		getContentPane().add(chckbxActiveLumiere);
 		
-		JSlider sliderVolume = new JSlider();
+		sliderVolume = new JSlider();
 		sliderVolume.setValue(10);
 		sliderVolume.setMaximum(10);
 		sliderVolume.addChangeListener(new ChangeListener() {

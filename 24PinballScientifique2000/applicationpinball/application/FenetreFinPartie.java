@@ -31,8 +31,12 @@ public class FenetreFinPartie extends JFrame{
 	private JTextField txtEntreeInitiales;
 	private FenetreJouer fenJouer;
 	private PointageAnimation pointage;
+
+	private FenetreClassement fenClassement;
+
 	private Scene scene;
 	private int scoreFinal;
+
 
 
 	public String getInitiales() {
@@ -40,7 +44,7 @@ public class FenetreFinPartie extends JFrame{
 		return initiales;
 	}
 	
-	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac, FenetreJouer fenJouer) {
+	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac, FenetreJouer fenJouer, FenetreClassement fenClassement) {
 
 		scoreFinal = ZonePinball.getScorefinal();
 		
@@ -49,6 +53,10 @@ public class FenetreFinPartie extends JFrame{
 		this.fenJouer = fenJouer;
 		gestionScore = new GestionScore();
 		pointage = new PointageAnimation();
+	//	FenetreClassement fenClassement1 = new FenetreClassement(this);
+	
+		HighScore hs = new HighScore(new String[]{"Nom","Score"},new int[][]
+                {{1,0},{0,1}},10,"Score.txt","  ");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 40, 1100, 928);
@@ -70,23 +78,26 @@ public class FenetreFinPartie extends JFrame{
 		contentPane.add(fileChooser);
 		fileChooser.setVisible(false);*/
 		
-		JButton btnRecommencer = new JButton("Recommencer une partie");
+		JButton btnRecommencer = new JButton("Revenir au menu");
 		btnRecommencer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//fenClassement = new FenetreClassement(fenBac);
+				fenMenu.setVisible(true);
+				setVisible(false);
 			}
 		});
-		btnRecommencer.setBounds(91, 448, 403, 120);
+		btnRecommencer.setBounds(91, 594, 403, 120);
 		contentPane.add(btnRecommencer);
 		
 		JLabel lblInitiales = new JLabel("Entrez vos initiales");
 		lblInitiales.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblInitiales.setForeground(Color.WHITE);
-		lblInitiales.setBounds(317, 210, 291, 35);
+		lblInitiales.setBounds(317, 361, 291, 35);
 		contentPane.add(lblInitiales);
 		lblInitiales.setVisible(false);
 		
 		txtEntreeInitiales = new JTextField();
-		txtEntreeInitiales.setBounds(317, 256, 438, 82);
+		txtEntreeInitiales.setBounds(317, 394, 438, 82);
 		contentPane.add(txtEntreeInitiales);
 		txtEntreeInitiales.setColumns(10);
 		txtEntreeInitiales.setVisible(false);
@@ -99,19 +110,23 @@ public class FenetreFinPartie extends JFrame{
 
 			public void actionPerformed(ActionEvent e) {
 				String initiales = txtEntreeInitiales.getText().toString();
-				gestionScore.setInitiales(initiales);
-				//gestionScore.setScore(zonePinball.getScoreFinal());
-				//pointage = zonePinball.getScoreFinal();
-				//gestionScore.setScore(pointage);
-			//	System.out.println("scorefinal "+zonePinball.getScoreFinal());
-				gestionScore.ecrireFichier();
+			
+				hs.addLigne(new Comparable[]{new String(initiales),
+                    Integer.valueOf(scoreFinal)});
+				 /*for(int i=0;i<hs.getNbLines();i++)
+		               System.out.println(hs.getLigne(i)[0] + "\t"+hs.getLigne(i)[1]);*/
 				
-				System.out.println(scoreFinal);
+				 //hs.Enregistre();
+				
+				
+			
+				
+			
 				
 			//	System.out.println(txtEntreeInitiales.getText().toString());
 			}
 		});
-		btnEnregistrerInit.setBounds(317, 349, 438, 35);
+		btnEnregistrerInit.setBounds(317, 487, 438, 35);
 		contentPane.add(btnEnregistrerInit);
 		btnEnregistrerInit.setVisible(false);
 		
@@ -129,9 +144,17 @@ public class FenetreFinPartie extends JFrame{
 		
 	
 
-		btnSauvegarderScore.setBounds(600, 448, 403, 120);
+		btnSauvegarderScore.setBounds(600, 594, 403, 120);
 		contentPane.add(btnSauvegarderScore);
+		
+		JLabel lblScore = new JLabel("Score: ");
+		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
+		lblScore.setText("Score: "+scoreFinal);
+		lblScore.setFont(new Font("Tahoma", Font.PLAIN, 52));
+		lblScore.setForeground(Color.WHITE);
+		lblScore.setBounds(252, 155, 583, 82);
+		contentPane.add(lblScore);
 	
 	}
-	
+
 }

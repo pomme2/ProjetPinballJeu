@@ -42,6 +42,7 @@ public class FenetreJouer extends JFrame{
 	private FenetreOption fenOption;
 	private FenetreFinPartie fenFinPartie;
 	private FenetreBacSable fenBac;
+	private FenetreClassement fenClassement;
 	private int valeurInclinaison;
 	private int valeurAimant;
 	private int valeurRessort;
@@ -74,7 +75,7 @@ public class FenetreJouer extends JFrame{
 	private boolean premiereFoisJSlider=true;	
 	private Musique musiqueMenu;
 	private static Musique musiqueJouer=new Musique (nomFichierSonJouer);
-	private static Musique musiqueRessort=new Musique(nomFichierRessort);
+	private static Musique musiqueRessort=new Musique(nomFichierRessort);	
 
 	private PointageAnimation scoreVie1;
     private PointageAnimation scoreVie2;
@@ -128,8 +129,9 @@ public class FenetreJouer extends JFrame{
              //////////////////////////////////////////////pour thomas   System.out.println("Scorevie1: "+scoreVie1);
             }
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
-				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this);
+				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this, fenClassement);
 				fenFinPartie1.setVisible(true);
+				setVisible(false);
 				premiereFoisGameOver=false;
 				musiqueJouer.stop();
 				zonePinball.setScoreFinal(score.getScore());
@@ -170,7 +172,7 @@ public class FenetreJouer extends JFrame{
 		 * @param fenOption est la fenetre des options
 		 */
 		public FenetreJouer(App24PinballScientifique2001 fenMenu, FenetreOption fenOption,FenetreFinPartie fenFinPartie) {			
-			musiqueMenu=App24PinballScientifique2001.musiqueMenu();
+			musiqueMenu=App24PinballScientifique2001.musiqueMenu();			
 			if (urlArcade == null) {
 				JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 				System.exit(0);
@@ -198,7 +200,7 @@ public class FenetreJouer extends JFrame{
 			this.fenMenu = fenMenu;
 			this.fenOption = fenOption;
 			this.fenFinPartie = fenFinPartie;
-			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this);
+			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this, fenClassement);
 			setTitle("Jouer");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(200, 40, 1100, 928);			
@@ -340,6 +342,7 @@ public class FenetreJouer extends JFrame{
 					vie.setNombreCoeur(3);
 					FenetreBacSable.setCoeurActive(false);
 					App24PinballScientifique2001.setJouerActive(false);
+					
 					musiqueMenu.reset();
 					musiqueMenu.play();
 					musiqueMenu.loop();
