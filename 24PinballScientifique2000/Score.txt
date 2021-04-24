@@ -1,17 +1,3 @@
   java.lang.String  java.lang.Integer
-  CARLOS  234303
-  CARLOS  234303
-  hhu  21405
-  1111  399
-  testAvecBoolean  366
-  rr  365
-  trtr  338
-  lol  303
-  coucouuuu  279
-  r  276
-
-  aaaa  256
-  test  246
-
-  4r  242
-
+  aaaaa  183
+  testAvecMethode  183
