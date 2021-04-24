@@ -100,7 +100,6 @@ public class FenetreBacSable extends JFrame{
 	public static boolean coeurActive=false;
 	private PointageAnimation pointage;
 	private int score;
-	private GestionScore gestionScore;
 	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
 	private Musique musiqueMenu;
 	private java.net.URL urlBacSable = getClass().getClassLoader().getResource("ImageBacSable2e.jpg");

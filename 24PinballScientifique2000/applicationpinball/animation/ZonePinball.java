@@ -30,7 +30,6 @@ import application.App24PinballScientifique2001;
 import application.FenetreBacSable;
 import application.FenetreJouer;
 import application.FenetreOption;
-import application.GestionScore;
 import application.Musique;
 import dessinable.OutilsImage;
 import geometrie.Aimant;
@@ -262,7 +261,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	//pause
 
 
-	private GestionScore gestionScore;
+	
 	private PointageAnimation pointage;
 	public static int scoreFinal = 0;
 

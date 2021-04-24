@@ -27,7 +27,6 @@ public class FenetreFinPartie extends JFrame{
 	private App24PinballScientifique2001 fenMenu;
 	private FenetreBacSable fenBac;
 	private JPanel contentPane;
-	private GestionScore gestionScore;
 	private JTextField txtEntreeInitiales;
 	private FenetreJouer fenJouer;
 	private PointageAnimation pointage;
@@ -51,7 +50,7 @@ public class FenetreFinPartie extends JFrame{
 		this.fenBac = fenBac;
 		this.fenMenu = fenMenu;
 		this.fenJouer = fenJouer;
-		gestionScore = new GestionScore();
+		//gestionScore = new GestionScore();
 		pointage = new PointageAnimation();
 	//	FenetreClassement fenClassement1 = new FenetreClassement(this);
 	

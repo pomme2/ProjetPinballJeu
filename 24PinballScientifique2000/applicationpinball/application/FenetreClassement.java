@@ -25,7 +25,7 @@ public class FenetreClassement extends JFrame {
 		private App24PinballScientifique2001 fenMenu;
 		private FenetreBacSable fenBac;
 		private JPanel contentPane;
-		private GestionScore gestionScore;
+	
 		private JTextField txtEntreeInitiales;
 		private HighScore hs;
 		private  FenetreFinPartie fenFinPartie;
