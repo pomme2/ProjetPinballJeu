@@ -76,6 +76,9 @@ public class FenetreJouer extends JFrame{
 	private Musique musiqueMenu;
 	private static Musique musiqueJouer=new Musique (nomFichierSonJouer);
 	private static Musique musiqueRessort=new Musique(nomFichierRessort);	
+	private static String nomFichierSonFinPartie= ".//Ressource//musiqueGameOver.wav"; 
+	private static Musique musiqueFinPartie=new Musique(nomFichierSonFinPartie);
+	
 
 	private PointageAnimation scoreVie1;
     private PointageAnimation scoreVie2;
@@ -135,6 +138,8 @@ public class FenetreJouer extends JFrame{
 				premiereFoisGameOver=false;
 				musiqueJouer.stop();
 				zonePinball.setScoreFinal(score.getScore());
+				musiqueFinPartie.reset();
+				musiqueFinPartie.play();
 
 			}
 			activeFormeObstacle();
@@ -512,5 +517,8 @@ public class FenetreJouer extends JFrame{
 	            comboBoxObstacles.setEnabled(true);
 	        }
 	    }
+		public static Musique musiqueFinPartie() {
+			return musiqueFinPartie;
+		}
 			
 }

@@ -44,6 +44,8 @@ public class FenetreOption extends JFrame{
 	private Musique musiqueFlipperGauche;
 	private Musique musiqueFlipperDroit;	
 	private JSlider sliderVolume;	
+	private Musique musiqueFinPartieJouer;
+	private Musique musiqueFinPartieBacSable;
 	
 
 
@@ -61,6 +63,8 @@ public class FenetreOption extends JFrame{
 		musiqueRessort=FenetreJouer.musiqueRessort();
 		musiqueFlipperGauche=ZonePinball.musiqueFlipperGauche();
 		musiqueFlipperDroit=ZonePinball.musiqueFlipperDroit();
+		musiqueFinPartieJouer=FenetreJouer.musiqueFinPartie();
+		musiqueFinPartieBacSable=FenetreBacSable.musiqueFinPartie();
 		
 		
 		this.fenMenu = fenMenu;
@@ -84,7 +88,8 @@ public class FenetreOption extends JFrame{
 					musiqueRessort.setVolume(0f);
 					musiqueFlipperGauche.setVolume(0f);
 					musiqueFlipperDroit.setVolume(0f);
-				
+					musiqueFinPartieJouer.setVolume(0f);
+					musiqueFinPartieBacSable.setVolume(0f);
 				}else {
 					musiqueMenu.play();
 					musiqueMenu.setVolume( (float) sliderVolume.getValue()/10f);
@@ -95,7 +100,8 @@ public class FenetreOption extends JFrame{
 					musiqueRessort.setVolume( (float) sliderVolume.getValue()/10f);
 					musiqueFlipperGauche.setVolume( (float) sliderVolume.getValue()/10f);
 					musiqueFlipperDroit.setVolume( (float) sliderVolume.getValue()/10f);
-					
+					musiqueFinPartieJouer.setVolume( (float) sliderVolume.getValue()/10f);
+					musiqueFinPartieBacSable.setVolume( (float) sliderVolume.getValue()/10f);
 				}
 				
 			}
@@ -117,6 +123,8 @@ public class FenetreOption extends JFrame{
 				musiqueRessort.setVolume( (float) sliderVolume.getValue()/10f);
 				musiqueFlipperGauche.setVolume( (float) sliderVolume.getValue()/10f);
 				musiqueFlipperDroit.setVolume( (float) sliderVolume.getValue()/10f);
+				musiqueFinPartieJouer.setVolume( (float) sliderVolume.getValue()/10f);
+				musiqueFinPartieBacSable.setVolume( (float) sliderVolume.getValue()/10f);
 			}
 		});
 		sliderVolume.setBounds(534, 58, 289, 15);
