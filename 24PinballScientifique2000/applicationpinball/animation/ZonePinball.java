@@ -167,7 +167,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	ArrayList < Double > arcCerclePetitCoordY = new ArrayList < Double > ();
 
 	//tab avec flippers
-	
+
 	private ArrayList < MursDroits > flipperGauche = new ArrayList < MursDroits > ();
 
 	private ArrayList < MursDroits > flipperDroit = new ArrayList < MursDroits > ();
@@ -252,6 +252,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	private double maxObstacleHaut = 1.26, maxObstacleGauche = 0.11, maxObstacleDroite = 1.05, maxObstacleBas = 0.15;
 
 	private Shape carreTransfo;
+	private boolean premiereFoisCercleTouche=true;
 
 	private Path2D.Double echelle;
 	private boolean dessinerAimant = false;
@@ -261,7 +262,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	//pause
 
 
-	
+
 	private PointageAnimation pointage;
 	public static int scoreFinal = 0;
 
@@ -740,7 +741,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	 */
 
 	private void testerCollisionsEtAjusterPositions() throws Exception {
-
+		premiereFoisCercleTouche=true;
 		boolean col = false;
 
 		//colision avec mur vertical
@@ -800,8 +801,11 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 
+				if(premiereFoisCercleTouche) {
+					score.updateScore(200);
+					premiereFoisCercleTouche=false;
+				}
 
-				score.updateScore(1);
 
 			}
 		}
@@ -1031,8 +1035,8 @@ public class ZonePinball extends JPanel implements Runnable {
 					}
 				}
 			}
-						
-			
+
+
 		}
 		//aimantActif(false);
 	} ///fin collision
@@ -1732,37 +1736,37 @@ public class ZonePinball extends JPanel implements Runnable {
 			public void mouseDragged(MouseEvent e) {
 				if(nbClicObstacle==1 && premiereFoisBougerObstacle) {
 
-				
-				if(obstacle.getPosY()+obstacle.getHaut()<=maxObstacleHaut && obstacle.getPosX()>=maxObstacleGauche && (obstacle.getPosX()+obstacle.getLarg())<=maxObstacleDroite && obstacle.getPosY()>=maxObstacleBas)	{				
 
-					if (formeSelectionne) {
-						translatCarreX += e.getX()/(dimensionImageX/largeurDuComposantMetre) - xPrecedent;
-						translatCarreY += e.getY()/(dimensionImageX/largeurDuComposantMetre) - yPrecedent;
-						xPrecedent = e.getX()/(dimensionImageX/largeurDuComposantMetre) ;
-						yPrecedent = e.getY()/(dimensionImageX/largeurDuComposantMetre) ;
-						repaint();
-					}
-				}else {
-					if (formeSelectionne) {
-						if(obstacle.getPosY()+obstacle.getHaut()>maxObstacleHaut) {
-							translatCarreY += -0.01;
+					if(obstacle.getPosY()+obstacle.getHaut()<=maxObstacleHaut && obstacle.getPosX()>=maxObstacleGauche && (obstacle.getPosX()+obstacle.getLarg())<=maxObstacleDroite && obstacle.getPosY()>=maxObstacleBas)	{				
 
-							repaint();
-						}else if(obstacle.getPosX()+obstacle.getLarg()>maxObstacleDroite && obstacle.getPosX()!=maxObstacleGauche) {
-							translatCarreX += -0.01;
-							repaint();
-						} else  if(obstacle.getPosX()<maxObstacleGauche && obstacle.getPosX()+obstacle.getLarg()!=maxObstacleBas ){
-							translatCarreX += 0.01;
-							repaint();
-						}else {
-							translatCarreY += 0.01;
+						if (formeSelectionne) {
+							translatCarreX += e.getX()/(dimensionImageX/largeurDuComposantMetre) - xPrecedent;
+							translatCarreY += e.getY()/(dimensionImageX/largeurDuComposantMetre) - yPrecedent;
+							xPrecedent = e.getX()/(dimensionImageX/largeurDuComposantMetre) ;
+							yPrecedent = e.getY()/(dimensionImageX/largeurDuComposantMetre) ;
 							repaint();
 						}
+					}else {
+						if (formeSelectionne) {
+							if(obstacle.getPosY()+obstacle.getHaut()>maxObstacleHaut) {
+								translatCarreY += -0.01;
 
+								repaint();
+							}else if(obstacle.getPosX()+obstacle.getLarg()>maxObstacleDroite && obstacle.getPosX()!=maxObstacleGauche) {
+								translatCarreX += -0.01;
+								repaint();
+							} else  if(obstacle.getPosX()<maxObstacleGauche && obstacle.getPosX()+obstacle.getLarg()!=maxObstacleBas ){
+								translatCarreX += 0.01;
+								repaint();
+							}else {
+								translatCarreY += 0.01;
+								repaint();
+							}
+
+						}
 					}
-				}
-			} //fin drag
-				
+				} //fin drag
+
 			}
 		});	
 		addMouseListener(new MouseAdapter() {

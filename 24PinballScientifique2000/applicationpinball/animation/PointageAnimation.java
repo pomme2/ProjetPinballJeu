@@ -18,7 +18,7 @@ public class PointageAnimation {
  */
 	public int updateScore(int points) {
 		
-		score=score+points;
+		 score= score+points;
 		
 		return score;
 	}
@@ -74,7 +74,7 @@ public class PointageAnimation {
      * @return vrai si le jouer a atteint ce score et retoune faux si le jouer n'a pas atteint ce score
      */
     public boolean activerForme() {
-        if(score>=50) {
+        if(score>=2000) {
             return true;
         }else {
             return false;
