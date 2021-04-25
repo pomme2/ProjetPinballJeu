@@ -137,6 +137,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	//tableau pour obstacles
 	private ArrayList < Murs > obstaclesCercle = new ArrayList < Murs > ();
+	
+	private ArrayList < Murs > obstaclesCercleAjou = new ArrayList < Murs > ();
+
 
 	//tab pour mursHorizontales (sol)
 	private ArrayList < MursDroits > solHorizontal = new ArrayList < MursDroits > ();
@@ -154,6 +157,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	private ArrayList < MursDroits > courbe = new ArrayList < MursDroits > ();
 
 
+	private ArrayList<Rectangle2D> obstaclesCarre = new ArrayList<Rectangle2D>();
 	//tab pour les murs
 
 	ArrayList < MursDroits > murs = new ArrayList < MursDroits > ();
@@ -250,7 +254,12 @@ public class ZonePinball extends JPanel implements Runnable {
 	private double translatCarreX=0.01;
 	private double translatCarreY=0.01;
 	private double maxObstacleHaut = 1.26, maxObstacleGauche = 0.11, maxObstacleDroite = 1.05, maxObstacleBas = 0.15;
+	
+	boolean collisionMax= true;
 
+	boolean col1= false;
+	boolean col2= false;
+	boolean col3= false;
 	private Shape carreTransfo;
 	private boolean premiereFoisCercleTouche=true;
 
@@ -410,8 +419,13 @@ public class ZonePinball extends JPanel implements Runnable {
 			public void mousePressed(MouseEvent e) {
 				if (ImageSelectionne) {
 					System.out.println("X: " + e.getX() / (dimensionImageX / largeurDuComposantMetre) + " cliqué " + " Y: " + e.getY() / (dimensionImageY / hauteurDuComposantMetre) + " cliqué");
+
 					System.out.println("X: " + e.getX()  + " cliqué " + " Y: " + e.getY()  + " cliqué");
 					
+
+					//System.out.println("X: " + e.getX()  + " cliqué " + " Y: " + e.getY()  + " cliqué");
+					
+
 				}
 			}
 		});
@@ -568,7 +582,19 @@ public class ZonePinball extends JPanel implements Runnable {
 		obstacle = new ObstacleClique(posXCarre+translatCarreX,posYCarre+translatCarreY,0.1,0.1,forme);
 
 		obstacle.setPixelsParMetre(pixelParMetre);
-		obstacle.dessiner(g2d);
+		
+		if(collisionMax) {
+
+		if(col1) g2d.setColor(new Color(255,0,0));
+		
+		if(col2) g2d.setColor(new Color(205,0,0));
+		
+		if(col3) g2d.setColor(new Color(153,0,0));
+		
+			obstacle.dessiner(g2d);
+		
+		}
+	
 
 
 		if (contour) {
@@ -759,23 +785,16 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		//colision avec les obstacles en cerlce
 
-
-
-
-
-
-		for (int i = 0; i < obstaclesCercle.size(); i++) {
-			Murs cercle = obstaclesCercle.get(i);
+		int nbCollision =0;
+		for (int i = 0; i < obstaclesCercleAjou.size(); i++) {
+			Murs cercle = obstaclesCercleAjou.get(i);
 
 			//pythagore de la distance entre les centres de la bille et l"obstacle si inferieure a la somme des deux rayons donc collision 
 			if (Math.hypot((uneBille.getPosition().getX() + uneBille.getDiametre() / 2) - (cercle.getPositionMursX()), (uneBille.getPosition().getY() + uneBille.getDiametre() / 2) - (cercle.getPositionMursY())) < (uneBille.getDiametre() / 2 + cercle.getDiametre() / 2)) {
 
 
 
-
 				Vecteur2D cerclePos = new Vecteur2D(cercle.getPositionMursX(),cercle.getPositionMursY());
-
-
 
 				Vecteur2D normal = moteur.MoteurPhysique.calculRebondBilleCerlce(uneBille.getPosition(),cerclePos);
 
@@ -786,17 +805,16 @@ public class ZonePinball extends JPanel implements Runnable {
 				double vY =normal.getY();
 
 
-
-
-
 				Vecteur2D vitesseRebound = new Vecteur2D(vX,vY);
 
-
-
-
-
-
 				uneBille.setVitesse(vitesseRebound);
+
+
+
+				score.updateScore(1);
+				
+				
+				nbCollision++;
 
 
 
@@ -808,7 +826,68 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 			}
+			
+			if (nbCollision > 300) {
+				
+				
+				col1 =true;
+				
+				if(nbCollision > 600) {
+					
+					col2 = true;
+				}if(nbCollision > 1000) {
+					
+					col3 =true;
+					enleverObs();
+					
+				}
+				
+				
+			}
 		}
+		
+		
+		for (int i = 0; i < obstaclesCercle.size(); i++) {
+			Murs cercle = obstaclesCercle.get(i);
+
+			//pythagore de la distance entre les centres de la bille et l"obstacle si inferieure a la somme des deux rayons donc collision 
+			if (Math.hypot((uneBille.getPosition().getX() + uneBille.getDiametre() / 2) - (cercle.getPositionMursX()), (uneBille.getPosition().getY() + uneBille.getDiametre() / 2) - (cercle.getPositionMursY())) < (uneBille.getDiametre() / 2 + cercle.getDiametre() / 2)) {
+
+
+
+				Vecteur2D cerclePos = new Vecteur2D(cercle.getPositionMursX(),cercle.getPositionMursY());
+
+				Vecteur2D normal = moteur.MoteurPhysique.calculRebondBilleCerlce(uneBille.getPosition(),cerclePos);
+
+
+				double vX =normal.getX();
+
+
+				double vY =normal.getY();
+
+
+				Vecteur2D vitesseRebound = new Vecteur2D(vX,vY);
+
+				uneBille.setVitesse(vitesseRebound);
+
+
+
+				score.updateScore(1);
+				
+
+
+				if(premiereFoisCercleTouche) {
+					score.updateScore(200);
+					premiereFoisCercleTouche=false;
+				}
+
+			}
+			
+	
+		}
+	
+			
+	
 
 
 
@@ -1035,13 +1114,46 @@ public class ZonePinball extends JPanel implements Runnable {
 					}
 				}
 			}
+			
+			
+			//carre obstacles
+			for(int i=0; i< obstaclesCarre.size();i++) {
+				
+				Rectangle2D carre = obstaclesCarre.get(i);
+				
+				
+		if(colCarre(carre)) {
+		}
+		
+			
 
 
 		}
-		//aimantActif(false);
+			
+		}
+		
+		ajoutObsList();
+		
 	} ///fin collision
 
 
+	
+	public boolean colCarre(Rectangle2D carre){
+		
+		if(uneBille.getPosition().getX() < carre.getX() || uneBille.getPosition().getX() > carre.getX() + carre.getWidth()) {
+			return false;
+		}
+		if(uneBille.getPosition().getY() > carre.getY() || uneBille.getPosition().getY() < carre.getY() + carre.getHeight()) {
+			return false;
+			
+		}
+		
+		if(uneBille.intersects(carre)) {
+			return true;
+		}
+		return false;
+		
+	}
 
 	public void setScoreFinal(int score) {
 		scoreFinal = score;
@@ -1183,6 +1295,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	public void demarrer() {
 
 		uneBille.setForceExterieureAppliquee(moteur.MoteurPhysique.calculForceGravBille(massePourCetteScene));
+		ajoutObsList();
 
 
 		if(premiereFoisBille) {
@@ -1890,6 +2003,35 @@ public class ZonePinball extends JPanel implements Runnable {
 	}
 	public static boolean premiereFoisObstacle() {
 		return premiereFoisBougerObstacle;
+	}
+	
+	
+	public void ajoutObsList() {
+		
+		if((forme == "Cercle" || forme == "Triangle" || forme == "Carre"|| forme == "Rectangle" )  && collisionMax) {
+			Murs obs = new Murs(posXCarre+translatCarreX-0.05,posYCarre+translatCarreY-0.05,0.1);
+			
+			obstaclesCercleAjou.add(obs);
+			
+		}
+		if(forme == "Carre") {
+			
+		Rectangle2D carre =	new Rectangle2D.Double(posXCarre+translatCarreX-0.05,posYCarre+translatCarreY-0.05,0.1,0.1);
+			
+		obstaclesCarre.add(carre);
+			
+			
+		}
+		
+		
+	}
+	
+	
+	public void enleverObs() {
+
+		obstaclesCercleAjou.clear();
+		 collisionMax = false;
+		
 	}
 
 
