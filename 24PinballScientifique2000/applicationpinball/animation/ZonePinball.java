@@ -305,7 +305,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	private static boolean  premiereFoisBougerObstacle=true;
 	private boolean arretObstacle=false;
 	private int nbClicObstacle=0;
-	
+	private double triangleX1=0.202, triangleY1=1.202, triangleX2=0.06, triangleY2=1.11, triangleX3=0.06, triangleY3=1.202;
+	private Path2D.Double petitTriangle;
 	
 
 
@@ -562,8 +563,16 @@ public class ZonePinball extends JPanel implements Runnable {
 			tunnel();
 			//Segment petite courbe
 			listeCourbe();
-			SegmentCourbe();			
-
+			SegmentCourbe();
+			g2d.setColor(Color.pink);
+			AffineTransform matTriangle= new AffineTransform();
+			petitTriangle=new Path2D.Double();
+			petitTriangle.moveTo(triangleX1, triangleY1);
+			petitTriangle.lineTo(triangleX2, triangleY2);
+			petitTriangle.lineTo(triangleX3, triangleY3);
+			matTriangle.scale(pixelParMetre,pixelParMetre);
+			petitTriangle.closePath();
+			g2d.fill(matTriangle.createTransformedShape(trou3));
 			premiereFois = false;
 		}
 		changPositionFlipper();
