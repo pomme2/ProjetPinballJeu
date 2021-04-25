@@ -85,6 +85,7 @@ public class FenetreJouer extends JFrame{
 
 
 	PointageAnimation score = new PointageAnimation();
+	//Variable pour gérer score lors d'une partie
 	private int scoreVie;
 	private int scoreVie3;
 	private int scoreVie2;
@@ -95,6 +96,15 @@ public class FenetreJouer extends JFrame{
 	private int nbClicObstacle;
 	private boolean sliderLache=false;
 	private boolean premiereOuverture=true;
+	private int constanteVie3=0;
+	private int constanteVie2=0;
+	private int constanteVie1=0;
+	private JLabel lblDegre;
+	private int degre;
+	private int minDegre=5;
+	private int maxDegre=75;
+	private Inclinaison imageInclinaison;
+	private JLabel lblChangementDonne;
 
 
 
@@ -183,8 +193,29 @@ public class FenetreJouer extends JFrame{
 			activeFormeObstacle();
 			
 			remonterJSlider();
-			if(scoreVie3>=2000) {
-				System.out.println("Premiere Vie depasser score 2000");
+			while(scoreVie3==250+1000*constanteVie3) {
+				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
+				constanteVie3=constanteVie3+1;
+				System.out.println("Nouveau degré: "+degre);
+				lblDegre.setText(degre+ " degre");
+				imageInclinaison.setInclinaison(degre);
+				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+			}
+			while(scoreVie2==250+1000*constanteVie2) {
+				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
+				constanteVie2=constanteVie2+1;
+				System.out.println("Nouveau degré: "+degre);
+				lblDegre.setText(degre+ " degre");
+				imageInclinaison.setInclinaison(degre);
+				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+			}
+			while(scoreVie1==250+1000*constanteVie1) {
+				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
+				constanteVie1=constanteVie1+1;
+				System.out.println("Nouveau degré: "+degre);
+				lblDegre.setText(degre+ " degre");
+				imageInclinaison.setInclinaison(degre);
+				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
 			}
 			
 			if(scoreVie2>=2000 && !enCoursdAnimation) {
@@ -361,7 +392,7 @@ public class FenetreJouer extends JFrame{
 			lblScore.setBounds(734, 445, 352, 77);
 			panelAvecImage.add(lblScore);
 
-			Inclinaison imageInclinaison = new Inclinaison();
+			imageInclinaison = new Inclinaison();
 			imageInclinaison.setBounds(996,270,78,60);
 			panelAvecImage.add(imageInclinaison);
 			imageInclinaison.setInclinaison(5);
@@ -560,11 +591,11 @@ public class FenetreJouer extends JFrame{
 			lblUnitekRessort.setBounds(1012, 420, 91, 14);
 			panelAvecImage.add(lblUnitekRessort);
 
-			JLabel lblNewLabel = new JLabel("5 degre");
-			lblNewLabel.setForeground(Color.CYAN);
-			lblNewLabel.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
-			lblNewLabel.setBounds(908, 285, 78, 14);
-			panelAvecImage.add(lblNewLabel);
+			lblDegre = new JLabel("5 degre");
+			lblDegre.setForeground(Color.CYAN);
+			lblDegre.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
+			lblDegre.setBounds(908, 285, 78, 14);
+			panelAvecImage.add(lblDegre);
 
 			DessinCoeur dessinCoeur = new DessinCoeur();
 			dessinCoeur.setBounds(742, 754, 336, 124);
@@ -588,6 +619,12 @@ public class FenetreJouer extends JFrame{
 			lblScoreDebloquer.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
 			lblScoreDebloquer.setBounds(734, 508, 340, 14);
 			panelAvecImage.add(lblScoreDebloquer);
+			
+			lblChangementDonne = new JLabel("");
+			lblChangementDonne.setForeground(Color.CYAN);
+			lblChangementDonne.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
+			lblChangementDonne.setBounds(70, 8, 601, 14);
+			panelAvecImage.add(lblChangementDonne);
 			miseAjourInterface();
 		}
 
