@@ -9,6 +9,7 @@ package animation;
 public class PointageAnimation {
 
 	protected int score = 0;
+	protected int scoreCalculer=0;
 	
 	static int scoreFinal = 0;
 /**
@@ -21,6 +22,13 @@ public class PointageAnimation {
 		 score= score+points;
 		
 		return score;
+	}
+	public int soustrait(int scoreAvant) {
+	scoreCalculer=score-scoreAvant;
+		//System.out.println("ScoreCalculer : "+scoreCalculer);
+		
+		return scoreCalculer;
+		
 	}
 	
 	/**
@@ -40,6 +48,7 @@ public class PointageAnimation {
 	public int getScore() {
 		return score;
 	}
+	
 	/**
 	 * Methode qui permet le score total;
 	 * @param score
@@ -48,6 +57,7 @@ public class PointageAnimation {
 	public void setScore(int score) {
 		this.score = score;
 	}
+	
 	
 	/**
 	 * Genere une chaine de caractere avec les informations  du vecteur

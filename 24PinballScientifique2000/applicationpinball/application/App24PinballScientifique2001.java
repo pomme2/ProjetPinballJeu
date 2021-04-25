@@ -105,7 +105,7 @@ public class App24PinballScientifique2001 extends JFrame{
 	public App24PinballScientifique2001() {	
 		
 		     try {
-		    	 Font fontSpecial= Font.createFont(Font.TRUETYPE_FONT, new File("Ressource\\arcade.ttf")).deriveFont(12f);
+		    	 Font fontSpecial= Font.createFont(Font.TRUETYPE_FONT, new File("Ressource\\arcade.ttf")).deriveFont(14f);
 		    	 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		    	 ge.registerFont(fontSpecial);
 			} catch (FontFormatException e2) {

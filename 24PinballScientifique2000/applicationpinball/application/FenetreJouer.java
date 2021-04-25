@@ -78,17 +78,25 @@ public class FenetreJouer extends JFrame{
 	private static Musique musiqueRessort=new Musique(nomFichierRessort);	
 	private static String nomFichierSonFinPartie= ".//Ressource//musiqueGameOver.wav"; 
 	private static Musique musiqueFinPartie=new Musique(nomFichierSonFinPartie);
-	
 
-	private PointageAnimation scoreVie1;
-    private PointageAnimation scoreVie2;
-    private PointageAnimation scoreVie3;
-    private JComboBox<Object> comboBoxObstacles;
+	private JComboBox<Object> comboBoxObstacles;
+	private JLabel lblScoreDebloquer;
 
 
-	
+
 	PointageAnimation score = new PointageAnimation();
-	
+	private int scoreVie;
+	private int scoreVie3;
+	private int scoreVie2;
+	private int scoreVie2Finale;
+	private int scoreVie1;
+	private boolean coeur2=false;	
+	private boolean cliquerObstacle=false;
+	private int nbClicObstacle;
+	private boolean sliderLache=false;
+	private boolean premiereOuverture=true;
+
+
 
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
@@ -119,18 +127,46 @@ public class FenetreJouer extends JFrame{
 
 			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
 			lblScore.setText("Score : "+ zonePinball.getScore().toString());
-			if(vie.getNombreCoeur()==3) {
-                scoreVie3=zonePinball.getScore();
-              ///////////////////////////////////// pour thomas System.out.println("Scorevie3: "+scoreVie3);
-            }
-            if(vie.getNombreCoeur()==2) {
-                scoreVie2=zonePinball.getScore();
-            ////////////////////////////////////////////// pour thomas  System.out.println("Scorevie2: "+scoreVie2);
-            }
-            if(vie.getNombreCoeur()==1) {
-                scoreVie1=zonePinball.getScore();
-             //////////////////////////////////////////////pour thomas   System.out.println("Scorevie1: "+scoreVie1);
-            }
+			scoreVie=zonePinball.getScoreInt();
+
+
+			//System.out.println("ScoreVie2: "+scoreVie2);
+
+			lblScoreDebloquer.setText("Points pour les obstacles: 0");
+
+			if(vie.getNombreCoeur()==3) {				
+				scoreVie3=zonePinball.getScoreInt();
+				lblScoreDebloquer.setText("Points pour les obstacles: "+scoreVie);	
+				if(scoreVie3>0) {
+					premiereOuverture=false;
+				}
+				if(scoreVie3>=2000) {					
+					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
+				}
+			}
+			scoreVie1=scoreVie-scoreVie2Finale-scoreVie3-2;
+
+			if(vie.getNombreCoeur()==1) {
+				if(scoreVie1>=5) {
+					lblScoreDebloquer.setText("Tous les obstacles ont ete utilises ");
+				}
+
+			}
+			scoreVie2=scoreVie-scoreVie3-1;
+			if(vie.getNombreCoeur()==2) {
+				scoreVie2Finale=scoreVie2;
+				coeur2=true;
+				lblScoreDebloquer.setText("Points pour les obstacles: "+scoreVie2);
+				if(scoreVie2>=2000) {					
+					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
+				}
+			}						
+
+
+
+
+
+
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this, fenClassement);
 				fenFinPartie1.setVisible(true);
@@ -143,6 +179,7 @@ public class FenetreJouer extends JFrame{
 				fenClassement=new FenetreClassement(this);
 
 			}
+
 			activeFormeObstacle();
 			remonterJSlider();
 
@@ -154,7 +191,7 @@ public class FenetreJouer extends JFrame{
 
 			}
 			if(sliderEtirement.getValue()==0 && !premiereFoisJSlider) {
-				
+
 				musiquePremiereFois=true;
 			}
 		}
@@ -167,8 +204,22 @@ public class FenetreJouer extends JFrame{
 		public void remonterJSlider() {
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
-			
-				
+				sliderLache=false;
+				if(comboBoxObstacles.isEnabled()) {
+					lblScoreDebloquer.setText("Vous pouvez prendre un obstacle");	
+				}
+				if(scoreVie3>=2000 && !sliderLache) {
+					comboBoxObstacles.setEnabled(true);
+				}
+				if(scoreVie2>=2000 && !sliderLache) {
+					comboBoxObstacles.setEnabled(true);
+				}
+				if(sliderLache) {
+					comboBoxObstacles.setEnabled(false);
+				}
+
+
+
 			}
 		}
 		//Audrey Viger
@@ -298,7 +349,7 @@ public class FenetreJouer extends JFrame{
 
 
 
-			lblScore.setBounds(722, 461, 352, 77);
+			lblScore.setBounds(734, 445, 352, 77);
 			panelAvecImage.add(lblScore);
 
 			Inclinaison imageInclinaison = new Inclinaison();
@@ -309,6 +360,12 @@ public class FenetreJouer extends JFrame{
 			Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 
 			comboBoxObstacles = new JComboBox<Object>(choixObstacles);
+			comboBoxObstacles.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {					
+
+				}
+			});
 			comboBoxObstacles.setEnabled(false);
 			comboBoxObstacles.setForeground(Color.CYAN);
 			comboBoxObstacles.setModel(new DefaultComboBoxModel(new String[] {"Carre", "Cercle", "Triangle", "Rectangle"}));
@@ -348,7 +405,7 @@ public class FenetreJouer extends JFrame{
 					vie.setNombreCoeur(3);
 					FenetreBacSable.setCoeurActive(false);
 					App24PinballScientifique2001.setJouerActive(false);
-					
+
 					musiqueMenu.reset();
 					musiqueMenu.play();
 					musiqueMenu.loop();
@@ -390,11 +447,11 @@ public class FenetreJouer extends JFrame{
 			sliderEtirement.setVisible(false);
 			sliderEtirement.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mousePressed(MouseEvent e) {
-
+				public void mousePressed(MouseEvent e) {					
 				}
 				@Override
 				public void mouseReleased(MouseEvent e) {
+					sliderLache=true;
 					musiqueRessort.reset();
 					musiqueRessort.play();
 					if(musiquePremiereFois) {	
@@ -403,15 +460,15 @@ public class FenetreJouer extends JFrame{
 						musiqueJouer.loop();
 						musiquePremiereFois=false;
 					}
-					premiereFoisJSlider=false;
+					premiereFoisJSlider=false;					
 					zonePinball.demarrer();
 					zonePinball.requestFocusInWindow();
 					minuteurResultats = new Timer(10, ecouteurDuMinuteur );
-					minuteurResultats.start();
+					minuteurResultats.start();					
 
-					if(zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
+					if(zonePinball.getPostionYBille()>hauteurDuComposantMetre) {						
 						sliderEtirement.setValue(0);
-						
+
 					}
 
 				}
@@ -437,7 +494,7 @@ public class FenetreJouer extends JFrame{
 			btnDemarrer.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			btnDemarrer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+
 
 					sliderEtirement.setVisible(true);
 					sliderEtirement.setEnabled(true);
@@ -462,7 +519,7 @@ public class FenetreJouer extends JFrame{
 					musiqueJouer.stop();
 					premiereFoisJSlider=true;
 					musiquePremiereFois=true;					
-					
+
 					zonePinball.retablirPosition();								
 					sliderEtirement.setEnabled(false);
 					vie.setNombreCoeur(3);
@@ -503,7 +560,7 @@ public class FenetreJouer extends JFrame{
 			dessinCoeur.setBounds(742, 754, 336, 124);
 			panelAvecImage.add(dessinCoeur);
 			dessinCoeur.setLayout(null);
-			
+
 			JButton btnClassement = new JButton("Classement");
 			btnClassement.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -515,9 +572,15 @@ public class FenetreJouer extends JFrame{
 			btnClassement.setForeground(Color.ORANGE);
 			btnClassement.setBounds(734, 574, 344, 37);
 			panelAvecImage.add(btnClassement);
+
+			lblScoreDebloquer = new JLabel("Points accumules : 0");
+			lblScoreDebloquer.setForeground(Color.CYAN);
+			lblScoreDebloquer.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
+			lblScoreDebloquer.setBounds(734, 508, 340, 14);
+			panelAvecImage.add(lblScoreDebloquer);
 			miseAjourInterface();
 		}
-		
+
 		public static Musique musiqueJouer() {
 			return musiqueJouer;
 		}
@@ -526,10 +589,8 @@ public class FenetreJouer extends JFrame{
 		}
 
 		public void activeFormeObstacle() {
-	        if(scoreVie3.activerForme()==true) {
-	            comboBoxObstacles.setEnabled(true);
-	        }
-	    }
+			
+		}		
 		public static Musique musiqueFinPartie() {
 			return musiqueFinPartie;
 		}

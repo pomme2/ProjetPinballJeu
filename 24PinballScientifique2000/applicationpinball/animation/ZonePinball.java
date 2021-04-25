@@ -126,7 +126,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	double courbeY=0.732;
 
 	//variable pour pointage
-	PointageAnimation score = new PointageAnimation();
+	PointageAnimation score = new PointageAnimation();	
 
 	int pointCercle = 1;
 	int triange = 10;
@@ -411,7 +411,7 @@ public class ZonePinball extends JPanel implements Runnable {
 				if (ImageSelectionne) {
 					System.out.println("X: " + e.getX() / (dimensionImageX / largeurDuComposantMetre) + " cliqué " + " Y: " + e.getY() / (dimensionImageY / hauteurDuComposantMetre) + " cliqué");
 					System.out.println("X: " + e.getX()  + " cliqué " + " Y: " + e.getY()  + " cliqué");
-					uneBille.setPosition(new Vecteur2D(e.getX(), e.getY()));
+					
 				}
 			}
 		});
@@ -802,7 +802,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 				if(premiereFoisCercleTouche) {
-					score.updateScore(200);
+					score.updateScore(200);				
 					premiereFoisCercleTouche=false;
 				}
 
@@ -1523,7 +1523,14 @@ public class ZonePinball extends JPanel implements Runnable {
 	public PointageAnimation getScore() {
 		return score;
 	}
-
+	//Thomas Bourgault
+	/**
+	 * Methode qui retourne le score de la partie  en entier
+	 * @return le score de la partie en entier
+	 */
+	public int getScoreInt() {
+		return (int) score.getScore();
+	}
 
 	//Thomas Bourgault
 	/**
