@@ -161,7 +161,7 @@ public class FenetreJouer extends JFrame{
 				if(scoreVie3>0) {
 					premiereOuverture=false;
 				}
-				if(scoreVie3>=2000) {					
+				if(scoreVie3>=500) {					
 					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
 				}
 			}
@@ -178,7 +178,7 @@ public class FenetreJouer extends JFrame{
 				scoreVie2Finale=scoreVie2;
 				coeur2=true;
 				lblScoreDebloquer.setText("Points pour les obstacles: "+scoreVie2);
-				if(scoreVie2>=2000) {					
+				if(scoreVie2>=500) {					
 					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
 				}
 			}						
@@ -238,21 +238,26 @@ public class FenetreJouer extends JFrame{
 				lblChangementDonne.setText("Attention l'intensite de l'aimant est de  : "+barProgressionAimant.getValue()+ " %");
 			}
 			
-			if(scoreVie2>=2000 && !enCoursdAnimation) {
+			if(scoreVie2>=500 && !enCoursdAnimation) {
 				comboBoxObstacles.setEnabled(true);
+			
+				
+			
 			}else {
 				comboBoxObstacles.setEnabled(false);
 			}
 			if(sliderLache) {
 				comboBoxObstacles.setEnabled(false);
 			}	
-			if(scoreVie3>=2000 && !sliderLache) {
+			if(scoreVie3>=500 && !sliderLache) {
 				comboBoxObstacles.setEnabled(true);
 			}else {
 				comboBoxObstacles.setEnabled(false);
 			}
 			if(comboBoxObstacles.isEnabled()) {
 				lblScoreDebloquer.setText("Vous pouvez prendre un obstacle");	
+				zonePinball.resetCollisionObs();
+				zonePinball.setPremiereFoisObstacle(true);
 			}
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
 			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
@@ -434,6 +439,7 @@ public class FenetreJouer extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					String forme = (String) comboBoxObstacles.getSelectedItem();
 					zonePinball.setForme(forme);
+				
 
 				}
 			});

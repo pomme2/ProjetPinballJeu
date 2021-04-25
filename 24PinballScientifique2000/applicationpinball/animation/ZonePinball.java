@@ -133,6 +133,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	int temps=0;
 
 	int finalScore;
+	
+	int nbCollision =0;
 
 
 	//tableau pour obstacles
@@ -785,7 +787,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		//colision avec les obstacles en cerlce
 
-		int nbCollision =0;
+		
 		for (int i = 0; i < obstaclesCercleAjou.size(); i++) {
 			Murs cercle = obstaclesCercleAjou.get(i);
 
@@ -1848,7 +1850,7 @@ public class ZonePinball extends JPanel implements Runnable {
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(nbClicObstacle==1 && premiereFoisBougerObstacle) {
+				if(premiereFoisBougerObstacle) {
 
 
 					if(obstacle.getPosY()+obstacle.getHaut()<=maxObstacleHaut && obstacle.getPosX()>=maxObstacleGauche && (obstacle.getPosX()+obstacle.getLarg())<=maxObstacleDroite && obstacle.getPosY()>=maxObstacleBas)	{				
@@ -1923,6 +1925,8 @@ public class ZonePinball extends JPanel implements Runnable {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				formeSelectionne = false;
+				premiereFoisBougerObstacle = false;
+				
 
 			} //fin released
 
@@ -1995,9 +1999,17 @@ public class ZonePinball extends JPanel implements Runnable {
 	public static Musique musiqueFlipperDroit() {
 		return musiqueFlipperDroit;
 	}
-	public static boolean premiereFoisObstacle() {
+	public static void setPremiereFoisObstacle(boolean x) {
+		
+		premiereFoisBougerObstacle = x;
+	}
+	
+	
+public static boolean premiereFoisObstacle() {
+	
 		return premiereFoisBougerObstacle;
 	}
+	
 	
 	
 	public void ajoutObsList() {
@@ -2018,6 +2030,12 @@ public class ZonePinball extends JPanel implements Runnable {
 		}
 		
 		
+	}
+	
+	public void resetCollisionObs() {
+		
+		nbCollision =0;
+		collisionMax = true;
 	}
 	
 	
