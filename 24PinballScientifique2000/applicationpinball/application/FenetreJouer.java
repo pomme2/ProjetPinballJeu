@@ -521,6 +521,7 @@ public class FenetreJouer extends JFrame{
 				}
 				@Override
 				public void mouseReleased(MouseEvent e) {
+					moteur.MoteurPhysique.setACCEL_GRAV(9.8066);
 					sliderLache=true;
 					musiqueRessort.reset();
 					musiqueRessort.play();

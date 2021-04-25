@@ -384,20 +384,20 @@ public class FenetreBacSable extends JFrame{
 			panelAvecImage.add(btnSauvegarde);
 
 			JSpinner spinnerMasse = new JSpinner();
-			spinnerMasse.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+			spinnerMasse.setModel(new SpinnerNumberModel(10, 10, 30, 10));
 			spinnerMasse.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					valeurMasse = (int) spinnerMasse.getValue();
-					zonePinball.setMasseBalle(valeurMasse);
+					zonePinball.setMasseBalle(valeurMasse*0.01);
 				}
 			});
 			spinnerMasse.setBounds(746, 192, 44, 20);
 			panelAvecImage.add(spinnerMasse);
 
-			JLabel lblKg = new JLabel("kg");
+			JLabel lblKg = new JLabel("grammes");
 			lblKg.setForeground(Color.ORANGE);
 			lblKg.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
-			lblKg.setBounds(798, 195, 48, 14);
+			lblKg.setBounds(798, 195, 114, 14);
 			panelAvecImage.add(lblKg);
 
 			JSlider sliderAimant = new JSlider();
@@ -581,7 +581,7 @@ public class FenetreBacSable extends JFrame{
 			btnRecommencer.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnRecommencer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					spinnerMasse.setValue(1);
+					spinnerMasse.setValue(10);
 					spinnerAimant.setValue(0);
 					spinnerRessort.setValue(0);
 					spinnerInclinaison.setValue(5);
