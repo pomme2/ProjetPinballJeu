@@ -251,6 +251,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	private double translatCarreX=0.01;
 	private double translatCarreY=0.01;
 	private double maxObstacleHaut = 1.26, maxObstacleGauche = 0.11, maxObstacleDroite = 1.05, maxObstacleBas = 0.15;
+	
+	boolean collisionMax= true;
 
 	private Shape carreTransfo;
 
@@ -568,7 +570,13 @@ public class ZonePinball extends JPanel implements Runnable {
 		obstacle = new ObstacleClique(posXCarre+translatCarreX,posYCarre+translatCarreY,0.1,0.1,forme);
 
 		obstacle.setPixelsParMetre(pixelParMetre);
-		obstacle.dessiner(g2d);
+		
+		
+		if(collisionMax) {
+			
+			obstacle.dessiner(g2d);
+		}
+	
 
 
 		if (contour) {
@@ -764,6 +772,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 
+		int nbCollision =0;
 		for (int i = 0; i < obstaclesCercle.size(); i++) {
 			Murs cercle = obstaclesCercle.get(i);
 
@@ -772,10 +781,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 
-
 				Vecteur2D cerclePos = new Vecteur2D(cercle.getPositionMursX(),cercle.getPositionMursY());
-
-
 
 				Vecteur2D normal = moteur.MoteurPhysique.calculRebondBilleCerlce(uneBille.getPosition(),cerclePos);
 
@@ -786,26 +792,30 @@ public class ZonePinball extends JPanel implements Runnable {
 				double vY =normal.getY();
 
 
-
-
-
 				Vecteur2D vitesseRebound = new Vecteur2D(vX,vY);
-
-
-
-
-
 
 				uneBille.setVitesse(vitesseRebound);
 
 
-
-
-
 				score.updateScore(1);
+				
+				
+				nbCollision++;
 
+				
+				System.out.println(nbCollision);
+			}
+			
+			if (nbCollision > 2) {
+				
+				enleverObs();
+				
 			}
 		}
+		
+	
+			
+	
 
 
 
@@ -1035,6 +1045,8 @@ public class ZonePinball extends JPanel implements Runnable {
 						
 			
 		}
+		
+		ajoutObsList();
 		//aimantActif(false);
 	} ///fin collision
 
@@ -1180,6 +1192,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	public void demarrer() {
 
 		uneBille.setForceExterieureAppliquee(moteur.MoteurPhysique.calculForceGravBille(massePourCetteScene));
+		ajoutObsList();
 
 
 		if(premiereFoisBille) {
@@ -1880,6 +1893,27 @@ public class ZonePinball extends JPanel implements Runnable {
 	}
 	public static boolean premiereFoisObstacle() {
 		return premiereFoisBougerObstacle;
+	}
+	
+	
+	public void ajoutObsList() {
+		
+		if(forme == "Cercle" && collisionMax) {
+			Murs obs = new Murs(posXCarre+translatCarreX-0.05,posYCarre+translatCarreY-0.05,0.1);
+			
+			obstaclesCercle.add(obs);
+			
+		}
+		
+		
+	}
+	
+	
+	public void enleverObs() {
+
+		obstaclesCercle.clear();
+		 collisionMax = false;
+		
 	}
 
 
