@@ -136,7 +136,7 @@ public class FenetreJouer extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			miseAjourInterface();
 		}};
-		//Carlos Eduardo
+		//Thomas Bourgault
 		/**
 		 * Méthode qui questionne le composant d'animation pour obtenir les résultats actuels
 		 * et les affiche ensuite sur l'interface
@@ -692,7 +692,7 @@ public class FenetreJouer extends JFrame{
 		 * Méthode qui remet à zéro tous les facteurs qui gèrent les actions aléatoires durant la partie
 		 */
 		public void recommencer() {
-			degre=0;
+			degre=5;
 			constanteVie3Degre=0;
 			constanteVie2Degre=0;
 			constanteVie1Degre=0;
