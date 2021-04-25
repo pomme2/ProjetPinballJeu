@@ -818,11 +818,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 
-
-				if(premiereFoisCercleTouche) {
-					score.updateScore(200);				
-					premiereFoisCercleTouche=false;
-				}
+				
 
 
 			}
@@ -871,8 +867,7 @@ public class ZonePinball extends JPanel implements Runnable {
 				uneBille.setVitesse(vitesseRebound);
 
 
-
-				score.updateScore(1);
+				
 				
 
 

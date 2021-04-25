@@ -181,8 +181,28 @@ public class FenetreJouer extends JFrame{
 			}
 
 			activeFormeObstacle();
+			
 			remonterJSlider();
-
+			if(scoreVie3>=2000) {
+				System.out.println("Premiere Vie depasser score 2000");
+			}
+			
+			if(scoreVie2>=2000 && !enCoursdAnimation) {
+				comboBoxObstacles.setEnabled(true);
+			}else {
+				comboBoxObstacles.setEnabled(false);
+			}
+			if(sliderLache) {
+				comboBoxObstacles.setEnabled(false);
+			}	
+			if(scoreVie3>=2000 && !sliderLache) {
+				comboBoxObstacles.setEnabled(true);
+			}else {
+				comboBoxObstacles.setEnabled(false);
+			}
+			if(comboBoxObstacles.isEnabled()) {
+				lblScoreDebloquer.setText("Vous pouvez prendre un obstacle");	
+			}
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
 			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
 			if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
@@ -205,18 +225,7 @@ public class FenetreJouer extends JFrame{
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
 				sliderLache=false;
-				if(comboBoxObstacles.isEnabled()) {
-					lblScoreDebloquer.setText("Vous pouvez prendre un obstacle");	
-				}
-				if(scoreVie3>=2000 && !sliderLache) {
-					comboBoxObstacles.setEnabled(true);
-				}
-				if(scoreVie2>=2000 && !sliderLache) {
-					comboBoxObstacles.setEnabled(true);
-				}
-				if(sliderLache) {
-					comboBoxObstacles.setEnabled(false);
-				}
+				
 
 
 
@@ -477,6 +486,7 @@ public class FenetreJouer extends JFrame{
 			sliderEtirement.setMaximum(0);
 			sliderEtirement.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
+					sliderLache=true;
 					zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
 				}
 			});
