@@ -116,6 +116,7 @@ public class FenetreJouer extends JFrame{
 	private Inclinaison imageInclinaison;
 	private JLabel lblChangementDonne;
 	private JProgressBar barProgressionAimant;
+	private boolean incertitude=false;
 
 
 
@@ -161,7 +162,7 @@ public class FenetreJouer extends JFrame{
 				if(scoreVie3>0) {
 					premiereOuverture=false;
 				}
-				if(scoreVie3>=2000) {					
+				if(scoreVie3>=500) {					
 					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
 				}
 			}
@@ -178,7 +179,7 @@ public class FenetreJouer extends JFrame{
 				scoreVie2Finale=scoreVie2;
 				coeur2=true;
 				lblScoreDebloquer.setText("Points pour les obstacles: "+scoreVie2);
-				if(scoreVie2>=2000) {					
+				if(scoreVie2>=500) {					
 					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
 				}
 			}						
@@ -202,43 +203,41 @@ public class FenetreJouer extends JFrame{
 			}
 
 			activeFormeObstacle();
-			
+			if(scoreVie3>=(1051*(constanteVie3Degre+1)) && scoreVie3<=(1249*(constanteVie3Degre+1))) {
+				incertitude=true;
+			}
 			remonterJSlider();
-			while(scoreVie3==scoreBaseDegre+scoreIncrement*constanteVie3Degre) {
+			while(scoreVie3==scoreBaseDegre+scoreIncrement*constanteVie3Degre ||incertitude) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
-				constanteVie3Degre=constanteVie3Degre+1;
-				System.out.println("Nouveau degré: "+degre);
+				constanteVie3Degre=constanteVie3Degre+1;				
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+				incertitude=false;
 			}
 			while(scoreVie2==scoreBaseDegre+scoreIncrement*constanteVie2Degre) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
-				constanteVie2Degre=constanteVie2Degre+1;
-				System.out.println("Nouveau degré: "+degre);
+				constanteVie2Degre=constanteVie2Degre+1;				
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
 			}
 			while(scoreVie1==scoreBaseDegre+scoreIncrement*constanteVie1Degre) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
-				constanteVie1Degre=constanteVie1Degre+1;
-				System.out.println("Nouveau degré: "+degre);
+				constanteVie1Degre=constanteVie1Degre+1;			
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
 			}
-			while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {
-				System.out.println("Je suis capable de changer l'intensite de l'aimant");
+			while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {				
 				intensite=minAimant + (int)(Math.random() * ((maxAimant - minAimant) + 1));
-				constanteVie3Aimant=constanteVie3Aimant+1;
-				System.out.println("Nouvelle intensité aimant: "+barProgressionAimant.getValue()+ " %");
+				constanteVie3Aimant=constanteVie3Aimant+1;				
 				barProgressionAimant.setValue(intensite);
 				zonePinball.getAimant().setCharge(intensite);
 				lblChangementDonne.setText("Attention l'intensite de l'aimant est de  : "+barProgressionAimant.getValue()+ " %");
 			}
 			
-			if(scoreVie2>=2000 && !enCoursdAnimation) {
+			if(scoreVie2>=500 && !enCoursdAnimation) {
 				comboBoxObstacles.setEnabled(true);
 			}else {
 				comboBoxObstacles.setEnabled(false);
@@ -246,7 +245,7 @@ public class FenetreJouer extends JFrame{
 			if(sliderLache) {
 				comboBoxObstacles.setEnabled(false);
 			}	
-			if(scoreVie3>=2000 && !sliderLache) {
+			if(scoreVie3>=500 && !sliderLache) {
 				comboBoxObstacles.setEnabled(true);
 			}else {
 				comboBoxObstacles.setEnabled(false);
