@@ -100,14 +100,16 @@ public class FenetreBacSable extends JFrame{
 	public static boolean coeurActive=false;
 	private PointageAnimation pointage;
 	private int score;
-	private GestionScore gestionScore;
 	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
 	private Musique musiqueMenu;
 	private java.net.URL urlBacSable = getClass().getClassLoader().getResource("ImageBacSable2e.jpg");
 	private Image backGround, backGroundRedim;
 	private Musique musiqueBacSable;
 	private Musique musiqueRessort;		
-	private JCheckBox chckbxActiverVie;
+	private JCheckBox chckbxActiverVie;	
+	private static String nomFichierSonFinPartie= ".//Ressource//musiqueGameOver.wav"; 
+	private static Musique musiqueFinPartie=new Musique(nomFichierSonFinPartie);
+	
 
 
 
@@ -140,16 +142,19 @@ public class FenetreBacSable extends JFrame{
 			if(CoeurVieActiveEtScore) {
 				lblScore.setText("Score : "+ zonePinball.getScore().toString());
 			}
-			
+
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver && coeurActive ) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer, fenClassement);
 				musiqueBacSable.stop();
+				musiqueFinPartie.reset();
+				musiqueFinPartie.play();
 				fenFinPartie1.setVisible(true);
 				setVisible(false);
 				premiereFoisGameOver=false;			
 				chckbxActiverVie.setSelected(false);
-				
-				
+				fenClassement=new FenetreClassement(this);
+
+
 			}
 			remonterJSlider();
 
@@ -190,7 +195,7 @@ public class FenetreBacSable extends JFrame{
 		 * 
 		 */
 		public FenetreBacSable(App24PinballScientifique2001 fenMenu, FenetreOption fenOption, FenetreFinPartie fenFinPartie) {	
-						
+
 			musiqueMenu=App24PinballScientifique2001.musiqueMenu();
 			musiqueBacSable=App24PinballScientifique2001.musiqueBacSable();
 			musiqueRessort=FenetreJouer.musiqueRessort();		
@@ -223,11 +228,11 @@ public class FenetreBacSable extends JFrame{
 			this.fenFinPartie = fenFinPartie;
 			FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer, fenClassement);
 			HighScore hs = new HighScore(new String[]{"Nom","Score"},new int[][]
-	                {{1,0},{0,1}},10,"Score.txt","  ");
+					{{1,0},{0,1}},10,"Score.txt","  ");
 			//dessinerImage=dessin.dessinImage();
-		
+
 			vie=new CoeurVie(urlCoeur);
-			
+
 
 			//initianilisationFenSecondaire();
 			setTitle("Bac à sable");
@@ -697,7 +702,7 @@ public class FenetreBacSable extends JFrame{
 
 
 			DessinCoeur dessinCoeur = new DessinCoeur();
-			 chckbxActiverVie = new JCheckBox("Activer Score et Vie");
+			chckbxActiverVie = new JCheckBox("Activer Score et Vie");
 			chckbxActiverVie.setForeground(Color.CYAN);
 			chckbxActiverVie.setFont(new Font("Arcade Normal", Font.PLAIN, 8));
 			//Thomas Bourgault
@@ -722,14 +727,16 @@ public class FenetreBacSable extends JFrame{
 			});
 			chckbxActiverVie.setBounds(484, 845, 199, 23);
 			panelAvecImage.add(chckbxActiverVie);
-			
+
 			JButton btnClassement = new JButton("Classement");
+			btnClassement.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
+			btnClassement.setForeground(Color.CYAN);
 			btnClassement.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-											
-						//fenClassement1.setVisible(true);
-					
-					
+					creerFenetreClassement();	
+					fenClassement.setVisible(true);
+
+
 				}
 			});
 			btnClassement.setBounds(734, 607, 344, 24);
@@ -758,6 +765,12 @@ public class FenetreBacSable extends JFrame{
 		 */
 		public static void setCoeurActive(boolean nouv) {
 			coeurActive=nouv;
-		}		
-		
+		}	
+		public void creerFenetreClassement() {
+			fenClassement= new FenetreClassement(this);
+		}
+		public static Musique musiqueFinPartie() {
+			return musiqueFinPartie;
+		}
+
 }

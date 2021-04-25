@@ -76,6 +76,9 @@ public class FenetreJouer extends JFrame{
 	private Musique musiqueMenu;
 	private static Musique musiqueJouer=new Musique (nomFichierSonJouer);
 	private static Musique musiqueRessort=new Musique(nomFichierRessort);	
+	private static String nomFichierSonFinPartie= ".//Ressource//musiqueGameOver.wav"; 
+	private static Musique musiqueFinPartie=new Musique(nomFichierSonFinPartie);
+	
 
 	private PointageAnimation scoreVie1;
     private PointageAnimation scoreVie2;
@@ -135,6 +138,9 @@ public class FenetreJouer extends JFrame{
 				premiereFoisGameOver=false;
 				musiqueJouer.stop();
 				zonePinball.setScoreFinal(score.getScore());
+				musiqueFinPartie.reset();
+				musiqueFinPartie.play();
+				fenClassement=new FenetreClassement(this);
 
 			}
 			activeFormeObstacle();
@@ -316,7 +322,7 @@ public class FenetreJouer extends JFrame{
 			});
 
 
-			comboBoxObstacles.setBounds(734, 563, 344, 37);
+			comboBoxObstacles.setBounds(734, 533, 344, 37);
 			panelAvecImage.add(comboBoxObstacles);
 
 			JButton btnOption = new JButton("Option");
@@ -497,6 +503,18 @@ public class FenetreJouer extends JFrame{
 			dessinCoeur.setBounds(742, 754, 336, 124);
 			panelAvecImage.add(dessinCoeur);
 			dessinCoeur.setLayout(null);
+			
+			JButton btnClassement = new JButton("Classement");
+			btnClassement.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					creerFenetreClassement();	
+					fenClassement.setVisible(true);
+				}
+			});
+			btnClassement.setFont(new Font("Arcade Normal", Font.PLAIN, 13));
+			btnClassement.setForeground(Color.ORANGE);
+			btnClassement.setBounds(734, 574, 344, 37);
+			panelAvecImage.add(btnClassement);
 			miseAjourInterface();
 		}
 		
@@ -512,5 +530,10 @@ public class FenetreJouer extends JFrame{
 	            comboBoxObstacles.setEnabled(true);
 	        }
 	    }
-			
+		public static Musique musiqueFinPartie() {
+			return musiqueFinPartie;
+		}
+		public void creerFenetreClassement() {
+			fenClassement= new FenetreClassement(this);
+		}
 }
