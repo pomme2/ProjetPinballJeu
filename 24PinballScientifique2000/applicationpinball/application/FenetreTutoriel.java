@@ -6,11 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Color;
+import java.awt.Font;
 /**
  * 
  * Classe qui permet de creer la fenetre pour le tutoriel
@@ -23,11 +27,68 @@ public class FenetreTutoriel extends JFrame{
 	private String nomFichierSonMenu= ".//Ressource//8BitMenu.wav"; 
 	private Musique musiqueTuto;
 	private Musique musiqueMenu;
+	private JPanel contentPane;
+	private JButton btnPagePrecedente;
+	private JButton btnPageSuivante;
+	
+	private String tableauImages[] = {"ScreenTtuo1.PNG","page0001.jpg","page0002.jpg"};
+
 	/**
 	 * Constructeur qui permet de creer les composants de la FenetreTutoriel
 	 * @param fenMenu est la fenetre du Menu
 	 */
 	public FenetreTutoriel(App24PinballScientifique2001 fenMenu) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 886, 808);
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.BLACK);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		ImagesTuto panAide = new ImagesTuto();
+		//Pour modifier la largeur et la couleur du cadre autour des pages 
+		panAide.setLargeurCadre(10);
+		panAide.setBackground(Color.white); 
+		panAide.setFichiersImages(tableauImages); // on precise quelles images seront utilisees
+		panAide.setBounds(10, 36, 1068, 658);
+		contentPane.add(panAide);
+		
+		btnPagePrecedente = new JButton("Page pr\u00E9c\u00E9dente");
+		btnPagePrecedente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnPagePrecedente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnPagePrecedente.setEnabled( panAide.precedente() );
+				btnPageSuivante.setEnabled(true);
+			}
+		});
+		btnPagePrecedente.setBounds(51, 687, 463, 45);
+		contentPane.add(btnPagePrecedente);
+		
+		btnPageSuivante = new JButton("Page suivante");
+		btnPageSuivante.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnPageSuivante.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnPageSuivante.setEnabled( panAide.suivante() );
+				btnPagePrecedente.setEnabled(true);
+			}
+		
+		});
+		
+		if (tableauImages.length==1 ) {
+			btnPagePrecedente.setEnabled(false);
+			btnPageSuivante.setEnabled(false);
+		}
+		btnPageSuivante.setBounds(554, 687, 484, 45);
+		contentPane.add(btnPageSuivante);
+		
+		JLabel lblAideConcepts = new JLabel("Aide : Concepts scientifiques");
+		lblAideConcepts.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAideConcepts.setForeground(Color.WHITE);
+		lblAideConcepts.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblAideConcepts.setBounds(264, 11, 342, 34);
+		contentPane.add(lblAideConcepts);
+		
 		musiqueTuto=App24PinballScientifique2001.musiqueTuto();
 		musiqueMenu=App24PinballScientifique2001.musiqueMenu();
 		this.fenMenu = fenMenu;

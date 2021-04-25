@@ -43,7 +43,6 @@ public class FenetreFinPartie extends JFrame{
 	private PointageAnimation pointage;
 
 	private static FenetreClassement fenClassement;
-
 	private Scene scene;
 	private int scoreFinal;
 	
@@ -124,49 +123,88 @@ public class FenetreFinPartie extends JFrame{
 		btnRecommencer.setBounds(91, 594, 403, 120);
 		panelAvecImage.add(btnRecommencer);
 		
-		JLabel lblInitiales = new JLabel("Entrez vos initiales");
-		lblInitiales.setFont(new Font("Arcade Normal", Font.PLAIN, 20));
+		JLabel lblInitiales = new JLabel("Entrez vos initiales (5 caracteres maximum...)");
+		lblInitiales.setFont(new Font("Arcade Normal", Font.PLAIN, 13));
 		lblInitiales.setForeground(Color.BLUE);
-		lblInitiales.setBounds(317, 361, 438, 35);
+		lblInitiales.setBounds(253, 361, 686, 35);
 		panelAvecImage.add(lblInitiales);
 		lblInitiales.setVisible(false);
 		
 		txtEntreeInitiales = new JTextField();
+		txtEntreeInitiales.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		txtEntreeInitiales.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		txtEntreeInitiales.setForeground(Color.CYAN);
 		txtEntreeInitiales.setBounds(317, 394, 438, 82);
 		panelAvecImage.add(txtEntreeInitiales);
 		txtEntreeInitiales.setColumns(10);
 		txtEntreeInitiales.setVisible(false);
 		
+
+
 		JButton btnEnregistrerInit = new JButton("Enregistrer");
 		btnEnregistrerInit.setForeground(Color.CYAN);
 		btnEnregistrerInit.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
+		
 		btnEnregistrerInit.addActionListener(new ActionListener() {
-		
-
-		
-
+			
 			public void actionPerformed(ActionEvent e) {
 				String initiales = txtEntreeInitiales.getText().toString();
-			
+				if(!initiales.isEmpty()) {
+					if(initiales.length()==1) {
+						initiales = Character.toString(initiales.charAt(0))+" :";
+					}else if(initiales.length()==2) {
+						String ini1 = Character.toString(initiales.charAt(0));
+						String ini2 = Character.toString(initiales.charAt(1));
+						initiales = ini1+ini2+" :";
+					}else if (initiales.length()==3){
+						String ini1 = Character.toString(initiales.charAt(0));
+						String ini2 = Character.toString(initiales.charAt(1));
+						String ini3 = Character.toString(initiales.charAt(2));
+						initiales = ini1+ini2+ini3+" :";
+					}	else if (initiales.length()==4){
+						String ini1 = Character.toString(initiales.charAt(0));
+						String ini2 = Character.toString(initiales.charAt(1));
+						String ini3 = Character.toString(initiales.charAt(2));
+						String ini4 = Character.toString(initiales.charAt(3));
+						initiales = ini1+ini2+ini3+ini4+" :";
+					}else{
+						String ini1 = Character.toString(initiales.charAt(0));
+						String ini2 = Character.toString(initiales.charAt(1));
+						String ini3 = Character.toString(initiales.charAt(2));
+						String ini4 = Character.toString(initiales.charAt(3));
+						String ini5 = Character.toString(initiales.charAt(4));
+						initiales = ini1+ini2+ini3+ini4+ini5+" :";
+					}
+					
+				}else {
+					initiales = "...";
+				}
+		
+				
 				hs.addLigne(new Comparable[]{new String(initiales),
                     Integer.valueOf(scoreFinal)});
+		
+				
 				 /*for(int i=0;i<hs.getNbLines();i++)
 		               System.out.println(hs.getLigne(i)[0] + "\t"+hs.getLigne(i)[1]);*/
 				
 				 //hs.Enregistre();
-				
-				
 			
-				
-			
-				
 			//	System.out.println(txtEntreeInitiales.getText().toString());
 			}
 		});
+
+
+
+
+
 		btnEnregistrerInit.setBounds(317, 487, 438, 35);
 		panelAvecImage.add(btnEnregistrerInit);
 		btnEnregistrerInit.setVisible(false);
-		
 		
 		JButton btnSauvegarderScore = new JButton("Sauvegarder le score");
 		btnSauvegarderScore.setForeground(Color.CYAN);
@@ -176,7 +214,7 @@ public class FenetreFinPartie extends JFrame{
 				lblInitiales.setVisible(true);
 				txtEntreeInitiales.setVisible(true);
 				btnEnregistrerInit.setVisible(true);
-				
+		
 		
 			}
 		});
@@ -185,6 +223,11 @@ public class FenetreFinPartie extends JFrame{
 
 		btnSauvegarderScore.setBounds(600, 594, 403, 120);
 		panelAvecImage.add(btnSauvegarderScore);
+		
+	
+		
+		
+	
 		
 		JLabel lblScore = new JLabel("Score: ");
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
