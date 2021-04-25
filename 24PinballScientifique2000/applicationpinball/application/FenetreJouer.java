@@ -214,6 +214,8 @@ public class FenetreJouer extends JFrame{
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
 				incertitude=false;
+				
+				moteur.MoteurPhysique.setACCEL_GRAV(degre*1.128);
 			}
 			while(scoreVie2==scoreBaseDegre+scoreIncrement*constanteVie2Degre) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
@@ -221,6 +223,8 @@ public class FenetreJouer extends JFrame{
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+				
+				moteur.MoteurPhysique.setACCEL_GRAV(degre*0.128);
 			}
 			while(scoreVie1==scoreBaseDegre+scoreIncrement*constanteVie1Degre) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
@@ -228,6 +232,7 @@ public class FenetreJouer extends JFrame{
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+				moteur.MoteurPhysique.setACCEL_GRAV(degre*5.128);
 			}
 			while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {				
 				intensite=minAimant + (int)(Math.random() * ((maxAimant - minAimant) + 1));

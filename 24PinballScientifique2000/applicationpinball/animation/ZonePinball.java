@@ -204,7 +204,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	//Coin gauche terrain pinball	
 	private MursDroits ligneDroitHautGau, ligneDroitTrapezeGau, lignePencheTrapezeGau, ligneDroitBasGau, lignePetiteHautGau;
-	private double coordX0CoinGauche = 0.09, coordY0CoinGauche = 0.71, coordX1CoinGauche = 0.06, coordY1CoinGauche = 0.71, coordX2CoinGauche = 0.058, coordY2CoinGauche = 1.202, coordX3CoinGauche = 0.202, coordY3CoinGauche = 1.202, coordX4CoinGauche = 0.494, coordY4CoinGauche = 1.386, coordX5CoinGauche = 0.494, coordY5CoinGauche = 1.532;
+	private double coordX0CoinGauche = 0.09, coordY0CoinGauche = 0.71, coordX1CoinGauche = 0.06, coordY1CoinGauche = 0.71, coordX2CoinGauche = 0.058, coordY2CoinGauche = 1.202, coordX3CoinGauche = 0.06, coordY3CoinGauche = 1.11, coordX4CoinGauche = 0.494, coordY4CoinGauche = 1.386, coordX5CoinGauche = 0.494, coordY5CoinGauche = 1.532;
 
 	//Coin droit terrain pinball
 	private MursDroits ligneDroitTrapezeDroite, lignePencheTrapezeDroite, ligneDroitBasDroite;
@@ -307,6 +307,11 @@ public class ZonePinball extends JPanel implements Runnable {
 	private static boolean  premiereFoisBougerObstacle=true;
 	private boolean arretObstacle=false;
 	private int nbClicObstacle=0;
+
+	private double triangleX1=0.202, triangleY1=1.202, triangleX2=0.06, triangleY2=1.11, triangleX3=0.06, triangleY3=1.202;
+	private Path2D.Double petitTriangle;
+	
+
 
 
 	//Thomas Bourgault  et Carlos Eduardo
@@ -563,6 +568,18 @@ public class ZonePinball extends JPanel implements Runnable {
 			//Segment petite courbe
 			listeCourbe();
 			SegmentCourbe();
+
+
+
+			g2d.setColor(Color.pink);
+			AffineTransform matTriangle= new AffineTransform();
+			petitTriangle=new Path2D.Double();
+			petitTriangle.moveTo(triangleX1, triangleY1);
+			petitTriangle.lineTo(triangleX2, triangleY2);
+			petitTriangle.lineTo(triangleX3, triangleY3);
+			matTriangle.scale(pixelParMetre,pixelParMetre);
+			petitTriangle.closePath();
+			g2d.fill(matTriangle.createTransformedShape(trou3));
 
 			premiereFois = false;
 		}
