@@ -217,7 +217,9 @@ public class FenetreJouer extends JFrame{
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
-				incertitude1=false;
+				incertitude1=false;								
+				moteur.MoteurPhysique.setACCEL_GRAV(degre*1.128);
+
 			}
 			while(scoreVie2==scoreBaseDegre+scoreIncrement*constanteVie2Degre||incertitude2) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
@@ -225,7 +227,9 @@ public class FenetreJouer extends JFrame{
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
-				incertitude2=false;
+				incertitude2=false;				
+				moteur.MoteurPhysique.setACCEL_GRAV(degre*1.128);
+
 			}
 			while(scoreVie1==scoreBaseDegre+scoreIncrement*constanteVie1Degre||incertitude3) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
@@ -234,6 +238,8 @@ public class FenetreJouer extends JFrame{
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
 				incertitude3=false;
+				moteur.MoteurPhysique.setACCEL_GRAV(degre*1.128);
+
 			}
 			/*while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {				
 				intensite=minAimant + (int)(Math.random() * ((maxAimant - minAimant) + 1));
@@ -245,6 +251,9 @@ public class FenetreJouer extends JFrame{
 			*/
 			if(scoreVie2>=2000 && !enCoursdAnimation) {
 				comboBoxObstacles.setEnabled(true);
+			
+				
+			
 			}else {
 				comboBoxObstacles.setEnabled(false);
 			}
@@ -258,6 +267,8 @@ public class FenetreJouer extends JFrame{
 			}
 			if(comboBoxObstacles.isEnabled()) {
 				lblScoreDebloquer.setText("Vous pouvez prendre un obstacle");	
+				zonePinball.resetCollisionObs();
+				zonePinball.setPremiereFoisObstacle(true);
 			}
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
 			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
@@ -278,7 +289,7 @@ public class FenetreJouer extends JFrame{
 		 * 
 		 */
 		public void remonterJSlider() {
-			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
+			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {			
 				sliderEtirement.setValue(0);
 				sliderLache=false;
 				
@@ -439,6 +450,7 @@ public class FenetreJouer extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					String forme = (String) comboBoxObstacles.getSelectedItem();
 					zonePinball.setForme(forme);
+				
 
 				}
 			});

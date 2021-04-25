@@ -174,6 +174,8 @@ public class FenetreBacSable extends JFrame{
 		public void remonterJSlider() {
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
+				zonePinball.setPremiereFoisObstacle(true);
+				zonePinball.ajoutObsList();
 
 			}
 
@@ -340,6 +342,9 @@ public class FenetreBacSable extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					String forme = (String) comboBoxObstacles.getSelectedItem();
 					zonePinball.setForme(forme);					
+					zonePinball.resetCollisionObs();
+					zonePinball.setPremiereFoisObstacle(true);
+					zonePinball.ajoutObsList();
 
 				}
 			});
@@ -403,7 +408,6 @@ public class FenetreBacSable extends JFrame{
 			spinnerAimant.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					valeurAimant = (int) spinnerAimant.getValue();
-					//System.out.println(valeurAimant);
 					sliderAimant.setValue(valeurAimant);
 					zonePinball.getAimant().setCharge(sliderAimant.getValue());
 

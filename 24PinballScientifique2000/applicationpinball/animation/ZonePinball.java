@@ -133,6 +133,8 @@ public class ZonePinball extends JPanel implements Runnable {
 	int temps=0;
 
 	int finalScore;
+	
+	int nbCollision =0;
 
 
 	//tableau pour obstacles
@@ -305,9 +307,14 @@ public class ZonePinball extends JPanel implements Runnable {
 	private static boolean  premiereFoisBougerObstacle=true;
 	private boolean arretObstacle=false;
 	private int nbClicObstacle=0;
+
+
+
+
 	private double triangleX1=103, triangleY1=602, triangleX2=30, triangleY2=555, triangleX3=30, triangleY3=602;
 	private Path2D.Double petitTriangle;
 	
+
 
 
 	//Thomas Bourgault  et Carlos Eduardo
@@ -563,12 +570,15 @@ public class ZonePinball extends JPanel implements Runnable {
 			tunnel();
 			//Segment petite courbe
 			listeCourbe();
+
+
 			SegmentCourbe();						
-			petitTriangle=new Path2D.Double();
-			petitTriangle.moveTo(triangleX1, triangleY1);
-			petitTriangle.lineTo(triangleX2, triangleY2);
-			petitTriangle.lineTo(triangleX3, triangleY3);			
-			petitTriangle.closePath();		
+		petitTriangle=new Path2D.Double();
+		petitTriangle.moveTo(triangleX1, triangleY1);
+		petitTriangle.lineTo(triangleX2, triangleY2);
+		petitTriangle.lineTo(triangleX3, triangleY3);
+		petitTriangle.closePath();
+		premiereFois = false;
 			premiereFois = false;
 		}
 		g2d.setColor(Color.MAGENTA);
@@ -794,7 +804,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		//colision avec les obstacles en cerlce
 
-		int nbCollision =0;
+		
 		for (int i = 0; i < obstaclesCercleAjou.size(); i++) {
 			Murs cercle = obstaclesCercleAjou.get(i);
 
@@ -1472,7 +1482,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	//Carlos Eduardo
 	/**
-	 * S'informe de la masse de la balle, pour permettre a l'application de l'afficher
+	 * S'informe de la  de la balle, pour permettre a l'application de l'afficher
 	 * @return La masse de la balle (qui ne change pas dans cette version de l'applicaion)
 	 */
 	public double getMasseBalle() {
@@ -1857,7 +1867,7 @@ public class ZonePinball extends JPanel implements Runnable {
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(nbClicObstacle==1 && premiereFoisBougerObstacle) {
+				if(premiereFoisBougerObstacle) {
 
 
 					if(obstacle.getPosY()+obstacle.getHaut()<=maxObstacleHaut && obstacle.getPosX()>=maxObstacleGauche && (obstacle.getPosX()+obstacle.getLarg())<=maxObstacleDroite && obstacle.getPosY()>=maxObstacleBas)	{				
@@ -1932,6 +1942,8 @@ public class ZonePinball extends JPanel implements Runnable {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				formeSelectionne = false;
+				premiereFoisBougerObstacle = false;
+				
 
 			} //fin released
 
@@ -2004,9 +2016,17 @@ public class ZonePinball extends JPanel implements Runnable {
 	public static Musique musiqueFlipperDroit() {
 		return musiqueFlipperDroit;
 	}
-	public static boolean premiereFoisObstacle() {
+	public static void setPremiereFoisObstacle(boolean x) {
+		
+		premiereFoisBougerObstacle = x;
+	}
+	
+	
+public static boolean premiereFoisObstacle() {
+	
 		return premiereFoisBougerObstacle;
 	}
+	
 	
 	
 	public void ajoutObsList() {
@@ -2027,6 +2047,12 @@ public class ZonePinball extends JPanel implements Runnable {
 		}
 		
 		
+	}
+	
+	public void resetCollisionObs() {
+		
+		nbCollision =0;
+		collisionMax = true;
 	}
 	
 	
