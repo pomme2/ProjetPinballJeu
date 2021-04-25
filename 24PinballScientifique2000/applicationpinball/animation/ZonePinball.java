@@ -204,7 +204,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	//Coin gauche terrain pinball	
 	private MursDroits ligneDroitHautGau, ligneDroitTrapezeGau, lignePencheTrapezeGau, ligneDroitBasGau, lignePetiteHautGau;
-	private double coordX0CoinGauche = 0.09, coordY0CoinGauche = 0.71, coordX1CoinGauche = 0.06, coordY1CoinGauche = 0.71, coordX2CoinGauche = 0.058, coordY2CoinGauche = 1.202, coordX3CoinGauche = 0.06, coordY3CoinGauche = 1.11, coordX4CoinGauche = 0.494, coordY4CoinGauche = 1.386, coordX5CoinGauche = 0.494, coordY5CoinGauche = 1.532;
+	private double coordX0CoinGauche = 0.09, coordY0CoinGauche = 0.71, coordX1CoinGauche = 0.06, coordY1CoinGauche = 0.71, coordX2CoinGauche = 0.058, coordY2CoinGauche = 1.202, coordX3CoinGauche = 0.202, coordY3CoinGauche = 1.202, coordX4CoinGauche = 0.494, coordY4CoinGauche = 1.386, coordX5CoinGauche = 0.494, coordY5CoinGauche = 1.532;
 
 	//Coin droit terrain pinball
 	private MursDroits ligneDroitTrapezeDroite, lignePencheTrapezeDroite, ligneDroitBasDroite;
@@ -307,8 +307,6 @@ public class ZonePinball extends JPanel implements Runnable {
 	private static boolean  premiereFoisBougerObstacle=true;
 	private boolean arretObstacle=false;
 	private int nbClicObstacle=0;
-	
-	
 
 
 	//Thomas Bourgault  et Carlos Eduardo
@@ -564,7 +562,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			tunnel();
 			//Segment petite courbe
 			listeCourbe();
-			SegmentCourbe();			
+			SegmentCourbe();
 
 			premiereFois = false;
 		}
@@ -1467,7 +1465,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	//Carlos Eduardo
 	/**
-	 * S'informe de la masse de la balle, pour permettre a l'application de l'afficher
+	 * S'informe de la  de la balle, pour permettre a l'application de l'afficher
 	 * @return La masse de la balle (qui ne change pas dans cette version de l'applicaion)
 	 */
 	public double getMasseBalle() {
