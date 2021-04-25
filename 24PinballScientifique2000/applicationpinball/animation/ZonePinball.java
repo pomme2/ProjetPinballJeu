@@ -202,7 +202,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	//Coin gauche terrain pinball	
 	private MursDroits ligneDroitHautGau, ligneDroitTrapezeGau, lignePencheTrapezeGau, ligneDroitBasGau, lignePetiteHautGau;
-	private double coordX0CoinGauche = 0.09, coordY0CoinGauche = 0.71, coordX1CoinGauche = 0.06, coordY1CoinGauche = 0.71, coordX2CoinGauche = 0.058, coordY2CoinGauche = 1.202, coordX3CoinGauche = 0.06, coordY3CoinGauche = 1.11, coordX4CoinGauche = 0.494, coordY4CoinGauche = 1.386, coordX5CoinGauche = 0.494, coordY5CoinGauche = 1.532;
+	private double coordX0CoinGauche = 0.09, coordY0CoinGauche = 0.71, coordX1CoinGauche = 0.06, coordY1CoinGauche = 0.71, coordX2CoinGauche = 0.058, coordY2CoinGauche = 1.11, coordX3CoinGauche = 0.06, coordY3CoinGauche = 1.11, coordX4CoinGauche = 0.494, coordY4CoinGauche = 1.386, coordX5CoinGauche = 0.494, coordY5CoinGauche = 1.532;
 
 	//Coin droit terrain pinball
 	private MursDroits ligneDroitTrapezeDroite, lignePencheTrapezeDroite, ligneDroitBasDroite;

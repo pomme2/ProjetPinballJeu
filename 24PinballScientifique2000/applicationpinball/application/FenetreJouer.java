@@ -116,7 +116,9 @@ public class FenetreJouer extends JFrame{
 	private Inclinaison imageInclinaison;
 	private JLabel lblChangementDonne;
 	private JProgressBar barProgressionAimant;
-	private boolean incertitude=false;
+	private boolean incertitude1=false;
+	private boolean incertitude2=false;
+	private boolean incertitude3=false;
 
 
 
@@ -141,14 +143,10 @@ public class FenetreJouer extends JFrame{
 		 * Cette méthode détecte aussi la fin de l'animation, et arrête le minuteur dans ce cas.
 		 */
 		public void miseAjourInterface() {
+			initialiserDonnees();
 			coeurVie=FenetreBacSable.getCoeurActive();
 			FenetreBacSable.setCoeurActive(true);
-			lblAcceleration.setText("Acceleration: 0,0");
-			lblVitesseX.setText("Vitesse X : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getX()));
-			lblVitesseY.setText("Vitesse Y : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getY()));
-
-			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
-			lblScore.setText("Score : "+ zonePinball.getScore().toString());
+			
 			scoreVie=zonePinball.getScoreInt();
 
 
@@ -162,7 +160,7 @@ public class FenetreJouer extends JFrame{
 				if(scoreVie3>0) {
 					premiereOuverture=false;
 				}
-				if(scoreVie3>=500) {					
+				if(scoreVie3>=2000) {					
 					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
 				}
 			}
@@ -179,7 +177,7 @@ public class FenetreJouer extends JFrame{
 				scoreVie2Finale=scoreVie2;
 				coeur2=true;
 				lblScoreDebloquer.setText("Points pour les obstacles: "+scoreVie2);
-				if(scoreVie2>=500) {					
+				if(scoreVie2>=2000) {					
 					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
 				}
 			}						
@@ -204,40 +202,48 @@ public class FenetreJouer extends JFrame{
 
 			activeFormeObstacle();
 			if(scoreVie3>=(1051*(constanteVie3Degre+1)) && scoreVie3<=(1249*(constanteVie3Degre+1))) {
-				incertitude=true;
+				incertitude1=true;
+			}
+			if(scoreVie2>=(1051*(constanteVie2Degre+1)) && scoreVie2<=(1249*(constanteVie2Degre+1))) {
+				incertitude2=true;
+			}
+			if(scoreVie1>=(1051*(constanteVie1Degre+1)) && scoreVie1<=(1249*(constanteVie1Degre+1))) {
+				incertitude3=true;
 			}
 			remonterJSlider();
-			while(scoreVie3==scoreBaseDegre+scoreIncrement*constanteVie3Degre ||incertitude) {
+			while(scoreVie3==scoreBaseDegre+scoreIncrement*constanteVie3Degre ||incertitude1) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
 				constanteVie3Degre=constanteVie3Degre+1;				
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
-				incertitude=false;
+				incertitude1=false;
 			}
-			while(scoreVie2==scoreBaseDegre+scoreIncrement*constanteVie2Degre) {
+			while(scoreVie2==scoreBaseDegre+scoreIncrement*constanteVie2Degre||incertitude2) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
 				constanteVie2Degre=constanteVie2Degre+1;				
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+				incertitude2=false;
 			}
-			while(scoreVie1==scoreBaseDegre+scoreIncrement*constanteVie1Degre) {
+			while(scoreVie1==scoreBaseDegre+scoreIncrement*constanteVie1Degre||incertitude3) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
 				constanteVie1Degre=constanteVie1Degre+1;			
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+				incertitude3=false;
 			}
-			while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {				
+			/*while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {				
 				intensite=minAimant + (int)(Math.random() * ((maxAimant - minAimant) + 1));
 				constanteVie3Aimant=constanteVie3Aimant+1;				
 				barProgressionAimant.setValue(intensite);
 				zonePinball.getAimant().setCharge(intensite);
 				lblChangementDonne.setText("Attention l'intensite de l'aimant est de  : "+barProgressionAimant.getValue()+ " %");
 			}
-			
-			if(scoreVie2>=500 && !enCoursdAnimation) {
+			*/
+			if(scoreVie2>=2000 && !enCoursdAnimation) {
 				comboBoxObstacles.setEnabled(true);
 			}else {
 				comboBoxObstacles.setEnabled(false);
@@ -245,7 +251,7 @@ public class FenetreJouer extends JFrame{
 			if(sliderLache) {
 				comboBoxObstacles.setEnabled(false);
 			}	
-			if(scoreVie3>=500 && !sliderLache) {
+			if(scoreVie3>=2000 && !sliderLache) {
 				comboBoxObstacles.setEnabled(true);
 			}else {
 				comboBoxObstacles.setEnabled(false);
@@ -575,6 +581,7 @@ public class FenetreJouer extends JFrame{
 			btnRecommencer.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnRecommencer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					recommencer();
 					comboBoxObstacles.setEnabled(false);
 					musiqueJouer.stop();
 					premiereFoisJSlider=true;
@@ -667,5 +674,30 @@ public class FenetreJouer extends JFrame{
 		}
 		public void creerFenetreClassement() {
 			fenClassement= new FenetreClassement(this);
+		}
+		//Carlos Eduardo
+		/**
+		 * Méthode qui initialise les données sur l'interface
+		 */
+		public void initialiserDonnees() {
+			lblAcceleration.setText("Acceleration: 0,0");
+			lblVitesseX.setText("Vitesse X : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getX()));
+			lblVitesseY.setText("Vitesse Y : "  +String.format("%."+ 1 +"f", zonePinball.getBille().getVitesse().getY()));
+
+			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
+			lblScore.setText("Score : "+ zonePinball.getScore().toString());
+		}
+		//Thomas Bourgault
+		/**
+		 * Méthode qui remet à zéro tous les facteurs qui gèrent les actions aléatoires durant la partie
+		 */
+		public void recommencer() {
+			degre=0;
+			constanteVie3Degre=0;
+			constanteVie2Degre=0;
+			constanteVie1Degre=0;
+			lblDegre.setText(degre+ " degre");
+			imageInclinaison.setInclinaison(degre);
+			lblChangementDonne.setText("");
 		}
 }
