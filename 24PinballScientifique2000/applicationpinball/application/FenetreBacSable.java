@@ -360,7 +360,7 @@ public class FenetreBacSable extends JFrame{
 			btnOption.setBounds(908, 632, 170, 54);
 			panelAvecImage.add(btnOption);
 
-			JButton btnSauvegarde = new JButton("Sauvegarder et revenir au menu");
+			JButton btnSauvegarde = new JButton("Revenir au menu");
 			btnSauvegarde.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			btnSauvegarde.setForeground(Color.CYAN);
 			btnSauvegarde.addActionListener(new ActionListener() {

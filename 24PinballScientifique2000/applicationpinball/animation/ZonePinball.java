@@ -810,8 +810,7 @@ public class ZonePinball extends JPanel implements Runnable {
 				uneBille.setVitesse(vitesseRebound);
 
 
-
-				score.updateScore(1);
+			
 				
 				
 				nbCollision++;

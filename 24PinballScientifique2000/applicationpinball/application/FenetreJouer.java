@@ -96,15 +96,26 @@ public class FenetreJouer extends JFrame{
 	private int nbClicObstacle;
 	private boolean sliderLache=false;
 	private boolean premiereOuverture=true;
-	private int constanteVie3=0;
-	private int constanteVie2=0;
-	private int constanteVie1=0;
+	private int constanteVie3Degre=0;
+	private int constanteVie2Degre=0;
+	private int constanteVie1Degre=0;
+	private int scoreBaseDegre=250;
+	private int scoreBaseAimant=300;
+	private int scoreIncrement=1000;
+	private int scoreIncrementAimant=1250;
+	private int constanteVie3Aimant=0;
+	private int constanteVie2Aimant=0;
+	private int constanteVi1Aimant=0;
 	private JLabel lblDegre;
 	private int degre;
+	private int intensite;
 	private int minDegre=5;
 	private int maxDegre=75;
+	private int minAimant=0;
+	private int maxAimant=100;
 	private Inclinaison imageInclinaison;
 	private JLabel lblChangementDonne;
+	private JProgressBar barProgressionAimant;
 
 
 
@@ -193,29 +204,38 @@ public class FenetreJouer extends JFrame{
 			activeFormeObstacle();
 			
 			remonterJSlider();
-			while(scoreVie3==250+1000*constanteVie3) {
+			while(scoreVie3==scoreBaseDegre+scoreIncrement*constanteVie3Degre) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
-				constanteVie3=constanteVie3+1;
+				constanteVie3Degre=constanteVie3Degre+1;
 				System.out.println("Nouveau degré: "+degre);
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
 			}
-			while(scoreVie2==250+1000*constanteVie2) {
+			while(scoreVie2==scoreBaseDegre+scoreIncrement*constanteVie2Degre) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
-				constanteVie2=constanteVie2+1;
+				constanteVie2Degre=constanteVie2Degre+1;
 				System.out.println("Nouveau degré: "+degre);
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
 			}
-			while(scoreVie1==250+1000*constanteVie1) {
+			while(scoreVie1==scoreBaseDegre+scoreIncrement*constanteVie1Degre) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
-				constanteVie1=constanteVie1+1;
+				constanteVie1Degre=constanteVie1Degre+1;
 				System.out.println("Nouveau degré: "+degre);
 				lblDegre.setText(degre+ " degre");
 				imageInclinaison.setInclinaison(degre);
 				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+			}
+			while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {
+				System.out.println("Je suis capable de changer l'intensite de l'aimant");
+				intensite=minAimant + (int)(Math.random() * ((maxAimant - minAimant) + 1));
+				constanteVie3Aimant=constanteVie3Aimant+1;
+				System.out.println("Nouvelle intensité aimant: "+barProgressionAimant.getValue()+ " %");
+				barProgressionAimant.setValue(intensite);
+				zonePinball.getAimant().setCharge(intensite);
+				lblChangementDonne.setText("Attention l'intensite de l'aimant est de  : "+barProgressionAimant.getValue()+ " %");
 			}
 			
 			if(scoreVie2>=2000 && !enCoursdAnimation) {
@@ -434,7 +454,7 @@ public class FenetreJouer extends JFrame{
 			btnOption.setBounds(908, 614, 170, 69);
 			panelAvecImage.add(btnOption);
 
-			JButton btnSauvegarde = new JButton("Sauvegarder et revenir au menu");
+			JButton btnSauvegarde = new JButton("Revenir au menu");
 			btnSauvegarde.setForeground(Color.ORANGE);
 			btnSauvegarde.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			btnSauvegarde.addActionListener(new ActionListener() {
@@ -571,9 +591,14 @@ public class FenetreJouer extends JFrame{
 			btnRecommencer.setBounds(734, 614, 170, 69);
 			panelAvecImage.add(btnRecommencer);
 
-			JProgressBar progressBar = new JProgressBar();
-			progressBar.setBounds(734, 372, 256, 19);
-			panelAvecImage.add(progressBar);
+			barProgressionAimant = new JProgressBar();
+			barProgressionAimant.setToolTipText("");
+			barProgressionAimant.setFont(new Font("Arcade Normal", Font.PLAIN, 7));
+			barProgressionAimant.setStringPainted(true);
+			barProgressionAimant.setForeground(Color.ORANGE);
+			barProgressionAimant.setBackground(Color.BLACK);
+			barProgressionAimant.setBounds(734, 372, 256, 19);
+			panelAvecImage.add(barProgressionAimant);
 
 			SceneImage sceneImage = new SceneImage();
 			sceneImage.setBounds(974, 46, 100, 100);
