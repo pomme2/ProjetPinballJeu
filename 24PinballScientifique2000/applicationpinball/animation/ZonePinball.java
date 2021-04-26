@@ -313,6 +313,9 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private double triangleX1=103, triangleY1=602, triangleX2=30, triangleY2=555, triangleX3=30, triangleY3=602;
 	private Path2D.Double petitTriangle;
+	
+	
+	private double intensite=1;
 
 
 
@@ -890,7 +893,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 				if(premiereFoisCercleTouche) {
-					score.updateScore(200);
+					score.updateScore(50);
 					premiereFoisCercleTouche=false;
 				}
 
@@ -1129,26 +1132,13 @@ public class ZonePinball extends JPanel implements Runnable {
 			}
 
 
-			//carre obstacles
-			for(int i=0; i< obstaclesCarre.size();i++) {
-
-				Rectangle2D carre = obstaclesCarre.get(i);
-
-
-				if(colCarre(carre)) {
-				}
-
-
-
-
-			}
 
 		}
 
 		ajoutObsList();
 
 		
-		aimantActif(dessinerAimant);
+		aimantActif(dessinerAimant,intensite);
 		
 
 	} ///fin collision
@@ -1397,9 +1387,9 @@ public class ZonePinball extends JPanel implements Runnable {
 	 *  
 	 * @param si checkbox aimant est true ou false
 	 */
-	public void aimantActif(boolean aimant) {
+	public void aimantActif(boolean aimant , double intensite) {
 
-		
+		intensite=intensite/100;
 		if(aimant) {
 			
 			Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
@@ -1407,7 +1397,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
 
 
-			distance = distance.multiplie(forceElectrique*0.00001);
+			distance = distance.multiplie(intensite*forceElectrique*0.0001);
 
 			uneBille.setForceExterieureAppliquee(new Vecteur2D(distance));
 			
@@ -1861,7 +1851,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	public void SegmentCourbe() {
 		MursDroits mur;
 		for (int i = 0; i < 3; i++) {
-			mur = new MursDroits(arcCerclePetitCoordX.get(i), arcCerclePetitCoordY.get(i), arcCerclePetitCoordX.get(i + 1), arcCerclePetitCoordY.get(i + 1));
+			mur = new MursDroits(arcCerclePetitCoordX.get(i+1), arcCerclePetitCoordY.get(i+1), arcCerclePetitCoordX.get(i ), arcCerclePetitCoordY.get(i ));
 			mur.setPixelsParMetre(pixelParMetre);
 			courbe.add(mur);
 
@@ -1985,8 +1975,9 @@ public class ZonePinball extends JPanel implements Runnable {
 	}
 
 	//Audrey Viger
-	public void setAimant(boolean dessinerAimant) {
+	public void setAimant(boolean dessinerAimant, double intensite) {
 		this.dessinerAimant = dessinerAimant;
+		this.intensite = intensite/100;
 		repaint();
 	}
 

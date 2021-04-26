@@ -28,7 +28,12 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
 import application.FenetreJouer;
-
+/**
+ * 
+ * @author Audrey Viger
+ * Classe qui permet d'ouvrir une fenetre qui représente la fin d'une partie
+ *
+ */
 public class FenetreFinPartie extends JFrame{
 
 	private static final long serialVersionUID = 1L;
@@ -50,12 +55,21 @@ public class FenetreFinPartie extends JFrame{
 	
 
 
-
+/**
+ * Méthode qui permet de retourner les initiales entrer par l'utilisateur
+ * @return  les initiales entrer par l'utilisateur
+ */
 	public String getInitiales() {
 		String initiales = txtEntreeInitiales.getText().toString();
 		return initiales;
 	}
-	
+	/**
+	 * Constructeur qui permet d'initialiser la fenetre fin de partie
+	 * @param fenMenu est la fenetre qui représente le menu de type App24PinballScientifique2001
+	 * @param fenBac1 est la fenetre qui représente la fenetre bac a sable de type FenetreBacSable
+	 * @param fenJouer est la fenetre qui represente la fenetre jouer de type FenetreJouer
+	 * @param fenClassement1 est la fenetre qui represente la fenetre classement de type FenetreClassement
+	 */
 	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac1, FenetreJouer fenJouer, FenetreClassement fenClassement1) {
 		musiqueFinPartieJouer=FenetreJouer.musiqueFinPartie();
 		musiqueFinPartieBacSable=FenetreBacSable.musiqueFinPartie();
