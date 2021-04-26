@@ -77,6 +77,7 @@ public class FenetreBacSable extends JFrame{
 
 	private double inclinaisonAjustement = 0.128;
 	private double grav = 9.8;
+	boolean aimantReady = false;
 
 	//carlos affichage des resultats
 	private JLabel lblVitesseX;
@@ -166,6 +167,9 @@ public class FenetreBacSable extends JFrame{
 			if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
 				minuteurResultats.stop();
 
+			}else {
+				minuteurResultats = new Timer(10, ecouteurDuMinuteur );
+				minuteurResultats.start();			
 			}
 		}
 		//Audrey Viger
@@ -316,6 +320,14 @@ public class FenetreBacSable extends JFrame{
 			panelAvecImage.add(lblScore);
 
 			JRadioButton rdbtnChargePos = new JRadioButton("+e");
+			rdbtnChargePos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(rdbtnChargePos.isSelected()){
+						zonePinball.getBille().setCharge(2);
+				
+			}
+				}
+			});
 			rdbtnChargePos.setForeground(Color.ORANGE);
 			rdbtnChargePos.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			buttonGroup.add(rdbtnChargePos);
@@ -323,6 +335,13 @@ public class FenetreBacSable extends JFrame{
 			panelAvecImage.add(rdbtnChargePos);
 
 			JRadioButton rdbtnChargeNeg = new JRadioButton("-e");
+			rdbtnChargeNeg.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(rdbtnChargeNeg.isSelected()) {
+						zonePinball.getBille().setCharge(-2);
+					}
+				}
+			});
 			rdbtnChargeNeg.setForeground(Color.ORANGE);
 			rdbtnChargeNeg.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			buttonGroup.add(rdbtnChargeNeg);
@@ -414,7 +433,9 @@ public class FenetreBacSable extends JFrame{
 				public void stateChanged(ChangeEvent e) {
 					valeurAimant = (int) spinnerAimant.getValue();
 					sliderAimant.setValue(valeurAimant);
-					//zonePinball.getAimant().setCharge(sliderAimant.getValue());
+					
+					
+					zonePinball.getAimant().setCharge(sliderAimant.getValue());
 					
 					
 
@@ -429,6 +450,8 @@ public class FenetreBacSable extends JFrame{
 				public void stateChanged(ChangeEvent e) {
 					spinnerAimant.setValue( sliderAimant.getValue());
 					zonePinball.getAimant().setCharge(sliderAimant.getValue());
+				
+					zonePinball.setAimant(aimantReady, sliderAimant.getValue());
 				}
 			});
 
@@ -678,18 +701,21 @@ public class FenetreBacSable extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 
 
-					zonePinball.setAimant(chckbxAimant.isSelected(),1);
+					zonePinball.setAimant(chckbxAimant.isSelected(),0);
 					
 			
-
-if(chckbxAimant.isSelected()) {
-	sliderAimant.setEnabled(true);
-}else {
-	if(!chckbxAimant.isSelected()) {
-		sliderAimant.setEnabled(false);
-		sliderAimant.setValue(0);
-	}
-}
+				
+				if(chckbxAimant.isSelected()) {
+					sliderAimant.setEnabled(true);
+					aimantReady = true;
+					
+				}else {
+					if(!chckbxAimant.isSelected()) {
+						sliderAimant.setEnabled(false);
+						sliderAimant.setValue(0);
+						aimantReady = false;
+					}
+				}
 
 				
 

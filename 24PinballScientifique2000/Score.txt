@@ -1,5 +1,1 @@
   java.lang.String  java.lang.Integer
-  oui(BaS)  398
-  coucou(BaS)  215
-  ce  183
-  de  183
