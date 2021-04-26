@@ -1147,6 +1147,10 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		ajoutObsList();
 
+		
+		aimantActif(dessinerAimant);
+		
+
 	} ///fin collision
 
 
@@ -1395,15 +1399,22 @@ public class ZonePinball extends JPanel implements Runnable {
 	 */
 	public void aimantActif(boolean aimant) {
 
-		Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
+		
+		if(aimant) {
+			
+			Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
 
-		double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
+			double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
 
 
-		distance = distance.multiplie(forceElectrique);
+			distance = distance.multiplie(forceElectrique*0.00001);
 
-		uneBille.setForceExterieureAppliquee(new Vecteur2D(distance));
-		//System.out.println("Force electrique aimant et bille : "+  forceElectrique+ " N");
+			uneBille.setForceExterieureAppliquee(new Vecteur2D(distance));
+			
+			
+			
+		}
+	
 	}
 
 
