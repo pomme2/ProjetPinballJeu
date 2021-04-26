@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
  * 
  * 
  * @author Audrey Viger
+ * @author Thomas Bourgault
  *  Cette classe est le menu et permet d'acceder aux autres fenetres
  */
 public class App24PinballScientifique2001 extends JFrame{
@@ -282,6 +283,7 @@ public class App24PinballScientifique2001 extends JFrame{
 		lblTitreApplication.setBounds(73, 0, 1022, 171);
 		panelAvecImage.add(lblTitreApplication);
 
+
 		JButton btnPropos = new JButton("\u00C0 propos");
 		btnPropos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -294,28 +296,57 @@ public class App24PinballScientifique2001 extends JFrame{
 		btnPropos.setBounds(477, 678, 130, 37);
 		panelAvecImage.add(btnPropos);
 
+}
 
+	//Thomas Bourgault
+	/**
+	 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreDessin
+	 * @returnun objet Musique qui contient la musique de la FenetreDessin
+	 */
+	public static Musique musiqueDessin() {
+		return musiqueDessin;
 
+	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreTutoriel
+	 * @return objet Musique qui contient la musique de la FenetreTutoriel
+	 */
+	public static Musique musiqueTuto() {
+		return musiqueTuto;
+	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui permet de retourner un objet Musique qui contient la musique de App24PinballScientifique
+	 * @return objet Musique qui contient la musique de App24PinballScientifique
+	 */
+	public static Musique musiqueMenu() {
+		return musiqueMenu;
+	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreBacSable
+	 * @return objet Musique qui contient la musique de la musiqueBacSable
+	 */
+	public static Musique musiqueBacSable() {
+		return musiqueBacSable;
+	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui retourne un boolean qui permet de savoir si on a appuyer sur le bouton Jouer
+	 * @return un boolean qui permet de savoir si on a appuyer sur le bouton Jouer
+	 */
+	public static boolean getJouerActive() {
+		return jouerActive;
+	}
+	//Thomas Bourgault
+		/**
+		 * Méthode qui permet de changer le boolean qui permet de savoir si on a appuyer sur le bouton Jouer
+		 * @param un nouveau boolean
+		 */
+	public static void setJouerActive(boolean jouer) {
+		jouerActive=jouer;
+	}	
 
-}
-public static Musique musiqueDessin() {
-	return musiqueDessin;
-
-}
-public static Musique musiqueTuto() {
-	return musiqueTuto;
-}
-public static Musique musiqueMenu() {
-	return musiqueMenu;
-}
-public static Musique musiqueBacSable() {
-	return musiqueBacSable;
-}
-public static boolean getJouerActive() {
-	return jouerActive;
-}
-public static void setJouerActive(boolean jouer) {
-	jouerActive=jouer;
-}	
 }
 

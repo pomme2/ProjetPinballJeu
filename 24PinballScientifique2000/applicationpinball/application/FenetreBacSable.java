@@ -76,6 +76,7 @@ public class FenetreBacSable extends JFrame{
 	private Scene scene;
 
 	private double inclinaisonAjustement = 0.128;
+	private double grav = 9.8;
 
 	//carlos affichage des resultats
 	private JLabel lblVitesseX;
@@ -174,18 +175,15 @@ public class FenetreBacSable extends JFrame{
 		public void remonterJSlider() {
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
+				zonePinball.setPremiereFoisObstacle(true);
+				zonePinball.ajoutObsList();
 
 			}
 
 
 		}
 
-
-		/*public void initianilisationFenSecondaire() {
-			fenFinPartie = new FenetreFinPartie(fenMenu,this);
-			fenMenu = new App24PinballScientifique2001();
-			fenOption = new FenetreOption(fenMenu);
-		}*/
+		
 
 		//Audrey Viger
 		/**
@@ -337,9 +335,13 @@ public class FenetreBacSable extends JFrame{
 			comboBoxObstacles.setModel(new DefaultComboBoxModel(new String[] {"Carre", "Cercle", "Triangle", "Rectangle"}));
 			comboBoxObstacles.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			comboBoxObstacles.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 					String forme = (String) comboBoxObstacles.getSelectedItem();
 					zonePinball.setForme(forme);					
+					zonePinball.resetCollisionObs();
+					zonePinball.setPremiereFoisObstacle(true);
+					zonePinball.ajoutObsList();
 
 				}
 			});
@@ -352,6 +354,7 @@ public class FenetreBacSable extends JFrame{
 			btnOption.setForeground(Color.CYAN);
 			btnOption.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			btnOption.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 					fenOption.setVisible(true);
 
@@ -364,6 +367,7 @@ public class FenetreBacSable extends JFrame{
 			btnSauvegarde.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			btnSauvegarde.setForeground(Color.CYAN);
 			btnSauvegarde.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 					fenMenu.setVisible(true);
 					setVisible(false);
@@ -372,6 +376,7 @@ public class FenetreBacSable extends JFrame{
 					musiqueMenu.reset();
 					musiqueMenu.play();
 					musiqueMenu.loop();
+					moteur.MoteurPhysique.setACCEL_GRAV(grav);
 
 				}
 			});
@@ -379,20 +384,20 @@ public class FenetreBacSable extends JFrame{
 			panelAvecImage.add(btnSauvegarde);
 
 			JSpinner spinnerMasse = new JSpinner();
-			spinnerMasse.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+			spinnerMasse.setModel(new SpinnerNumberModel(10, 10, 30, 10));
 			spinnerMasse.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					valeurMasse = (int) spinnerMasse.getValue();
-					zonePinball.setMasseBalle(valeurMasse);
+					zonePinball.setMasseBalle(valeurMasse*0.01);
 				}
 			});
 			spinnerMasse.setBounds(746, 192, 44, 20);
 			panelAvecImage.add(spinnerMasse);
 
-			JLabel lblKg = new JLabel("kg");
+			JLabel lblKg = new JLabel("grammes");
 			lblKg.setForeground(Color.ORANGE);
 			lblKg.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
-			lblKg.setBounds(798, 195, 48, 14);
+			lblKg.setBounds(798, 195, 114, 14);
 			panelAvecImage.add(lblKg);
 
 			JSlider sliderAimant = new JSlider();
@@ -401,9 +406,9 @@ public class FenetreBacSable extends JFrame{
 			JSpinner spinnerAimant = new JSpinner();
 			spinnerAimant.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 			spinnerAimant.addChangeListener(new ChangeListener() {
+				//Audrey Viger
 				public void stateChanged(ChangeEvent e) {
 					valeurAimant = (int) spinnerAimant.getValue();
-					//System.out.println(valeurAimant);
 					sliderAimant.setValue(valeurAimant);
 					zonePinball.getAimant().setCharge(sliderAimant.getValue());
 
@@ -414,6 +419,7 @@ public class FenetreBacSable extends JFrame{
 
 
 			sliderAimant.addChangeListener(new ChangeListener() {
+				//Audrey Viger
 				public void stateChanged(ChangeEvent e) {
 					spinnerAimant.setValue( sliderAimant.getValue());
 					zonePinball.getAimant().setCharge(sliderAimant.getValue());
@@ -438,6 +444,7 @@ public class FenetreBacSable extends JFrame{
 			sliderRessort.setMinimum(50);
 			sliderRessort.setValue(0);
 			sliderRessort.addChangeListener(new ChangeListener() {
+				//Audrey Viger
 				public void stateChanged(ChangeEvent e) {
 					spinnerRessort.setValue(sliderRessort.getValue());
 					zonePinball.setkRessort((int)sliderRessort.getValue());
@@ -462,6 +469,7 @@ public class FenetreBacSable extends JFrame{
 			JSpinner spinnerInclinaison = new JSpinner();
 			spinnerInclinaison.setModel(new SpinnerNumberModel(5, 5, 75, 1));
 			spinnerInclinaison.addChangeListener(new ChangeListener() {
+				//Audrey Viger
 				public void stateChanged(ChangeEvent e) {
 					valeurInclinaison = (int) spinnerInclinaison.getValue();
 					//System.out.println(valeurInclinaison);
@@ -481,6 +489,7 @@ public class FenetreBacSable extends JFrame{
 
 
 			spinnerRessort.addChangeListener(new ChangeListener() {
+				//Audrey Viger
 				public void stateChanged(ChangeEvent e) {
 					valeurRessort = (int) spinnerRessort.getValue();
 					sliderRessort.setValue(valeurRessort);
@@ -523,6 +532,7 @@ public class FenetreBacSable extends JFrame{
 			//sliderEtirement.setEnabled(false);
 
 			sliderEtirement.addComponentListener(new ComponentAdapter() {
+				//Thomas Bourgault
 				@Override
 				public void componentShown(ComponentEvent e) {
 					if(zonePinball.isVisible()==true && zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
@@ -536,9 +546,8 @@ public class FenetreBacSable extends JFrame{
 			sliderEtirement.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-
-
 				}
+				//Audrey Viger
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					musiqueRessort.reset();
@@ -559,6 +568,7 @@ public class FenetreBacSable extends JFrame{
 			sliderEtirement.setMinimum(-10);
 			sliderEtirement.setMaximum(0);
 			sliderEtirement.addChangeListener(new ChangeListener() {
+				//Audrey Viger
 				public void stateChanged(ChangeEvent e) {
 					zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
 				}
@@ -576,8 +586,9 @@ public class FenetreBacSable extends JFrame{
 			btnRecommencer.setForeground(Color.CYAN);
 			btnRecommencer.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnRecommencer.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
-					spinnerMasse.setValue(1);
+					spinnerMasse.setValue(10);
 					spinnerAimant.setValue(0);
 					spinnerRessort.setValue(0);
 					spinnerInclinaison.setValue(5);
@@ -603,6 +614,7 @@ public class FenetreBacSable extends JFrame{
 			btnDemarrer.setForeground(Color.CYAN);
 			btnDemarrer.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			btnDemarrer.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 					//sliderEtirement.setEnabled(true);
 					sliderEtirement.setVisible(true);
@@ -622,6 +634,7 @@ public class FenetreBacSable extends JFrame{
 			chckbxContour.setForeground(Color.CYAN);
 			chckbxContour.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			chckbxContour.addActionListener(new ActionListener() {
+				//Thomas Bourgault
 				public void actionPerformed(ActionEvent e) {
 					zonePinball.setContour(chckbxContour.isSelected());
 
@@ -652,6 +665,7 @@ public class FenetreBacSable extends JFrame{
 			chckbxAimant.setForeground(Color.CYAN);
 			chckbxAimant.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			chckbxAimant.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 
 					zonePinball.setAimant(chckbxAimant.isSelected());
@@ -692,6 +706,7 @@ public class FenetreBacSable extends JFrame{
 			btnNextImg.setForeground(Color.CYAN);
 			btnNextImg.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnNextImg.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 
 					zonePinball.prochaineImage();				
@@ -732,6 +747,7 @@ public class FenetreBacSable extends JFrame{
 			btnClassement.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			btnClassement.setForeground(Color.CYAN);
 			btnClassement.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 					creerFenetreClassement();	
 					fenClassement.setVisible(true);
@@ -766,9 +782,18 @@ public class FenetreBacSable extends JFrame{
 		public static void setCoeurActive(boolean nouv) {
 			coeurActive=nouv;
 		}	
+		//Audrey Viger
+		/**
+		 * Méthode qui permet de créer une nouvelle FenetreClassement
+		 */
 		public void creerFenetreClassement() {
 			fenClassement= new FenetreClassement(this);
 		}
+		//Thomas Bourgault
+		/**
+		 * Méthode qui permet de retourner un objet de type Musique qui est la musique de fin de partie
+		 * @return un objet de type Musique qui est la musique de fin de partie
+		 */
 		public static Musique musiqueFinPartie() {
 			return musiqueFinPartie;
 		}
