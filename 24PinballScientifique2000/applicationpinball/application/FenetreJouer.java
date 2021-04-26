@@ -150,7 +150,7 @@ public class FenetreJouer extends JFrame{
 		
 		public void miseAjourInterface() {
 			initialiserDonnees();
-			zonePinball.setAimant(false);
+			zonePinball.setAimant(false,intensite);
 
 			coeurVie=FenetreBacSable.getCoeurActive();
 			FenetreBacSable.setCoeurActive(true);
@@ -226,12 +226,9 @@ public class FenetreJouer extends JFrame{
 			}
 			
 			remonterJSlider();
+	
 			
-	if(scoreVie3 >= 250 &&  scoreVie3 <= 400 ) {
-				
-				zonePinball.setAimant(true);
-				
-			}
+
 			while(scoreVie3==scoreBaseDegre+scoreIncrement*constanteVie3Degre ||incertitude1) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
 				constanteVie3Degre=constanteVie3Degre+1;				
@@ -276,6 +273,24 @@ public class FenetreJouer extends JFrame{
 				
 			
 			}
+			
+			
+			if(scoreVie3 >= 300 &&  scoreVie3 <= 400  || scoreVie3 >= 800 &&  scoreVie3 <= 900  || scoreVie3 >= 1200 &&  scoreVie3 <= 1350 ) {
+			
+				zonePinball.setAimant(true,intensite*0.4);
+		}
+			if(scoreVie2 >= 300 &&  scoreVie2 <= 400 || scoreVie2 >= 800 &&  scoreVie2 <= 900  || scoreVie2 >= 1200 &&  scoreVie2 <= 1350) {
+				
+				zonePinball.setAimant(true,intensite*0.4);	
+		}
+			
+			if(scoreVie1 >= 300 &&  scoreVie1 <= 400 || scoreVie1 >= 800 &&  scoreVie1 <= 900  || scoreVie1 >= 1200 &&  scoreVie1 <= 1350) {
+				
+				zonePinball.setAimant(true,intensite*0.4);
+					
+			
+		}
+			
 		
 			
 			if(scoreVie2>=2000 && !enCoursdAnimation) {
