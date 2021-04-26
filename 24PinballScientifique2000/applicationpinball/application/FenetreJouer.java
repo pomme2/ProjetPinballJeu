@@ -213,6 +213,7 @@ public class FenetreJouer extends JFrame{
 			if(scoreVie1>=(1051*(constanteVie1Degre+1)) && scoreVie1<=(1249*(constanteVie1Degre+1))) {
 				incertitude3=true;
 			}
+			
 			remonterJSlider();
 			while(scoreVie3==scoreBaseDegre+scoreIncrement*constanteVie3Degre ||incertitude1) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
@@ -244,14 +245,16 @@ public class FenetreJouer extends JFrame{
 				moteur.MoteurPhysique.setACCEL_GRAV(degre*1.128);
 
 			}
-			/*while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {				
+			while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {				
 				intensite=minAimant + (int)(Math.random() * ((maxAimant - minAimant) + 1));
 				constanteVie3Aimant=constanteVie3Aimant+1;				
 				barProgressionAimant.setValue(intensite);
 				zonePinball.getAimant().setCharge(intensite);
 				lblChangementDonne.setText("Attention l'intensite de l'aimant est de  : "+barProgressionAimant.getValue()+ " %");
+				
+				zonePinball.setAimant(true);
 			}
-			*/
+			
 			if(scoreVie2>=2000 && !enCoursdAnimation) {
 				comboBoxObstacles.setEnabled(true);
 			
@@ -533,7 +536,7 @@ public class FenetreJouer extends JFrame{
 				}
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					moteur.MoteurPhysique.setACCEL_GRAV(9.8066);
+					moteur.MoteurPhysique.setACCEL_GRAV(grav);
 					sliderLache=true;
 					musiqueRessort.reset();
 					musiqueRessort.play();
