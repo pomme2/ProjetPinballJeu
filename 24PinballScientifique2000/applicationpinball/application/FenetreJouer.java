@@ -130,6 +130,7 @@ public class FenetreJouer extends JFrame{
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
 	 * @author Audrey Viger 
 	 * @author Carlos Eduardo
+	 * @author Thomas Bourgault
 	 */
 	//Carlos Eduardo
 	/**
@@ -210,7 +211,6 @@ public class FenetreJouer extends JFrame{
 
 			}
 
-			activeFormeObstacle();
 			if(scoreVie3>=(1051*(constanteVie3Degre+1)) && scoreVie3<=(1249*(constanteVie3Degre+1))) {
 				incertitude1=true;
 			}
@@ -400,8 +400,8 @@ public class FenetreJouer extends JFrame{
 			zonePinball = new ZonePinball(scene);
 			zonePinball.setBounds(71, 26, 600,768);
 			panelAvecImage.add(zonePinball);
-			
-			
+
+
 
 			//Initialisation des valeurs de spinners initiales.
 			int etirementInitial = (int)(zonePinball.getETIREMENT_NAT()*100.0);
@@ -492,17 +492,12 @@ public class FenetreJouer extends JFrame{
 			Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 
 			comboBoxObstacles = new JComboBox<Object>(choixObstacles);
-			comboBoxObstacles.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mousePressed(MouseEvent e) {					
-
-				}
-			});
 			comboBoxObstacles.setEnabled(false);
 			comboBoxObstacles.setForeground(Color.CYAN);
 			comboBoxObstacles.setModel(new DefaultComboBoxModel(new String[] {"Carre", "Cercle", "Triangle", "Rectangle"}));
 			comboBoxObstacles.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			comboBoxObstacles.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 					String forme = (String) comboBoxObstacles.getSelectedItem();
 					zonePinball.setForme(forme);
@@ -519,6 +514,7 @@ public class FenetreJouer extends JFrame{
 			btnOption.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			btnOption.setForeground(Color.ORANGE);
 			btnOption.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 					fenOption.setVisible(true);
 
@@ -531,6 +527,7 @@ public class FenetreJouer extends JFrame{
 			btnSauvegarde.setForeground(Color.ORANGE);
 			btnSauvegarde.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			btnSauvegarde.addActionListener(new ActionListener() {
+				//Thomas Bourgault
 				public void actionPerformed(ActionEvent e) {
 					musiqueJouer.stop();
 					fenMenu.setVisible(true);
@@ -580,10 +577,8 @@ public class FenetreJouer extends JFrame{
 			sliderEtirement = new JSlider();
 			sliderEtirement.setEnabled(false);
 			sliderEtirement.setVisible(false);
-			sliderEtirement.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mousePressed(MouseEvent e) {					
-				}
+			sliderEtirement.addMouseListener(new MouseAdapter() {	
+				//Audrey Viger
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					moteur.MoteurPhysique.setACCEL_GRAV(grav);
@@ -612,6 +607,7 @@ public class FenetreJouer extends JFrame{
 			sliderEtirement.setMinimum(-10);
 			sliderEtirement.setMaximum(0);
 			sliderEtirement.addChangeListener(new ChangeListener() {
+				//Audrey Viger
 				public void stateChanged(ChangeEvent e) {
 					sliderLache=true;
 					zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
@@ -630,6 +626,7 @@ public class FenetreJouer extends JFrame{
 			btnDemarrer.setForeground(Color.ORANGE);
 			btnDemarrer.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			btnDemarrer.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 
 
@@ -651,6 +648,7 @@ public class FenetreJouer extends JFrame{
 			btnRecommencer.setForeground(Color.ORANGE);
 			btnRecommencer.setFont(new Font("Arcade Normal", Font.PLAIN, 6));
 			btnRecommencer.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 					recommencer();
 					comboBoxObstacles.setEnabled(false);
@@ -706,6 +704,7 @@ public class FenetreJouer extends JFrame{
 
 			JButton btnClassement = new JButton("Classement");
 			btnClassement.addActionListener(new ActionListener() {
+				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 					creerFenetreClassement();	
 					fenClassement.setVisible(true);
@@ -729,20 +728,34 @@ public class FenetreJouer extends JFrame{
 			panelAvecImage.add(lblChangementDonne);
 			miseAjourInterface();
 		}
-
+		//Thomas Bourgault
+		/**
+		 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreJouer
+		 * @return un objet Musique qui contient la musique de la FenetreJouer
+		 */
 		public static Musique musiqueJouer() {
 			return musiqueJouer;
 		}
+		//Thomas Bourgault
+		/**
+		 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreJouer quand on actionne le ressort
+		 * @return un objet Musique qui contient la musique de la FenetreJouer quand on actionne le ressort
+		 */
 		public static Musique musiqueRessort() {
 			return musiqueRessort;
 		}
-
-		public void activeFormeObstacle() {
-
-		}		
+		//Thomas Bourgault
+		/**
+		 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreFinPartie quand la partie est terminee
+		 * @return un objet Musique qui contient la musique de la FenetreFinPartie quand la partie est terminee
+		 */
 		public static Musique musiqueFinPartie() {
 			return musiqueFinPartie;
 		}
+		//Audrey Viger
+		/**
+		 * Méthode qui permet d'instancier une nouvelle FenetreClassement selon la fenetre de bac a sable
+		 */
 		public void creerFenetreClassement() {
 			fenClassement= new FenetreClassement(this);
 		}
