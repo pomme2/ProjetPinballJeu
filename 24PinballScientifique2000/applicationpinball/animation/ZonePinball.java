@@ -126,15 +126,15 @@ public class ZonePinball extends JPanel implements Runnable {
 	double courbeY=0.732;
 
 	//variable pour pointage
-	PointageAnimation score = new PointageAnimation();	
+	private PointageAnimation score = new PointageAnimation();	
 
-	int pointCercle = 1;
-	int triange = 10;
-	int temps=0;
+	private int pointCercle = 1;
+	private int triange = 10;
+	private int temps=0;
 
-	int finalScore;
+	private int finalScore;
 
-	int nbCollision =0;
+	private int nbCollision =0;
 
 
 	//tableau pour obstacles
