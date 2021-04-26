@@ -17,7 +17,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-
+/**
+ * Classe qui permet d'afficher le score selon les intitiales dans une fenetre
+ * @author Adurey Viger
+ *
+ */
 public class FenetreClassement extends JFrame {
 	
 
@@ -33,7 +37,10 @@ public class FenetreClassement extends JFrame {
 		private FenetreJouer fenJouer;
 
 		
-		
+		/**
+		 * Constructeur qui permet d'instancier la fenêtre du classement dans la fenetre jouer
+		 * @param fenJouer est la fenetre qui permet de jouer au jeu
+		 */
 		public FenetreClassement( FenetreJouer fenJouer) {
 			this.fenJouer = fenJouer;
 		
@@ -83,6 +90,10 @@ public class FenetreClassement extends JFrame {
 		/**
 		 * @wbp.parser.constructor
 		 */
+		/**
+		 * Constructeur qui permet d'instancier la fenêtre du classement dans la fenetre bac a sable
+		 * @param fenJouer est la fenetre BacSable
+		 */
 		public FenetreClassement(FenetreBacSable fenetreBacSable) {
 		this.fenBacSable = fenetreBacSable;
 			
@@ -124,6 +135,11 @@ public class FenetreClassement extends JFrame {
 			
 			
 		}
+		/**
+		 * Méthode qui permet de lire un fichier et d'écrire dedans
+		 * @param texte est le texte qu'on veut écrire dedans
+		 * @param fileName est le nom du fichier dans lequel on veut écrire
+		 */
 		private void readTextFile(JTextArea texte, String fileName) 
 	 	{
 	 		try 
