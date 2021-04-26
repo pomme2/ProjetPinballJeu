@@ -378,9 +378,9 @@ public class FenetreJouer extends JFrame{
 				minuteurResultats.stop();
 				musiqueJouer.stop();
 
-			}else {
-				minuteurResultats = new Timer(10, ecouteurDuMinuteur );
-				minuteurResultats.start();			
+			//}else {
+				//minuteurResultats = new Timer(10, ecouteurDuMinuteur );
+				//minuteurResultats.start();			
 			}
 			if(sliderEtirement.getValue()==0 && !premiereFoisJSlider) {
 

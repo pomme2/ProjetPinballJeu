@@ -91,7 +91,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	private Vecteur2D posCentre = new Vecteur2D(0.598, 0.712);
 
 	//variable bille Carlos
-	private double deltaT = 0.005;
+	private double deltaT = 0.007;
 	private double diametreBallePourCetteScene = 0.03; //em mètres
 	private double massePourCetteScene = 0.1; //en kg
 
