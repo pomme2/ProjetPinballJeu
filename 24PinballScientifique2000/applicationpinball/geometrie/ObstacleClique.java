@@ -62,7 +62,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 	private void creerLaGeometrie() {
 
 		if(forme == "Triangle") {
-			ligneJ = new Rectangle2D.Double(0,590,700,5);
+		//	ligneJ = new Rectangle2D.Double(0,590,700,5);
 			triangle = new Path2D.Double();
 			triangle.moveTo(posX-larg/2,posY+haut/2);
 			triangle.lineTo(posX,posY-haut/2);
@@ -71,14 +71,14 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 
 		}else if(forme == "Carre") {
 			carre = new Rectangle2D.Double(posX-haut/2,posY-haut/2,haut,haut);
-			ligneJ = new Rectangle2D.Double(30,590,471,2);
+		//	ligneJ = new Rectangle2D.Double(30,590,471,2);
 		}else if (forme == "Cercle") {
 			cercle = new Ellipse2D.Double(posX-larg/2,posY-larg/2,larg,larg);
-			ligneJ = new Rectangle2D.Double(0,590,700,5);
+		//	ligneJ = new Rectangle2D.Double(0,590,700,5);
 
 		}else if (forme == "Rectangle") {
 			rectangle = new Rectangle2D.Double(posX-larg/2,posY-haut/2,larg+larg/2.5,haut-haut/2.5);
-			ligneJ = new Rectangle2D.Double(0,590,700,5);
+		//	ligneJ = new Rectangle2D.Double(0,590,700,5);
 		}
 
 
@@ -95,8 +95,6 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 
 		if(forme=="Cercle") {
 			g2d.fill(mat.createTransformedShape(cercle));
-
-			//	g2d.fill(mat.createTransformedShape(ligneJ));
 
 		}else if(forme=="Carre"){		
 			g2d.fill(mat.createTransformedShape(carre));
@@ -163,49 +161,46 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 	/**
 	 * Methodes qui sont de type abstraits car nous devons implementer le classe Shape
 	 */
-	////////////////////////////////////////////////////////////////////////////////////
-	@Override
+
 	public Rectangle2D getBounds2D() {
-		// TODO Auto-generated method stub
+	
 		return null;
 	}
-
-
-	@Override
+	/**
+	 * Méthode qui teste si les coordonné en parametre sont à l'intérieur des bornes de la forme
+	 * @param x coordonné en x
+	 *  @param x coordonné en y
+	 * 
+	 */
 	public boolean contains(double x, double y) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * Méthode qui teste si la coordonné en parametre sont à l'intérieur des bornes de la forme
+	 */
 
-	@Override
 	public boolean contains(Point2D p) {
-		// TODO Auto-generated method stub
 		return false;
 	}
-
-
-	@Override
-	public boolean intersects(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	@Override
-	public boolean intersects(Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	@Override
+	/**
+	 * Méthode qui teste si les coordonné en parametre sont à l'intérieur des bornes de la forme
+	 *  @param x coordonné en x
+	 *  @param y coordonné en y
+	 *  @param w largeur de la forme
+	 *  @param h hauteur de la forme
+	 *  
+	 */
+	
 	public boolean contains(double x, double y, double w, double h) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-
+	/**
+	 * Méthode qui teste si l'intérieur de la forme contient l'objet rectangle en entier.
+	 * @param r objet rectangle
+	 */
 	@Override
 	public boolean contains(Rectangle2D r) {
 		// TODO Auto-generated method stub
@@ -236,7 +231,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	///////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Methode qui retourne la position en y
 	 * @return posY la position en y
@@ -261,7 +256,7 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 		if(forme=="Cercle") {
 			return larg;
 
-			//	g2d.fill(mat.createTransformedShape(ligneJ));
+	
 
 		}else if(forme=="Carre"){
 
@@ -295,8 +290,6 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 	public double getHaut() {
 		if(forme=="Cercle") {
 			return haut;
-
-			//	g2d.fill(mat.createTransformedShape(ligneJ));
 
 		}else if(forme=="Carre"){
 
@@ -336,8 +329,19 @@ public class ObstacleClique  implements Dessinable,Selectionnable, Shape{
 	 * @return la position en x des formes
 	 */
 	public double getPosX() {
-		// TODO Auto-generated method stub
 		return posX;
+	}
+
+
+	@Override
+	public boolean intersects(double x, double y, double w, double h) {
+		return false;
+	}
+
+
+	@Override
+	public boolean intersects(Rectangle2D r) {
+		return false;
 	}
 
 

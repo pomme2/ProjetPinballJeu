@@ -80,12 +80,7 @@ public class FenetreClassement extends JFrame {
 			
 			lireTexteFichier(textArea,"Score.txt");
 			
-					
-			 
-	         //      lblNewLabel.setText(hs.getLigne(1)[0] + "\t"+hs.getLigne(1)[1]);
-			
-			//hs.
-			//lblNewLabel.setText(text);;
+				
 		}
 		/**
 		 * @wbp.parser.constructor
@@ -135,15 +130,15 @@ public class FenetreClassement extends JFrame {
 			
 			
 		}
-
-		
-
-		/**
+/**
 		 * Méthode qui permet de lire un fichier et d'écrire dedans
 		 * @param texte est le texte qu'on veut écrire dedans
 		 * @param fileName est le nom du fichier dans lequel on veut écrire
 		 */
-private void lireTexteFichier(JTextArea texte, String nomFichier) 
+
+		private void lireTexteFichier(JTextArea texte, String nomFichier) 
+
+		
 	 	{
 	 		try 
 	 			{

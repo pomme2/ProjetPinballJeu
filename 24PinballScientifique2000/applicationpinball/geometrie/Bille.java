@@ -53,7 +53,7 @@ public class Bille extends Rectangle implements Dessinable {
 	private BufferedImage img;
 
 
-
+//Carlos Ed
 /**
  * Constructeur de la bille
  * @param position de la bille en Vecteur2D
@@ -65,14 +65,14 @@ public class Bille extends Rectangle implements Dessinable {
 		creerLaGeometrie();
 	}
 
-
+	//Carlos Ed
 /**
  * Permet de recreer la bille
  */
 	private void creerLaGeometrie() {
 		bille = new Ellipse2D.Double(position.x,position.y,diametre,diametre);
 	}
-
+	//Carlos Ed
 /**
  * Methode qui permet de dessiner la bille
  * @param g2d contexte graphique
@@ -86,6 +86,7 @@ public class Bille extends Rectangle implements Dessinable {
 		lireImage(g2dPrive);
 
 	}
+	//Carlos Ed
 /**
  * Methode qui permet de calculer le deplacement de la bille a chaque pas d'animation
  * @param deltaT est le pas d'animation
@@ -103,7 +104,7 @@ public class Bille extends Rectangle implements Dessinable {
 		creerLaGeometrie(); //la position a changé! on recree notre cercle
 	}
 
-
+	//Carlos Ed
 	/**
 	 * Modifie le facteur permettant de passer des metres aux pixels lors du dessin
 	 * Ainsi on peut exprimer tout en m,  m/s  et m/s2
@@ -113,7 +114,7 @@ public class Bille extends Rectangle implements Dessinable {
 		this.pixelsParMetre = pixelsParMetre;
 	}
 
-
+	//Carlos Ed
 
 	/**
 	 * Retourne  la somme des forces appliquees
@@ -124,7 +125,7 @@ public class Bille extends Rectangle implements Dessinable {
 	}
 
 
-
+	//Carlos Ed
 	/**
 	 * Modifie d'un coup la somme des forces appliquees en x et en y
 	 * Le prochain appel à avanceUnPas donnera donc des résultats differents.
@@ -135,7 +136,7 @@ public class Bille extends Rectangle implements Dessinable {
 	public void setForceExterieureAppliquee(Vecteur2D forceExterieureAppliquee) {
 		this.forceExterieureAppliquee = forceExterieureAppliquee;
 	}
-
+	//Carlos Ed
 	/**
 	 * Modifie la position de la balle
 	 * Note: ici on decide de simplement refaire la forme sous-jacente!
@@ -147,7 +148,7 @@ public class Bille extends Rectangle implements Dessinable {
 		creerLaGeometrie();
 	}	
 
-
+	//Carlos Ed
 
 	/**
 	 * Retourne la position courante
@@ -157,7 +158,7 @@ public class Bille extends Rectangle implements Dessinable {
 		return (position);
 	}
 
-
+	//Carlos Ed
 	/**
 	 * Modifie la vitesse courante de la balle
 	 * @param vitesse Vecteur incluant les vitesses en x et y 
@@ -166,7 +167,7 @@ public class Bille extends Rectangle implements Dessinable {
 		//on fait une copie du vecteur passé en paramètre 
 		this.vitesse = new Vecteur2D(vitesse);
 	}
-
+	//Carlos Ed
 	/**
 	 * Retourne la vitesse courante
 	 * @return la vitesse courante
@@ -174,7 +175,7 @@ public class Bille extends Rectangle implements Dessinable {
 	public Vecteur2D getVitesse() {
 		return (vitesse);
 	}
-
+	//Carlos Ed
 	/**
 	 * Associe une acceleration, ou modifie l'acceleration courante de la balle
 	 * @param accel Vecteur incluant les accelerations en x et y 
@@ -184,7 +185,7 @@ public class Bille extends Rectangle implements Dessinable {
 		//on fait une copie du vecteur  passé en paramètre 
 		this.accel = new Vecteur2D(accel);
 	}
-
+	//Carlos Ed
 	/**
 	 * Retourne l'acceleration courante
 	 * @return acceleration courante
@@ -192,7 +193,7 @@ public class Bille extends Rectangle implements Dessinable {
 	public Vecteur2D getAccel() {
 		return (accel);
 	}
-
+	//Carlos Ed
 	/**
 	 * Retourne le diametre de la balle
 	 * @return Le diamètre
@@ -200,7 +201,7 @@ public class Bille extends Rectangle implements Dessinable {
 	public double getDiametre() {
 		return diametre;
 	}
-
+	//Carlos Ed
 	/**
 	 * MOdifie le diametre de la balle
 	 * @param diametre Le nouveau diamètre
@@ -209,7 +210,7 @@ public class Bille extends Rectangle implements Dessinable {
 		this.diametre = diametre;
 		creerLaGeometrie();
 	}
-
+	//Carlos Ed
 
 	/**
 	 * Retourne la masse en Kg
@@ -218,7 +219,7 @@ public class Bille extends Rectangle implements Dessinable {
 	public double getMasseEnKg() {
 		return masseEnKg;
 	}
-
+	//Carlos Ed
 	/**
 	 * Modifie la masse 
 	 * @param masseEnKg La msse exprimee en kg
@@ -227,7 +228,7 @@ public class Bille extends Rectangle implements Dessinable {
 		this.masseEnKg = masseEnKg;
 	}
 	
-	
+	//Carlos Ed
 	/**
 	 * Retourne la charge
 	 * @return la charge de la bille
@@ -236,7 +237,7 @@ public class Bille extends Rectangle implements Dessinable {
 		return charge;
 	}
 
-
+	//Carlos Ed
 	/**
 	 * 
 	 * Modifie la charge de la bille
@@ -245,6 +246,7 @@ public class Bille extends Rectangle implements Dessinable {
 	public void setCharge(double charge) {
 		this.charge = charge;
 	}
+	//Carlos Ed
 /**
  *  methode qui permet de retourner une Ellipse2D
  * @return une Ellipse2D qui est la bille
@@ -252,14 +254,12 @@ public class Bille extends Rectangle implements Dessinable {
 	public Ellipse2D.Double getBille() {
 		return bille;
 	}
-	//Audrey Viger
+//Audrey Viger
 /**
  * Methode qui permet de lire l'image qui est reliée à la bille
  * @param g2d le contexte graphique
  */
 	public void lireImage(Graphics2D g2d) {
-
-
 
 		File pngOriginal = new File(System.getProperty("user.home")+"\\ImageB.png");
 		File pngResized = new File(System.getProperty("user.home")+"\\ImageB.png");
@@ -281,19 +281,5 @@ public class Bille extends Rectangle implements Dessinable {
 	
 
 
-	private static void redimImage(File originalIm, File redimensionneIm, int larg, int haut, String format) {
-		try {
-			BufferedImage original = ImageIO.read(originalIm);
-			BufferedImage redimenssione = new BufferedImage(larg,haut,original.getType());
-			Graphics2D g2 = redimenssione.createGraphics();
-			g2.drawImage(original, 0, 0, larg, haut, null);
-			g2.dispose();
-			ImageIO.write(redimenssione, format, redimensionneIm);
-		}
-		catch(IOException ex) {
-			ex.printStackTrace();
 
-		}
-
-	}
 }

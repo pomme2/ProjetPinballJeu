@@ -29,6 +29,7 @@ public class ImageBille implements Dessinable{
 	private Image image;
 	private Dessin dessin;
 	private boolean dessinerImage;
+	private int largHaut = 100;
 	java.net.URL urlBilleBlanc = getClass().getClassLoader().getResource("Blanc.png");
 
 	
@@ -59,10 +60,10 @@ public class ImageBille implements Dessinable{
 
 			e.printStackTrace();
 		}
-		Rectangle2D rect = new Rectangle2D.Double(0,0,100,100);
+		Rectangle2D rect = new Rectangle2D.Double(0,0,largHaut,largHaut);
 		TexturePaint texturePaintBille = new TexturePaint(img,rect);
 		g2d.setPaint(texturePaintBille);
-		Rectangle2D rect2 = new Rectangle2D.Double(0,0,100,100);
+		Rectangle2D rect2 = new Rectangle2D.Double(0,0,largHaut,largHaut);
 		g2d.fill(rect2);
 		
 		g2d.drawImage(image,0,0,null);

@@ -28,6 +28,7 @@ import javax.swing.event.ChangeEvent;
  * 
  * 
  * @author Audrey Viger
+ * @author Thomas Bourgault
  * Classe qui permet de creer la fenetre pour les options
  */
 
@@ -48,7 +49,7 @@ public class FenetreOption extends JFrame{
 	private Musique musiqueFinPartieBacSable;
 	
 
-
+//Audrey Viger
 	/**
 	 * Constructeur qui permet de creer les composants de la FenetreOption
 	 * @param fenMenu est la fenetre du menu
@@ -77,6 +78,7 @@ public class FenetreOption extends JFrame{
 		JCheckBox chckbxActiveLumiere = new JCheckBox("Couper le son");
 		chckbxActiveLumiere.setForeground(Color.RED);
 		chckbxActiveLumiere.addActionListener(new ActionListener() {
+			//Thomas Bourgault
 			public void actionPerformed(ActionEvent e) {
 				if(chckbxActiveLumiere.isSelected()) {
 					musiqueMenu.stop();
@@ -114,6 +116,7 @@ public class FenetreOption extends JFrame{
 		sliderVolume.setValue(10);
 		sliderVolume.setMaximum(10);
 		sliderVolume.addChangeListener(new ChangeListener() {
+			//Thomas Bourgault
 			public void stateChanged(ChangeEvent e) {				
 				musiqueMenu.setVolume( (float) sliderVolume.getValue()/10f);
 				musiqueDessin.setVolume( (float) sliderVolume.getValue()/10f);
@@ -141,6 +144,7 @@ public class FenetreOption extends JFrame{
 		btnRetour.setForeground(Color.RED);
 		btnRetour.setFont(new Font("Arcade Normal", Font.PLAIN, 7));
 		btnRetour.addActionListener(new ActionListener() {
+			//Audrey Viger
 			public void actionPerformed(ActionEvent e) {
 				fenMenu.setVisible(true);
 				setVisible(false);

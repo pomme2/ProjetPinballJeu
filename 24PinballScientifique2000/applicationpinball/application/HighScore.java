@@ -5,7 +5,8 @@ import java.io.*;
 import java.util.StringTokenizer;
 
 /**
- 
+ * Classe qui permet de créer des scores qui lient un nom à un pointage, qui trie les pointages et l'enregistre dans un fichier
+ * @author Audrey Viger
  */
 
 public class HighScore {
@@ -15,9 +16,6 @@ public class HighScore {
   private String Fichier = "";
   private String Delimiteur = "   ";
   private String etat = "Normal";
-  /**
-   * Le nombre de lignes maximum dans l'highScore
-   */
   public int nb_max;
 
   /**
@@ -41,39 +39,10 @@ public class HighScore {
     Charge();
   }
 
+
   /**
-   * Constructeur avec comme Nombre Maximum de lignes dans le highScore par défaut de 20.
-   * @param Noms Le nom des colonnes du highScore.
-   * @param Comparaisons Le tableau de comparaisons.
-   * @param Fichier Le fichier de l'highScore.
-   * @param Delim Le délimiteur pour le fichier.
-   */
-  public HighScore(String[] Noms, int[][] Comparaisons, String Fichier, String Delim){
-    this(Noms,Comparaisons, 20, Fichier, Delim);
-  }
-  /**
-   * Constructeur avec comme Nombre Maximum de lignes dans le highScore par défaut de 20,
-   * fichier par défaut "Score.txt" et délimiteur;
-   * @param Noms Le nom des colonnes du highScore.
-   * @param Comparaisons Le tableau de comparaisons.
-   */
-  public HighScore(String[] Noms, int[][] Comparaisons){
-    this(Noms,Comparaisons, 20, "Score.txt", "   ");
-  }
-  /**
-   * Constructeur avec comme fichier par défaut "Score.txt" et délimiteur par défaut
-   * "".
-   * @param Noms Le nom des colonnes du highScore.
-   * @param Comparaisons Le tableau de comparaisons.
-   * @param nb_max Le nombre maximum de lignes dans l'highScore
-   */
-  public HighScore(String[] Noms, int[][] Comparaisons, int nb_max){
-    this(Noms,Comparaisons, nb_max, "Score.txt", "   ");
-  }
-  /**
-   * Ajoute la ligne dans le highScore. Il la place grâce au vecteur Comparaison
-   * fourni au constructeur.
-   * @param ligne Les éléments à insérer (des éléments "Comparable")
+   * Ajoute la ligne dans le highScore. 
+   * @param ligne Les éléments à insérer 
    * @return Le numéro de la ligne dans l'highScore. -1 si elle n'y figure pas.
    */
   public int addLigne(Comparable[] ligne){
@@ -86,7 +55,7 @@ public class HighScore {
               HighScore_courant.get(i))[LesComparaisons[j][0]]) != 0) {
             place = i;
             j = num_comparaison;
-            i = HighScore_courant.size(); // on va sortir
+            i = HighScore_courant.size(); 
           }
         }
       }
@@ -97,23 +66,23 @@ public class HighScore {
         num_comparaison++;
         if(num_comparaison == LesComparaisons.length){
           place = i;
-          i = HighScore_courant.size(); // on va sortir
+          i = HighScore_courant.size(); 
         }else
           i--;
       }
       else
-      if (LesComparaisons[num_comparaison][1] == 0) { // en ordre décroissant
+      if (LesComparaisons[num_comparaison][1] == 0) { 
         if (ligne[LesComparaisons[num_comparaison][0]].compareTo( ( (Comparable[])
             HighScore_courant.get(i))[LesComparaisons[num_comparaison][0]]) > 0) {
           place = i;
-          i = HighScore_courant.size(); // on va sortir
+          i = HighScore_courant.size(); 
         }
       }
-      else { // en ordre croissant
+      else { 
         if (ligne[LesComparaisons[num_comparaison][0]].compareTo( ( (Comparable[])
             HighScore_courant.get(i))[LesComparaisons[num_comparaison][0]]) < 0) {
           place = i;
-          i = HighScore_courant.size(); // on va sortir
+          i = HighScore_courant.size(); 
         }
       }
     }
@@ -132,8 +101,7 @@ public class HighScore {
     return place;
   }
   /**
-   * Permet de récupérer la ligne désirée du highScore. La fonction retourne
-   * des éléments "Comparable" ce qui permet de mélanger les genres (Integer,String, ...).
+   * Permet de récupérer la ligne désirée du highScore. 
    * @param num_ligne Le numéro de ligne voulue
    * @return Les éléments de la ligne.
    */

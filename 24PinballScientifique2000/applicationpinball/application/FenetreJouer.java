@@ -34,6 +34,12 @@ import animation.Scene;
 import animation.ZonePinball;
 import javax.swing.DefaultComboBoxModel;
 import animation.PointageAnimation;
+/**
+ * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
+ * @author Audrey Viger 
+ * @author Carlos Eduardo
+ * @author Thomas Bourgault
+ */
 
 public class FenetreJouer extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -129,12 +135,7 @@ public class FenetreJouer extends JFrame{
 
 
 
-	/**
-	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
-	 * @author Audrey Viger 
-	 * @author Carlos Eduardo
-	 * @author Thomas Bourgault
-	 */
+
 	//Carlos Eduardo
 	/**
 	 *  Creation d'un ecouteur qui sera jumelé au timer pour l'affichage des resultats
@@ -380,7 +381,6 @@ public class FenetreJouer extends JFrame{
 					
 		//Audrey Viger
 		/**
-
 		 * Méthode qui remet le JSlider de l'étirement du ressort à zéro quand la bille reviens à sa position initiale
 		 * 
 		 */

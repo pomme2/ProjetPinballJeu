@@ -11,6 +11,7 @@ import dessinable.Dessinable;
 /**
  * Classe forme un aimant avec un champ magnetique
  * @author Carlos Eduardo
+ * @author Audrey Viger
  *
  */
 public class Aimant  extends Rectangle implements Dessinable{
@@ -28,7 +29,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 
 	
 
-
+	//Audrey Viger
 /**
  * Constructeur de l'aimant
  * @param coordX est la coordonne en X de l'aimant
@@ -43,7 +44,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 		creerLaGeometrie();			
 	}
 	
-	
+//Audrey Viger
 	/**
 	 * Methode qui permet de recreer l'aimant
 	 */
@@ -56,7 +57,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 		carreRouge1 = new Rectangle2D.Double(coordX+(diametre),coordY+(diametre),diametre/2,diametre/2);
 		carreRouge2 = new Rectangle2D.Double(coordX+(diametre),coordY-(diametre/2),diametre/2,diametre/2);
 	}
-
+//Audrey Viger
 /**
  * Methode qui permet de dessiner l'aimant
  * @param g2d le contexte graphique
@@ -88,6 +89,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 		g2d.fill(mat.createTransformedShape(carreRouge2));
 		
 	}
+	//Audrey Viger
 	/**
 	 * Méthode qui permet de changer la variable pixelsParMetre
 	 * @param pixelsParMetre est un double qui exprime le nombre de pixel par mètre de l'image qui est inclut dans zonePinball
@@ -96,6 +98,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 		this.pixelParMetre = pixelsParMetre;
 								
 	}
+	//Audrey Viger
 	/**
 	 * Méthode qui permet de changer la coordonnee en x et en y. Elle change donc la position de l'aimant
 	 * @param coordX la coordonne en x du coin gauche de l'aimant
@@ -106,6 +109,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 		this.coordY=coordY;		
 		creerLaGeometrie();
 	}
+	//Audrey Viger
 	/**
 	 * Méthode qui retourne la coordonne en x qui est au centre de l'aimant
 	 * @return la coordonne en x du centre du cercle
@@ -113,6 +117,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	public double getPositionAimantX() {
 		return (coordX+diametre/2);
 	}
+	//Audrey Viger
 	/**
 	 * Méthode qui retourne la coordonne en y qui est au centre de l'aimant
 	 * @return la coordonne en y du centre du cercle
@@ -120,6 +125,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	public double getPositionAimantY() {
 		return (coordY+diametre/2);
 	}
+	//Audrey Viger
 	/**
 	 * Méthode qui retourne le diametre de l'aimant
 	 * @return le diametre de l'aimant
@@ -127,7 +133,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	public double getDiametre() {
 		return this.diametre;
 	}
-	
+	//Audrey Viger
 	/**
 	 * Méthode qui retourne la coordonne en x de l'aimant
 	 * @return la coordonne en x de l'aimant
@@ -135,7 +141,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	public double getCoordX() {
 		return coordX;
 	}
-	
+	//Audrey Viger
 	/**
 	 * Méthode qui modifie la coordonne en x de l'aimant
 	 * @param la nouvelle coordonne en x de l'aimant
@@ -144,6 +150,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	public void setCoordX(double coordX) {
 		this.coordX = coordX;
 	}
+	//Audrey Viger
 	/**
 	 * Méthode qui retourne la coordonne en y de l'aimant
 	 * @return la coordonne en y de l'aimant
@@ -151,7 +158,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	public double getCoordY() {
 		return coordY;
 	}
-
+	//Audrey Viger
 	/**
 	 * Méthode qui modifie la coordonne en y de l'aimant
 	 * @param la nouvelle coordonne en y de l'aimant
@@ -161,7 +168,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 		this.coordY = coordY;
 	}
 
-
+	//Carlos Eduardo
 /**
  * Methode qui retourne la charge de l'aimant
  * @return la charge de l'aimant
@@ -170,7 +177,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 		return charge;
 	}
 
-
+	//Carlos Eduardo
 	/**
 	 * Methode qui modifie la charge de l'aimant
 	 * @param la nouvelle charge de l'aimant
@@ -179,7 +186,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 		this.charge = charge;
 		
 	}
-
+	//Carlos Eduardo
 	/**
 	 * Methode qui retourne un vecteur2D position de l'aimant
 	 * @return le vecteur2D position de l'aimant
@@ -188,7 +195,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	public Vecteur2D getPosition() {
 		return position;
 	}
-
+	//Carlos Eduardo
 
 	/**
 	 * Methode qui modifie un vecteur2D position de l'aimant
@@ -197,7 +204,7 @@ public class Aimant  extends Rectangle implements Dessinable{
 	public void setPosition(Vecteur2D position) {
 		this.position = position;
 	}
-	 
+	//Audrey Viger
 	public void setCouleurAimant(Color couleur) {
 		this.couleur = couleur;
 	}
