@@ -107,6 +107,9 @@ public class FenetreBacSable extends JFrame{
 	private Musique musiqueBacSable;
 	private Musique musiqueRessort;		
 	private JCheckBox chckbxActiverVie;	
+	private static String nomFichierSonFinPartie= ".//Ressource//musiqueGameOver.wav"; 
+	private static Musique musiqueFinPartie=new Musique(nomFichierSonFinPartie);
+	
 
 
 
@@ -143,6 +146,8 @@ public class FenetreBacSable extends JFrame{
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver && coeurActive ) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, this,fenJouer, fenClassement);
 				musiqueBacSable.stop();
+				musiqueFinPartie.reset();
+				musiqueFinPartie.play();
 				fenFinPartie1.setVisible(true);
 				setVisible(false);
 				premiereFoisGameOver=false;			
@@ -355,7 +360,7 @@ public class FenetreBacSable extends JFrame{
 			btnOption.setBounds(908, 632, 170, 54);
 			panelAvecImage.add(btnOption);
 
-			JButton btnSauvegarde = new JButton("Sauvegarder et revenir au menu");
+			JButton btnSauvegarde = new JButton("Revenir au menu");
 			btnSauvegarde.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			btnSauvegarde.setForeground(Color.CYAN);
 			btnSauvegarde.addActionListener(new ActionListener() {
@@ -763,6 +768,9 @@ public class FenetreBacSable extends JFrame{
 		}	
 		public void creerFenetreClassement() {
 			fenClassement= new FenetreClassement(this);
+		}
+		public static Musique musiqueFinPartie() {
+			return musiqueFinPartie;
 		}
 
 }

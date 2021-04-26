@@ -44,7 +44,9 @@ public class FenetreFinPartie extends JFrame{
 
 	private static FenetreClassement fenClassement;
 	private Scene scene;
-	private int scoreFinal;
+	private int scoreFinal;	
+	private  Musique musiqueFinPartieJouer;
+	private  Musique musiqueFinPartieBacSable;
 	
 
 
@@ -55,6 +57,8 @@ public class FenetreFinPartie extends JFrame{
 	}
 	
 	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac1, FenetreJouer fenJouer, FenetreClassement fenClassement1) {
+		musiqueFinPartieJouer=FenetreJouer.musiqueFinPartie();
+		musiqueFinPartieBacSable=FenetreBacSable.musiqueFinPartie();
 		if (urlArcade == null) {
 			JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 			System.exit(0);
@@ -115,6 +119,8 @@ public class FenetreFinPartie extends JFrame{
 		btnRecommencer.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 		btnRecommencer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				musiqueFinPartieJouer.stop();
+				musiqueFinPartieBacSable.stop();
 				fenClassement = new FenetreClassement(fenBac);
 				fenMenu.setVisible(true);
 				setVisible(false);						
@@ -123,10 +129,10 @@ public class FenetreFinPartie extends JFrame{
 		btnRecommencer.setBounds(91, 594, 403, 120);
 		panelAvecImage.add(btnRecommencer);
 		
-		JLabel lblInitiales = new JLabel("Entrez vos initiales (5 caracteres maximum...)");
+		JLabel lblInitiales = new JLabel("Entrez votre nom");
 		lblInitiales.setFont(new Font("Arcade Normal", Font.PLAIN, 13));
 		lblInitiales.setForeground(Color.BLUE);
-		lblInitiales.setBounds(253, 361, 686, 35);
+		lblInitiales.setBounds(317, 358, 686, 35);
 		panelAvecImage.add(lblInitiales);
 		lblInitiales.setVisible(false);
 		
@@ -153,38 +159,7 @@ public class FenetreFinPartie extends JFrame{
 			
 			public void actionPerformed(ActionEvent e) {
 				String initiales = txtEntreeInitiales.getText().toString();
-				if(!initiales.isEmpty()) {
-					if(initiales.length()==1) {
-						initiales = Character.toString(initiales.charAt(0))+" :";
-					}else if(initiales.length()==2) {
-						String ini1 = Character.toString(initiales.charAt(0));
-						String ini2 = Character.toString(initiales.charAt(1));
-						initiales = ini1+ini2+" :";
-					}else if (initiales.length()==3){
-						String ini1 = Character.toString(initiales.charAt(0));
-						String ini2 = Character.toString(initiales.charAt(1));
-						String ini3 = Character.toString(initiales.charAt(2));
-						initiales = ini1+ini2+ini3+" :";
-					}	else if (initiales.length()==4){
-						String ini1 = Character.toString(initiales.charAt(0));
-						String ini2 = Character.toString(initiales.charAt(1));
-						String ini3 = Character.toString(initiales.charAt(2));
-						String ini4 = Character.toString(initiales.charAt(3));
-						initiales = ini1+ini2+ini3+ini4+" :";
-					}else{
-						String ini1 = Character.toString(initiales.charAt(0));
-						String ini2 = Character.toString(initiales.charAt(1));
-						String ini3 = Character.toString(initiales.charAt(2));
-						String ini4 = Character.toString(initiales.charAt(3));
-						String ini5 = Character.toString(initiales.charAt(4));
-						initiales = ini1+ini2+ini3+ini4+ini5+" :";
-					}
-					
-				}else {
-					initiales = "...";
-				}
 		
-				
 				hs.addLigne(new Comparable[]{new String(initiales),
                     Integer.valueOf(scoreFinal)});
 		

@@ -158,9 +158,9 @@ public class MoteurPhysique {
 	}
 	//Carlos Eduardo
 	/**
-	 * Methode qui donne la vitesse de la bille
+	 * Methode qui donne la vitesse de la bille apres collision avec cercle
 	 * @param billeVitesse est un objet de type bille
-	 * @return null
+	 * @return la normale de collision sur un Cercle avec la bille
 	 * @throws Exception 
 	 */
 
@@ -177,6 +177,31 @@ public class MoteurPhysique {
 		normalCercle = normalCercle.normalise();
 		
 		return normalCercle;
+	}
+	
+	
+	//Carlos Eduardo
+/**
+ * 
+ * @param billePos
+ * @param obstacle
+ * @return
+ * @throws Exception
+ */
+
+	public static double calculDistance(Vecteur2D billePos , Vecteur2D obstacle ) {
+
+
+		double deltaX =billePos.getX() - obstacle.getX();
+		
+		double deltaY =billePos.getY() - obstacle.getY();
+		
+		
+		double distance = Math.sqrt(Math.abs(deltaX)+Math.abs(deltaY));
+		
+	
+		
+		return distance;
 	}
 	
 	//Carlos Eduardo

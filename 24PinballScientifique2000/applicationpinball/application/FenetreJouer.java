@@ -76,16 +76,48 @@ public class FenetreJouer extends JFrame{
 	private Musique musiqueMenu;
 	private static Musique musiqueJouer=new Musique (nomFichierSonJouer);
 	private static Musique musiqueRessort=new Musique(nomFichierRessort);	
+	private static String nomFichierSonFinPartie= ".//Ressource//musiqueGameOver.wav"; 
+	private static Musique musiqueFinPartie=new Musique(nomFichierSonFinPartie);
 
-	private PointageAnimation scoreVie1;
-    private PointageAnimation scoreVie2;
-    private PointageAnimation scoreVie3;
-    private JComboBox<Object> comboBoxObstacles;
+	private JComboBox<Object> comboBoxObstacles;
+	private JLabel lblScoreDebloquer;
 
 
-	
+
 	PointageAnimation score = new PointageAnimation();
-	
+	//Variable pour gérer score lors d'une partie
+	private int scoreVie;
+	private int scoreVie3;
+	private int scoreVie2;
+	private int scoreVie2Finale;
+	private int scoreVie1;
+	private boolean coeur2=false;	
+	private boolean cliquerObstacle=false;
+	private int nbClicObstacle;
+	private boolean sliderLache=false;
+	private boolean premiereOuverture=true;
+	private int constanteVie3Degre=0;
+	private int constanteVie2Degre=0;
+	private int constanteVie1Degre=0;
+	private int scoreBaseDegre=250;
+	private int scoreBaseAimant=300;
+	private int scoreIncrement=1000;
+	private int scoreIncrementAimant=1250;
+	private int constanteVie3Aimant=0;
+	private int constanteVie2Aimant=0;
+	private int constanteVi1Aimant=0;
+	private JLabel lblDegre;
+	private int degre;
+	private int intensite;
+	private int minDegre=5;
+	private int maxDegre=75;
+	private int minAimant=0;
+	private int maxAimant=100;
+	private Inclinaison imageInclinaison;
+	private JLabel lblChangementDonne;
+	private JProgressBar barProgressionAimant;
+
+
 
 	/**
 	 * Classe qui permet de simuler l'interface d'un pinball scientifique mais ou on peut changer aucune donnee, on subit la partie
@@ -116,18 +148,46 @@ public class FenetreJouer extends JFrame{
 
 			lblCharge.setText("Charge: " + zonePinball.getBille().getCharge());
 			lblScore.setText("Score : "+ zonePinball.getScore().toString());
-			if(vie.getNombreCoeur()==3) {
-                scoreVie3=zonePinball.getScore();
-              ///////////////////////////////////// pour thomas System.out.println("Scorevie3: "+scoreVie3);
-            }
-            if(vie.getNombreCoeur()==2) {
-                scoreVie2=zonePinball.getScore();
-            ////////////////////////////////////////////// pour thomas  System.out.println("Scorevie2: "+scoreVie2);
-            }
-            if(vie.getNombreCoeur()==1) {
-                scoreVie1=zonePinball.getScore();
-             //////////////////////////////////////////////pour thomas   System.out.println("Scorevie1: "+scoreVie1);
-            }
+			scoreVie=zonePinball.getScoreInt();
+
+
+			//System.out.println("ScoreVie2: "+scoreVie2);
+
+			lblScoreDebloquer.setText("Points pour les obstacles: 0");
+
+			if(vie.getNombreCoeur()==3) {				
+				scoreVie3=zonePinball.getScoreInt();
+				lblScoreDebloquer.setText("Points pour les obstacles: "+scoreVie);	
+				if(scoreVie3>0) {
+					premiereOuverture=false;
+				}
+				if(scoreVie3>=2000) {					
+					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
+				}
+			}
+			scoreVie1=scoreVie-scoreVie2Finale-scoreVie3-2;
+
+			if(vie.getNombreCoeur()==1) {
+				if(scoreVie1>=5) {
+					lblScoreDebloquer.setText("Tous les obstacles ont ete utilises ");
+				}
+
+			}
+			scoreVie2=scoreVie-scoreVie3-1;
+			if(vie.getNombreCoeur()==2) {
+				scoreVie2Finale=scoreVie2;
+				coeur2=true;
+				lblScoreDebloquer.setText("Points pour les obstacles: "+scoreVie2);
+				if(scoreVie2>=2000) {					
+					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
+				}
+			}						
+
+
+
+
+
+
 			if(vie.getNombreCoeur()==0 && premiereFoisGameOver) {
 				FenetreFinPartie fenFinPartie1 = new FenetreFinPartie(fenMenu, fenBac, this, fenClassement);
 				fenFinPartie1.setVisible(true);
@@ -135,11 +195,65 @@ public class FenetreJouer extends JFrame{
 				premiereFoisGameOver=false;
 				musiqueJouer.stop();
 				zonePinball.setScoreFinal(score.getScore());
+				musiqueFinPartie.reset();
+				musiqueFinPartie.play();
+				fenClassement=new FenetreClassement(this);
 
 			}
-			activeFormeObstacle();
-			remonterJSlider();
 
+			activeFormeObstacle();
+			
+			remonterJSlider();
+			while(scoreVie3==scoreBaseDegre+scoreIncrement*constanteVie3Degre) {
+				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
+				constanteVie3Degre=constanteVie3Degre+1;
+				System.out.println("Nouveau degré: "+degre);
+				lblDegre.setText(degre+ " degre");
+				imageInclinaison.setInclinaison(degre);
+				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+			}
+			while(scoreVie2==scoreBaseDegre+scoreIncrement*constanteVie2Degre) {
+				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
+				constanteVie2Degre=constanteVie2Degre+1;
+				System.out.println("Nouveau degré: "+degre);
+				lblDegre.setText(degre+ " degre");
+				imageInclinaison.setInclinaison(degre);
+				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+			}
+			while(scoreVie1==scoreBaseDegre+scoreIncrement*constanteVie1Degre) {
+				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
+				constanteVie1Degre=constanteVie1Degre+1;
+				System.out.println("Nouveau degré: "+degre);
+				lblDegre.setText(degre+ " degre");
+				imageInclinaison.setInclinaison(degre);
+				lblChangementDonne.setText("Attention la table a ete incline de : "+degre);
+			}
+			while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {
+				System.out.println("Je suis capable de changer l'intensite de l'aimant");
+				intensite=minAimant + (int)(Math.random() * ((maxAimant - minAimant) + 1));
+				constanteVie3Aimant=constanteVie3Aimant+1;
+				System.out.println("Nouvelle intensité aimant: "+barProgressionAimant.getValue()+ " %");
+				barProgressionAimant.setValue(intensite);
+				zonePinball.getAimant().setCharge(intensite);
+				lblChangementDonne.setText("Attention l'intensite de l'aimant est de  : "+barProgressionAimant.getValue()+ " %");
+			}
+			
+			if(scoreVie2>=2000 && !enCoursdAnimation) {
+				comboBoxObstacles.setEnabled(true);
+			}else {
+				comboBoxObstacles.setEnabled(false);
+			}
+			if(sliderLache) {
+				comboBoxObstacles.setEnabled(false);
+			}	
+			if(scoreVie3>=2000 && !sliderLache) {
+				comboBoxObstacles.setEnabled(true);
+			}else {
+				comboBoxObstacles.setEnabled(false);
+			}
+			if(comboBoxObstacles.isEnabled()) {
+				lblScoreDebloquer.setText("Vous pouvez prendre un obstacle");	
+			}
 			// si l'animation vient de s'arreter, il faut arrêter le minuteur (devient inutile) et remettre le bouton d'animation disponible
 			// on teste si le minuteur est null, dans ce cas il s'agirait de l'initialisation initiale de l'interface (voir appel à la fin du constructeur)
 			if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
@@ -148,7 +262,7 @@ public class FenetreJouer extends JFrame{
 
 			}
 			if(sliderEtirement.getValue()==0 && !premiereFoisJSlider) {
-				
+
 				musiquePremiereFois=true;
 			}
 		}
@@ -161,8 +275,11 @@ public class FenetreJouer extends JFrame{
 		public void remonterJSlider() {
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {
 				sliderEtirement.setValue(0);
-			
+				sliderLache=false;
 				
+
+
+
 			}
 		}
 		//Audrey Viger
@@ -213,6 +330,8 @@ public class FenetreJouer extends JFrame{
 			zonePinball = new ZonePinball(scene);
 			zonePinball.setBounds(71, 26, 600,768);
 			panelAvecImage.add(zonePinball);
+			
+			
 
 			//Initialisation des valeurs de spinners initiales.
 			int etirementInitial = (int)(zonePinball.getETIREMENT_NAT()*100.0);
@@ -292,10 +411,10 @@ public class FenetreJouer extends JFrame{
 
 
 
-			lblScore.setBounds(722, 461, 352, 77);
+			lblScore.setBounds(734, 445, 352, 77);
 			panelAvecImage.add(lblScore);
 
-			Inclinaison imageInclinaison = new Inclinaison();
+			imageInclinaison = new Inclinaison();
 			imageInclinaison.setBounds(996,270,78,60);
 			panelAvecImage.add(imageInclinaison);
 			imageInclinaison.setInclinaison(5);
@@ -303,6 +422,12 @@ public class FenetreJouer extends JFrame{
 			Object[] choixObstacles = { "Carré", "Cercle","Triangle","Rectangle"};
 
 			comboBoxObstacles = new JComboBox<Object>(choixObstacles);
+			comboBoxObstacles.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {					
+
+				}
+			});
 			comboBoxObstacles.setEnabled(false);
 			comboBoxObstacles.setForeground(Color.CYAN);
 			comboBoxObstacles.setModel(new DefaultComboBoxModel(new String[] {"Carre", "Cercle", "Triangle", "Rectangle"}));
@@ -316,7 +441,7 @@ public class FenetreJouer extends JFrame{
 			});
 
 
-			comboBoxObstacles.setBounds(734, 563, 344, 37);
+			comboBoxObstacles.setBounds(734, 533, 344, 37);
 			panelAvecImage.add(comboBoxObstacles);
 
 			JButton btnOption = new JButton("Option");
@@ -331,7 +456,7 @@ public class FenetreJouer extends JFrame{
 			btnOption.setBounds(908, 614, 170, 69);
 			panelAvecImage.add(btnOption);
 
-			JButton btnSauvegarde = new JButton("Sauvegarder et revenir au menu");
+			JButton btnSauvegarde = new JButton("Revenir au menu");
 			btnSauvegarde.setForeground(Color.ORANGE);
 			btnSauvegarde.setFont(new Font("Arcade Normal", Font.PLAIN, 10));
 			btnSauvegarde.addActionListener(new ActionListener() {
@@ -342,7 +467,7 @@ public class FenetreJouer extends JFrame{
 					vie.setNombreCoeur(3);
 					FenetreBacSable.setCoeurActive(false);
 					App24PinballScientifique2001.setJouerActive(false);
-					
+
 					musiqueMenu.reset();
 					musiqueMenu.play();
 					musiqueMenu.loop();
@@ -384,11 +509,11 @@ public class FenetreJouer extends JFrame{
 			sliderEtirement.setVisible(false);
 			sliderEtirement.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mousePressed(MouseEvent e) {
-
+				public void mousePressed(MouseEvent e) {					
 				}
 				@Override
 				public void mouseReleased(MouseEvent e) {
+					sliderLache=true;
 					musiqueRessort.reset();
 					musiqueRessort.play();
 					if(musiquePremiereFois) {	
@@ -397,15 +522,15 @@ public class FenetreJouer extends JFrame{
 						musiqueJouer.loop();
 						musiquePremiereFois=false;
 					}
-					premiereFoisJSlider=false;
+					premiereFoisJSlider=false;					
 					zonePinball.demarrer();
 					zonePinball.requestFocusInWindow();
 					minuteurResultats = new Timer(10, ecouteurDuMinuteur );
-					minuteurResultats.start();
+					minuteurResultats.start();					
 
-					if(zonePinball.getPostionYBille()>hauteurDuComposantMetre) {
+					if(zonePinball.getPostionYBille()>hauteurDuComposantMetre) {						
 						sliderEtirement.setValue(0);
-						
+
 					}
 
 				}
@@ -414,6 +539,7 @@ public class FenetreJouer extends JFrame{
 			sliderEtirement.setMaximum(0);
 			sliderEtirement.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
+					sliderLache=true;
 					zonePinball.setEtirement((0.1-(int)sliderEtirement.getValue())/100.0);
 				}
 			});
@@ -431,7 +557,7 @@ public class FenetreJouer extends JFrame{
 			btnDemarrer.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
 			btnDemarrer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+
 
 					sliderEtirement.setVisible(true);
 					sliderEtirement.setEnabled(true);
@@ -456,7 +582,7 @@ public class FenetreJouer extends JFrame{
 					musiqueJouer.stop();
 					premiereFoisJSlider=true;
 					musiquePremiereFois=true;					
-					
+
 					zonePinball.retablirPosition();								
 					sliderEtirement.setEnabled(false);
 					vie.setNombreCoeur(3);
@@ -467,9 +593,14 @@ public class FenetreJouer extends JFrame{
 			btnRecommencer.setBounds(734, 614, 170, 69);
 			panelAvecImage.add(btnRecommencer);
 
-			JProgressBar progressBar = new JProgressBar();
-			progressBar.setBounds(734, 372, 256, 19);
-			panelAvecImage.add(progressBar);
+			barProgressionAimant = new JProgressBar();
+			barProgressionAimant.setToolTipText("");
+			barProgressionAimant.setFont(new Font("Arcade Normal", Font.PLAIN, 7));
+			barProgressionAimant.setStringPainted(true);
+			barProgressionAimant.setForeground(Color.ORANGE);
+			barProgressionAimant.setBackground(Color.BLACK);
+			barProgressionAimant.setBounds(734, 372, 256, 19);
+			panelAvecImage.add(barProgressionAimant);
 
 			SceneImage sceneImage = new SceneImage();
 			sceneImage.setBounds(974, 46, 100, 100);
@@ -487,19 +618,43 @@ public class FenetreJouer extends JFrame{
 			lblUnitekRessort.setBounds(1012, 420, 91, 14);
 			panelAvecImage.add(lblUnitekRessort);
 
-			JLabel lblNewLabel = new JLabel("5 degre");
-			lblNewLabel.setForeground(Color.CYAN);
-			lblNewLabel.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
-			lblNewLabel.setBounds(908, 285, 78, 14);
-			panelAvecImage.add(lblNewLabel);
+			lblDegre = new JLabel("5 degre");
+			lblDegre.setForeground(Color.CYAN);
+			lblDegre.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
+			lblDegre.setBounds(908, 285, 78, 14);
+			panelAvecImage.add(lblDegre);
 
 			DessinCoeur dessinCoeur = new DessinCoeur();
 			dessinCoeur.setBounds(742, 754, 336, 124);
 			panelAvecImage.add(dessinCoeur);
 			dessinCoeur.setLayout(null);
+
+			JButton btnClassement = new JButton("Classement");
+			btnClassement.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					creerFenetreClassement();	
+					fenClassement.setVisible(true);
+				}
+			});
+			btnClassement.setFont(new Font("Arcade Normal", Font.PLAIN, 13));
+			btnClassement.setForeground(Color.ORANGE);
+			btnClassement.setBounds(734, 574, 344, 37);
+			panelAvecImage.add(btnClassement);
+
+			lblScoreDebloquer = new JLabel("Points accumules : 0");
+			lblScoreDebloquer.setForeground(Color.CYAN);
+			lblScoreDebloquer.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
+			lblScoreDebloquer.setBounds(734, 508, 340, 14);
+			panelAvecImage.add(lblScoreDebloquer);
+			
+			lblChangementDonne = new JLabel("");
+			lblChangementDonne.setForeground(Color.CYAN);
+			lblChangementDonne.setFont(new Font("Arcade Normal", Font.PLAIN, 9));
+			lblChangementDonne.setBounds(70, 8, 601, 14);
+			panelAvecImage.add(lblChangementDonne);
 			miseAjourInterface();
 		}
-		
+
 		public static Musique musiqueJouer() {
 			return musiqueJouer;
 		}
@@ -508,9 +663,12 @@ public class FenetreJouer extends JFrame{
 		}
 
 		public void activeFormeObstacle() {
-	        if(scoreVie3.activerForme()==true) {
-	            comboBoxObstacles.setEnabled(true);
-	        }
-	    }
 			
+		}		
+		public static Musique musiqueFinPartie() {
+			return musiqueFinPartie;
+		}
+		public void creerFenetreClassement() {
+			fenClassement= new FenetreClassement(this);
+		}
 }

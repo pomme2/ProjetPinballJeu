@@ -31,7 +31,7 @@ public class FenetreTutoriel extends JFrame{
 	private JButton btnPagePrecedente;
 	private JButton btnPageSuivante;
 	
-	private String tableauImages[] = {"ScreenTtuo1.PNG","page0001.jpg","page0002.jpg"};
+	private String tableauImages[] = {"fenMenu.PNG","butBacEtJouer.PNG","fenBac1.PNG","fenBac2.PNG","fenBac3.PNG","fenJouer.PNG","fenFinPartie.PNG","fenClassement.PNG","fenDessin.PNG","fenOptions.PNG"};
 
 	/**
 	 * Constructeur qui permet de creer les composants de la FenetreTutoriel
@@ -54,8 +54,9 @@ public class FenetreTutoriel extends JFrame{
 		panAide.setBounds(10, 36, 1068, 658);
 		contentPane.add(panAide);
 		
-		btnPagePrecedente = new JButton("Page pr\u00E9c\u00E9dente");
-		btnPagePrecedente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnPagePrecedente = new JButton("Page precedente");
+		btnPagePrecedente.setForeground(Color.RED);
+		btnPagePrecedente.setFont(new Font("Arcade Normal", Font.PLAIN, 14));
 		btnPagePrecedente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnPagePrecedente.setEnabled( panAide.precedente() );
@@ -66,7 +67,8 @@ public class FenetreTutoriel extends JFrame{
 		contentPane.add(btnPagePrecedente);
 		
 		btnPageSuivante = new JButton("Page suivante");
-		btnPageSuivante.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnPageSuivante.setForeground(Color.RED);
+		btnPageSuivante.setFont(new Font("Arcade Normal", Font.PLAIN, 14));
 		btnPageSuivante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnPageSuivante.setEnabled( panAide.suivante() );
@@ -82,11 +84,11 @@ public class FenetreTutoriel extends JFrame{
 		btnPageSuivante.setBounds(554, 687, 484, 45);
 		contentPane.add(btnPageSuivante);
 		
-		JLabel lblAideConcepts = new JLabel("Aide : Concepts scientifiques");
+		JLabel lblAideConcepts = new JLabel("Tutoriel");
 		lblAideConcepts.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAideConcepts.setForeground(Color.WHITE);
-		lblAideConcepts.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblAideConcepts.setBounds(264, 11, 342, 34);
+		lblAideConcepts.setForeground(Color.RED);
+		lblAideConcepts.setFont(new Font("Arcade Normal", Font.BOLD, 30));
+		lblAideConcepts.setBounds(10, 11, 1068, 34);
 		contentPane.add(lblAideConcepts);
 		
 		musiqueTuto=App24PinballScientifique2001.musiqueTuto();
@@ -94,8 +96,17 @@ public class FenetreTutoriel extends JFrame{
 		this.fenMenu = fenMenu;
 		getContentPane().setLayout(null);
 		
-		JButton btnRetour = new JButton("Retour au menu");
-		btnRetour.addActionListener(new ActionListener() {
+
+		
+		JLabel lblNewLabel = new JLabel("alllloo");
+		lblNewLabel.setForeground(Color.GREEN);
+		lblNewLabel.setBounds(91, 120, 170, 42);
+		getContentPane().add(lblNewLabel);
+		
+		JButton btnRetourMenu = new JButton("Retour au menu");
+		btnRetourMenu.setForeground(Color.RED);
+		btnRetourMenu.setFont(new Font("Arcade Normal", Font.PLAIN, 8));
+		btnRetourMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				musiqueTuto.stop();
 				musiqueMenu.reset();
@@ -105,35 +116,11 @@ public class FenetreTutoriel extends JFrame{
 				setVisible(false);
 			}
 		});
-		btnRetour.setBounds(91, 226, 187, 84);
-		getContentPane().add(btnRetour);
-		
-		JLabel lblNewLabel = new JLabel("alllloo");
-		lblNewLabel.setForeground(Color.GREEN);
-		lblNewLabel.setBounds(91, 120, 170, 42);
-		getContentPane().add(lblNewLabel);
+		btnRetourMenu.setBounds(912, 11, 149, 25);
+		contentPane.add(btnRetourMenu);
 		lblNewLabel.setVisible(true);
 		setBounds(200, 40, 1100, 800);
 		
-		JMenuBar menuBar = new JMenuBar();
-		
-		JMenu menuAccueil = new JMenu("Accueil");
-		menuAccueil.setEnabled(false);
-		menuBar.add(menuAccueil);
-
-		JMenu  menuAimant = new JMenu("Aimant");
-	
-		menuBar.add(menuAimant);
-		
-		JMenu  menuRessort = new JMenu("Ressort");
-		menuBar.add(menuRessort);
-		
-		JMenu  menuObstacle = new JMenu("Obstacles");
-		menuBar.add(menuObstacle);
-		
-		setJMenuBar(menuBar);
-		
 	}
-
 }
 

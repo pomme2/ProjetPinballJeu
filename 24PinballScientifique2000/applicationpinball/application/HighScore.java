@@ -21,18 +21,9 @@ public class HighScore {
   public int nb_max;
 
   /**
-   * Constructeur : Crée un highScore et essaie de le charger à partir du fichier en
-   * utilisant le délimiteur donné. L'highScore est borné par nb_max.
-   * Le tableau des comparaison est la suite des comparaisons à effectuer sur les
-   * différentes colonnes.<br>
-   * Par exemple :<br><br>
-   *    HighScore hs = new HighScore(new String[]{"Nom","Score"},
-   * new int[][]{{1,0},{0,1}},10,"HS.txt",":moi:");<br><br>
-   * permet de créer un highScore à 2 colonnes (Nom et Score) qui sera trié d'abord sur la colonne
-   * Score(colonne 1) en décroissant(=0) et si 2 scores sont identiques, alors il sera trié
-   * sur la première colonne(colonne 0) en croissant(=1) pour ces 2 là (int[][]({1,0},{0,1})).
-   * L'highScore comportera au plus 10 lignes et sera enregistré dans un fichier "HS.txt" dans
-   * lequel chaque élément sera séparé par le délimiteur ":moi:".
+   * Constructeur : Crée un highScore et essaie de le charger à partir du fichier . L'highScore est borné par nb_max.
+   * permet de créer un highScore à 2 colonnes (Nom et Score) trié.
+   * L'highScore  sera enregistré dans un fichier 
    *
    * @param Noms Le nom des colonnes du highScore.
    * @param Comparaisons Le tableau de comparaisons.
@@ -62,8 +53,7 @@ public class HighScore {
   }
   /**
    * Constructeur avec comme Nombre Maximum de lignes dans le highScore par défaut de 20,
-   * fichier par défaut "highScore.txt" et délimiteur par défaut
-   * "::@-@::".
+   * fichier par défaut "Score.txt" et délimiteur;
    * @param Noms Le nom des colonnes du highScore.
    * @param Comparaisons Le tableau de comparaisons.
    */
@@ -71,8 +61,8 @@ public class HighScore {
     this(Noms,Comparaisons, 20, "Score.txt", "   ");
   }
   /**
-   * Constructeur avec comme fichier par défaut "highScore.txt" et délimiteur par défaut
-   * "::@-@::".
+   * Constructeur avec comme fichier par défaut "Score.txt" et délimiteur par défaut
+   * "".
    * @param Noms Le nom des colonnes du highScore.
    * @param Comparaisons Le tableau de comparaisons.
    * @param nb_max Le nombre maximum de lignes dans l'highScore

@@ -71,7 +71,7 @@ public class FenetreClassement extends JFrame {
 			textArea.setBounds(140, 48, 238, 306);
 			contentPane.add(textArea);
 			
-			readTextFile(textArea,"Score.txt");
+			lireTexteFichier(textArea,"Score.txt");
 			
 					
 			 
@@ -119,23 +119,23 @@ public class FenetreClassement extends JFrame {
 			textArea.setBounds(140, 48, 238, 306);
 			contentPane.add(textArea);
 			
-			readTextFile(textArea,"Score.txt");
+			lireTexteFichier(textArea,"Score.txt");
 			
 			
 			
 		}
-		private void readTextFile(JTextArea texte, String fileName) 
+		private void lireTexteFichier(JTextArea texte, String nomFichier) 
 	 	{
 	 		try 
 	 			{
 	  			BufferedReader inStream  
-	      				= new BufferedReader (new FileReader(fileName));
-	 			String line = inStream.readLine(); 
+	      				= new BufferedReader (new FileReader(nomFichier));
+	 			String ligne = inStream.readLine(); 
 	 		
-	 		 	while (line != null)
+	 		 	while (ligne != null)
 	 		 	 {                        
-	     	       texte.append(line + "\n");                
-			      line = inStream.readLine();                  
+	     	       texte.append(ligne + "\n");                
+			      ligne = inStream.readLine();                  
 	  			}
 	   			inStream.close();                              
 	  			} catch (Exception e) 
