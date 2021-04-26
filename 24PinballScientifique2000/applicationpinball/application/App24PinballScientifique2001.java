@@ -301,7 +301,7 @@ public class App24PinballScientifique2001 extends JFrame{
 	//Thomas Bourgault
 	/**
 	 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreDessin
-	 * @returnun objet Musique qui contient la musique de la FenetreDessin
+	 * @return un objet Musique qui contient la musique de la FenetreDessin
 	 */
 	public static Musique musiqueDessin() {
 		return musiqueDessin;

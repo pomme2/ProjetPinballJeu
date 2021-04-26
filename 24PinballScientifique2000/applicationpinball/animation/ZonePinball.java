@@ -893,7 +893,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 				if(premiereFoisCercleTouche) {
-					score.updateScore(200);
+					score.updateScore(50);
 					premiereFoisCercleTouche=false;
 				}
 
@@ -1395,7 +1395,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	 */
 	public void aimantActif(boolean aimant) {
 
-		
+		intensite=intensite/100;
 		if(aimant) {
 			
 			Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
