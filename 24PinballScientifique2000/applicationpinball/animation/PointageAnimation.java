@@ -12,6 +12,7 @@ public class PointageAnimation {
 	protected int scoreCalculer=0;
 	
 	static int scoreFinal = 0;
+	//Carlos Eduardo
 /**
  * 
  * @param points le  nombre de points que cet obstacles donne au joueur
@@ -23,14 +24,9 @@ public class PointageAnimation {
 		
 		return score;
 	}
-	public int soustrait(int scoreAvant) {
-	scoreCalculer=score-scoreAvant;
-		//System.out.println("ScoreCalculer : "+scoreCalculer);
-		
-		return scoreCalculer;
-		
-	}
 	
+	
+	//Carlos Eduardo
 	/**
 	 * Remet le score total a 0
 	 * @return le score a 0
@@ -41,6 +37,7 @@ public class PointageAnimation {
 		return score;
 		
 	}
+	//Carlos Eduardo
 	/**
 	 * Methode qui donne acces au score
 	 * @return le score total
@@ -48,17 +45,16 @@ public class PointageAnimation {
 	public int getScore() {
 		return score;
 	}
-	
+	//Carlos Eduardo
 	/**
 	 * Methode qui permet le score total;
 	 * @param score
-	 */
-
+	 */	
 	public void setScore(int score) {
 		this.score = score;
 	}
 	
-	
+	//Carlos Eduardo
 	/**
 	 * Genere une chaine de caractere avec les informations  du vecteur
 	 */
@@ -66,7 +62,7 @@ public class PointageAnimation {
 	public String toString(){
 		return ""+score+"";		
 	}	
-	
+	//Carlos Eduardo
 	/**
 	 * methode ajoute 1point pour chaque seconde que l'animation roule
 	 * @return score total
