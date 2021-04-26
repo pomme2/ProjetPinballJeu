@@ -1,6 +1,7 @@
 package application;
 
 import java.awt.Graphics;
+
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -9,6 +10,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
+/**
+ * Ce composant personnalise permet d'afficher une ou plusieurs images accompagnees d'une barre de defilement vertical. Le tout est placee dans un jpanel.
+ * Avec ses methodes suivant/precedent, il servira typiquement a afficher des iamges qui representent des pages de texte consécutives.
+ * 
+ * Pour utiliser ce composant: le placer sur l'interface (avec ou sans WindowBuilder). Ensuite, executer sa methode setFichiersImages.
+ * 
+ * L'image est redimensionnee de facon a cadrer exactement dans le jpanel.
+ * 
+ * Caracteristiques modifiables:
+ * - la couleur du fond, c'est a dire du cadre derriere le texte (setBackground)
+ * - la largeur de ce cadre en pixels (setLargeurCadre)
+ * 
+ * @author Caroline Houle
+ */
 
 public class ImagesTuto extends JPanel {
 	private static final long serialVersionUID = 1L;

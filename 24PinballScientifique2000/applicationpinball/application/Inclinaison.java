@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import dessinable.Dessinable;
 /**
  * Classe qui permet de montrer l'inclinaison de la table
- * @author Adurey Viger
+ * @author Audrey Viger
  *
  */
 public class Inclinaison extends JPanel{
@@ -30,7 +30,7 @@ public class Inclinaison extends JPanel{
 		setBackground(Color.white);
 
 	}
-//1000,283,78,60
+
 	/**
 	 * Methode qui permet de dessiner l'inclinaison
 	 * @param g le contexte graphique

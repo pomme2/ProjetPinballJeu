@@ -85,7 +85,7 @@ public class MoteurPhysique {
 	public static Vecteur2D calculForceGrav(double masse) {
 		return new Vecteur2D(0, -ACCEL_GRAV * masse);
 	}
-	
+	//Carlos Eduardo
 	/**
 	 * Calcule et retourne la force gravitationnelle de la bille
 	 * @param masse La masse de l'objet
@@ -276,7 +276,7 @@ public class MoteurPhysique {
 
 		return Fe;		
 	}
-	
+	//Carlos Eduardo
 	/**
 	 * 
 	 * @param pos1 position du premier point du vecteur 
@@ -349,10 +349,11 @@ public class MoteurPhysique {
 	
 
 
-
+	//Carlos Eduardo
 	public static double getACCEL_GRAV() {
 		return ACCEL_GRAV;
 	}
+	//Carlos Eduardo
 	public static void setACCEL_GRAV(double aCCEL_GRAV) {
 		ACCEL_GRAV = aCCEL_GRAV;
 	}
