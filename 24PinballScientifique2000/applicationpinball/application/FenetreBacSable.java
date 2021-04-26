@@ -110,7 +110,7 @@ public class FenetreBacSable extends JFrame{
 	private JCheckBox chckbxActiverVie;	
 	private static String nomFichierSonFinPartie= ".//Ressource//musiqueGameOver.wav"; 
 	private static Musique musiqueFinPartie=new Musique(nomFichierSonFinPartie);
-	
+	static boolean dansFb;
 
 
 
@@ -125,6 +125,8 @@ public class FenetreBacSable extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			miseAjourInterface();
 		}};
+	
+	
 
 		//Carlos Eduardo
 		/**
@@ -197,6 +199,7 @@ public class FenetreBacSable extends JFrame{
 			musiqueMenu=App24PinballScientifique2001.musiqueMenu();
 			musiqueBacSable=App24PinballScientifique2001.musiqueBacSable();
 			musiqueRessort=FenetreJouer.musiqueRessort();		
+			
 			if (urlBacSable == null) {
 				JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 				System.exit(0);
@@ -621,10 +624,13 @@ public class FenetreBacSable extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					//sliderEtirement.setEnabled(true);
 					sliderEtirement.setVisible(true);
+					setDansFb();
+					System.out.println("bac sable etat"+dansFb);
+					
 					if ((int)sliderEtirement.getValue() != 0) {					
 						zonePinball.demarrer();
 						enCoursdAnimation=true;
-						zonePinball.requestFocusInWindow();									
+						zonePinball.requestFocusInWindow();	
 					}
 				}			
 
@@ -640,7 +646,7 @@ public class FenetreBacSable extends JFrame{
 				//Thomas Bourgault
 				public void actionPerformed(ActionEvent e) {
 					zonePinball.setContour(chckbxContour.isSelected());
-
+				
 				}
 			});
 
@@ -811,5 +817,22 @@ if(chckbxAimant.isSelected()) {
 		public static Musique musiqueFinPartie() {
 			return musiqueFinPartie;
 		}
+		//Audrey Viger
+		/**
+		 * Méthode qui permet de changer la variable statique boolean en vrai pour vérifier si le score vient
+		 * de la fenetre Bac a sable
+		 */
+		public void setDansFb() {
+			FenetreBacSable.dansFb = true;
+		}
+		//Audrey Viger
+		/**
+		 * Methode qui retourne un boolean static 
+		 * @return un boolean static qui est vrai si on a appuye sur le bouton démarrer
+		 */
+		public boolean isDansFb() {
+			return dansFb;
+		}
+		
 
 }

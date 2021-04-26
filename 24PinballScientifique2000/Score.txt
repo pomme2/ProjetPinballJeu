@@ -1,7 +1,5 @@
   java.lang.String  java.lang.Integer
-  coucou  2202
-  d  1963
-  ww  1140
-  audrey  1064
-  sasa  461
-  sadad  183
+  oui(BaS)  398
+  coucou(BaS)  215
+  ce  183
+  de  183

@@ -52,6 +52,8 @@ public class FenetreFinPartie extends JFrame{
 	private int scoreFinal;	
 	private  Musique musiqueFinPartieJouer;
 	private  Musique musiqueFinPartieBacSable;
+	public static boolean dansFb;
+	private String initiales ;
 	
 
 
@@ -172,16 +174,24 @@ public class FenetreFinPartie extends JFrame{
 		btnEnregistrerInit.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				String initiales = txtEntreeInitiales.getText().toString();
-		
-				hs.addLigne(new Comparable[]{new String(initiales),
+				 
+			if(FenetreBacSable.dansFb==false) {
+				initiales = txtEntreeInitiales.getText();
+				
+			}else {
+				initiales = txtEntreeInitiales.getText()+"(BaS)";
+			}
+	
+			hs.addLigne(new Comparable[]{new String(initiales),
                     Integer.valueOf(scoreFinal)});
+			FenetreBacSable.dansFb=false;
+				
 		
 				
 				 /*for(int i=0;i<hs.getNbLines();i++)
 		               System.out.println(hs.getLigne(i)[0] + "\t"+hs.getLigne(i)[1]);*/
 				
-				 //hs.Enregistre();
+				// hs.Enregistre();
 			
 			//	System.out.println(txtEntreeInitiales.getText().toString());
 			}
@@ -227,6 +237,13 @@ public class FenetreFinPartie extends JFrame{
 		panelAvecImage.add(lblScore);
 	
 	}
+	/*private void isDansFb() {
+		if(FenetreBacSable.dansFb) {
+			 initiales = initiales+"(Bac à sable)";
+				FenetreBacSable.dansFb= false;
+		}
+		
+	}*/
 
 
 }
