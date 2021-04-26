@@ -122,6 +122,9 @@ public class FenetreJouer extends JFrame{
 	private boolean incertitudeAimant1=false;
 	private boolean incertitudeAimant2=false;
 	private boolean incertitudeAimant3=false;
+	private int kVie3=0;
+	private int kVie2=0;
+	private int kVie1=0;
 	private double grav = 9.8;
 
 
@@ -150,8 +153,10 @@ public class FenetreJouer extends JFrame{
 
 
 		public void miseAjourInterface() {
-			initialiserDonnees();
-			zonePinball.setAimant(false,intensite);
+			initialiserDonnees();			
+			if(zonePinball.getScoreInt()==0) {
+				zonePinball.setAimant(false,intensite);
+			}
 
 			coeurVie=FenetreBacSable.getCoeurActive();
 			FenetreBacSable.setCoeurActive(true);
@@ -169,7 +174,7 @@ public class FenetreJouer extends JFrame{
 				if(scoreVie3>0) {
 					premiereOuverture=false;
 				}
-				if(scoreVie3>=2000) {					
+				if(scoreVie3>=1000) {					
 					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
 				}
 			}
@@ -186,7 +191,7 @@ public class FenetreJouer extends JFrame{
 				scoreVie2Finale=scoreVie2;
 				coeur2=true;
 				lblScoreDebloquer.setText("Points pour les obstacles: "+scoreVie2);
-				if(scoreVie2>=2000) {					
+				if(scoreVie2>=1000) {					
 					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
 				}
 			}						
@@ -277,25 +282,11 @@ public class FenetreJouer extends JFrame{
 
 			}
 
-			
-			
-			if(scoreVie3 >= 300 &&  scoreVie3 <= 400  || scoreVie3 >= 800 &&  scoreVie3 <= 900  || scoreVie3 >= 1200 &&  scoreVie3 <= 1350 ) {
-			
-				zonePinball.setAimant(true,intensite*0.4);
-		}
-			if(scoreVie2 >= 300 &&  scoreVie2 <= 400 || scoreVie2 >= 800 &&  scoreVie2 <= 900  || scoreVie2 >= 1200 &&  scoreVie2 <= 1350) {
-				
-				zonePinball.setAimant(true,intensite*0.4);	
-		}
-			
-			if(scoreVie1 >= 300 &&  scoreVie1 <= 400 || scoreVie1 >= 800 &&  scoreVie1 <= 900  || scoreVie1 >= 1200 &&  scoreVie1 <= 1350) {
-				
-				zonePinball.setAimant(true,intensite*0.4);
-					
-			
-		}
-			
-		
+
+
+
+
+
 			while(scoreVie2==scoreBaseAimant+scoreIncrementAimant*constanteVie2Aimant || incertitudeAimant2) {				
 
 				intensite=minAimant + (int)(Math.random() * ((maxAimant - minAimant) + 1));
@@ -316,10 +307,46 @@ public class FenetreJouer extends JFrame{
 				lblChangementDonne.setText("Attention l'intensite de l'aimant est de  : "+barProgressionAimant.getValue()+ " %");
 
 			}
-
-			if(scoreVie2>=2000 && !enCoursdAnimation) {
+			if(vie.getNombreCoeur()==3) {
+				if(scoreVie3>=400+400*kVie3 && scoreVie3<=700+400*kVie3) {
+				zonePinball.setAimant(true,intensite);
+				
+			}else {
+				zonePinball.setAimant(false,intensite);
+			}
+			
+			if(scoreVie3>1000+400* kVie3) {
+				kVie3=kVie3+1;
+			}
+			}
+			
+			if(vie.getNombreCoeur()==2) {
+				if(scoreVie2>=400+400*kVie2 && scoreVie2<=700+400*kVie2) {
+				zonePinball.setAimant(true,intensite);
+				
+			}else {
+				zonePinball.setAimant(false,intensite);
+			}
+			if(scoreVie2>=1000+400* kVie2) {
+				kVie2=kVie2+1;
+			}
+			}
+			
+			if(vie.getNombreCoeur()==1) {
+				if(scoreVie1>=400+400*kVie1 && scoreVie1<=700+400*kVie1) {
+				zonePinball.setAimant(true,intensite);
+				
+			}else {
+				zonePinball.setAimant(false,intensite);
+			}
+			if(scoreVie1>=1000+400* kVie1) {
+				kVie1=kVie1+1;
+			}
+			}
+			
+			
+			if(scoreVie2>=1000 && !enCoursdAnimation) {
 				comboBoxObstacles.setEnabled(true);
-
 
 
 			}else {
@@ -328,7 +355,7 @@ public class FenetreJouer extends JFrame{
 			if(sliderLache) {
 				comboBoxObstacles.setEnabled(false);
 			}	
-			if(scoreVie3>=2000 && !sliderLache) {
+			if(scoreVie3>=1000 && !sliderLache) {
 				comboBoxObstacles.setEnabled(true);
 			}else {
 				comboBoxObstacles.setEnabled(false);
@@ -349,7 +376,8 @@ public class FenetreJouer extends JFrame{
 
 				musiquePremiereFois=true;
 			}
-		}
+			}
+					
 		//Audrey Viger
 		/**
 
@@ -359,7 +387,8 @@ public class FenetreJouer extends JFrame{
 		public void remonterJSlider() {
 			if (zonePinball.getPostionYBille()==zonePinball.getPositionIniBille().getY()) {			
 				sliderEtirement.setValue(0);
-				sliderLache=false;
+				sliderLache=false;	
+				recommencer();
 
 
 
@@ -596,6 +625,7 @@ public class FenetreJouer extends JFrame{
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					moteur.MoteurPhysique.setACCEL_GRAV(grav);
+					zonePinball.setAimant(false,intensite);
 					sliderLache=true;
 					musiqueRessort.reset();
 					musiqueRessort.play();
@@ -791,11 +821,21 @@ public class FenetreJouer extends JFrame{
 		 */
 		public void recommencer() {
 			degre=5;
+			intensite=0;
 			constanteVie3Degre=0;
 			constanteVie2Degre=0;
 			constanteVie1Degre=0;
+			constanteVie3Aimant=0;
+			constanteVie2Aimant=0;
+			constanteVie1Aimant=0;
 			lblDegre.setText(degre+ " degre");
 			imageInclinaison.setInclinaison(degre);
+			barProgressionAimant.setValue(intensite);
 			lblChangementDonne.setText("");
+			kVie3=0;
+			kVie2=0;
+			kVie1=0;
+			zonePinball.setAimant(false,intensite);
+			
 		}
 }

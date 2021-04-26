@@ -893,7 +893,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 				if(premiereFoisCercleTouche) {
-					score.updateScore(200);
+					score.updateScore(50);
 					premiereFoisCercleTouche=false;
 				}
 
@@ -1389,7 +1389,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	 */
 	public void aimantActif(boolean aimant , double intensite) {
 
-		
+		intensite=intensite/100;
 		if(aimant) {
 			
 			Vecteur2D distance = moteur.MoteurPhysique.calculDelta(uneBille.getPosition(), unAimant.getPosition());
@@ -1977,7 +1977,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	//Audrey Viger
 	public void setAimant(boolean dessinerAimant, double intensite) {
 		this.dessinerAimant = dessinerAimant;
-		this.intensite = intensite;
+		this.intensite = intensite/100;
 		repaint();
 	}
 
