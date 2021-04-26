@@ -76,6 +76,7 @@ public class FenetreBacSable extends JFrame{
 	private Scene scene;
 
 	private double inclinaisonAjustement = 0.128;
+	private double grav = 9.8;
 
 	//carlos affichage des resultats
 	private JLabel lblVitesseX;
@@ -377,6 +378,7 @@ public class FenetreBacSable extends JFrame{
 					musiqueMenu.reset();
 					musiqueMenu.play();
 					musiqueMenu.loop();
+					moteur.MoteurPhysique.setACCEL_GRAV(grav);
 
 				}
 			});
