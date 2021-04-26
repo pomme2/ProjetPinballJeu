@@ -34,6 +34,7 @@ import application.Musique;
 import dessinable.OutilsImage;
 import geometrie.Aimant;
 import geometrie.Bille;
+import geometrie.FlecheVectorielle;
 import geometrie.Flipper;
 import geometrie.Murs;
 import geometrie.MursCourbes;
@@ -279,16 +280,15 @@ public class ZonePinball extends JPanel implements Runnable {
 	private static boolean  premiereFoisBougerObstacle=true;
 	private int nbClicObstacle=0;
 
-
-
-
+	private int obstaclesMax1 =300, obstaclesMax2 = 600,obstaclesMax3 = 1000;
+	
 	private double triangleX1=103, triangleY1=602, triangleX2=30, triangleY2=555, triangleX3=30, triangleY3=602;
 	private Path2D.Double petitTriangle;
 	
 	
 	private double intensite=0;
 
-
+	private FlecheVectorielle flecheVitesse, flecheAccel;
 
 
 	//Thomas Bourgault 
@@ -565,7 +565,14 @@ public class ZonePinball extends JPanel implements Runnable {
 		ressort.dessiner(g2d);
 		uneBille.setPixelsParMetre(pixelParMetre);
 		uneBille.dessiner(g2d);
+		
 
+		flecheVitesse = new FlecheVectorielle(uneBille.getCenterX(),uneBille.getCenterY(),uneBille.getVitesse());
+		flecheAccel = new FlecheVectorielle(uneBille.getCenterX(),uneBille.getCenterY(),uneBille.getAccel());		
+		
+		flecheVitesse.dessiner(g2d);
+		flecheAccel.dessiner(g2d);
+		
 		if (dessinerAimant) {
 			unAimant.setPixelsParMetre(pixelParMetre);
 			unAimant.dessiner(g2d);
@@ -817,15 +824,15 @@ public class ZonePinball extends JPanel implements Runnable {
 
 			}
 
-			if (nbCollision > 300) {
+			if (nbCollision > obstaclesMax1) {
 
 
 				col1 =true;
 
-				if(nbCollision > 600) {
+				if(nbCollision > obstaclesMax2) {
 
 					col2 = true;
-				}if(nbCollision > 1000) {
+				}if(nbCollision > obstaclesMax3) {
 
 					col3 =true;
 					enleverObs();
@@ -1005,7 +1012,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			}
 			if (uneBille.getPosition().getX() > sous.getCoordX1() && uneBille.getPosition().getX() < sous.getCoordX2() && uneBille.getPosition().getY() < sous.getCoordY1() && under) {
 
-				uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(), uneBille.getVitesse().getY() * -1));
+				//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX(), uneBille.getVitesse().getY() * -1));
 
 
 
