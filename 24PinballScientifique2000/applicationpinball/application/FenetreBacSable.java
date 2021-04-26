@@ -165,6 +165,9 @@ public class FenetreBacSable extends JFrame{
 			if ( minuteurResultats != null && !zonePinball.isAnimationEnCours() ) {
 				minuteurResultats.stop();
 
+			}else {
+				minuteurResultats = new Timer(10, ecouteurDuMinuteur );
+				minuteurResultats.start();			
 			}
 		}
 		//Audrey Viger
