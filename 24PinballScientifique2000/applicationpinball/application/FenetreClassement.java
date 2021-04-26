@@ -17,7 +17,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-
+/**
+ * Classe qui permet d'afficher le score selon les intitiales dans une fenetre
+ * @author Adurey Viger
+ *
+ */
 public class FenetreClassement extends JFrame {
 	
 
@@ -33,7 +37,10 @@ public class FenetreClassement extends JFrame {
 		private FenetreJouer fenJouer;
 
 		
-		
+		/**
+		 * Constructeur qui permet d'instancier la fenêtre du classement dans la fenetre jouer
+		 * @param fenJouer est la fenetre qui permet de jouer au jeu
+		 */
 		public FenetreClassement( FenetreJouer fenJouer) {
 			this.fenJouer = fenJouer;
 		
@@ -71,7 +78,7 @@ public class FenetreClassement extends JFrame {
 			textArea.setBounds(140, 48, 238, 306);
 			contentPane.add(textArea);
 			
-			readTextFile(textArea,"Score.txt");
+			lireTexteFichier(textArea,"Score.txt");
 			
 					
 			 
@@ -82,6 +89,10 @@ public class FenetreClassement extends JFrame {
 		}
 		/**
 		 * @wbp.parser.constructor
+		 */
+		/**
+		 * Constructeur qui permet d'instancier la fenêtre du classement dans la fenetre bac a sable
+		 * @param fenJouer est la fenetre BacSable
 		 */
 		public FenetreClassement(FenetreBacSable fenetreBacSable) {
 		this.fenBacSable = fenetreBacSable;
@@ -119,23 +130,31 @@ public class FenetreClassement extends JFrame {
 			textArea.setBounds(140, 48, 238, 306);
 			contentPane.add(textArea);
 			
-			readTextFile(textArea,"Score.txt");
+			lireTexteFichier(textArea,"Score.txt");
 			
 			
 			
 		}
-		private void readTextFile(JTextArea texte, String fileName) 
+
+		
+
+		/**
+		 * Méthode qui permet de lire un fichier et d'écrire dedans
+		 * @param texte est le texte qu'on veut écrire dedans
+		 * @param fileName est le nom du fichier dans lequel on veut écrire
+		 */
+private void lireTexteFichier(JTextArea texte, String nomFichier) 
 	 	{
 	 		try 
 	 			{
 	  			BufferedReader inStream  
-	      				= new BufferedReader (new FileReader(fileName));
-	 			String line = inStream.readLine(); 
+	      				= new BufferedReader (new FileReader(nomFichier));
+	 			String ligne = inStream.readLine(); 
 	 		
-	 		 	while (line != null)
+	 		 	while (ligne != null)
 	 		 	 {                        
-	     	       texte.append(line + "\n");                
-			      line = inStream.readLine();                  
+	     	       texte.append(ligne + "\n");                
+			      ligne = inStream.readLine();                  
 	  			}
 	   			inStream.close();                              
 	  			} catch (Exception e) 

@@ -1851,7 +1851,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	public void SegmentCourbe() {
 		MursDroits mur;
 		for (int i = 0; i < 3; i++) {
-			mur = new MursDroits(arcCerclePetitCoordX.get(i), arcCerclePetitCoordY.get(i), arcCerclePetitCoordX.get(i + 1), arcCerclePetitCoordY.get(i + 1));
+			mur = new MursDroits(arcCerclePetitCoordX.get(i+1), arcCerclePetitCoordY.get(i+1), arcCerclePetitCoordX.get(i ), arcCerclePetitCoordY.get(i ));
 			mur.setPixelsParMetre(pixelParMetre);
 			courbe.add(mur);
 

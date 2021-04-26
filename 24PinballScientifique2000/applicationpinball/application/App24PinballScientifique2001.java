@@ -284,9 +284,20 @@ public class App24PinballScientifique2001 extends JFrame{
 		panelAvecImage.add(lblTitreApplication);
 
 
+		JButton btnPropos = new JButton("\u00C0 propos");
+		btnPropos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Ce projet a été conçu par Thomas Bourgault-Vigneault, Carlos Eduardo Calle Guerrero et Audrey Viger-Lejarza "
+						+ " \n Il a été réalisé dans le cadre du cours de programmation 420-SCD-MA INTÉGRATION DES APPRENTISSAGES EN SCIENCES INFOS ET MATHS"
+						+ "\n Session du printemps 2021, Collège de Maisonneuve");
+			
+		}
+	});
+		btnPropos.setBounds(477, 678, 130, 37);
+		panelAvecImage.add(btnPropos);
 
+}
 
-	}
 	//Thomas Bourgault
 	/**
 	 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreDessin
@@ -336,5 +347,6 @@ public class App24PinballScientifique2001 extends JFrame{
 	public static void setJouerActive(boolean jouer) {
 		jouerActive=jouer;
 	}	
+
 }
 

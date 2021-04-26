@@ -401,6 +401,7 @@ public class FenetreBacSable extends JFrame{
 			panelAvecImage.add(lblKg);
 
 			JSlider sliderAimant = new JSlider();
+			sliderAimant.setEnabled(false);
 			sliderAimant.setValue(0);
 
 			JSpinner spinnerAimant = new JSpinner();
@@ -670,10 +671,22 @@ public class FenetreBacSable extends JFrame{
 				//Audrey Viger
 				public void actionPerformed(ActionEvent e) {
 
+
 					zonePinball.setAimant(chckbxAimant.isSelected(),1);
 					
 			
-		
+
+if(chckbxAimant.isSelected()) {
+	sliderAimant.setEnabled(true);
+}else {
+	if(!chckbxAimant.isSelected()) {
+		sliderAimant.setEnabled(false);
+		sliderAimant.setValue(0);
+	}
+}
+
+				
+
 
 				}
 			});

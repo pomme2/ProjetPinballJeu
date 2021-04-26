@@ -28,7 +28,12 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
 import application.FenetreJouer;
-
+/**
+ * 
+ * @author Audrey Viger
+ * Classe qui permet d'ouvrir une fenetre qui représente la fin d'une partie
+ *
+ */
 public class FenetreFinPartie extends JFrame{
 
 	private static final long serialVersionUID = 1L;
@@ -43,7 +48,6 @@ public class FenetreFinPartie extends JFrame{
 	private PointageAnimation pointage;
 
 	private static FenetreClassement fenClassement;
-
 	private Scene scene;
 	private int scoreFinal;	
 	private  Musique musiqueFinPartieJouer;
@@ -51,12 +55,21 @@ public class FenetreFinPartie extends JFrame{
 	
 
 
-
+/**
+ * Méthode qui permet de retourner les initiales entrer par l'utilisateur
+ * @return  les initiales entrer par l'utilisateur
+ */
 	public String getInitiales() {
 		String initiales = txtEntreeInitiales.getText().toString();
 		return initiales;
 	}
-	
+	/**
+	 * Constructeur qui permet d'initialiser la fenetre fin de partie
+	 * @param fenMenu est la fenetre qui représente le menu de type App24PinballScientifique2001
+	 * @param fenBac1 est la fenetre qui représente la fenetre bac a sable de type FenetreBacSable
+	 * @param fenJouer est la fenetre qui represente la fenetre jouer de type FenetreJouer
+	 * @param fenClassement1 est la fenetre qui represente la fenetre classement de type FenetreClassement
+	 */
 	public FenetreFinPartie(  	App24PinballScientifique2001 fenMenu, FenetreBacSable fenBac1, FenetreJouer fenJouer, FenetreClassement fenClassement1) {
 		musiqueFinPartieJouer=FenetreJouer.musiqueFinPartie();
 		musiqueFinPartieBacSable=FenetreBacSable.musiqueFinPartie();
@@ -130,49 +143,57 @@ public class FenetreFinPartie extends JFrame{
 		btnRecommencer.setBounds(91, 594, 403, 120);
 		panelAvecImage.add(btnRecommencer);
 		
-		JLabel lblInitiales = new JLabel("Entrez vos initiales");
-		lblInitiales.setFont(new Font("Arcade Normal", Font.PLAIN, 20));
+		JLabel lblInitiales = new JLabel("Entrez votre nom");
+		lblInitiales.setFont(new Font("Arcade Normal", Font.PLAIN, 13));
 		lblInitiales.setForeground(Color.BLUE);
-		lblInitiales.setBounds(317, 361, 438, 35);
+		lblInitiales.setBounds(317, 358, 686, 35);
 		panelAvecImage.add(lblInitiales);
 		lblInitiales.setVisible(false);
 		
 		txtEntreeInitiales = new JTextField();
+		txtEntreeInitiales.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		txtEntreeInitiales.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		txtEntreeInitiales.setForeground(Color.CYAN);
 		txtEntreeInitiales.setBounds(317, 394, 438, 82);
 		panelAvecImage.add(txtEntreeInitiales);
 		txtEntreeInitiales.setColumns(10);
 		txtEntreeInitiales.setVisible(false);
 		
+
+
 		JButton btnEnregistrerInit = new JButton("Enregistrer");
 		btnEnregistrerInit.setForeground(Color.CYAN);
 		btnEnregistrerInit.setFont(new Font("Arcade Normal", Font.PLAIN, 11));
+		
 		btnEnregistrerInit.addActionListener(new ActionListener() {
-		
-
-		
-
+			
 			public void actionPerformed(ActionEvent e) {
 				String initiales = txtEntreeInitiales.getText().toString();
-			
+		
 				hs.addLigne(new Comparable[]{new String(initiales),
                     Integer.valueOf(scoreFinal)});
+		
+				
 				 /*for(int i=0;i<hs.getNbLines();i++)
 		               System.out.println(hs.getLigne(i)[0] + "\t"+hs.getLigne(i)[1]);*/
 				
 				 //hs.Enregistre();
-				
-				
 			
-				
-			
-				
 			//	System.out.println(txtEntreeInitiales.getText().toString());
 			}
 		});
+
+
+
+
+
 		btnEnregistrerInit.setBounds(317, 487, 438, 35);
 		panelAvecImage.add(btnEnregistrerInit);
 		btnEnregistrerInit.setVisible(false);
-		
 		
 		JButton btnSauvegarderScore = new JButton("Sauvegarder le score");
 		btnSauvegarderScore.setForeground(Color.CYAN);
@@ -182,7 +203,7 @@ public class FenetreFinPartie extends JFrame{
 				lblInitiales.setVisible(true);
 				txtEntreeInitiales.setVisible(true);
 				btnEnregistrerInit.setVisible(true);
-				
+		
 		
 			}
 		});
@@ -191,6 +212,11 @@ public class FenetreFinPartie extends JFrame{
 
 		btnSauvegarderScore.setBounds(600, 594, 403, 120);
 		panelAvecImage.add(btnSauvegarderScore);
+		
+	
+		
+		
+	
 		
 		JLabel lblScore = new JLabel("Score: ");
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);

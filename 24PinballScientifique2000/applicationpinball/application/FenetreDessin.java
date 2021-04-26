@@ -124,9 +124,9 @@ public class FenetreDessin extends JFrame{
 		btnRetour.setBounds(730, 561, 325, 102);
 		getContentPane().add(btnRetour);
 
-		JLabel lblSelection = new JLabel("Selectionner des couleurs");
+		JLabel lblSelection = new JLabel("Selection des couleurs");
 		lblSelection.setFont(new Font("Arcade Normal", Font.PLAIN, 15));
-		lblSelection.setBounds(686, 60, 390, 29);
+		lblSelection.setBounds(730, 104, 390, 29);
 		getContentPane().add(lblSelection);
 
 		JButton btnEffacerTout = new JButton("Recommencer");
@@ -137,7 +137,7 @@ public class FenetreDessin extends JFrame{
 				dessin.clear();
 			}
 		});
-		btnEffacerTout.setBounds(757, 239, 232, 46);
+		btnEffacerTout.setBounds(742, 378, 298, 46);
 		panelAvecImage.add(btnEffacerTout);
 
 		dessin = new Dessin();		
@@ -161,7 +161,7 @@ public class FenetreDessin extends JFrame{
 				}
 			}
 		});
-		btn1.setBounds(757,159,232,52);
+		btn1.setBounds(742,159,298,52);
 		panelAvecImage.add(btn1);
 
 		JSlider sliderTailleTrait = new JSlider();
@@ -177,12 +177,12 @@ public class FenetreDessin extends JFrame{
 		sliderTailleTrait.setValue(5);
 		sliderTailleTrait.setMinimum(5);
 		sliderTailleTrait.setPaintTicks(true);
-		sliderTailleTrait.setBounds(769, 351, 232, 38);
+		sliderTailleTrait.setBounds(742, 323, 298, 38);
 		panelAvecImage.add(sliderTailleTrait);
 
 		JLabel lblTailleTrait = new JLabel("Taille du trait");
 		lblTailleTrait.setFont(new Font("Arcade Normal", Font.PLAIN, 15));
-		lblTailleTrait.setBounds(769, 311, 232, 29);
+		lblTailleTrait.setBounds(778, 293, 232, 29);
 		panelAvecImage.add(lblTailleTrait);
 
 		JButton btnEffacer = new JButton("Effacer");
@@ -193,7 +193,7 @@ public class FenetreDessin extends JFrame{
 				dessin.setCouleur(Color.white);
 			}
 		});
-		btnEffacer.setBounds(829, 400, 104, 23);
+		btnEffacer.setBounds(742, 226, 298, 29);
 		panelAvecImage.add(btnEffacer);
 
 
