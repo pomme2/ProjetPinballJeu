@@ -132,7 +132,13 @@ public class FenetreJouer extends JFrame{
 	private int kVie2=0;
 	private int kVie1=0;
 	private double grav = 9.8;
-
+	private int score400=400;
+	private int score700=700;
+	private int score1000=1000;
+	private int score1051=1051;
+	private int score1249=1249;
+	private int score1251=1251;
+	private int score1549=1549;
 
 
 
@@ -175,7 +181,7 @@ public class FenetreJouer extends JFrame{
 				if(scoreVie3>0) {
 					premiereOuverture=false;
 				}
-				if(scoreVie3>=1000) {					
+				if(scoreVie3>=score1000) {					
 					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
 				}
 			}
@@ -192,7 +198,7 @@ public class FenetreJouer extends JFrame{
 				scoreVie2Finale=scoreVie2;
 				coeur2=true;
 				lblScoreDebloquer.setText("Points pour les obstacles: "+scoreVie2);
-				if(scoreVie2>=1000) {					
+				if(scoreVie2>=score1000) {					
 					lblScoreDebloquer.setText("Obstacle debloquer pour prochaine vie");
 				}
 			}						
@@ -217,23 +223,23 @@ public class FenetreJouer extends JFrame{
 
 			}
 
-			if(scoreVie3>=(1051*(constanteVie3Degre+1)) && scoreVie3<=(1249*(constanteVie3Degre+1))) {
+			if(scoreVie3>=(score1051*(constanteVie3Degre+1)) && scoreVie3<=(score1249*(constanteVie3Degre+1))) {
 				incertitude1=true;
 			}
-			if(scoreVie2>=(1051*(constanteVie2Degre+1)) && scoreVie2<=(1249*(constanteVie2Degre+1))) {
+			if(scoreVie2>=(score1051*(constanteVie2Degre+1)) && scoreVie2<=(score1249*(constanteVie2Degre+1))) {
 				incertitude2=true;
 			}
-			if(scoreVie1>=(1051*(constanteVie1Degre+1)) && scoreVie1<=(1249*(constanteVie1Degre+1))) {
+			if(scoreVie1>=(score1051*(constanteVie1Degre+1)) && scoreVie1<=(score1249*(constanteVie1Degre+1))) {
 				incertitude3=true;
 			}
 
-			if(scoreVie3>=(1251*(constanteVie3Aimant+1))&& scoreVie3<=(1549*(constanteVie3Aimant+1))){
+			if(scoreVie3>=(score1251*(constanteVie3Aimant+1))&& scoreVie3<=(score1549*(constanteVie3Aimant+1))){
 				incertitudeAimant1=true;				
 			}
-			if(scoreVie2>=(1251*(constanteVie2Aimant+1))&& scoreVie2<=(1549*(constanteVie2Aimant+1))){
+			if(scoreVie2>=(score1251*(constanteVie2Aimant+1))&& scoreVie2<=(score1549*(constanteVie2Aimant+1))){
 				incertitudeAimant2=true;				
 			}
-			if(scoreVie1>=(1251*(constanteVie1Aimant+1))&& scoreVie1<=(1549*(constanteVie1Aimant+1))){
+			if(scoreVie1>=(score1251*(constanteVie1Aimant+1))&& scoreVie1<=(score1549*(constanteVie1Aimant+1))){
 				incertitudeAimant3=true;				
 			}
 
@@ -309,44 +315,44 @@ public class FenetreJouer extends JFrame{
 
 			}
 			if(vie.getNombreCoeur()==3) {
-				if(scoreVie3>=400+400*kVie3 && scoreVie3<=700+400*kVie3) {
+				if(scoreVie3>=score400+score400*kVie3 && scoreVie3<=score700+score400*kVie3) {
 				zonePinball.setAimant(true,intensite);
 				
 			}else {
 				zonePinball.setAimant(false,intensite);
 			}
 			
-			if(scoreVie3>1000+400* kVie3) {
+			if(scoreVie3>score1000+score400* kVie3) {
 				kVie3=kVie3+1;
 			}
 			}
 			
 			if(vie.getNombreCoeur()==2) {
-				if(scoreVie2>=400+400*kVie2 && scoreVie2<=700+400*kVie2) {
+				if(scoreVie2>=score400+score400*kVie2 && scoreVie2<=score700+score400*kVie2) {
 				zonePinball.setAimant(true,intensite);
 				
 			}else {
 				zonePinball.setAimant(false,intensite);
 			}
-			if(scoreVie2>=1000+400* kVie2) {
+			if(scoreVie2>=score1000+score400* kVie2) {
 				kVie2=kVie2+1;
 			}
 			}
 			
 			if(vie.getNombreCoeur()==1) {
-				if(scoreVie1>=400+400*kVie1 && scoreVie1<=700+400*kVie1) {
+				if(scoreVie1>=score400+score400*kVie1 && scoreVie1<=score700+score400*kVie1) {
 				zonePinball.setAimant(true,intensite);
 				
 			}else {
 				zonePinball.setAimant(false,intensite);
 			}
-			if(scoreVie1>=1000+400* kVie1) {
+			if(scoreVie1>=score1000+score400* kVie1) {
 				kVie1=kVie1+1;
 			}
 			}
 			
 			
-			if(scoreVie2>=1000 && !enCoursdAnimation) {
+			if(scoreVie2>=score1000 && !enCoursdAnimation) {
 				comboBoxObstacles.setEnabled(true);
 
 
@@ -356,7 +362,7 @@ public class FenetreJouer extends JFrame{
 			if(sliderLache) {
 				comboBoxObstacles.setEnabled(false);
 			}	
-			if(scoreVie3>=1000 && !sliderLache) {
+			if(scoreVie3>=score1000 && !sliderLache) {
 				comboBoxObstacles.setEnabled(true);
 			}else {
 				comboBoxObstacles.setEnabled(false);
