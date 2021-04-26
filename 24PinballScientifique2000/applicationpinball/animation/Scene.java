@@ -68,6 +68,7 @@ public class Scene {
 	//flippers		
 	private Flipper flipGauche,flipDroit;
 	
+	//Thomas Bourgault
 /**
  * Constructeur qui permet d'initialiser la bille et le ressort
  */

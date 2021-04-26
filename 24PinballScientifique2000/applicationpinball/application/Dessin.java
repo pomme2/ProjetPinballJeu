@@ -193,6 +193,10 @@ public void sauvegarderImage(String name,String type)  {
 	}
 	
 }
+/**
+ * Méthode qui permet retourner un boolean qui permet de savoir si c'est la premiere fois qu'on dessine l'image de la bille
+ * @return  un boolean qui permet de savoir si c'est la premiere fois qu'on dessine l'image de la bille
+ */
 public boolean dessinImage() {
 	return dessinerImage;
 }

@@ -119,6 +119,9 @@ public class FenetreJouer extends JFrame{
 	private boolean incertitude1=false;
 	private boolean incertitude2=false;
 	private boolean incertitude3=false;
+	private boolean incertitudeAimant1=false;
+	private boolean incertitudeAimant2=false;
+	private boolean incertitudeAimant3=false;
 	private double grav = 9.8;
 
 
@@ -143,8 +146,12 @@ public class FenetreJouer extends JFrame{
 		 * et les affiche ensuite sur l'interface
 		 * Cette méthode détecte aussi la fin de l'animation, et arrête le minuteur dans ce cas.
 		 */
+		
+		
 		public void miseAjourInterface() {
 			initialiserDonnees();
+			zonePinball.setAimant(false);
+
 			coeurVie=FenetreBacSable.getCoeurActive();
 			FenetreBacSable.setCoeurActive(true);
 			
@@ -213,8 +220,18 @@ public class FenetreJouer extends JFrame{
 			if(scoreVie1>=(1051*(constanteVie1Degre+1)) && scoreVie1<=(1249*(constanteVie1Degre+1))) {
 				incertitude3=true;
 			}
+
+			if(scoreVie3>=(1251*(constanteVie3Aimant+1))&& scoreVie3<=(1549*(constanteVie3Aimant+1))){
+				incertitudeAimant1=true;				
+			}
 			
 			remonterJSlider();
+			
+	if(scoreVie3 >= 250 &&  scoreVie3 <= 400 ) {
+				
+				zonePinball.setAimant(true);
+				
+			}
 			while(scoreVie3==scoreBaseDegre+scoreIncrement*constanteVie3Degre ||incertitude1) {
 				degre=minDegre + (int)(Math.random() * ((maxDegre - minDegre) + 1));
 				constanteVie3Degre=constanteVie3Degre+1;				
@@ -245,15 +262,21 @@ public class FenetreJouer extends JFrame{
 				moteur.MoteurPhysique.setACCEL_GRAV(degre*1.128);
 
 			}
-			while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant) {				
+
+						
+
+			while(scoreVie3==scoreBaseAimant+scoreIncrementAimant*constanteVie3Aimant || incertitudeAimant1) {				
+
 				intensite=minAimant + (int)(Math.random() * ((maxAimant - minAimant) + 1));
 				constanteVie3Aimant=constanteVie3Aimant+1;				
 				barProgressionAimant.setValue(intensite);
 				zonePinball.getAimant().setCharge(intensite);
+				incertitudeAimant1=false;
 				lblChangementDonne.setText("Attention l'intensite de l'aimant est de  : "+barProgressionAimant.getValue()+ " %");
 				
-				zonePinball.setAimant(true);
+			
 			}
+		
 			
 			if(scoreVie2>=2000 && !enCoursdAnimation) {
 				comboBoxObstacles.setEnabled(true);

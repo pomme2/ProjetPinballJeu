@@ -133,13 +133,13 @@ public class ZonePinball extends JPanel implements Runnable {
 	int temps=0;
 
 	int finalScore;
-	
+
 	int nbCollision =0;
 
 
 	//tableau pour obstacles
 	private ArrayList < Murs > obstaclesCercle = new ArrayList < Murs > ();
-	
+
 	private ArrayList < Murs > obstaclesCercleAjou = new ArrayList < Murs > ();
 
 
@@ -256,7 +256,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	private double translatCarreX=0.01;
 	private double translatCarreY=0.01;
 	private double maxObstacleHaut = 1.26, maxObstacleGauche = 0.11, maxObstacleDroite = 1.05, maxObstacleBas = 0.15;
-	
+
 	boolean collisionMax= true;
 
 	boolean col1= false;
@@ -313,11 +313,11 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private double triangleX1=103, triangleY1=602, triangleX2=30, triangleY2=555, triangleX3=30, triangleY3=602;
 	private Path2D.Double petitTriangle;
-	
 
 
 
-	//Thomas Bourgault  et Carlos Eduardo
+
+	//Thomas Bourgault 
 	/**
 	 * Constructeur qui gère les différents types d'évènements de la souris, permet l'initialisation de l'image ainsi que de la bille
 	 * 
@@ -431,10 +431,10 @@ public class ZonePinball extends JPanel implements Runnable {
 					System.out.println("X: " + e.getX() / (dimensionImageX / largeurDuComposantMetre) + " cliqué " + " Y: " + e.getY() / (dimensionImageY / hauteurDuComposantMetre) + " cliqué");
 
 					System.out.println("X: " + e.getX()  + " cliqué " + " Y: " + e.getY()  + " cliqué");
-					
+
 
 					//System.out.println("X: " + e.getX()  + " cliqué " + " Y: " + e.getY()  + " cliqué");
-					
+
 
 				}
 			}
@@ -573,12 +573,12 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 			SegmentCourbe();						
-		petitTriangle=new Path2D.Double();
-		petitTriangle.moveTo(triangleX1, triangleY1);
-		petitTriangle.lineTo(triangleX2, triangleY2);
-		petitTriangle.lineTo(triangleX3, triangleY3);
-		petitTriangle.closePath();
-		premiereFois = false;
+			petitTriangle=new Path2D.Double();
+			petitTriangle.moveTo(triangleX1, triangleY1);
+			petitTriangle.lineTo(triangleX2, triangleY2);
+			petitTriangle.lineTo(triangleX3, triangleY3);
+			petitTriangle.closePath();
+			premiereFois = false;
 			premiereFois = false;
 		}
 		g2d.setColor(Color.MAGENTA);
@@ -601,19 +601,19 @@ public class ZonePinball extends JPanel implements Runnable {
 		obstacle = new ObstacleClique(posXCarre+translatCarreX,posYCarre+translatCarreY,0.1,0.1,forme);
 
 		obstacle.setPixelsParMetre(pixelParMetre);
-		
+
 		if(collisionMax) {
 
-		if(col1) g2d.setColor(new Color(255,0,0));
-		
-		if(col2) g2d.setColor(new Color(205,0,0));
-		
-		if(col3) g2d.setColor(new Color(153,0,0));
-		
+			if(col1) g2d.setColor(new Color(255,0,0));
+
+			if(col2) g2d.setColor(new Color(205,0,0));
+
+			if(col3) g2d.setColor(new Color(153,0,0));
+
 			obstacle.dessiner(g2d);
-		
+
 		}
-	
+
 
 
 		if (contour) {
@@ -804,7 +804,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		//colision avec les obstacles en cerlce
 
-		
+
 		for (int i = 0; i < obstaclesCercleAjou.size(); i++) {
 			Murs cercle = obstaclesCercleAjou.get(i);
 
@@ -829,38 +829,38 @@ public class ZonePinball extends JPanel implements Runnable {
 				uneBille.setVitesse(vitesseRebound);
 
 
-			
-				
-				
+
+
+
 				nbCollision++;
 
 
 
-				
+
 
 
 			}
-			
+
 			if (nbCollision > 300) {
-				
-				
+
+
 				col1 =true;
-				
+
 				if(nbCollision > 600) {
-					
+
 					col2 = true;
 				}if(nbCollision > 1000) {
-					
+
 					col3 =true;
 					enleverObs();
-					
+
 				}
-				
-				
+
+
 			}
 		}
-		
-		
+
+
 		for (int i = 0; i < obstaclesCercle.size(); i++) {
 			Murs cercle = obstaclesCercle.get(i);
 
@@ -885,8 +885,8 @@ public class ZonePinball extends JPanel implements Runnable {
 				uneBille.setVitesse(vitesseRebound);
 
 
-				
-				
+
+
 
 
 				if(premiereFoisCercleTouche) {
@@ -895,12 +895,12 @@ public class ZonePinball extends JPanel implements Runnable {
 				}
 
 			}
-			
-	
+
+
 		}
-	
-			
-	
+
+
+
 
 
 
@@ -1127,54 +1127,69 @@ public class ZonePinball extends JPanel implements Runnable {
 					}
 				}
 			}
-			
-			
+
+
 			//carre obstacles
 			for(int i=0; i< obstaclesCarre.size();i++) {
-				
+
 				Rectangle2D carre = obstaclesCarre.get(i);
-				
-				
-		if(colCarre(carre)) {
-		}
-		
-			
 
 
+				if(colCarre(carre)) {
+				}
+
+
+
+
+			}
+
 		}
-			
-		}
-		
+
 		ajoutObsList();
+
 		
 		aimantActif(dessinerAimant);
 		
+
 	} ///fin collision
 
 
-	
+	//Carlos Eduardo
+	/**
+	 * Méthode qui gère si la balle entre en contact avec la forme qui est un carré
+	 * @param carre est la forme qui est un carre
+	 * @return un boolean faux si la bille ne touche pas au carre
+	 */
 	public boolean colCarre(Rectangle2D carre){
-		
+
 		if(uneBille.getPosition().getX() < carre.getX() || uneBille.getPosition().getX() > carre.getX() + carre.getWidth()) {
 			return false;
 		}
 		if(uneBille.getPosition().getY() > carre.getY() || uneBille.getPosition().getY() < carre.getY() + carre.getHeight()) {
 			return false;
-			
+
 		}
-		
+
 		if(uneBille.intersects(carre)) {
 			return true;
 		}
 		return false;
-		
-	}
 
+	}
+	//Carlos Eduardo
+	/**
+	 * Méthode qui permet de changer le score final
+	 * @param score est un entier qui représente le score finale
+	 */
 	public void setScoreFinal(int score) {
 		scoreFinal = score;
 
 	}
-
+	//Carlos Eduardo
+	/**
+	 * Méthode qui retourne le score final
+	 * @return le score final
+	 */
 	public int getScoreFinal() {
 		return scoreFinal;
 	}
@@ -1328,7 +1343,6 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	}
 	//Carlos Eduardo	
-
 	/**
 	 * Demande l'arret du thread (prochain tour de boucle)
 	 */
@@ -1579,11 +1593,7 @@ public class ZonePinball extends JPanel implements Runnable {
 		uneBille = new Bille(posInitBalle, diametreBallePourCetteScene);
 		uneBille.setMasseEnKg(massePourCetteScene);
 	}
-	/**
-	 * Modifie la masse du bloc
-	 * 
-	 * @param massePourCetteScene la masse du bloc, exprime en kg
-	 */
+	
 
 	//Carlos Eduardo
 	/**
@@ -1604,6 +1614,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 		return ressort;
 	}
+	//Carlos Eduardo
 	/**
 	 * Methode retourne le aimant comme objet
 	 * @return l'aimant d'objet Aimant
@@ -1611,8 +1622,6 @@ public class ZonePinball extends JPanel implements Runnable {
 	public Aimant getAimant() {
 
 		return unAimant;
-
-
 	}
 	public ZonePinball() {
 		// TODO Auto-generated constructor stub
@@ -1952,7 +1961,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			public void mouseReleased(MouseEvent arg0) {
 				formeSelectionne = false;
 				premiereFoisBougerObstacle = false;
-				
+
 
 			} //fin released
 
@@ -2014,62 +2023,94 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	}
 
-
+//Carlos Eduardo
+	/**
+	 * Méthode statique qui retourne le score final
+	 * @return le score final
+	 */
 	public static int getScorefinal() {
 		return scoreFinal;		
 
 	}
+	//Thomas Bourgault
+	/**
+	 * Méthode statique qui retourne un objet Musique pour le flipper de gauche
+	 * @return un objet Musique pour le flipper de gauche
+	 */
 	public static Musique musiqueFlipperGauche() {
 		return musiqueFlipperGauche;
 	}
+	//Thomas Bourgault
+	/**
+	 * Méthode statique qui retourne un objet Musique pour le flipper de droit
+	 * @return  un objet Musique pour le flipper de droit
+	 */
 	public static Musique musiqueFlipperDroit() {
 		return musiqueFlipperDroit;
 	}
+	//Carlos Eduardo
+	/**
+	 * Méthode statique qui permet de changer le boolean qui gère la première qu'on touche à un obstacle
+	 * @param x est un nouveau boolean
+	 */
 	public static void setPremiereFoisObstacle(boolean x) {
-		
+
 		premiereFoisBougerObstacle = x;
 	}
-	
-	
-public static boolean premiereFoisObstacle() {
-	
+
+//Carlos Eduardo
+	/**
+	 * Méthode statique qui retourne le boolean qui gère la première qu'on touche à un obstacle
+	 * @return le boolean qui gère la première qu'on touche à un obstacle
+	 */
+	public static boolean premiereFoisObstacle() {
+
 		return premiereFoisBougerObstacle;
 	}
-	
-	
-	
+
+
+//Carlos Eduardo
+	/**
+	 * Méthode qui ajoute des Murs aux obstacles selon les différentes formes
+	 */
 	public void ajoutObsList() {
-		
+
 		if((forme == "Cercle" || forme == "Triangle" || forme == "Carre"|| forme == "Rectangle" )  && collisionMax) {
 			Murs obs = new Murs(posXCarre+translatCarreX-0.05,posYCarre+translatCarreY-0.05,0.1);
-			
+
 			obstaclesCercleAjou.add(obs);
-			
+
 		}
 		if(forme == "Carre") {
-			
-		Rectangle2D carre =	new Rectangle2D.Double(posXCarre+translatCarreX-0.05,posYCarre+translatCarreY-0.05,0.1,0.1);
-			
-		obstaclesCarre.add(carre);
-			
-			
+
+			Rectangle2D carre =	new Rectangle2D.Double(posXCarre+translatCarreX-0.05,posYCarre+translatCarreY-0.05,0.1,0.1);
+
+			obstaclesCarre.add(carre);
+
+
 		}
-		
-		
+
+
 	}
-	
+//Carlos Eduardo
+	/**
+	 * Méthode qui permet de remettre le nombre de collision à 0
+	 */
 	public void resetCollisionObs() {
-		
+
 		nbCollision =0;
 		collisionMax = true;
 	}
-	
-	
+
+//Carlos Eduardo
+/**
+ * Méthode qui permet de rénitialiser la liste qui contient les obstacles selon les formes
+ */
 	public void enleverObs() {
 
 		obstaclesCercleAjou.clear();
-		 collisionMax = false;
-		
+		collisionMax = false;
+
 	}
 
 

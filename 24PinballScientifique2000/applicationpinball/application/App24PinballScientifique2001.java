@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
  * 
  * 
  * @author Audrey Viger
+ * @author Thomas Bourgault
  *  Cette classe est le menu et permet d'acceder aux autres fenetres
  */
 public class App24PinballScientifique2001 extends JFrame{
@@ -71,7 +72,7 @@ public class App24PinballScientifique2001 extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
+
 					App24PinballScientifique2001 frame = new App24PinballScientifique2001();
 					frame.setVisible(true);
 
@@ -103,18 +104,18 @@ public class App24PinballScientifique2001 extends JFrame{
 	 * Constructeur du menu, on y trouve tous les boutons permettants d'acceder aux fenetres secondaires
 	 */
 	public App24PinballScientifique2001() {	
-		
-		     try {
-		    	 Font fontSpecial= Font.createFont(Font.TRUETYPE_FONT, new File("Ressource\\arcade.ttf")).deriveFont(14f);
-		    	 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		    	 ge.registerFont(fontSpecial);
-			} catch (FontFormatException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			} catch (IOException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
+
+		try {
+			Font fontSpecial= Font.createFont(Font.TRUETYPE_FONT, new File("Ressource\\arcade.ttf")).deriveFont(14f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(fontSpecial);
+		} catch (FontFormatException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		if (urlArcade == null) {
 			JOptionPane.showMessageDialog(null , "Fichier pause.jpg introuvable");
 			System.exit(0);
@@ -139,7 +140,7 @@ public class App24PinballScientifique2001 extends JFrame{
 				g2d.drawImage( backGroundRedim,0,0,null);
 			}
 		};
-		
+
 		musiqueMenu.play();
 		musiqueMenu.loop();
 		setTitle("Menu");
@@ -163,7 +164,7 @@ public class App24PinballScientifique2001 extends JFrame{
 		btnOption.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fenOption.setVisible(true);
-				
+
 			}
 		});
 		getContentPane().setLayout(null);
@@ -176,7 +177,7 @@ public class App24PinballScientifique2001 extends JFrame{
 		btnDessin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				musiqueMenu.stop();
-				
+
 				musiqueDessin.play();
 				musiqueDessin.loop();
 				fenDessin.setVisible(true);
@@ -221,7 +222,7 @@ public class App24PinballScientifique2001 extends JFrame{
 
 					e1.printStackTrace();
 				}
-				
+
 
 			}
 		});
@@ -239,7 +240,7 @@ public class App24PinballScientifique2001 extends JFrame{
 				setJouerActive(true);
 				fenJouer.setVisible(true);				
 				setVisible(false);
-						
+
 
 			}
 		});
@@ -253,7 +254,7 @@ public class App24PinballScientifique2001 extends JFrame{
 		btnTuto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				musiqueMenu.stop();
-				
+
 				musiqueTuto.play();
 				musiqueTuto.loop();
 				fenTuto.setVisible(true);
@@ -281,27 +282,57 @@ public class App24PinballScientifique2001 extends JFrame{
 		lblTitreApplication.setForeground(Color.RED);
 		lblTitreApplication.setBounds(73, 0, 1022, 171);
 		panelAvecImage.add(lblTitreApplication);
-		
+
 
 
 
 	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreDessin
+	 * @returnun objet Musique qui contient la musique de la FenetreDessin
+	 */
 	public static Musique musiqueDessin() {
 		return musiqueDessin;
-		
+
 	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreTutoriel
+	 * @return objet Musique qui contient la musique de la FenetreTutoriel
+	 */
 	public static Musique musiqueTuto() {
 		return musiqueTuto;
 	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui permet de retourner un objet Musique qui contient la musique de App24PinballScientifique
+	 * @return objet Musique qui contient la musique de App24PinballScientifique
+	 */
 	public static Musique musiqueMenu() {
 		return musiqueMenu;
 	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui permet de retourner un objet Musique qui contient la musique de la FenetreBacSable
+	 * @return objet Musique qui contient la musique de la musiqueBacSable
+	 */
 	public static Musique musiqueBacSable() {
 		return musiqueBacSable;
 	}
+	//Thomas Bourgault
+	/**
+	 * Méthode qui retourne un boolean qui permet de savoir si on a appuyer sur le bouton Jouer
+	 * @return un boolean qui permet de savoir si on a appuyer sur le bouton Jouer
+	 */
 	public static boolean getJouerActive() {
 		return jouerActive;
 	}
+	//Thomas Bourgault
+		/**
+		 * Méthode qui permet de changer le boolean qui permet de savoir si on a appuyer sur le bouton Jouer
+		 * @param un nouveau boolean
+		 */
 	public static void setJouerActive(boolean jouer) {
 		jouerActive=jouer;
 	}	
