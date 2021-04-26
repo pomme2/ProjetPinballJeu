@@ -119,6 +119,7 @@ public class FenetreJouer extends JFrame{
 	private boolean incertitude1=false;
 	private boolean incertitude2=false;
 	private boolean incertitude3=false;
+	private double grav = 9.8;
 
 
 
@@ -197,6 +198,8 @@ public class FenetreJouer extends JFrame{
 				musiqueFinPartie.reset();
 				musiqueFinPartie.play();
 				fenClassement=new FenetreClassement(this);
+				
+				moteur.MoteurPhysique.setACCEL_GRAV(grav);
 
 			}
 
@@ -486,6 +489,8 @@ public class FenetreJouer extends JFrame{
 					musiqueMenu.reset();
 					musiqueMenu.play();
 					musiqueMenu.loop();
+					
+					moteur.MoteurPhysique.setACCEL_GRAV(grav);
 
 				}
 			});
@@ -528,6 +533,7 @@ public class FenetreJouer extends JFrame{
 				}
 				@Override
 				public void mouseReleased(MouseEvent e) {
+					moteur.MoteurPhysique.setACCEL_GRAV(9.8066);
 					sliderLache=true;
 					musiqueRessort.reset();
 					musiqueRessort.play();

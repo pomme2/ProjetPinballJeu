@@ -1644,7 +1644,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	 * Methode qui modifie la masse de la bille
 	 * @param masseEnKg de la bille
 	 */
-	public void setMasseBalle(int masseEnKg) {
+	public void setMasseBalle(double masseEnKg) {
 		this.massePourCetteScene = masseEnKg;
 	}
 
