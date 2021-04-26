@@ -315,7 +315,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	private Path2D.Double petitTriangle;
 	
 	
-	private double intensite=1;
+	private double intensite=0;
 
 
 
@@ -1091,6 +1091,12 @@ public class ZonePinball extends JPanel implements Runnable {
 		}else{
 			if(uneBille.getPosition().getX()<courbeX) {
 				uneBille.setForceExterieureAppliquee(new Vecteur2D (0,0.48));
+				
+				if(uneBille.getPosition().getX() > 1) {
+					
+					//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY()));
+					
+				}
 			}
 
 
@@ -1138,7 +1144,7 @@ public class ZonePinball extends JPanel implements Runnable {
 		ajoutObsList();
 
 		
-		aimantActif(dessinerAimant,intensite);
+		aimantActif(dessinerAimant);
 		
 
 	} ///fin collision
@@ -1387,7 +1393,7 @@ public class ZonePinball extends JPanel implements Runnable {
 	 *  
 	 * @param si checkbox aimant est true ou false
 	 */
-	public void aimantActif(boolean aimant , double intensite) {
+	public void aimantActif(boolean aimant) {
 
 		
 		if(aimant) {
@@ -1397,17 +1403,23 @@ public class ZonePinball extends JPanel implements Runnable {
 			double forceElectrique = moteur.MoteurPhysique.forceElectrique(uneBille.getCharge(), unAimant.getCharge(), distance.module());
 
 
-			distance = distance.multiplie(intensite*forceElectrique*0.0001);
+			distance = distance.multiplie(forceElectrique*0.0001);
+			
+			distance = distance.multiplie(intensite);
 
 			uneBille.setForceExterieureAppliquee(new Vecteur2D(distance));
 			
-			
-			
+		
 		}
 	
 	}
 
-
+	//Carlos Eduardo
+	public void setAimant(boolean dessinerAimant, double intensite) {
+		this.dessinerAimant = dessinerAimant;
+		this.intensite = intensite;
+		repaint();
+	}
 
 
 	//Audrey Viger
@@ -1974,12 +1986,6 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	}
 
-	//Audrey Viger
-	public void setAimant(boolean dessinerAimant, double intensite) {
-		this.dessinerAimant = dessinerAimant;
-		this.intensite = intensite;
-		repaint();
-	}
 
 	//Audrey Viger
 	public void dessinerEchelle(Graphics g2d) {
