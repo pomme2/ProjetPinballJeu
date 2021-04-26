@@ -145,6 +145,7 @@ public class MoteurPhysique {
 
 	//Carlos Eduardo
 	/**
+	 * Methode qui calcule la vitesse la Bille apres etre frapper par un flipper
 	 * 
 	 * @param vitesseFlipper vitesse du flipper
 	 * @param vitesseBille	vitesse de la bille
@@ -158,10 +159,11 @@ public class MoteurPhysique {
 	}
 	//Carlos Eduardo
 	/**
-	 * Methode qui donne la vitesse de la bille apres collision avec cercle
-	 * @param billeVitesse est un objet de type bille
-	 * @return la normale de collision sur un Cercle avec la bille
-	 * @throws Exception 
+	 * 	  Methode qui donne la vitesse de la bille apres collision avec cercle
+	 * @param billePos Position de la bille en Vecteur2D
+	 * @param cerlcePos Position du cercle en Vecteur2D
+	 * @return la normal de collision (rebound)
+	 * @throws Exception
 	 */
 
 	public static Vecteur2D calculRebondBilleCerlce (Vecteur2D billePos , Vecteur2D cerlcePos ) throws Exception {
@@ -176,19 +178,20 @@ public class MoteurPhysique {
 		
 		normalCercle = normalCercle.normalise();
 		
+		
+		
 		return normalCercle;
 	}
 	
 	
 	//Carlos Eduardo
-/**
- * 
- * @param billePos
- * @param obstacle
- * @return
- * @throws Exception
- */
 
+/**
+ * Calcul la distance entre deux point avec Pythagore
+ * @param billePos position de la bille en Vecteur2D
+ * @param obstacle position de l'obstacles en Vecteur2D
+ * @return La distance entre les deux 
+ */
 	public static double calculDistance(Vecteur2D billePos , Vecteur2D obstacle ) {
 
 

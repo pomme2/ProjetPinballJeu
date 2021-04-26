@@ -63,11 +63,13 @@ import java.awt.event.KeyEvent;
 
 public class ZonePinball extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1 ;
+	
+	
+	
 	//objet de type Scene
 	Scene scene;
 	public boolean coeurVie;
 	public FenetreBacSable fenetreBacSable;
-
 
 	//Ressort Audrey
 	private Ressort ressort;
@@ -81,8 +83,6 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private final double COEFF_FROT = 0.64;
 	private final double MASSE_POUR_CETTE_SCENE = 0.7; // en kg
-
-
 	private final double RAYON_COURBE = 0.505; //en m
 
 	private double largeurRessort = 0.088;
@@ -90,16 +90,13 @@ public class ZonePinball extends JPanel implements Runnable {
 	private Vecteur2D posCentre = new Vecteur2D(0.598, 0.712);
 
 	//variable bille Carlos
-	private double deltaT = 0.004;
-
-
+	private double deltaT = 0.007;
 	private double diametreBallePourCetteScene = 0.03; //em mètres
 	private double massePourCetteScene = 0.1; //en kg
 
 	private Vecteur2D posInitBalle; //position intiale pour la balle
 	private Vecteur2D vitInitBalle = new Vecteur2D(0, 0); //vitesse intiale pour la balle
 	private Vecteur2D accelInitBalle = new Vecteur2D(0, 0); //acceleration intiale pour la balle
-
 
 	//position intiales pour la bille
 	private Bille uneBille;
@@ -110,15 +107,10 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	//variable aimant
 	private Aimant unAimant;
-
-	private Vecteur2D positionAimant = new Vecteur2D(0.32, 1.076);
-
 	boolean aimantActif = false;
-
 
 	double aimantX = 0.32;
 	double aimantY = 1.076;
-
 	double aimantDiametre = 0.05;
 
 	//variable pour la courbe
@@ -127,19 +119,11 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	//variable pour pointage
 	private PointageAnimation score = new PointageAnimation();	
-
-	private int pointCercle = 1;
-	private int triange = 10;
-	private int temps=0;
-
-	private int finalScore;
-
 	private int nbCollision =0;
 
 
 	//tableau pour obstacles
 	private ArrayList < Murs > obstaclesCercle = new ArrayList < Murs > ();
-
 	private ArrayList < Murs > obstaclesCercleAjou = new ArrayList < Murs > ();
 
 
@@ -178,11 +162,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private ArrayList < MursDroits > flipperDroit = new ArrayList < MursDroits > ();
 
-
-	private MursDroits ligneRessort;
-
 	private boolean premiereFois = true;
-	private boolean premiereFoisImage = true;
 
 	//Image et pixelParMetre
 	private int dimensionImageX = 600, dimensionImageY = 768;
@@ -238,18 +218,15 @@ public class ZonePinball extends JPanel implements Runnable {
 	private double angleMax=30,angleEquilibre=0,frequenceAngulaire=40;
 	private double angleGauche,angleDroit;
 	private double tempsEcouleGaucheMonter,tempsEcouleGaucheDescendre,tempsEcouleDroitDescendre,tempsEcouleDroitMonter;
-	private Vecteur2D vitesseFlipDroit,vitesseFlipGauche;
 	private boolean premierQuartPeriode=true;
 
 	//image et booleans
 	private boolean contour = false, ImageSelectionne = false, coord = false, gaucheActive = false, droitActive = false, gaucheDescente = false, droitDescente = false;
 	java.net.URL urlPinballTerrain = getClass().getClassLoader().getResource("pinballTerrain.png");
-	double compteurGauche, compteurDroit;
 
-
-	private ObstacleClique obstacle,obstacle1,obstacle2,obstacle3,obstacle4,obstacle5,obstacle6;
+	private ObstacleClique obstacle;
 	private String forme;
-	private boolean cercleSelectionne = false, formeSelectionne = false, triangleSelectionne=false,rectangleSelectionne = false;
+	private boolean formeSelectionne = false;
 	private double xPrecedent, yPrecedent;
 	private double posXCarre = 0.3;
 	private double posYCarre = 0.3;
@@ -257,26 +234,21 @@ public class ZonePinball extends JPanel implements Runnable {
 	private double translatCarreY=0.01;
 	private double maxObstacleHaut = 1.26, maxObstacleGauche = 0.11, maxObstacleDroite = 1.05, maxObstacleBas = 0.15;
 
-	boolean collisionMax= true;
-
-	boolean col1= false;
-	boolean col2= false;
-	boolean col3= false;
-	private Shape carreTransfo;
+	//collision pour les obstacles ajoute
+	private boolean collisionMax= true;
+	private boolean col1= false;
+	private boolean col2= false;
+	private boolean col3= false;
+	
 	private boolean premiereFoisCercleTouche=true;
 
 	private Path2D.Double echelle;
 	private boolean dessinerAimant = false;
 
-
+	private boolean apresRessort = false;
 
 	//pause
-
-
-
-	private PointageAnimation pointage;
 	public static int scoreFinal = 0;
-
 	private boolean pause = false;
 	private boolean premiereFoisBille =true;
 	private static String nomFichierSonFlipper=".//Ressource//sonFlipper1sec.wav"; 
@@ -305,7 +277,6 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	//boolean pour les obstacles
 	private static boolean  premiereFoisBougerObstacle=true;
-	private boolean arretObstacle=false;
 	private int nbClicObstacle=0;
 
 
@@ -411,7 +382,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 
-		unAimant = new Aimant(0.32, 1.076, 0.04);
+		unAimant = new Aimant(0.52, 0.546, 0.08);
 
 
 		initialiseBille();
@@ -790,9 +761,8 @@ public class ZonePinball extends JPanel implements Runnable {
 
 	private void testerCollisionsEtAjusterPositions() throws Exception {
 		premiereFoisCercleTouche=true;
-		boolean col = false;
 
-		//colision avec mur vertical
+		//colision avec les  murs 
 
 		if (uneBille.getPosition().getX() < ligneDroitHautGau.getCoordX1()) {
 
@@ -801,9 +771,21 @@ public class ZonePinball extends JPanel implements Runnable {
 
 
 
+		}
+		
+	
+		if(uneBille.getPosition().getX()> 1 && apresRessort ){
 
+			Vecteur2D vitesseNegatif = new Vecteur2D(uneBille.getVitesse().getX() * -1, uneBille.getVitesse().getY());
+			uneBille.setVitesse(vitesseNegatif);
 
 		}
+		
+		if(uneBille.getPosition().getY() < 0.1) {
+			Vecteur2D vitesseNegatif = new Vecteur2D(uneBille.getVitesse().getX() , uneBille.getVitesse().getY()*-1);
+			uneBille.setVitesse(vitesseNegatif);
+		}
+	
 
 		//colision avec les obstacles en cerlce
 
@@ -831,16 +813,7 @@ public class ZonePinball extends JPanel implements Runnable {
 
 				uneBille.setVitesse(vitesseRebound);
 
-
-
-
-
 				nbCollision++;
-
-
-
-
-
 
 			}
 
@@ -859,7 +832,6 @@ public class ZonePinball extends JPanel implements Runnable {
 
 				}
 
-
 			}
 		}
 
@@ -870,44 +842,26 @@ public class ZonePinball extends JPanel implements Runnable {
 			//pythagore de la distance entre les centres de la bille et l"obstacle si inferieure a la somme des deux rayons donc collision 
 			if (Math.hypot((uneBille.getPosition().getX() + uneBille.getDiametre() / 2) - (cercle.getPositionMursX()), (uneBille.getPosition().getY() + uneBille.getDiametre() / 2) - (cercle.getPositionMursY())) < (uneBille.getDiametre() / 2 + cercle.getDiametre() / 2)) {
 
-
-
 				Vecteur2D cerclePos = new Vecteur2D(cercle.getPositionMursX(),cercle.getPositionMursY());
 
 				Vecteur2D normal = moteur.MoteurPhysique.calculRebondBilleCerlce(uneBille.getPosition(),cerclePos);
 
+				double vX =normal.getX()* 1.5;
 
-				double vX =normal.getX();
-
-
-				double vY =normal.getY();
-
+				double vY =normal.getY()*1.5;
 
 				Vecteur2D vitesseRebound = new Vecteur2D(vX,vY);
 
 				uneBille.setVitesse(vitesseRebound);
 
 
-
-
-
-
 				if(premiereFoisCercleTouche) {
 					score.updateScore(50);
 					premiereFoisCercleTouche=false;
 				}
-
 			}
 
-
 		}
-
-
-
-
-
-
-
 
 		//collision entre la bille et les surfaces en pentes.
 		for (int i = 0; i < pentes.size(); i++) {
@@ -923,8 +877,9 @@ public class ZonePinball extends JPanel implements Runnable {
 				Vecteur2D temp = x.soustrait(y);
 				double dx = temp.getX();
 				double dy = temp.getY();
-				Vecteur2D fini = new Vecteur2D(dy * -3, dx);
-				uneBille.setVitesse(fini);
+				
+				Vecteur2D finiRebound = new Vecteur2D(dy * -3.5, dx);
+				uneBille.setVitesse(finiRebound);
 
 			}
 
@@ -1025,6 +980,8 @@ public class ZonePinball extends JPanel implements Runnable {
 			setScoreFinal(score.getScore());
 
 			arreter();
+			
+			apresRessort = false;
 
 			retablirPosition();	
 			score.setScore(scoreFinal);
@@ -1092,11 +1049,7 @@ public class ZonePinball extends JPanel implements Runnable {
 			if(uneBille.getPosition().getX()<courbeX) {
 				uneBille.setForceExterieureAppliquee(new Vecteur2D (0,0.48));
 				
-				if(uneBille.getPosition().getX() > 1) {
-					
-					//uneBille.setVitesse(new Vecteur2D(uneBille.getVitesse().getX()*-1,uneBille.getVitesse().getY()));
-					
-				}
+				apresRessort = true;
 			}
 
 
@@ -1114,10 +1067,6 @@ public class ZonePinball extends JPanel implements Runnable {
 
 					Vecteur2D y = new Vecteur2D(courbes.getCoordX2(), courbes.getCoordY2());
 
-					Vecteur2D temp = x.soustrait(y);
-
-					double dx = temp.getX();
-					double dy = temp.getY();
 
 					try {
 						Vecteur2D normal = moteur.MoteurPhysique.calculPerpendiculaire(x, y);
@@ -1370,6 +1319,9 @@ public class ZonePinball extends JPanel implements Runnable {
 		score.resetScore();
 		repaint();
 		premiereFoisBille = true;
+		
+		apresRessort = false;
+
 
 	}
 
